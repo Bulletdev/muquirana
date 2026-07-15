@@ -23,7 +23,7 @@ class BudgetTest < ActiveSupport::TestCase
 
     old_entry = Entry.create!(
       account: old_account,
-      entryable: Transaction.new(category: categories(:income)),
+      entryable: Transaction.new(category: categories(:one)), # :one pertence a families(:empty), a familia deste teste
       date: 3.years.ago,
       name: "Old Transaction",
       amount: 100,
@@ -47,7 +47,7 @@ class BudgetTest < ActiveSupport::TestCase
 
     Entry.create!(
       account: account,
-      entryable: Transaction.new(category: categories(:income)),
+      entryable: Transaction.new(category: categories(:one)), # :one pertence a families(:empty), a familia deste teste
       date: 1.year.ago,
       name: "Recent Transaction",
       amount: 100,
