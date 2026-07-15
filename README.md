@@ -12,6 +12,7 @@
 
 [![Security Audit](https://github.com/Bulletdev/muquirana/actions/workflows/security.yml/badge.svg)](https://github.com/Bulletdev/muquirana/actions/workflows/security.yml)
 [![Version](https://img.shields.io/badge/version-0.7.0-B91C1C)](https://github.com/Bulletdev/muquirana/releases/tag/v0.7.0)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/9ff898d73e5048f681dc483bf3ae0edf)](https://app.codacy.com/gh/Bulletdev/muquirana/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 [![Ruby Version](https://img.shields.io/badge/ruby-3.4.8-CC342D?logo=ruby)](https://www.ruby-lang.org/)
 [![Rails Version](https://img.shields.io/badge/rails-7.2.3.1-CC342D?logo=rubyonrails)](https://rubyonrails.org/)
@@ -154,8 +155,42 @@ toda query precisa partir da família. Detalhes em [`CLAUDE.md`](CLAUDE.md).
 │  GITHUB_REPO_OWNER/NAME│  tela "Novidades" · sem isso, não busca nada       │
 │  OPENAI_ACCESS_TOKEN   │  opcional - habilita o assistente de IA            │
 │  PLAID_CLIENT_ID/SECRET│  opcional - sincronização bancária US/EU           │
+│  SYNTH_URL             │  opcional - instância própria do Synth (ver 04.1)  │
+│  DEMO_URL              │  opcional - mostra "Ver a demo" na landing         │
+│  DEMO_INSTANCE         │  true SÓ na instância de demo (ver 04.2)           │
 └────────────────────────┴────────────────────────────────────────────────────┘
 ```
+
+O assistente de IA lê `OPENAI_ACCESS_TOKEN` **da variável de ambiente**, não do
+banco: não há tela para configurá-lo. Além da chave, cada pessoa precisa aceitar
+o uso de IA na própria conta (`ai_enabled`), que nasce desligado.
+
+### 04.1 · Cotações e preços de ativos (Synth)
+
+Câmbio e preço de ativos vinham da API Synth, **descontinuada junto com o
+projeto Maybe**: `api.synthfinance.com` não resolve mais em nenhum DNS público.
+
+Sem ela, o app degrada com elegância - simplesmente não busca esses dados. Quem
+usa só BRL e não tem investimento não perde nada. Contas em outra moeda ou com
+trades ficam sem saldo histórico, e a interface avisa.
+
+O Synth era open source. Para ter os dados de volta, suba a sua a partir do
+[código arquivado](https://github.com/maybe-finance/synth-archive) e aponte
+`SYNTH_URL` para ela. **Não existe cadastro para o qual apontar** - o
+`synthdata.co`, que aparece nas buscas, é outra empresa (dados sintéticos de
+previsão), sem relação com esta API.
+
+### 04.2 · Instância de demonstração
+
+`DEMO_INSTANCE=true` faz duas coisas, e **nenhuma delas é segura numa instância
+com dado real**:
+
+1. expõe `/demo`, que cria sessão **sem senha** como a conta de demonstração;
+2. libera `bin/rails demo:reset`, que **apaga todas as famílias do banco**.
+
+Use só num deploy dedicado, com banco próprio. Na instância pessoal, deixe a
+variável vazia e aponte `DEMO_URL` para a URL `/demo` da outra instância - a
+landing só mostra o botão da demo quando `DEMO_URL` existe.
 
 ---
 
@@ -204,6 +239,24 @@ regressão: token OAuth revogado que continuava autenticando (toda revogação d
 app era inoperante), vazamento de dados entre famílias por chave estrangeira não
 validada, e token de acesso bancário gravado em texto plano. 165 alertas de
 vulnerabilidade em dependências foram zerados.
+
+Depois disso, mais quatro, também herdadas e também com teste:
+
+- **XSS armazenado** no diálogo de confirmação. O nome de um estabelecimento ou
+  de um usuário era interpolado no corpo e escrito via `innerHTML`; o Rails
+  escapava no `data-attribute` - o que fazia o HTML *parecer* seguro - mas o
+  `JSON.parse` no controller desfazia o escape antes de executar.
+- **Escalada de privilégio** em `Settings::Hostings`: um membro comum
+  reconfigurava a instância inteira (inclusive reabrir o cadastro público).
+- **Códigos de convite expostos** a qualquer usuário logado. Listar código é, na
+  prática, poder convidar - agora é só do admin.
+- **Convite queimado por cadastro que falhava**: o código era consumido antes do
+  save, então uma senha fraca na primeira tentativa matava o link para sempre.
+
+Todas as actions do GitHub são pinadas por SHA de commit: tag é mutável, e o
+workflow tem `GITHUB_TOKEN` e publica a imagem. Ver
+[docs/codacy-prd.md](docs/codacy-prd.md) para a triagem completa dos alertas
+estáticos, incluindo o que é falso positivo e por quê.
 
 > [!WARNING]
 > Gere um `SECRET_KEY_BASE` próprio antes de expor a instância. **Nunca** use o
