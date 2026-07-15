@@ -1,4 +1,4 @@
-module Maybe
+module Muquirana
   class << self
     def version
       Semver.new(semver)
