@@ -16,7 +16,17 @@
   os links somem em vez de apontar para o repositorio de outro projeto.
 %>
 <% repo_url = Provider::Github.new.repo_url %>
-<% cta_criar = self_hosted? && !User.exists? ? new_registration_path : new_session_path %>
+<%#
+  Nao ha CTA de "criar conta" aqui de proposito.
+
+  Criar conta cria na INSTANCIA de quem hospeda -- consome a VPS, o Postgres e
+  a chave de IA dele. Oferecer isso ao lado de "R$ 0,00, voce hospeda" seria
+  desinformacao: para quem clica sai de graca, mas quem paga a conta e outro.
+  Esta instancia exige convite (Setting.require_invite_for_signup).
+
+  Quem ja tem conta entra pelo "Entrar". Quem quer usar, hospeda a sua -- que e
+  exatamente o que a pagina promete.
+%>
 
 <div class="min-h-full flex flex-col">
 
@@ -56,12 +66,13 @@
       </p>
 
       <div class="mt-10 flex flex-col sm:flex-row gap-3">
-        <%= link_to cta_criar,
-              class: "inline-flex items-center justify-center px-6 py-3 rounded-full bg-[#FAFAFA] text-[#0B0B0B] font-medium hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5BFF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B]" do %>
-          <%= t("pages.home.cta_primary") %>
-        <% end %>
-
         <% if repo_url %>
+          <a href="<%= repo_url %>#quick-start"
+             target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-[#FAFAFA] text-[#0B0B0B] font-medium hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5BFF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B]">
+            <%= t("pages.home.cta_primary") %>
+          </a>
+
           <a href="<%= repo_url %>"
              target="_blank" rel="noopener noreferrer"
              class="inline-flex items-center justify-center px-6 py-3 rounded-full border border-[#363636] text-[#FAFAFA] hover:border-[#5C5C5C] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5BFF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B]">
@@ -73,15 +84,20 @@
 
     <%# ------------------------------------------------------ a assinatura
         O preco. E o desfecho da piada do nome e, ao mesmo tempo, a unica
-        coisa que os concorrentes nao conseguem copiar. Por isso e o maior
-        numero da pagina, na mesma fonte em que o app mostra saldo. %>
+        coisa que concorrente pago nao copia -- por isso e o maior numero
+        da pagina.
+        
+        Em Geist (sans), como o app mostra saldo -- NAO em mono. Fonte
+        monoespacada serve para COLUNA de numeros alinhados; num numero de
+        display isolado ela abre buracos entre os glifos ("R$   0 , 00").
+        tabular-nums mantem os digitos com a mesma largura. %>
     <section class="py-16 md:py-24 border-t border-[#242424]">
       <div class="grid md:grid-cols-[auto_1fr] gap-8 md:gap-16 items-center">
         <div>
-          <p class="font-mono text-6xl md:text-8xl tracking-tighter text-[#FAFAFA] tabular-nums">
+          <p class="text-6xl md:text-8xl font-medium tracking-tight text-[#FAFAFA] tabular-nums whitespace-nowrap">
             <%= t("pages.home.price") %>
           </p>
-          <p class="font-mono text-sm text-[#9E9E9E] mt-2">
+          <p class="text-sm text-[#9E9E9E] mt-3">
             <%= t("pages.home.price_period") %>
           </p>
         </div>
@@ -136,24 +152,26 @@
     </section>
   </main>
 
-  <%# -------------------------------------------------------------- rodape %>
-  <footer class="w-full max-w-6xl mx-auto px-6 py-10 border-t border-[#242424]">
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-sm text-[#5C5C5C]">
-      <p class="font-mono"><%= t("pages.home.footer_license", year: Date.current.year) %></p>
+  <%# -------------------------------------------------------------- rodape
+      Sem aviso de nao-afiliacao ao projeto original aqui: esta pagina e
+      autoral e nao usa marca, texto nem design de terceiro -- citar um nome
+      que nao aparece em lugar nenhum CRIA a associacao em vez de negar. A
+      atribuicao vive no README e no codigo-fonte, que e onde a licenca a
+      exige.
 
-      <div class="flex items-center gap-6">
+      O link do codigo fica: a AGPLv3 secao 13 obriga a oferecer o fonte a
+      quem usa o app pela rede, e a landing e a porta de entrada. %>
+  <footer class="w-full max-w-6xl mx-auto px-6 py-12 border-t border-[#242424]">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 text-sm text-[#737373]">
+      <p><%= t("pages.home.footer_license", year: Date.current.year) %></p>
+
+      <div class="flex items-center gap-8">
         <% if repo_url %>
           <a href="<%= repo_url %>" target="_blank" rel="noopener noreferrer"
-             class="hover:text-[#9E9E9E] transition-colors"><%= t("pages.home.nav_code") %></a>
+             class="hover:text-[#FAFAFA] transition-colors"><%= t("pages.home.nav_code") %></a>
         <% end %>
-        <%= link_to t("pages.home.nav_enter"), new_session_path, class: "hover:text-[#9E9E9E] transition-colors" %>
+        <%= link_to t("pages.home.nav_enter"), new_session_path, class: "hover:text-[#FAFAFA] transition-colors" %>
       </div>
     </div>
-
-    <%# Atribuicao. O README ja traz o aviso completo; aqui fica a versao curta,
-        porque a landing e a face publica e a nao-afiliacao precisa estar nela. %>
-    <p class="mt-6 text-xs text-[#363636] leading-relaxed max-w-2xl">
-      <%= t("pages.home.footer_fork") %>
-    </p>
   </footer>
 </div>

@@ -50,7 +50,7 @@ pt-BR:
         ou capturas de tela.
       title: Deixe seu feedback
     home:
-      cta_primary: Criar minha conta
+      cta_primary: Hospedar o meu
       cta_secondary: Ver o código
       data_body: O Muquirana é software livre, sob licença AGPLv3. Você pode rodar
         na sua máquina, ler cada linha do código, mudar o que quiser e continuar
@@ -78,10 +78,6 @@ pt-BR:
         classificam sozinhas o que se repete.
       feature_transacoes_title: Transações
       features_title: O que ele faz
-      footer_fork: Fork do Maybe Finance, mantido de forma independente. Não é afiliado,
-        patrocinado nem endossado pela Maybe Finance, Inc. "Maybe" é marca registrada
-        da Maybe Finance, Inc., citada aqui apenas para atribuir a autoria do trabalho
-        original.
       footer_license: AGPLv3 · %{year}
       headline: Muquirana demais para pagar assinatura de app de finanças.
       meta_description: App de finanças pessoais em português, código aberto e self-hosted.

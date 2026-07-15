@@ -49,7 +49,7 @@ en:
         links to videos or screenshots.
       title: Leave feedback
     home:
-      cta_primary: Create my account
+      cta_primary: Host my own
       cta_secondary: View the code
       data_body: Muquirana is free software under the AGPLv3 license. Run it on your
         own machine, read every line, change whatever you want, and keep using it even
@@ -76,9 +76,6 @@ en:
         recurring ones for you.
       feature_transacoes_title: Transactions
       features_title: What it does
-      footer_fork: A fork of Maybe Finance, maintained independently. Not affiliated with,
-        sponsored, or endorsed by Maybe Finance, Inc. "Maybe" is a trademark of Maybe
-        Finance, Inc., named here only to credit the original work.
       footer_license: AGPLv3 · %{year}
       headline: Too tight-fisted to pay for a finance app subscription.
       meta_description: Open-source, self-hosted personal finance. Net worth, accounts,
