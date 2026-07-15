@@ -15,6 +15,8 @@ pt-BR:
       name_placeholder: Nome do estabelecimento
     index:
       empty: Nenhum estabelecimento ainda
+      empty_description: 'Estabelecimentos dizem para quem o dinheiro foi: a padaria,
+        o mercado, a farmácia. Cada transação aponta para um.'
       new: Novo estabelecimento
       title: Estabelecimentos
     merchant:

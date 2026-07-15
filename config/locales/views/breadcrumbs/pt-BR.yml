@@ -2,6 +2,8 @@
 pt-BR:
   breadcrumbs:
     accounts: Contas
+    api_keys: Chave de API
+    billings: Cobrança
     budgets: Orçamentos
     categories: Categorias
     changelog: Novidades
@@ -10,9 +12,13 @@ pt-BR:
     feedback: Feedback
     holdings: Posições
     home: Início
+    hostings: Hospedagem própria
     imports: Importações
     merchants: Estabelecimentos
+    preferences: Preferências
+    profiles: Conta
     rules: Regras
+    securities: Segurança
     tags: Etiquetas
     trades: Negociações
     transactions: Transações

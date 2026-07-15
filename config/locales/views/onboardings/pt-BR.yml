@@ -63,7 +63,7 @@ pt-BR:
       in_13_days: Em 13 dias (%{date})
       in_13_days_description: Vamos avisar você quando o teste estiver perto do fim.
       in_14_days: Em 14 dias (%{date})
-      in_14_days_description: Seu teste termina — assine para continuar usando o Muquirana
+      in_14_days_description: Seu teste termina - assine para continuar usando o Muquirana
       included_title: O que está incluído
       no_credit_card: Sem precisar de cartão de crédito
       start_trial: Experimentar o Muquirana por 14 dias

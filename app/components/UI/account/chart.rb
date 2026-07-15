@@ -26,25 +26,28 @@ class UI::Account::Chart < ApplicationComponent
     end
   end
 
+  # O rotulo acima do saldo. Eram sete literais em ingles ("Balance",
+  # "Debt balance"...) aparecendo na tela com a app em portugues.
   def title
     case account.accountable_type
     when "Investment", "Crypto"
-      case view
-      when "balance"
-        "Total account value"
-      when "holdings_balance"
-        "Holdings value"
-      when "cash_balance"
-        "Cash value"
-      end
+      # `view` vem de parametro de URL; se vier lixo, view_balance_money ja
+      # devolve nil. Aqui o mesmo: sem titulo inventado para view invalida.
+      return nil unless %w[balance holdings_balance cash_balance].include?(view)
+
+      I18n.t("components.account.chart.titles.investment.#{view}")
     when "Property", "Vehicle"
-      "Estimated #{account.accountable_type.humanize.downcase} value"
+      # NAO usar accountable_type.humanize.downcase: isso e inflexao inglesa e
+      # produz "property"/"vehicle" no meio de uma frase em portugues. O nome
+      # traduzido do tipo vem do proprio accountable.
+      I18n.t("components.account.chart.titles.asset",
+             tipo: Accountable.from_type(account.accountable_type).display_name_singular.downcase)
     when "CreditCard", "OtherLiability"
-      "Debt balance"
+      I18n.t("components.account.chart.titles.debt")
     when "Loan"
-      "Remaining principal balance"
+      I18n.t("components.account.chart.titles.loan")
     else
-      "Balance"
+      I18n.t("components.account.chart.titles.default")
     end
   end
 

@@ -1,0 +1,137 @@
+---
+en:
+  components:
+    account:
+      activity_feed:
+        amount_col: Amount
+        date_col: Date
+        new: New
+        new_balance: New balance
+        new_transaction: New transaction
+        search_placeholder: Search entries by name
+        title: Activity
+      balance_reconciliation:
+        default:
+          start_balance:
+            label: Start balance
+            tooltip: The account balance at the beginning of this day
+          net_cash_flow:
+            label: Net cash flow
+            tooltip: Net change in balance from all transactions during the day
+          end_balance:
+            label: End balance
+            tooltip: The calculated balance after all transactions
+          adjustments:
+            label: Adjustments
+            tooltip: Manual reconciliations or other adjustments
+          final_balance:
+            label: Final balance
+            tooltip: The final account balance for the day
+        credit_card:
+          start_balance:
+            label: Start balance
+            tooltip: The balance owed at the beginning of this day
+          charges:
+            label: Charges
+            tooltip: New charges made during the day
+          payments:
+            label: Payments
+            tooltip: Payments made to the card during the day
+          end_balance:
+            label: End balance
+            tooltip: The calculated balance after all transactions
+          adjustments:
+            label: Adjustments
+            tooltip: Manual reconciliations or other adjustments
+          final_balance:
+            label: Final balance
+            tooltip: The final balance owed for the day
+        investment:
+          start_balance:
+            label: Start balance
+            tooltip: The total portfolio value at the beginning of this day
+          brokerage_cash_change:
+            label: Change in brokerage cash
+            tooltip: Net change in cash from deposits, withdrawals, and trades
+          holdings_change_trades:
+            label: Change in holdings (buys/sells)
+            tooltip: Impact on holdings from buying and selling securities
+          holdings_change_market:
+            label: Change in holdings (market price activity)
+            tooltip: Change in holdings value from market price movements
+          end_balance:
+            label: End balance
+            tooltip: The calculated balance after all activity
+          adjustments:
+            label: Adjustments
+            tooltip: Manual reconciliations or other adjustments
+          final_balance:
+            label: Final balance
+            tooltip: The final portfolio value for the day
+        loan:
+          start_principal:
+            label: Start principal
+            tooltip: The principal balance at the beginning of this day
+          net_principal_change:
+            label: Net principal change
+            tooltip: Principal payments and new borrowing during the day
+          end_principal:
+            label: End principal
+            tooltip: The calculated principal after all transactions
+          adjustments:
+            label: Adjustments
+            tooltip: Manual reconciliations or other adjustments
+          final_principal:
+            label: Final principal
+            tooltip: The final principal balance for the day
+        asset:
+          start_value:
+            label: Start value
+            tooltip: The asset value at the beginning of this day
+          net_value_change:
+            label: Net value change
+            tooltip: All value changes including improvements and depreciation
+          end_value:
+            label: End value
+            tooltip: The calculated value after all changes
+          adjustments:
+            label: Adjustments
+            tooltip: Manual value adjustments or appraisals
+          final_value:
+            label: Final value
+            tooltip: The final asset value for the day
+        crypto:
+          start_balance:
+            label: Start balance
+            tooltip: The crypto holdings value at the beginning of this day
+          buys:
+            label: Buys
+            tooltip: Crypto purchases during the day
+          sells:
+            label: Sells
+            tooltip: Crypto sales during the day
+          market_changes:
+            label: Market changes
+            tooltip: Value changes from market price movements
+          end_balance:
+            label: End balance
+            tooltip: The calculated balance after all activity
+          adjustments:
+            label: Adjustments
+            tooltip: Manual reconciliations or other adjustments
+          final_balance:
+            label: Final balance
+            tooltip: The final crypto holdings value for the day
+      chart:
+        cash: Cash
+        holdings: Holdings
+        titles:
+          default: Balance
+          debt: Debt balance
+          loan: Remaining principal balance
+          asset: Estimated %{tipo} value
+          investment:
+            balance: Total account value
+            holdings_balance: Holdings value
+            cash_balance: Cash value
+        total_value: Total value

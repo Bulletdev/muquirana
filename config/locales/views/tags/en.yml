@@ -13,6 +13,8 @@ en:
     index:
       delete_all: Delete all
       empty: No tags yet
+      empty_description: 'Tags cut across categories: a transaction has a single category,
+        but can carry several tags, like "trip" or "reimbursable".'
       new: New tag
       tags: Tags
     new:

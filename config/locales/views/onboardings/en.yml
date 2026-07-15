@@ -64,7 +64,7 @@ en:
       in_13_days_description: We'll notify you to remind you when your trial will
         end.
       in_14_days: In 14 days (%{date})
-      in_14_days_description: Your trial ends — subscribe to continue using Muquirana
+      in_14_days_description: Your trial ends - subscribe to continue using Muquirana
       included_title: Here's what's included
       no_credit_card: No credit card required
       start_trial: Try Muquirana for 14 days

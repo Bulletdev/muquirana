@@ -31,7 +31,14 @@ pt-BR:
         title: Hospedagem própria
       synth_settings:
         api_calls_used: "%{used} / %{limit} chamadas de API usadas (%{percentage})"
-        description: Informe a chave de API fornecida pela Synth
+        description: Chave da instância do Synth para onde a SYNTH_URL aponta.
+        discontinued_body_html: O serviço original saiu do ar junto com o projeto
+          Maybe, e não há mais onde criar uma chave. O campo continua aqui para quem
+          sobe a própria instância a partir do %{archive_link} e aponta %{env_var}
+          para ela. Sem isso, o app apenas não busca cotação de câmbio nem preço de
+          ativo -- nada quebra.
+        discontinued_link: código arquivado do Synth
+        discontinued_title: O Synth foi descontinuado
         env_var_configured: Sua chave de API da Synth foi configurada pela variável
           de ambiente SYNTH_API_KEY.
         label: Chave de API

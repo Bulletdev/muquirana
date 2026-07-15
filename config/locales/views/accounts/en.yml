@@ -9,10 +9,11 @@ en:
       all: All
       assets: Assets
       debts: Debts
-      missing_data_body: Muquirana uses Synth API to fetch historical exchange rates,
-        security prices, and more.  This data is required to calculate accurate historical
-        account balances.
-      missing_data_link: Add your Synth API key here.
+      missing_data_body: Exchange rates and security prices came from the Synth API,
+        which was discontinued along with the Maybe project. Without that data, historical
+        balances for accounts in another currency or with investments are not calculated.
+        The rest of the app works normally.
+      missing_data_link: How to fix this
       missing_data_title: Missing historical data
       new_account: New account
       new_asset: New asset

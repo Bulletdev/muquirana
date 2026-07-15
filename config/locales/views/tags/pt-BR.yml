@@ -13,6 +13,8 @@ pt-BR:
     index:
       delete_all: Excluir todas
       empty: Nenhuma etiqueta ainda
+      empty_description: 'Etiquetas atravessam categorias: uma transação tem uma categoria
+        só, mas pode receber várias etiquetas, como "viagem" ou "reembolsável".'
       new: Nova etiqueta
       tags: Etiquetas
     new:

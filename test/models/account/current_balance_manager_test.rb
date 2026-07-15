@@ -196,7 +196,7 @@ class Account::CurrentBalanceManagerTest < ActiveSupport::TestCase
     entry = current_anchor.entry
     assert_equal 1000, entry.amount
     assert_equal Date.current, entry.date
-    assert_equal "Current balance", entry.name  # Depository type returns "Current balance"
+    assert_equal I18n.t("valuations.names.current_anchor.default"), entry.name
 
     assert_equal 1000, @linked_account.balance
   end

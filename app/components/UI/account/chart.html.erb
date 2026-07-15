@@ -21,7 +21,9 @@
       <div class="flex items-center gap-2">
         <% if account.investment? %>
           <%= form.select :chart_view,
-            [["Total value", "balance"], ["Holdings", "holdings_balance"], ["Cash", "cash_balance"]],
+            [[t("components.account.chart.total_value"), "balance"],
+             [t("components.account.chart.holdings"), "holdings_balance"],
+             [t("components.account.chart.cash"), "cash_balance"]],
             { selected: view },
             class: "bg-container border border-secondary rounded-lg text-sm pr-7 cursor-pointer text-primary focus:outline-hidden focus:ring-0",
             data: { "auto-submit-form-target": "auto" } %>

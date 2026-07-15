@@ -9,10 +9,11 @@ pt-BR:
       all: Todas
       assets: Ativos
       debts: Dívidas
-      missing_data_body: O Muquirana usa a API Synth para buscar cotações de câmbio,
-        preços de ativos e outros dados históricos. Esses dados são necessários para
-        calcular corretamente o saldo histórico das contas.
-      missing_data_link: Cadastre sua chave da API Synth aqui.
+      missing_data_body: Cotações de câmbio e preços de ativos vinham da API Synth,
+        que foi descontinuada junto com o projeto Maybe. Sem esses dados, o saldo
+        histórico das contas em outra moeda ou com investimentos não é calculado.
+        O resto do app funciona normalmente.
+      missing_data_link: Como resolver isso
       missing_data_title: Dados históricos indisponíveis
       new_account: Nova conta
       new_asset: Novo ativo
@@ -78,7 +79,7 @@ pt-BR:
           de valores dela, o que afeta vários pontos do seu panorama financeiro. Isso
           tem impacto direto no cálculo do seu patrimônio e nos gráficos da conta.</p><br
           /> <p>Depois de excluir, não tem como restaurar as informações da conta
-          — você vai precisar adicioná-la de novo do zero.</p>"
+          - você vai precisar adicioná-la de novo do zero.</p>"
         confirm_title: Excluir conta?
         delete_account: Excluir conta
         edit: Editar

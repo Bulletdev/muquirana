@@ -1,0 +1,18 @@
+---
+en:
+  valuations:
+    names:
+      current_anchor:
+        account_value: Current account value
+        asset: Current market value
+        default: Current balance
+        loan: Current loan balance
+      opening_anchor:
+        account_value: Opening account value
+        asset: Original purchase price
+        default: Opening balance
+        loan: Original principal
+      recon:
+        default: Manual balance update
+        loan: Manual principal update
+        value: Manual value update

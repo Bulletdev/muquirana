@@ -1,15 +1,15 @@
 <%= turbo_frame_tag dom_id(account, "entries") do %>
   <div class="bg-container p-5 shadow-border-xs rounded-xl">
     <div class="flex items-center justify-between mb-4" data-testid="activity-menu">
-      <%= tag.h2 "Activity", class: "font-medium text-lg" %>
+      <%= tag.h2 t("components.account.activity_feed.title"), class: "font-medium text-lg" %>
 
       <% if account.manual? %>
         <%= render DS::Menu.new(variant: "button") do |menu| %>
-          <% menu.with_button(text: "New", variant: "secondary", icon: "plus") %>
+          <% menu.with_button(text: t("components.account.activity_feed.new"), variant: "secondary", icon: "plus") %>
 
           <% menu.with_item(
               variant: "link",
-              text: "New balance",
+              text: t("components.account.activity_feed.new_balance"),
               icon: "circle-dollar-sign",
               href: new_valuation_path(account_id: account.id),
               data: { turbo_frame: :modal }) %>
@@ -17,7 +17,7 @@
           <% unless account.crypto? %>
             <% menu.with_item(
                 variant: "link",
-                text: "New transaction",
+                text: t("components.account.activity_feed.new_transaction"),
                 icon: "credit-card",
                 href: account.investment? ? new_trade_path(account_id: account.id) : new_transaction_path(account_id: account.id),
                 data: { turbo_frame: :modal }) %>
@@ -40,7 +40,7 @@
               <%= hidden_field_tag :account_id, account.id %>
 
               <%= form.search_field :search,
-                            placeholder: "Search entries by name",
+                            placeholder: t("components.account.activity_feed.search_placeholder"),
                             value: search,
                             class: "form-field__input placeholder:text-sm placeholder:text-secondary",
                             "data-auto-submit-form-target": "auto" %>
@@ -68,10 +68,10 @@
             <%= check_box_tag "selection_entry",
                               class: "checkbox checkbox--light",
                               data: { action: "bulk-select#togglePageSelection" } %>
-            <p>Date</p>
+            <p><%= t("components.account.activity_feed.date_col") %></p>
           </div>
 
-          <%= tag.p "Amount", class: "col-span-4 justify-self-end" %>
+          <%= tag.p t("components.account.activity_feed.amount_col"), class: "col-span-4 justify-self-end" %>
         </div>
 
         <div>

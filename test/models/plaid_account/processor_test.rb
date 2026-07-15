@@ -187,7 +187,7 @@ class PlaidAccount::ProcessorTest < ActiveSupport::TestCase
     assert_equal "current_anchor", current_anchor.kind
     assert_equal 1500, current_anchor.entry.amount
     assert_equal Date.current, current_anchor.entry.date
-    assert_equal "Current balance", current_anchor.entry.name
+    assert_equal I18n.t("valuations.names.current_anchor.default"), current_anchor.entry.name
   end
 
   test "updates existing current balance anchor when reprocessing" do

@@ -8,6 +8,34 @@
     <% end %>
   </div>
 
+  <%#
+    O servico original saiu do ar junto com a Maybe: api.synthfinance.com nao
+    resolve mais em nenhum DNS publico, e synthfinance.com virou dominio
+    estacionado. Sem este aviso o campo pede uma chave que nao existe mais como
+    obter, e a pessoa fica tentando descobrir o que ela esta fazendo de errado.
+
+    NAO ha link de "criar conta" de proposito. Existe um synthdata.co vivo e com
+    API, mas e OUTRA empresa (dados sinteticos de previsao, subnet Bittensor) --
+    mesmo nome, produto sem relacao. Mandar cadastrar la seria fazer a pessoa
+    pagar por uma chave que este app nunca conseguiria usar. O nome identico e
+    justamente o que tornaria o link plausivel, e por isso pior.
+
+    O link vai para o codigo arquivado (verificado: responde 200), que e o unico
+    caminho real -- o Synth era open source, entao da para subir a sua e apontar
+    SYNTH_URL para ela.
+  %>
+  <div class="rounded-lg bg-container-inset p-3 space-y-1">
+    <p class="text-sm text-primary"><%= t(".discontinued_title") %></p>
+    <p class="text-sm text-secondary">
+      <%= t(".discontinued_body_html",
+            env_var: tag.code("SYNTH_URL", class: "font-mono text-xs bg-surface px-1 py-0.5 rounded"),
+            archive_link: link_to(t(".discontinued_link"),
+                                  "https://github.com/maybe-finance/synth-archive",
+                                  target: "_blank", rel: "noopener noreferrer",
+                                  class: "text-primary underline hover:no-underline")) %>
+    </p>
+  </div>
+
   <%= styled_form_with model: Setting.new,
                        url: settings_hosting_path,
                        method: :patch,

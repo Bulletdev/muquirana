@@ -1,0 +1,137 @@
+---
+pt-BR:
+  components:
+    account:
+      activity_feed:
+        amount_col: Valor
+        date_col: Data
+        new: Novo
+        new_balance: Novo saldo
+        new_transaction: Nova transação
+        search_placeholder: Buscar lançamentos por nome
+        title: Atividade
+      balance_reconciliation:
+        default:
+          start_balance:
+            label: Saldo inicial
+            tooltip: O saldo da conta no início deste dia
+          net_cash_flow:
+            label: Fluxo de caixa líquido
+            tooltip: Variação líquida do saldo por todas as transações do dia
+          end_balance:
+            label: Saldo final
+            tooltip: O saldo calculado após todas as transações
+          adjustments:
+            label: Ajustes
+            tooltip: Reconciliações manuais ou outros ajustes
+          final_balance:
+            label: Saldo do dia
+            tooltip: O saldo final da conta no dia
+        credit_card:
+          start_balance:
+            label: Saldo inicial
+            tooltip: O valor devido no início deste dia
+          charges:
+            label: Compras
+            tooltip: Novas compras feitas durante o dia
+          payments:
+            label: Pagamentos
+            tooltip: Pagamentos feitos ao cartão durante o dia
+          end_balance:
+            label: Saldo final
+            tooltip: O saldo calculado após todas as transações
+          adjustments:
+            label: Ajustes
+            tooltip: Reconciliações manuais ou outros ajustes
+          final_balance:
+            label: Valor devido no dia
+            tooltip: O valor final devido no dia
+        investment:
+          start_balance:
+            label: Saldo inicial
+            tooltip: O valor total da carteira no início deste dia
+          brokerage_cash_change:
+            label: Variação do caixa na corretora
+            tooltip: Variação líquida do caixa por depósitos, saques e negociações
+          holdings_change_trades:
+            label: Variação das posições (compras/vendas)
+            tooltip: Efeito da compra e venda de ativos sobre as posições
+          holdings_change_market:
+            label: Variação das posições (preço de mercado)
+            tooltip: Variação do valor das posições por movimento de preço de mercado
+          end_balance:
+            label: Saldo final
+            tooltip: O saldo calculado após toda a movimentação
+          adjustments:
+            label: Ajustes
+            tooltip: Reconciliações manuais ou outros ajustes
+          final_balance:
+            label: Valor da carteira no dia
+            tooltip: O valor final da carteira no dia
+        loan:
+          start_principal:
+            label: Saldo devedor inicial
+            tooltip: O saldo devedor no início deste dia
+          net_principal_change:
+            label: Variação do saldo devedor
+            tooltip: Amortizações e novas contratações durante o dia
+          end_principal:
+            label: Saldo devedor final
+            tooltip: O saldo devedor calculado após todas as transações
+          adjustments:
+            label: Ajustes
+            tooltip: Reconciliações manuais ou outros ajustes
+          final_principal:
+            label: Saldo devedor no dia
+            tooltip: O saldo devedor final no dia
+        asset:
+          start_value:
+            label: Valor inicial
+            tooltip: O valor do bem no início deste dia
+          net_value_change:
+            label: Variação de valor
+            tooltip: Todas as variações de valor, incluindo benfeitorias e depreciação
+          end_value:
+            label: Valor final
+            tooltip: O valor calculado após todas as variações
+          adjustments:
+            label: Ajustes
+            tooltip: Ajustes manuais de valor ou avaliações
+          final_value:
+            label: Valor do bem no dia
+            tooltip: O valor final do bem no dia
+        crypto:
+          start_balance:
+            label: Saldo inicial
+            tooltip: O valor das posições em cripto no início deste dia
+          buys:
+            label: Compras
+            tooltip: Compras de cripto durante o dia
+          sells:
+            label: Vendas
+            tooltip: Vendas de cripto durante o dia
+          market_changes:
+            label: Variação de mercado
+            tooltip: Variações de valor por movimento de preço de mercado
+          end_balance:
+            label: Saldo final
+            tooltip: O saldo calculado após toda a movimentação
+          adjustments:
+            label: Ajustes
+            tooltip: Reconciliações manuais ou outros ajustes
+          final_balance:
+            label: Valor em cripto no dia
+            tooltip: O valor final das posições em cripto no dia
+      chart:
+        cash: Caixa
+        holdings: Posições
+        titles:
+          default: Saldo
+          debt: Saldo devedor
+          loan: Saldo devedor restante
+          asset: Valor estimado do %{tipo}
+          investment:
+            balance: Valor total da conta
+            holdings_balance: Valor das posições
+            cash_balance: Valor em caixa
+        total_value: Valor total

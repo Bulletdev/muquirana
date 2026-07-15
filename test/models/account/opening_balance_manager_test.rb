@@ -29,7 +29,7 @@ class Account::OpeningBalanceManagerTest < ActiveSupport::TestCase
     entry = opening_anchor.entry
     assert_equal 1000, entry.amount
     assert_equal 1.year.ago.to_date, entry.date
-    assert_equal "Opening balance", entry.name
+    assert_equal I18n.t("valuations.names.opening_anchor.default"), entry.name
   end
 
   test "when no existing anchor, creates with provided balance" do

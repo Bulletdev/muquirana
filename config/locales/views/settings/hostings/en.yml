@@ -3,8 +3,8 @@ en:
   settings:
     hostings:
       invite_code_settings:
-        description: Every new user that joins your instance of Muquirana can only do
-          so via an invite code
+        description: Every new user that joins your instance of Muquirana can only
+          do so via an invite code
         email_confirmation_description: When enabled, users must confirm their email
           address when changing it.
         email_confirmation_title: Require email confirmation
@@ -17,13 +17,24 @@ en:
         title: Self-Hosting
         danger_zone: Danger Zone
         clear_cache: Clear data cache
-        clear_cache_warning: Clearing the data cache will remove all exchange rates, security prices, account balances, and other data. This will not delete accounts, transactions, categories, or other user-owned data.
+        clear_cache_warning: Clearing the data cache will remove all exchange rates,
+          security prices, account balances, and other data. This will not delete
+          accounts, transactions, categories, or other user-owned data.
         confirm_clear_cache:
           title: Clear data cache?
-          body: Are you sure you want to clear the data cache? This will remove all exchange rates, security prices, account balances, and other data. This action cannot be undone.
+          body: Are you sure you want to clear the data cache? This will remove all
+            exchange rates, security prices, account balances, and other data. This
+            action cannot be undone.
       synth_settings:
         api_calls_used: "%{used} / %{limit} API calls used (%{percentage})"
-        description: Input the API key provided by Synth
+        description: API key for the Synth instance that SYNTH_URL points to.
+        discontinued_body_html: The original service went down along with the Maybe
+          project, and there is no longer anywhere to create a key. This field stays
+          for anyone running their own instance from the %{archive_link} and pointing
+          %{env_var} at it. Without it, the app simply does not fetch exchange rates
+          or security prices -- nothing breaks.
+        discontinued_link: archived Synth code
+        discontinued_title: Synth has been discontinued
         env_var_configured: You have successfully configured your Synth API key through
           the SYNTH_API_KEY environment variable.
         label: API Key
@@ -34,5 +45,6 @@ en:
         failure: Invalid setting value
         success: Settings updated
       clear_cache:
-        cache_cleared: Data cache has been cleared. This may take a few moments to complete.
+        cache_cleared: Data cache has been cleared. This may take a few moments to
+          complete.
       not_authorized: You are not authorized to perform this action

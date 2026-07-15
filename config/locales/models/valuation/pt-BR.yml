@@ -1,0 +1,18 @@
+---
+pt-BR:
+  valuations:
+    names:
+      current_anchor:
+        account_value: Valor atual da conta
+        asset: Valor de mercado atual
+        default: Saldo atual
+        loan: Saldo devedor atual
+      opening_anchor:
+        account_value: Valor inicial da conta
+        asset: Preço de compra
+        default: Saldo inicial
+        loan: Saldo devedor original
+      recon:
+        default: Atualização manual de saldo
+        loan: Atualização manual do saldo devedor
+        value: Atualização manual de valor

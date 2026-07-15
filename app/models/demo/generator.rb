@@ -336,7 +336,7 @@ class Demo::Generator
     end
 
     # ---------------------------------------------------------------------------
-    # Payroll system — 156 deterministic deposits (bi-weekly, six years)
+    # Payroll system - 156 deterministic deposits (bi-weekly, six years)
     # ---------------------------------------------------------------------------
     def generate_salary_history!
       deposit_amount = 8_500  # Increased from 4,200 to ~$200k annually
