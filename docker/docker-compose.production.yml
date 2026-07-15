@@ -13,19 +13,29 @@
 # Como usar no Coolify:
 #   1. New Resource > Docker Compose, aponte para este arquivo.
 #   2. Cole as variaveis de docker/.env.production.example no painel.
-#   3. Aponte o dominio para o IP da VPS no Cloudflare (registro A, proxied).
-#   4. SSL do Cloudflare em "Full (strict)" -- NUNCA "Flexible": com
-#      RAILS_FORCE_SSL=true, o modo Flexible gera loop infinito de redirect.
+#   3. Aponte o registro A do dominio para o IP da VPS.
+#   4. O Traefik pega o certificado do Let's Encrypt sozinho.
+#
+# Se um dia entrar Cloudflare na frente: o SSL dela precisa ficar em
+# "Full (strict)". Em "Flexible" ela fala HTTP com a origem, o Rails
+# redireciona para HTTPS por causa do RAILS_FORCE_SSL e vira loop infinito.
 #
 # A imagem sai de .github/workflows/publish.yml (ghcr.io/<owner>/<repo>), que
 # dispara em push na main e em tag v*.
 
-# Obrigatorias (o compose falha na interpolacao se faltar alguma):
+# Obrigatorias:
 #   APP_DOMAIN         host canonico, sem https:// e sem barra final
 #   SECRET_KEY_BASE    openssl rand -hex 64
 #   POSTGRES_PASSWORD  openssl rand -base64 32
 #   REDIS_PASSWORD     openssl rand -hex 32  <- HEX, nao base64: vai dentro do
 #                      REDIS_URL e o "/" do base64 quebra a URL
+#
+# Nao ha ${VAR:?...} aqui: o Coolify roda `docker compose build` antes de subir
+# e so passa as vars marcadas como build-time, entao um :? derruba o deploy
+# mesmo com a variavel configurada no painel. Cada servico se defende sozinho:
+# o postgres recusa POSTGRES_PASSWORD vazia, o Rails nao boota sem
+# SECRET_KEY_BASE, e o redis tem um guard explicito no command (o unico caso
+# que falharia em silencio -- ver o comentario la).
 #
 # Detalhes de cada uma em docker/.env.production.example.
 
@@ -40,7 +50,7 @@ services:
     environment:
       POSTGRES_DB: '${POSTGRES_DB:-muquirana_production}'
       POSTGRES_USER: '${POSTGRES_USER:-muquirana}'
-      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD:?obrigatoria}'
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-muquirana} -d ${POSTGRES_DB:-muquirana_production}" ]
       interval: 10s
@@ -54,15 +64,23 @@ services:
   redis:
     image: redis:7-alpine
     restart: unless-stopped
-    # Sem aspas, uma REDIS_PASSWORD vazia faz o --requirepass engolir o
-    # --appendonly e o Redis morre com "wrong number of arguments". O :? falha
-    # antes disso, dizendo o que fazer.
+    # Guard em RUNTIME, nao na interpolacao (${VAR:?...}): o Coolify roda
+    # `docker compose build` antes de subir e so passa as vars marcadas como
+    # build-time -- um :? aqui derruba o deploy mesmo com a variavel
+    # configurada no painel.
     #
-    # Gere com `openssl rand -hex 32` -- HEX, nao base64. Esta senha entra
-    # dentro do REDIS_URL (redis://default:SENHA@redis:6379/0) e o alfabeto do
-    # base64 inclui "/", que corta a URL: o parser le o resto como porta e
-    # estoura com "Port could not be cast to integer".
-    command: 'redis-server --requirepass "${REDIS_PASSWORD:?obrigatoria}" --appendonly yes'
+    # Sem guard nenhum, REDIS_PASSWORD vazia nao quebra -- e pior: o Redis
+    # sobe SEM SENHA, o healthcheck passa (o ping responde) e a app conecta
+    # normal. Um Redis aberto na rede, em silencio. Por isso o container
+    # recusa a subir.
+    #
+    # Gere com `openssl rand -hex 32` -- HEX, nao base64: a senha entra no
+    # REDIS_URL (redis://default:SENHA@redis:6379/0) e o "/" do base64 corta
+    # a URL, o parser le o resto como porta e estoura.
+    command: >
+      sh -c 'test -n "$$REDIS_PASSWORD" ||
+             { echo "ERRO: REDIS_PASSWORD vazia. Gere com: openssl rand -hex 32"; exit 1; };
+             exec redis-server --requirepass "$$REDIS_PASSWORD" --appendonly yes'
     networks:
       - coolify
     volumes:
@@ -165,10 +183,10 @@ services:
       DB_PORT: 5432
       POSTGRES_DB: '${POSTGRES_DB:-muquirana_production}'
       POSTGRES_USER: '${POSTGRES_USER:-muquirana}'
-      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD:?obrigatoria}'
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
       REDIS_URL: 'redis://default:${REDIS_PASSWORD}@redis:6379/0'
 
-      SECRET_KEY_BASE: '${SECRET_KEY_BASE:?obrigatoria}'
+      SECRET_KEY_BASE: '${SECRET_KEY_BASE}'
 
       # Atras do Traefik o Rails so sabe que a conexao e HTTPS pelo
       # X-Forwarded-Proto -- e o que assume_ssl le. Sem ele, force_ssl
@@ -178,7 +196,7 @@ services:
 
       # Host canonico dos links de e-mail (reset de senha, convite).
       # Sem isto os links saem quebrados.
-      APP_DOMAIN: '${APP_DOMAIN:?obrigatoria}'
+      APP_DOMAIN: '${APP_DOMAIN}'
 
       # AGPLv3 secao 13: o rodape linka o codigo-fonte desta instancia.
       SOURCE_CODE_URL: '${SOURCE_CODE_URL:-https://github.com/Bulletdev/muquirana}'
@@ -227,14 +245,14 @@ services:
       DB_PORT: 5432
       POSTGRES_DB: '${POSTGRES_DB:-muquirana_production}'
       POSTGRES_USER: '${POSTGRES_USER:-muquirana}'
-      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD:?obrigatoria}'
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
       REDIS_URL: 'redis://default:${REDIS_PASSWORD}@redis:6379/0'
 
-      SECRET_KEY_BASE: '${SECRET_KEY_BASE:?obrigatoria}'
+      SECRET_KEY_BASE: '${SECRET_KEY_BASE}'
 
       # O worker manda e-mail (convite, reset de senha) fora do ciclo da
       # request, entao precisa do APP_DOMAIN tanto quanto o web.
-      APP_DOMAIN: '${APP_DOMAIN:?obrigatoria}'
+      APP_DOMAIN: '${APP_DOMAIN}'
 
       OPENAI_ACCESS_TOKEN: '${OPENAI_ACCESS_TOKEN}'
 
