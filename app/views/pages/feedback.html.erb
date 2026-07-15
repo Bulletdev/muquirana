@@ -23,15 +23,10 @@
       <% end %>
     <% end %>
 
-    <% if self_hosted? %>
-      <% if repo_url %>
-        <%= link_to "#{repo_url}/issues/new?labels=bug", target: "_blank", rel: "noopener noreferrer", class: "w-full md:w-1/3 flex flex-col items-center p-4 border border-alpha-black-25 rounded-xl hover:bg-container-hover" do %>
-          <%= image_tag "github-icon.svg", class: "w-8 h-8 mb-2" %>
-          <span class="text-sm font-medium text-primary text-center"><%= t(".bug_report") %></span>
-        <% end %>
-      <% end %>
-    <% else %>
-      <%= tag.button class: "w-full md:w-1/3 flex flex-col gap-2 items-center p-4 border border-alpha-black-25 rounded-xl hover:bg-container-hover", data: { action: "intercom#show" } do %>
+    <%# O ramo else abria o chat do Intercom (removido). O relato de bug vai
+        para as issues do repositorio nos dois modos. %>
+    <% if repo_url %>
+      <%= link_to "#{repo_url}/issues/new?labels=bug", target: "_blank", rel: "noopener noreferrer", class: "w-full md:w-1/3 flex flex-col items-center p-4 border border-alpha-black-25 rounded-xl hover:bg-container-hover" do %>
         <%= image_tag "github-icon.svg", class: "w-8 h-8 mb-2" %>
         <span class="text-sm font-medium text-primary text-center"><%= t(".bug_report") %></span>
       <% end %>

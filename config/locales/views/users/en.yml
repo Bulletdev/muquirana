@@ -9,11 +9,11 @@ en:
         instructions.
       success: Your profile has been updated.
     reset:
-      success: Your account has been reset. Data will be deleted in the background in some time.
+      success: Your account has been reset. Data will be deleted in the background
+        in some time.
       unauthorized: You are not authorized to perform this action
     user_menu:
       changelog: Changelog
-      contact: Contact
       feedback: Feedback
       log_out: Log out
       settings: Settings

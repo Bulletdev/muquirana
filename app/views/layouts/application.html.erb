@@ -59,13 +59,19 @@
           <% end %>
         </ul>
 
-        <div class="pl-2 mt-auto mx-auto flex flex-col gap-2">
-          <%= render DS::Button.new(
-            variant: "icon",
-            icon: "message-circle-question",
-            data: { action: "intercom#show" }
-          ) %>
+        <%#
+          Aqui havia um botao de suporte que chamava Intercom("show").
 
+          Saiu junto com o gem intercom-rails: o script do Intercom so era
+          injetado em development/test (o gem usa um app_id fake, "abcd1234"),
+          entao em producao a constante Intercom nunca existiu e o clique
+          quebrava com ReferenceError. Alem disso o widget mandava o e-mail de
+          quem estava logado para os servidores do Intercom.
+
+          Quem quer falar com o projeto tem o "Feedback" no menu ao lado, que
+          leva as issues/discussions do repositorio.
+        %>
+        <div class="pl-2 mt-auto mx-auto flex flex-col gap-2">
           <%= render "users/user_menu", user: Current.user %>
         </div>
       </nav>
