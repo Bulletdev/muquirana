@@ -2,9 +2,9 @@
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.3"
 	},
-	"name": "maybe",
-	"version": "1.0.0",
-	"description": "The OS for your personal finances",
+	"name": "muquirana",
+	"version": "0.7.0",
+	"description": "Finanças pessoais em português",
 	"scripts": {
 		"style:check": "biome check",
 		"style:fix": "biome check --write",
@@ -14,5 +14,5 @@
 		"format": "biome format --write"
 	},
 	"author": "",
-	"license": "ISC"
+	"license": "AGPL-3.0-or-later"
 }

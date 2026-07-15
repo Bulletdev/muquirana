@@ -18,6 +18,31 @@ class Provider::Github
     owner.present? && name.present?
   end
 
+  # URLs deste repositorio, para a UI linkar a versao/commit que ela mesma
+  # exibe. O menu do usuario montava estes links apontando para
+  # maybe-finance/maybe: como a versao e o SHA exibidos sao os DESTE fork,
+  # os links davam 404 no repositorio do projeto original.
+  #
+  # Devolvem nil quando o repo nao esta configurado -- a view entao mostra a
+  # versao como texto puro, sem link.
+  def repo_url
+    return nil unless configured?
+
+    "https://github.com/#{repo}"
+  end
+
+  def release_url(tag)
+    return nil unless configured? && tag.present?
+
+    "#{repo_url}/releases/tag/#{tag}"
+  end
+
+  def commit_url(sha)
+    return nil unless configured? && sha.present?
+
+    "#{repo_url}/commit/#{sha}"
+  end
+
   def fetch_latest_release_notes
     return nil unless configured?
 

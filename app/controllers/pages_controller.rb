@@ -24,10 +24,15 @@ class PagesController < ApplicationController
 
     @cashflow_sankey_data = build_cashflow_sankey_data(income_totals, expense_totals, family_currency)
 
-    @breadcrumbs = [ [ "Home", root_path ], [ "Dashboard", nil ] ]
+    @breadcrumbs = [ [ t("breadcrumbs.home"), root_path ], [ t("breadcrumbs.dashboard"), nil ] ]
   end
 
   def changelog
+    # Sem isto, o default de Breadcrumbable usa controller_name.titleize e a
+    # trilha vira "Inicio / Pages" -- "Pages" e o nome do controller, nao um
+    # conceito que o usuario reconheca.
+    @breadcrumbs = [ [ t("breadcrumbs.home"), root_path ], [ t("breadcrumbs.changelog"), nil ] ]
+
     @release_notes = github_provider.fetch_latest_release_notes
 
     # Fallback quando nao ha notas de versao -- seja porque GITHUB_REPO_OWNER/
@@ -50,6 +55,8 @@ class PagesController < ApplicationController
   end
 
   def feedback
+    @breadcrumbs = [ [ t("breadcrumbs.home"), root_path ], [ t("breadcrumbs.feedback"), nil ] ]
+
     render layout: "settings"
   end
 
@@ -79,7 +86,7 @@ class PagesController < ApplicationController
       total_expense_val = expense_totals.total.to_f.round(2)
 
       # --- Create Central Cash Flow Node ---
-      cash_flow_idx = add_node.call("cash_flow_node", "Cash Flow", total_income_val, 0, "var(--color-success)")
+      cash_flow_idx = add_node.call("cash_flow_node", t("pages.dashboard.cashflow_sankey.cash_flow_node"), total_income_val, 0, "var(--color-success)")
 
       # --- Process Income Side (Top-level categories only) ---
       income_totals.category_totals.each do |ct|
@@ -145,7 +152,7 @@ class PagesController < ApplicationController
       leftover = (total_income_val - total_expense_val).round(2)
       if leftover.positive?
         percentage_of_total_income_for_surplus = total_income_val.zero? ? 0 : (leftover / total_income_val * 100).round(1)
-        surplus_idx = add_node.call("surplus_node", "Surplus", leftover, percentage_of_total_income_for_surplus, "var(--color-success)")
+        surplus_idx = add_node.call("surplus_node", t("pages.dashboard.cashflow_sankey.surplus_node"), leftover, percentage_of_total_income_for_surplus, "var(--color-success)")
         links << { source: cash_flow_idx, target: surplus_idx, value: leftover, color: "var(--color-success)", percentage: percentage_of_total_income_for_surplus }
       end
 
