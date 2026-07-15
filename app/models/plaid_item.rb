@@ -4,9 +4,19 @@ class PlaidItem < ApplicationRecord
   enum :plaid_region, { us: "us", eu: "eu" }
   enum :status, { good: "good", requires_update: "requires_update" }, default: :good
 
-  if Rails.application.credentials.active_record_encryption.present?
-    encrypts :access_token, deterministic: true
-  end
+  # access_token e a credencial de acesso a conta bancaria do usuario. Cifrado
+  # sempre, incondicionalmente -- como ja era feito em ApiKey#display_key.
+  #
+  # Antes isto era condicionado a `Rails.application.credentials
+  # .active_record_encryption.present?`, que e o inverso exato da condicao de
+  # config/initializers/active_record_encryption.rb: aquele initializer so
+  # deriva as chaves de SECRET_KEY_BASE QUANDO as credentials estao ausentes.
+  # Ou seja, exatamente no cenario em que a chave era preparada, o `encrypts`
+  # nunca era declarado, e o token ia para o banco em texto plano. Qualquer
+  # deploy que configure a encryption por config.active_record.encryption.* em
+  # vez de Rails.credentials caia nesse caso -- inclusive o modo self_hosted e
+  # o proprio ambiente de teste.
+  encrypts :access_token, deterministic: true
 
   validates :name, :access_token, presence: true
 
