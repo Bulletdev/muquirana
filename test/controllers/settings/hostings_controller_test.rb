@@ -80,4 +80,31 @@ class Settings::HostingsControllerTest < ActionDispatch::IntegrationTest
       assert_equal I18n.t("settings.hostings.not_authorized"), flash[:alert]
     end
   end
+
+  test "member cannot change instance-wide hosting settings" do
+    # Regressao: o ensure_admin cobria so o clear_cache, e o #update ficava
+    # aberto a qualquer usuario logado. O Setting e GLOBAL da instancia, nao da
+    # familia -- um membro comum reabria o cadastro publico do servidor inteiro.
+    with_self_hosting do
+      Setting.require_invite_for_signup = true
+      sign_in users(:family_member)
+
+      patch settings_hosting_url, params: { setting: { require_invite_for_signup: false } }
+
+      assert_redirected_to settings_hosting_url
+      assert_equal I18n.t("settings.hostings.not_authorized"), flash[:alert]
+      assert Setting.require_invite_for_signup, "um membro nao pode reabrir o cadastro da instancia"
+    end
+  end
+
+  test "member cannot read instance-wide hosting settings" do
+    with_self_hosting do
+      sign_in users(:family_member)
+
+      get settings_hosting_url
+
+      assert_redirected_to settings_hosting_url
+      assert_equal I18n.t("settings.hostings.not_authorized"), flash[:alert]
+    end
+  end
 end

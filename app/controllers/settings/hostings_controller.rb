@@ -3,7 +3,15 @@ class Settings::HostingsController < ApplicationController
 
   guard_feature unless: -> { self_hosted? }
 
-  before_action :ensure_admin, only: :clear_cache
+  # O ensure_admin cobria APENAS o clear_cache -- a acao menos perigosa daqui.
+  # O #update ficava aberto a qualquer usuario logado, e o Setting e GLOBAL da
+  # instancia (RailsSettings::Base), nao da familia: um membro comum podia
+  # desligar o require_invite_for_signup e reabrir o cadastro publico do
+  # servidor inteiro, ou trocar a synth_api_key.
+  #
+  # O #show tambem entra: ele exibe o uso e a configuracao do provedor, que e
+  # dado de administracao da instancia, nao do usuario.
+  before_action :ensure_admin
 
   def show
     synth_provider = Provider::Registry.get_provider(:synth)
