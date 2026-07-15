@@ -17,8 +17,14 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Scan for security vulnerabilities in Ruby dependencies
+      - name: Scan Ruby code for security vulnerabilities
         run: bin/brakeman --no-pager
+
+      # Gate obrigatorio: o upstream (maybe-finance/maybe) foi arquivado em
+      # jul/2025 e nao publica mais correcoes. Qualquer CVE em gem e problema
+      # deste fork. Falha o build de proposito -- sem `|| true`.
+      - name: Scan Ruby dependencies for known CVEs
+        run: bundle exec bundler-audit check --update
 
   scan_js:
     runs-on: ubuntu-latest

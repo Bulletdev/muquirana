@@ -84,6 +84,7 @@ gem "ruby-openai"
 group :development, :test do
   gem "debug", platforms: %i[mri windows]
   gem "brakeman", require: false
+  gem "bundler-audit", "~> 0.9", require: false
   gem "rubocop-rails-omakase", require: false
   gem "i18n-tasks"
   gem "erb_lint"

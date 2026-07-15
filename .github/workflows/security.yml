@@ -1,0 +1,53 @@
+name: Security Audit
+
+# Por que agendado e nao so em PR:
+#
+# O upstream (maybe-finance/maybe) foi arquivado em jul/2025. Nao ha releases
+# de seguranca vindo de la -- manter as dependencias em dia e responsabilidade
+# exclusiva deste fork.
+#
+# Um CVE novo e publicado sem que ninguem commite nada. Auditoria disparada
+# apenas por pull_request (como no ci.yml) so encontraria o problema no proximo
+# PR, que pode levar semanas. O agendamento diario fecha essa janela.
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # 03:00 America/Sao_Paulo
+  workflow_dispatch:
+
+jobs:
+  audit_dependencies:
+    name: CVEs em gems
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      # Falha de proposito: um job vermelho gera notificacao do GitHub, que e
+      # o unico sinal que chega sem alguem ir olhar.
+      - name: bundler-audit
+        run: bundle exec bundler-audit check --update
+
+  audit_code:
+    name: Analise estatica (Brakeman)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Brakeman
+        run: bin/brakeman --no-pager
