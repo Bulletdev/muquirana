@@ -40,7 +40,8 @@ class LoansControllerTest < ActionDispatch::IntegrationTest
     assert_equal 50000, created_account.accountable.initial_balance
 
     assert_redirected_to created_account
-    assert_equal "Loan account created", flash[:notice]
+    # Mensagem traduzida (default_locale = pt-BR): resolve pela mesma chave do controller
+    assert_equal I18n.t("accounts.create.success", type: "Loan"), flash[:notice]
     assert_enqueued_with(job: SyncJob)
   end
 
@@ -73,7 +74,7 @@ class LoansControllerTest < ActionDispatch::IntegrationTest
     assert_equal 48000, @account.accountable.initial_balance
 
     assert_redirected_to @account
-    assert_equal "Loan account updated", flash[:notice]
+    assert_equal I18n.t("accounts.update.success", type: "Loan"), flash[:notice]
     assert_enqueued_with(job: SyncJob)
   end
 end

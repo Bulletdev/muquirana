@@ -38,7 +38,8 @@ class TransfersControllerTest < ActionDispatch::IntegrationTest
     patch transfer_url(transfer), params: { transfer: { notes: "Test notes" } }
 
     assert_redirected_to transactions_url
-    assert_equal "Transfer updated", flash[:notice]
+    # Mensagem traduzida (default_locale = pt-BR): resolve pela mesma chave do controller
+    assert_equal I18n.t("transfers.update.success"), flash[:notice]
     assert_equal "Test notes", transfer.reload.notes
   end
 
@@ -54,7 +55,7 @@ class TransfersControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to transactions_url
-    assert_equal "Transfer updated", flash[:notice]
+    assert_equal I18n.t("transfers.update.success"), flash[:notice]
 
     # Verify the transfer was actually destroyed
     assert_raises(ActiveRecord::RecordNotFound) do

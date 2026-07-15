@@ -12,7 +12,7 @@ class ChatsTest < ApplicationSystemTestCase
     visit root_path
 
     within "#chat-container" do
-      assert_selector "h3", text: "Enable Maybe AI"
+      assert_selector "h3", text: I18n.t("chats.ai_consent.title")
     end
   end
 
@@ -22,8 +22,10 @@ class ChatsTest < ApplicationSystemTestCase
 
     visit root_url
 
+    # Sem conversas, chats/index renderiza o h1 como sr-only -- o elemento existe,
+    # so o texto e que mudou de "Chats" para a traducao de chats.index.title.
     within "#chat-container" do
-      assert_selector "h1", text: "Chats"
+      assert_selector "h1", text: I18n.t("chats.index.title")
     end
   end
 
@@ -57,7 +59,7 @@ class ChatsTest < ApplicationSystemTestCase
 
     find("#chat-nav-back").click
 
-    assert_selector "h1", text: "Chats"
+    assert_selector "h1", text: I18n.t("chats.index.title")
 
     click_on @user.chats.reload.first.title
 

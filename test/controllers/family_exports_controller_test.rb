@@ -25,7 +25,8 @@ class FamilyExportsControllerTest < ActionDispatch::IntegrationTest
   test "admin can view export modal" do
     get new_family_export_path
     assert_response :success
-    assert_select "h2", text: "Export your data"
+    # Titulo traduzido (default_locale = pt-BR): resolve pela mesma chave da view
+    assert_select "h2", text: I18n.t("family_exports.new.title")
   end
 
   test "admin can create export" do
@@ -48,7 +49,7 @@ class FamilyExportsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     assert_match export1.filename, response.body
-    assert_match "Exporting...", response.body
+    assert_match I18n.t("family_exports.list.exporting"), response.body
   end
 
   test "admin can download completed export" do

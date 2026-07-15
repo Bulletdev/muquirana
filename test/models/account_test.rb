@@ -23,12 +23,15 @@ class AccountTest < ActiveSupport::TestCase
       accountable: Investment.new
     )
 
-    assert_equal "HSA", account.short_subtype_label
-    assert_equal "Health Savings Account", account.long_subtype_label
+    # Rotulos de subtipo agora sao traduzidos (default_locale = pt-BR); compare
+    # com o proprio lookup em vez de literal em ingles.
+    assert_equal Investment.short_subtype_label_for("hsa"), account.short_subtype_label
+    assert_equal Investment.long_subtype_label_for("hsa"), account.long_subtype_label
 
-    # Test with nil subtype
+    # Test with nil subtype -- cai no display_name do accountable, que e
+    # traduzido (default_locale = pt-BR); compare com o proprio display_name.
     account.update!(subtype: nil)
-    assert_equal "Investments", account.short_subtype_label
-    assert_equal "Investments", account.long_subtype_label
+    assert_equal Investment.display_name, account.short_subtype_label
+    assert_equal Investment.display_name, account.long_subtype_label
   end
 end

@@ -26,7 +26,8 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to root_path
-    assert_equal "Welcome to Maybe!", flash[:notice]
+    # Mensagem traduzida (default_locale = pt-BR): resolve pela mesma chave do controller
+    assert_equal I18n.t("subscriptions.create.welcome"), flash[:notice]
     assert_equal "trialing", @family.subscription.status
     assert_in_delta Subscription::TRIAL_DAYS.days.from_now, @family.subscription.trial_ends_at, 1.minute
   end
@@ -37,7 +38,7 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to root_path
-    assert_equal "You have already started or completed a trial. Please upgrade to continue.", flash[:alert]
+    assert_equal I18n.t("subscriptions.create.trial_already_used"), flash[:alert]
   end
 
   test "creates new checkout session" do
@@ -71,6 +72,6 @@ class SubscriptionsControllerTest < ActionDispatch::IntegrationTest
     get success_subscription_url(session_id: "test-session-id")
 
     assert @family.subscription.active?
-    assert_equal "Welcome to Maybe!  Your subscription has been created.", flash[:notice]
+    assert_equal I18n.t("subscriptions.success.welcome"), flash[:notice]
   end
 end

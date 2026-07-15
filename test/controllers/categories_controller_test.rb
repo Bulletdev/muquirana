@@ -84,7 +84,14 @@ class CategoriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "bootstrap" do
-    assert_difference "Category.count", 12 do
+    # O `12` fixo aqui dependia de os defaults estarem em ingles: `bootstrap!`
+    # faz find_or_create_by!(name:), e as fixtures ja trazem "Income" e
+    # "Food & Drink", entao 2 dos 14 defaults batiam por nome. Com os defaults
+    # traduzidos nenhum bate mais. Deriva a expectativa em vez de fixar o numero.
+    existing = users(:family_admin).family.categories.pluck(:name)
+    expected = (Category.send(:default_categories).map(&:first) - existing).size
+
+    assert_difference "Category.count", expected do
       post bootstrap_categories_url
     end
 

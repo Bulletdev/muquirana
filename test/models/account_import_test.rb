@@ -16,6 +16,11 @@ class AccountImportTest < ActiveSupport::TestCase
 
     @import.update!(
       raw_file_str: import_csv,
+      # O CSV acima usa ponto decimal ("1000.00"). O default do app e o formato
+      # brasileiro ("1.234,56"), no qual o ponto e separador de MILHAR -- sem
+      # fixar isso aqui, 1000.00 seria lido como 100000. Explicito no teste
+      # porque o que se testa e a mecanica do import, nao o default de formato.
+      number_format: "1,234.56",
       entity_type_col_label: "type",
       name_col_label: "name",
       amount_col_label: "amount",

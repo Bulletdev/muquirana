@@ -22,7 +22,8 @@ class PeriodTest < ActiveSupport::TestCase
 
   test "can create custom period" do
     period = Period.new(start_date: Date.current - 15.days, end_date: Date.current)
-    assert_equal "Custom Period", period.label
+    # Rotulos traduzidos (default_locale = pt-BR): resolvem pela mesma chave do model
+    assert_equal I18n.t("periods.custom.label"), period.label
   end
 
   test "from_key returns period for valid key" do
@@ -39,24 +40,29 @@ class PeriodTest < ActiveSupport::TestCase
 
   test "label returns correct label for known period" do
     period = Period.from_key("last_30_days")
-    assert_equal "Last 30 Days", period.label
+    assert_equal I18n.t("periods.last_30_days.label"), period.label
   end
 
   test "label returns Custom Period for unknown period" do
     period = Period.new(start_date: Date.current - 15.days, end_date: Date.current)
-    assert_equal "Custom Period", period.label
+    assert_equal I18n.t("periods.custom.label"), period.label
   end
 
   test "comparison_label returns correct label for known period" do
     period = Period.from_key("last_30_days")
-    assert_equal "vs. last month", period.comparison_label
+    assert_equal I18n.t("periods.last_30_days.comparison_label"), period.comparison_label
   end
 
   test "comparison_label returns date range for unknown period" do
     start_date = Date.current - 15.days
     end_date = Date.current
     period = Period.new(start_date: start_date, end_date: end_date)
-    expected = "#{start_date.strftime("%b %d, %Y")} to #{end_date.strftime("%b %d, %Y")}"
+    # O range agora e localizado via I18n.l em vez de strftime hardcoded
+    expected = I18n.t(
+      "periods.custom.comparison_label",
+      start_date: I18n.l(start_date, format: :long),
+      end_date: I18n.l(end_date, format: :long)
+    )
     assert_equal expected, period.comparison_label
   end
 end

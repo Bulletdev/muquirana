@@ -28,7 +28,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     }
 
     assert_redirected_to settings_profile_url
-    assert_equal "Your profile has been updated.", flash[:notice]
+    # Mensagem traduzida (default_locale = pt-BR): resolve pela mesma chave do controller
+    assert_equal I18n.t("users.update.success"), flash[:notice]
   end
 
   test "admin can reset family data" do
@@ -83,7 +84,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     delete user_url(users(:family_member))
 
     assert_redirected_to settings_profile_url
-    assert_equal "Admin cannot delete account while other users are present. Please delete all members first.", flash[:alert]
+    assert_equal I18n.t("activerecord.errors.models.user.attributes.base.cannot_deactivate_admin_with_other_users"), flash[:alert]
     assert_no_enqueued_jobs only: UserPurgeJob
     assert User.find(@admin.id).active?
   end

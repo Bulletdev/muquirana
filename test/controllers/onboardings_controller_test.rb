@@ -14,13 +14,14 @@ class OnboardingsControllerTest < ActionDispatch::IntegrationTest
   test "should get show" do
     get onboarding_url
     assert_response :success
-    assert_select "h1", text: /set up your account/i
+    assert_select "h1", text: I18n.t("onboardings.show.title")
   end
 
   test "should get preferences" do
     get preferences_onboarding_url
     assert_response :success
-    assert_select "h1", text: /preferences/i
+    # Titulo traduzido (default_locale = pt-BR): resolve pela mesma chave da view
+    assert_select "h1", text: I18n.t("onboardings.preferences.title")
   end
 
   test "preferences page renders Series chart data without errors" do
@@ -82,7 +83,7 @@ class OnboardingsControllerTest < ActionDispatch::IntegrationTest
   test "should get goals" do
     get goals_onboarding_url
     assert_response :success
-    assert_select "h1", text: /What brings you to Maybe/i
+    assert_select "h1", text: I18n.t("onboardings.goals.title")
   end
 
   test "should get trial" do

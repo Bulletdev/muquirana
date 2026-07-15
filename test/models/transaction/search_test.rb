@@ -116,7 +116,9 @@ class Transaction::SearchTest < ActiveSupport::TestCase
     )
 
     # Search for uncategorized transactions
-    uncategorized_results = Transaction::Search.new(@family, filters: { categories: [ "Uncategorized" ] }).transactions_scope
+    # O filtro casa pelo NOME da categoria, e o nome de "sem categoria" e
+    # traduzido -- use a mesma fonte que a view usa, nao o literal em ingles.
+    uncategorized_results = Transaction::Search.new(@family, filters: { categories: [ Category.uncategorized.name ] }).transactions_scope
     uncategorized_ids = uncategorized_results.pluck(:id)
 
     # Should include standard uncategorized transactions

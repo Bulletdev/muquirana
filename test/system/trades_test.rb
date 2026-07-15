@@ -21,16 +21,21 @@ class TradesTest < ApplicationSystemTestCase
 
     open_new_trade_modal
 
-    fill_in "Ticker symbol", with: "AAPL"
+    fill_in I18n.t("trades.form.holding"), with: "AAPL"
+    # "Date" nao tem chave: o campo usa `label: true` e, por ser required, o
+    # StyledFormBuilder monta o rotulo com `method.to_s.humanize` em vez de I18n
+    # (app/helpers/styled_form_builder.rb:119). Ver reporte.
     fill_in "Date", with: Date.current
-    fill_in "Quantity", with: shares_qty
+    fill_in I18n.t("trades.form.qty"), with: shares_qty
     fill_in "model[price]", with: 214.23
 
-    click_button "Add transaction"
+    submit_trade_form
 
     visit_trades
 
     within_trades do
+      # Trade.build_name monta o nome em ingles e o persiste no banco -- nao
+      # passa por I18n. Ver reporte.
       assert_text "Buy #{shares_qty}.0 shares of AAPL"
     end
   end
@@ -41,24 +46,39 @@ class TradesTest < ApplicationSystemTestCase
 
     open_new_trade_modal
 
-    select "Sell", from: "Type"
-    fill_in "Ticker symbol", with: "AAPL"
+    select I18n.t("trades.form.type_sell"), from: I18n.t("trades.form.type")
+    fill_in I18n.t("trades.form.holding"), with: "AAPL"
+    # "Date": ver comentario no teste de compra acima.
     fill_in "Date", with: Date.current
-    fill_in "Quantity", with: qty
+    fill_in I18n.t("trades.form.qty"), with: qty
     fill_in "model[price]", with: 215.33
 
-    click_button "Add transaction"
+    submit_trade_form
 
     visit_trades
 
     within_trades do
+      # Nome em ingles vindo de Trade.build_name -- ver reporte.
       assert_text "Sell #{qty}.0 shares of AAPL"
     end
   end
 
   private
+    # O link fica na aba de posicoes (holdings/index), nao no header da conta --
+    # por isso a chave e holdings.index.new_holding e nao accounts.show.activity.
     def open_new_trade_modal
-      click_on "New transaction"
+      click_on I18n.t("holdings.index.new_holding")
+    end
+
+    # O submit e assincrono: o POST /trades responde com um turbo_stream de
+    # redirect_back, e o Turbo so navega quando essa resposta chega. Sem esperar,
+    # o `visit_trades` seguinte corre junto com o POST (a lista chega a ser
+    # renderizada antes do INSERT) e depois o redirect atrasado ainda arrasta o
+    # navegador de volta para a aba anterior. Esperar o modal fechar sincroniza
+    # com o fim do redirect.
+    def submit_trade_form
+      click_button I18n.t("trades.form.submit")
+      assert_no_selector "#modal dialog"
     end
 
     def within_trades(&block)

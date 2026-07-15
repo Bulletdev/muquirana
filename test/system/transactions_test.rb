@@ -1,5 +1,11 @@
 require "application_system_test_case"
 
+# Os rotulos da UI sao traduzidos (default_locale = :"pt-BR") -- resolva cada um
+# pela MESMA chave que a view usa, em vez de literais em ingles. Assim o teste
+# nao quebra a cada string traduzida nem depende do locale ativo.
+#
+# Os nomes vindos de fixture (conta, categoria, estabelecimento, tag) NAO sao
+# traduzidos e continuam sendo usados como literais.
 class TransactionsTest < ApplicationSystemTestCase
   setup do
     sign_in @user = users(:family_admin)
@@ -30,10 +36,11 @@ class TransactionsTest < ApplicationSystemTestCase
   end
 
   test "can search for a transaction" do
-    assert_selector "h1", text: "Transactions"
+    assert_selector "h1", text: I18n.t("transactions.index.title")
 
     within "form#transactions-search" do
-      fill_in "Search transactions ...", with: @transaction.name
+      # O campo nao tem label -- o Capybara casa pelo placeholder da view.
+      fill_in I18n.t("transactions.searches.form.search_placeholder"), with: @transaction.name
       find("#q_search").send_keys(:tab) # Trigger blur to submit form
     end
 
@@ -49,9 +56,9 @@ class TransactionsTest < ApplicationSystemTestCase
 
     within "#transaction-filters-menu" do
       check(@transaction.account.name)
-      click_button "Category"
+      click_button I18n.t("transactions.searches.menu.category_filter")
       check(@transaction.transaction.category.name)
-      click_button "Apply"
+      click_button I18n.t("transactions.searches.menu.apply")
     end
 
     assert_selector "#" + dom_id(@transaction), count: 1
@@ -66,9 +73,10 @@ class TransactionsTest < ApplicationSystemTestCase
     find("#transaction-filters-button").click
 
     within "#transaction-filters-menu" do
-      click_button "Category"
-      check("Uncategorized")
-      click_button "Apply"
+      click_button I18n.t("transactions.searches.menu.category_filter")
+      # Category.uncategorized nasce com name = t("categories.defaults.uncategorized").
+      check(I18n.t("categories.defaults.uncategorized"))
+      click_button I18n.t("transactions.searches.menu.apply")
     end
 
     assert_selector "#" + dom_id(@uncategorized_transaction), count: 1
@@ -77,9 +85,9 @@ class TransactionsTest < ApplicationSystemTestCase
     find("#transaction-filters-button").click
 
     within "#transaction-filters-menu" do
-      click_button "Category"
+      click_button I18n.t("transactions.searches.menu.category_filter")
       check(@transaction.transaction.category.name)
-      click_button "Apply"
+      click_button I18n.t("transactions.searches.menu.apply")
     end
 
     assert_selector "#" + dom_id(@transaction), count: 1
@@ -94,30 +102,30 @@ class TransactionsTest < ApplicationSystemTestCase
     merchant = @transaction.transaction.merchant
 
     within "#transaction-filters-menu" do
-      click_button "Account"
+      click_button I18n.t("transactions.searches.menu.account_filter")
       check(account.name)
 
-      click_button "Date"
+      click_button I18n.t("transactions.searches.menu.date_filter")
       fill_in "q_start_date", with: 10.days.ago.to_date
       fill_in "q_end_date", with: 1.day.ago.to_date
 
-      click_button "Type"
-      check("Income")
+      click_button I18n.t("transactions.searches.menu.type_filter")
+      check(I18n.t("transactions.searches.filters.type_filter.income"))
 
-      click_button "Amount"
-      select "Less than"
+      click_button I18n.t("transactions.searches.menu.amount_filter")
+      select I18n.t("transactions.searches.filters.amount_filter.less_than")
       fill_in "q_amount", with: 200
 
-      click_button "Category"
+      click_button I18n.t("transactions.searches.menu.category_filter")
       check(category.name)
 
-      click_button "Merchant"
+      click_button I18n.t("transactions.searches.menu.merchant_filter")
       check(merchant.name)
 
-      click_button "Apply"
+      click_button I18n.t("transactions.searches.menu.apply")
     end
 
-    assert_text "No entries found"
+    assert_text I18n.t("entries.empty.title")
 
     # Wait for Turbo to finish updating the DOM
     sleep 0.5
@@ -125,7 +133,7 @@ class TransactionsTest < ApplicationSystemTestCase
     # Page reload doesn't affect results
     visit current_url
 
-    assert_text "No entries found"
+    assert_text I18n.t("entries.empty.title")
 
     # Remove all filters by clicking their X buttons
     # Get all the filter buttons at once to avoid stale elements
@@ -188,13 +196,16 @@ class TransactionsTest < ApplicationSystemTestCase
     transfer_date = Date.current
     visit account_url(investment_account, tab: "activity")
     within "[data-testid='activity-menu']" do
+      # O menu vem do ViewComponent UI::Account::ActivityFeed, que ainda tem os
+      # rotulos hardcoded em ingles -- nao ha chave de I18n para resolver aqui.
       click_on "New"
       click_on "New transaction"
     end
-    select "Deposit", from: "Type"
+    select I18n.t("trades.form.type_deposit"), from: I18n.t("trades.form.type")
+    # trades/_form usa `label: true` -> humanize, entao o rotulo continua "Date".
     fill_in "Date", with: transfer_date
     fill_in "model[amount]", with: 175.25
-    click_button "Add transaction"
+    click_button I18n.t("trades.form.submit")
     within "#" + dom_id(investment_account, "entries_#{transfer_date}") do
       assert_text "175.25"
     end
@@ -246,8 +257,15 @@ class TransactionsTest < ApplicationSystemTestCase
       if count == 0
         assert_no_selector("#entry-selection-bar")
       else
+        # A barra e montada no cliente por bulk_select_controller#_updateSelectionBar,
+        # como `${count} ${rotulo} ${sufixo}`. Todas as partes vem da view por
+        # data attribute (o JS nao enxerga o I18n do Rails), entao o teste monta
+        # a frase pelas mesmas chaves.
+        label = I18n.t(count == 1 ? "transactions.index.transaction" : "transactions.index.transactions")
+        suffix = I18n.t("transactions.index.selected_suffix")
+
         within "#entry-selection-bar" do
-          assert_text "#{count} transaction#{count == 1 ? "" : "s"} selected"
+          assert_text "#{count} #{label} #{suffix}"
         end
       end
     end

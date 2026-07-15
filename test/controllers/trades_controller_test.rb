@@ -129,7 +129,8 @@ class TradesControllerTest < ActionDispatch::IntegrationTest
 
     assert created_entry.amount.positive?
     assert created_entry.trade.qty.positive?
-    assert_equal "Entry created", flash[:notice]
+    # Mensagem traduzida (default_locale = pt-BR): resolve pela mesma chave do controller
+    assert_equal I18n.t("entries.create.success"), flash[:notice]
     assert_enqueued_with job: SyncJob
     assert_redirected_to account_url(created_entry.account)
   end
@@ -152,7 +153,7 @@ class TradesControllerTest < ActionDispatch::IntegrationTest
 
     assert created_entry.amount.negative?
     assert created_entry.trade.qty.negative?
-    assert_equal "Entry created", flash[:notice]
+    assert_equal I18n.t("entries.create.success"), flash[:notice]
     assert_enqueued_with job: SyncJob
     assert_redirected_to account_url(created_entry.account)
   end

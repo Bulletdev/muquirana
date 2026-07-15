@@ -18,7 +18,10 @@ class CategoriesTest < ApplicationSystemTestCase
   test "can create category" do
     visit categories_url
     click_link I18n.t("categories.new.new_category")
-    fill_in Category.human_attribute_name(:name), with: "My Shiny New Category"
+    # O rotulo do campo vem da view (`label: t(".name_label")` em
+    # categories/_form), nao de Category.human_attribute_name -- que nao tem
+    # traducao e cairia no humanize ("Name").
+    fill_in I18n.t("categories.form.name_label"), with: "My Shiny New Category"
     click_button I18n.t("helpers.submit.create", model: Category.model_name.human)
 
     visit categories_url
@@ -28,7 +31,7 @@ class CategoriesTest < ApplicationSystemTestCase
   test "trying to create a duplicate category fails" do
     visit categories_url
     click_link I18n.t("categories.new.new_category")
-    fill_in Category.human_attribute_name(:name), with: categories(:food_and_drink).name
+    fill_in I18n.t("categories.form.name_label"), with: categories(:food_and_drink).name
     click_button I18n.t("helpers.submit.create", model: Category.model_name.human)
 
     assert_text "#{Category.human_attribute_name(:name)} #{I18n.t('errors.messages.taken')}"

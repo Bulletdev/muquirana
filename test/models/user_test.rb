@@ -136,6 +136,6 @@ class UserTest < ActiveSupport::TestCase
 
     assert_match %r{otpauth://totp/}, user.provisioning_uri
     assert_match %r{secret=#{user.otp_secret}}, user.provisioning_uri
-    assert_match %r{issuer=Maybe}, user.provisioning_uri
+    assert_match %r{issuer=Muquirana}, user.provisioning_uri
   end
 end

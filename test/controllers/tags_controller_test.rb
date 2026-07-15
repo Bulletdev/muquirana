@@ -25,7 +25,8 @@ class TagsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to tags_url
-    assert_equal "Tag created", flash[:notice]
+    # Mensagem traduzida (default_locale = pt-BR): resolve pela mesma chave do controller
+    assert_equal I18n.t("tags.create.created"), flash[:notice]
   end
 
   test "should get edit" do
@@ -37,6 +38,6 @@ class TagsControllerTest < ActionDispatch::IntegrationTest
     patch tag_url(tags.first), params: { tag: { name: "Test Tag" } }
 
     assert_redirected_to tags_url
-    assert_equal "Tag updated", flash[:notice]
+    assert_equal I18n.t("tags.update.updated"), flash[:notice]
   end
 end

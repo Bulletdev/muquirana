@@ -42,7 +42,8 @@ class CreditCardsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 99, created_account.accountable.annual_fee
 
     assert_redirected_to created_account
-    assert_equal "Credit card account created", flash[:notice]
+    # Mensagem traduzida (default_locale = pt-BR): resolve pela mesma chave do controller
+    assert_equal I18n.t("accounts.create.success", type: "Credit card"), flash[:notice]
     assert_enqueued_with(job: SyncJob)
   end
 
@@ -77,7 +78,7 @@ class CreditCardsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 0, @account.accountable.annual_fee
 
     assert_redirected_to @account
-    assert_equal "Credit card account updated", flash[:notice]
+    assert_equal I18n.t("accounts.update.success", type: "Credit card"), flash[:notice]
     assert_enqueued_with(job: SyncJob)
   end
 end
