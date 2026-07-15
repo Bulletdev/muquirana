@@ -20,6 +20,15 @@
 # A imagem sai de .github/workflows/publish.yml (ghcr.io/<owner>/<repo>), que
 # dispara em push na main e em tag v*.
 
+# Obrigatorias (o compose falha na interpolacao se faltar alguma):
+#   APP_DOMAIN         host canonico, sem https:// e sem barra final
+#   SECRET_KEY_BASE    openssl rand -hex 64
+#   POSTGRES_PASSWORD  openssl rand -base64 32
+#   REDIS_PASSWORD     openssl rand -hex 32  <- HEX, nao base64: vai dentro do
+#                      REDIS_URL e o "/" do base64 quebra a URL
+#
+# Detalhes de cada uma em docker/.env.production.example.
+
 services:
   postgres:
     image: postgres:16-alpine
@@ -31,7 +40,7 @@ services:
     environment:
       POSTGRES_DB: '${POSTGRES_DB:-muquirana_production}'
       POSTGRES_USER: '${POSTGRES_USER:-muquirana}'
-      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD:?defina POSTGRES_PASSWORD no painel do Coolify (openssl rand -base64 32)}'
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD:?obrigatoria}'
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-muquirana} -d ${POSTGRES_DB:-muquirana_production}" ]
       interval: 10s
@@ -53,7 +62,7 @@ services:
     # dentro do REDIS_URL (redis://default:SENHA@redis:6379/0) e o alfabeto do
     # base64 inclui "/", que corta a URL: o parser le o resto como porta e
     # estoura com "Port could not be cast to integer".
-    command: 'redis-server --requirepass "${REDIS_PASSWORD:?defina REDIS_PASSWORD no painel do Coolify - use openssl rand -hex 32}" --appendonly yes'
+    command: 'redis-server --requirepass "${REDIS_PASSWORD:?obrigatoria}" --appendonly yes'
     networks:
       - coolify
     volumes:
@@ -129,10 +138,10 @@ services:
       DB_PORT: 5432
       POSTGRES_DB: '${POSTGRES_DB:-muquirana_production}'
       POSTGRES_USER: '${POSTGRES_USER:-muquirana}'
-      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD:?defina POSTGRES_PASSWORD no painel do Coolify (openssl rand -base64 32)}'
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD:?obrigatoria}'
       REDIS_URL: 'redis://default:${REDIS_PASSWORD}@redis:6379/0'
 
-      SECRET_KEY_BASE: '${SECRET_KEY_BASE:?defina SECRET_KEY_BASE no painel do Coolify (openssl rand -hex 64)}'
+      SECRET_KEY_BASE: '${SECRET_KEY_BASE:?obrigatoria}'
 
       # Atras do Traefik o Rails so sabe que a conexao e HTTPS pelo
       # X-Forwarded-Proto -- e o que assume_ssl le. Sem ele, force_ssl
@@ -142,7 +151,7 @@ services:
 
       # Host canonico dos links de e-mail (reset de senha, convite).
       # Sem isto os links saem quebrados.
-      APP_DOMAIN: '${APP_DOMAIN:?defina APP_DOMAIN no painel do Coolify, sem https:// e sem barra final}'
+      APP_DOMAIN: '${APP_DOMAIN:?obrigatoria}'
 
       # AGPLv3 secao 13: o rodape linka o codigo-fonte desta instancia.
       SOURCE_CODE_URL: '${SOURCE_CODE_URL:-https://github.com/Bulletdev/muquirana}'
@@ -191,14 +200,14 @@ services:
       DB_PORT: 5432
       POSTGRES_DB: '${POSTGRES_DB:-muquirana_production}'
       POSTGRES_USER: '${POSTGRES_USER:-muquirana}'
-      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD:?defina POSTGRES_PASSWORD no painel do Coolify (openssl rand -base64 32)}'
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD:?obrigatoria}'
       REDIS_URL: 'redis://default:${REDIS_PASSWORD}@redis:6379/0'
 
-      SECRET_KEY_BASE: '${SECRET_KEY_BASE:?defina SECRET_KEY_BASE no painel do Coolify (openssl rand -hex 64)}'
+      SECRET_KEY_BASE: '${SECRET_KEY_BASE:?obrigatoria}'
 
       # O worker manda e-mail (convite, reset de senha) fora do ciclo da
       # request, entao precisa do APP_DOMAIN tanto quanto o web.
-      APP_DOMAIN: '${APP_DOMAIN:?defina APP_DOMAIN no painel do Coolify, sem https:// e sem barra final}'
+      APP_DOMAIN: '${APP_DOMAIN:?obrigatoria}'
 
       OPENAI_ACCESS_TOKEN: '${OPENAI_ACCESS_TOKEN}'
 
