@@ -49,15 +49,21 @@ class Api::V1::BaseController < ApplicationController
     def authenticate_oauth
       return false unless request.headers["Authorization"].present?
 
-      # Manually verify the token (bypassing doorkeeper_authorize! which had scope issues)
+      # Verificacao manual do token (contorna doorkeeper_authorize!, que tinha
+      # problemas de escopo). Doorkeeper::AccessToken.by_token NAO filtra tokens
+      # revogados -- e so um lookup. Por isso usamos accessible?, que e a mesma
+      # checagem que o doorkeeper_authorize! faria: !expired? && !revoked?.
+      #
+      # Este e o gate de entrada. A autorizacao de escopo por action fica nos
+      # controllers (ensure_read_scope / ensure_write_scope).
       token_string = request.authorization&.split(" ")&.last
       access_token = Doorkeeper::AccessToken.by_token(token_string)
 
       # Check token validity and scope (read_write includes read access)
       has_sufficient_scope = access_token&.scopes&.include?("read") || access_token&.scopes&.include?("read_write")
 
-      unless access_token && !access_token.expired? && has_sufficient_scope
-        render_json({ error: "unauthorized", message: "Access token is invalid, expired, or missing required scope" }, status: :unauthorized)
+      unless access_token&.accessible? && has_sufficient_scope
+        render_json({ error: "unauthorized", message: "Access token is invalid, expired, revoked, or missing required scope" }, status: :unauthorized)
         return false
       end
 

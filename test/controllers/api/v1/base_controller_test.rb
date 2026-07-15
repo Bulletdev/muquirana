@@ -60,6 +60,77 @@ class Api::V1::BaseControllerTest < ActionDispatch::IntegrationTest
     assert_equal @user.email, response_body["user"]
   end
 
+  # Espelha "should reject revoked API key". A ausencia deste teste deixou
+  # passar um bypass de autenticacao: authenticate_oauth verificava expired?
+  # mas nao revoked?, entao toda revogacao de token era inoperante.
+  test "should reject revoked access token" do
+    access_token = Doorkeeper::AccessToken.create!(
+      application: @oauth_app,
+      resource_owner_id: @user.id,
+      scopes: "read"
+    )
+
+    access_token.revoke
+
+    get "/api/v1/test", params: {}, headers: {
+      "Authorization" => "Bearer #{access_token.token}"
+    }
+
+    assert_response :unauthorized
+    response_body = JSON.parse(response.body)
+    assert_equal "unauthorized", response_body["error"]
+  end
+
+  # Token revogado nao pode ESCREVER. Coberto separadamente porque o gate de
+  # entrada e a autorizacao de escopo sao caminhos distintos no controller.
+  test "should reject revoked access token on write" do
+    access_token = Doorkeeper::AccessToken.create!(
+      application: @oauth_app,
+      resource_owner_id: @user.id,
+      scopes: "read_write"
+    )
+
+    access_token.revoke
+
+    post "/api/v1/transactions", params: {
+      transaction: {
+        account_id: @user.family.accounts.first.id,
+        date: Date.current.to_s,
+        amount: "10.00",
+        name: "revoked token write attempt"
+      }
+    }, headers: { "Authorization" => "Bearer #{access_token.token}" }
+
+    assert_response :unauthorized
+  end
+
+  # Revogar via MobileDevice#revoke_all_tokens! precisa cortar acesso de fato.
+  # O token e emitido contra a oauth_application do proprio device, como faz o
+  # Api::V1::AuthController#login -- active_tokens filtra por essa application,
+  # entao um token de outra application nao seria alvo da revogacao.
+  test "should reject access token revoked via device revoke_all_tokens!" do
+    device = @user.mobile_devices.create!(
+      device_id: "test-device-#{SecureRandom.hex(4)}",
+      device_name: "Test", device_type: "ios", os_version: "17", app_version: "1.0"
+    )
+    device_app = device.create_oauth_application!
+
+    access_token = Doorkeeper::AccessToken.create!(
+      application: device_app,
+      resource_owner_id: @user.id,
+      scopes: "read_write",
+      expires_in: 30.days.to_i
+    )
+
+    device.revoke_all_tokens!
+
+    get "/api/v1/test", params: {}, headers: {
+      "Authorization" => "Bearer #{access_token.token}"
+    }
+
+    assert_response :unauthorized
+  end
+
   test "should reject invalid access token" do
     get "/api/v1/test", params: {}, headers: {
       "Authorization" => "Bearer invalid_token"
