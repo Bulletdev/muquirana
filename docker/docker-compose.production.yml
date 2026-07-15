@@ -253,12 +253,22 @@ services:
       SMTP_TLS_ENABLED: '${SMTP_TLS_ENABLED:-true}'
       EMAIL_SENDER: '${EMAIL_SENDER}'
 
-    healthcheck:
-      test: [ "CMD-SHELL", "pgrep -f sidekiq || exit 1" ]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 30s
+    # Sem healthcheck, de proposito.
+    #
+    # O `bundle exec` faz exec, entao o Sidekiq E o PID 1 deste container: se
+    # ele morrer, o container morre e o Docker ja mostra Exited. Um healthcheck
+    # de "o processo existe?" seria tautologico -- nunca poderia falhar com o
+    # container de pe -- e um check que nunca falha e pior que nenhum: aparenta
+    # uma verificacao que nao acontece.
+    #
+    # O anterior era `pgrep -f sidekiq`, e o pgrep NAO existe nesta imagem
+    # (verificado): o worker ficava permanentemente unhealthy no painel com o
+    # Sidekiq rodando normal. Falso negativo permanente treina a ignorar o
+    # painel.
+    #
+    # Um check util aqui seria ler o heartbeat que o Sidekiq grava no Redis --
+    # detectaria o processo vivo mas travado. Precisa de redis-cli na imagem
+    # (nao tem) ou de subir o Rails a cada 30s (caro). Fica como divida.
 
 volumes:
   postgres-data:
