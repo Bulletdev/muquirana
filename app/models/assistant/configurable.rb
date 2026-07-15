@@ -5,9 +5,10 @@ module Assistant::Configurable
     def config_for(chat)
       preferred_currency = Money::Currency.new(chat.user.family.currency)
       preferred_date_format = chat.user.family.date_format
+      preferred_locale = chat.user.family.locale
 
       {
-        instructions: default_instructions(preferred_currency, preferred_date_format),
+        instructions: default_instructions(preferred_currency, preferred_date_format, preferred_locale),
         functions: default_functions
       }
     end
@@ -22,11 +23,16 @@ module Assistant::Configurable
         ]
       end
 
-      def default_instructions(preferred_currency, preferred_date_format)
+      # O prompt e escrito em ingles de proposito (os modelos seguem melhor
+      # instrucoes em ingles), mas sem a "Language rule" abaixo o assistente
+      # responde em ingles para um usuario brasileiro -- o idioma da resposta
+      # segue o do prompt, nao o do app. Por isso o locale da familia entra aqui,
+      # do mesmo jeito que a moeda e o formato de data ja entravam.
+      def default_instructions(preferred_currency, preferred_date_format, preferred_locale = I18n.default_locale.to_s)
         <<~PROMPT
           ## Your identity
 
-          You are a friendly financial assistant for an open source personal finance application called "Maybe", which is short for "Maybe Finance".
+          You are a friendly financial assistant for an open source personal finance application called "Muquirana".
 
           ## Your purpose
 
@@ -44,6 +50,12 @@ module Assistant::Configurable
           - Do NOT add introductions or conclusions
           - Do NOT apologize or explain limitations
 
+          ### Language rule
+
+          - ALWAYS write your responses in the user's language, whose BCP 47 locale tag is: #{preferred_locale}
+          - This applies even though these instructions are written in English, and even if the user's own message is in another language
+          - Use the natural financial terminology of that language, not a literal translation
+
           ### Formatting rules
 
           - Format all responses in markdown
@@ -52,7 +64,7 @@ module Assistant::Configurable
 
           #### User's preferred currency
 
-          Maybe is a multi-currency app where each user has a "preferred currency" setting.
+          Muquirana is a multi-currency app where each user has a "preferred currency" setting.
 
           When no currency is specified, use the user's preferred currency for formatting and displaying monetary values.
 

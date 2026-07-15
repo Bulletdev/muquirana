@@ -284,7 +284,14 @@ class Import < ApplicationRecord
       sanitized
     end
 
+    # O default do upstream era "1,234.56" (US/UK). Num app pt-BR isso fazia a
+    # importacao interpretar errado o CSV que o usuario naturalmente exporta do
+    # banco brasileiro: "1.234,56" viraria 1.23456 em vez de 1234.56.
+    #
+    # E so o valor inicial -- o usuario escolhe outro formato na tela de
+    # configuracao da importacao, e as chaves de NUMBER_FORMATS continuam
+    # identificadores persistidos.
     def set_default_number_format
-      self.number_format ||= "1,234.56" # Default to US/UK format
+      self.number_format ||= "1.234,56"
     end
 end

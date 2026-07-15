@@ -98,7 +98,12 @@ class Transaction::Search
         categories
       )
 
-      if categories.exclude?("Uncategorized")
+      # O filtro submete o NOME da categoria, e o nome de "sem categoria" e
+      # traduzido (Category.uncategorized). Comparar com o literal "Uncategorized"
+      # fazia o exclude? dar sempre true em pt-BR, e o where.not derrubava TODAS
+      # as transacoes sem categoria -- ou seja, o filtro "Sem categoria" nao
+      # retornava nada.
+      if categories.exclude?(Category.uncategorized.name)
         query = query.where.not(category_id: nil)
       end
 
