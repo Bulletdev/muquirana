@@ -48,7 +48,12 @@ services:
     # Sem aspas, uma REDIS_PASSWORD vazia faz o --requirepass engolir o
     # --appendonly e o Redis morre com "wrong number of arguments". O :? falha
     # antes disso, dizendo o que fazer.
-    command: redis-server --requirepass "${REDIS_PASSWORD:?defina REDIS_PASSWORD no painel do Coolify (openssl rand -base64 32)}" --appendonly yes
+    #
+    # Gere com `openssl rand -hex 32` -- HEX, nao base64. Esta senha entra
+    # dentro do REDIS_URL (redis://default:SENHA@redis:6379/0) e o alfabeto do
+    # base64 inclui "/", que corta a URL: o parser le o resto como porta e
+    # estoura com "Port could not be cast to integer".
+    command: 'redis-server --requirepass "${REDIS_PASSWORD:?defina REDIS_PASSWORD no painel do Coolify - use openssl rand -hex 32}" --appendonly yes'
     networks:
       - coolify
     volumes:
