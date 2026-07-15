@@ -1,40 +1,81 @@
-# Muquirana
+```
+███╗   ███╗██╗   ██╗ ██████╗ ██╗   ██╗██╗██████╗  █████╗ ███╗   ██╗ █████╗ 
+████╗ ████║██║   ██║██╔═══██╗██║   ██║██║██╔══██╗██╔══██╗████╗  ██║██╔══██╗
+██╔████╔██║██║   ██║██║   ██║██║   ██║██║██████╔╝███████║██╔██╗ ██║███████║
+██║╚██╔╝██║██║   ██║██║▄▄ ██║██║   ██║██║██╔══██╗██╔══██║██║╚██╗██║██╔══██║
+██║ ╚═╝ ██║╚██████╔╝╚██████╔╝╚██████╔╝██║██║  ██║██║  ██║██║ ╚████║██║  ██║
+╚═╝     ╚═╝ ╚═════╝  ╚══▀▀═╝  ╚═════╝ ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝
+              Finanças pessoais em português — muquirana.com
+```
 
-App de finanças pessoais em português brasileiro.
+<div align="center">
 
-> [!IMPORTANT]
-> **Este é um fork do [Maybe Finance](https://github.com/maybe-finance/maybe).**
->
-> O Muquirana **não é afiliado, mantido, patrocinado nem endossado pela Maybe
-> Finance, Inc.** "Maybe" é marca registrada da Maybe Finance, Inc. e é citada
-> aqui exclusivamente para atribuir a autoria do trabalho original — não como
-> marca deste projeto. Nenhum asset de marca do projeto original é distribuído
-> aqui.
->
-> O projeto original foi arquivado em julho de 2025, na
-> [versão v0.6.0](https://github.com/maybe-finance/maybe/releases/tag/v0.6.0).
-> Este fork partiu do commit `77b5469` daquele repositório em **14/07/2026** e é
-> mantido de forma independente. Defeitos, alterações e decisões daqui em diante
-> são de responsabilidade deste projeto, não do original.
->
-> Distribuído sob a [licença AGPLv3](LICENSE), preservada integralmente, nos
-> mesmos termos do original.
+[![Security Audit](https://github.com/Bulletdev/muquirana/actions/workflows/security.yml/badge.svg)](https://github.com/Bulletdev/muquirana/actions/workflows/security.yml)
 
-## O que mudou em relação ao original
+[![Ruby Version](https://img.shields.io/badge/ruby-3.4.8-CC342D?logo=ruby)](https://www.ruby-lang.org/)
+[![Rails Version](https://img.shields.io/badge/rails-7.2.3.1-CC342D?logo=rubyonrails)](https://rubyonrails.org/)
+[![Hotwire](https://img.shields.io/badge/Hotwire-Turbo%20%2B%20Stimulus-5CD8E5?logo=hotwire)](https://hotwired.dev/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16+-blue.svg?logo=postgresql)](https://www.postgresql.org/)
+[![Redis](https://img.shields.io/badge/Redis-7-DC382D?logo=redis)](https://redis.io/)
+[![PWA](https://img.shields.io/badge/PWA-installable-5A0FC8?logo=pwa)](https://web.dev/progressive-web-apps/)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
-- **Segurança.** O upstream não publica mais correções, então elas passam a ser
-  responsabilidade deste fork. Três vulnerabilidades críticas herdadas foram
-  corrigidas: token OAuth revogado que continuava autenticando (toda revogação
-  do app era inoperante), vazamento de dados entre famílias por chave
-  estrangeira não validada, e token de acesso bancário gravado em texto plano.
-  Auditoria de dependências roda no CI e diariamente.
-- **Dependências.** Ruby 3.4.8 e Rails 7.2.3.1; 165 alertas de vulnerabilidade
-  em gems foram zerados.
-- **Marca.** Identidade visual, textos e domínios de exemplo próprios.
-- **Idioma.** Internacionalização para pt-BR com BRL como moeda padrão
-  *(em andamento)*.
+</div>
 
-## Rodando localmente
+---
+
+```
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  MUQUIRANA — Ruby on Rails 7.2 · Hotwire · PWA                               ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  App de finanças pessoais em pt-BR, self-hosted.                             ║
+║  Monolito server-side · Sem CORS · Sem build de front · Instalável no celular║
+╚══════════════════════════════════════════════════════════════════════════════╝
+```
+
+---
+
+<details>
+<summary><kbd>▶ Funcionalidades (clique para expandir)</kbd></summary>
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  [■] Contas               - Corrente, poupança, cartão, investimento, cripto│
+│  [■] Patrimônio           - Série histórica de saldos e evolução no tempo   │
+│  [■] Transações           - Categorias, tags, comerciantes e regras         │
+│  [■] Orçamento            - Metas por categoria e acompanhamento mensal     │
+│  [■] Investimentos        - Posições, negociações e cotação de ativos       │
+│  [■] Importação CSV       - Mapeamento de colunas por arquivo               │
+│  [■] Multi-família        - Contas compartilhadas com escopo por família    │
+│  [■] Multi-moeda          - Conversão com taxas históricas                  │
+│  [■] Sincronização Plaid  - Bancos US/EU (opcional; não atende banco BR)    │
+│  [■] Assistente de IA     - Conversa sobre as finanças (chave OpenAI sua)   │
+│  [■] PWA                  - Instalável na tela inicial, sem loja de apps    │
+│  [■] API v1               - OAuth2 (Doorkeeper) + API keys com escopo       │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+</details>
+
+---
+
+## Table of Contents
+
+```
+┌──────────────────────────────────────────────────────┐
+│  01 · Quick Start                                    │
+│  02 · Technology Stack                               │
+│  03 · Arquitetura                                    │
+│  04 · Configuração                                   │
+│  05 · Deploy                                         │
+│  06 · Segurança                                      │
+│  07 · Development                                    │
+└──────────────────────────────────────────────────────┘
+```
+
+---
+
+## 01 · Quick Start
 
 Requisitos: Ruby (ver `.ruby-version`), PostgreSQL e Redis.
 
@@ -47,27 +88,174 @@ bin/dev
 bin/rails demo_data:default
 ```
 
-Acesse http://localhost:3000. O seed cria o login `user@muquirana.local` com a
-senha `password`.
+http://localhost:3000 — o seed cria `user@muquirana.local` / `password`.
 
-## Hospedagem
+---
 
-Veja o [guia de Docker](docs/hosting/docker.md).
+## 02 · Technology Stack
+
+```
+┌──────────────────┬──────────────────────────────────────────────────────────┐
+│  Runtime         │  Ruby 3.4.8                                              │
+│  Framework       │  Rails 7.2.3.1 (monolito, não API-only)                  │
+│  Front           │  Hotwire — Turbo + Stimulus + ViewComponent              │
+│  Estilo          │  Tailwind CSS 4 · design system próprio                  │
+│  Banco           │  PostgreSQL 16                                           │
+│  Jobs            │  Sidekiq 8 + sidekiq-cron · Redis 7                      │
+│  Auth (web)      │  Sessão via cookie assinado                              │
+│  Auth (API)      │  Doorkeeper OAuth2 + API keys com escopo                 │
+│  Gráficos        │  D3.js                                                   │
+│  Testes          │  Minitest + fixtures · VCR · Capybara                    │
+└──────────────────┴──────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 03 · Arquitetura
+
+Monolito server-side. O Rails entrega o HTML; o Turbo troca fragmentos de página
+sem recarregar. **Não há front desacoplado, build de JS nem CORS** — HTML e JSON
+saem da mesma origem.
+
+```
+┌──────────────┐     HTML / Turbo Streams      ┌──────────────────────────────┐
+│   Browser    │ ◄───────────────────────────► │  Rails 7.2 (Puma)            │
+│   PWA        │        WebSocket (cable)      │  ├─ Views ERB + ViewComponent│
+└──────────────┘                               │  ├─ Stimulus controllers     │
+                                               │  └─ /api/v1 (Jbuilder)       │
+                                               └───────────┬──────────────────┘
+                                                           │
+                              ┌────────────────────────────┼──────────────┐
+                              ▼                            ▼              ▼
+                     ┌────────────────┐          ┌──────────────┐  ┌────────────┐
+                     │  PostgreSQL    │          │  Redis       │  │  Sidekiq   │
+                     │  dados         │          │  cache/cable │  │  sync/jobs │
+                     └────────────────┘          └──────────────┘  └────────────┘
+```
+
+Convenções: lógica de negócio nos models (`app/models/`), não em `app/services/`.
+Escopo multi-tenant por `Current.family` — não há `default_scope` de tenant, então
+toda query precisa partir da família. Detalhes em [`CLAUDE.md`](CLAUDE.md).
+
+---
+
+## 04 · Configuração
+
+```
+┌────────────────────────┬────────────────────────────────────────────────────┐
+│  SELF_HOSTED           │  true — desliga assinatura/Stripe                  │
+│  SECRET_KEY_BASE       │  obrigatório · openssl rand -hex 64                │
+│  DB_HOST / DB_PORT     │  Postgres                                          │
+│  POSTGRES_USER/PASSWORD│  Postgres                                          │
+│  REDIS_URL             │  Sidekiq e Action Cable                            │
+│  APP_DOMAIN            │  host canônico — usado nos links de e-mail         │
+│  SOURCE_CODE_URL       │  link do código no rodapé (AGPLv3 §13)             │
+│  GITHUB_REPO_OWNER/NAME│  tela "Novidades" · sem isso, não busca nada       │
+│  OPENAI_ACCESS_TOKEN   │  opcional — habilita o assistente de IA            │
+│  PLAID_CLIENT_ID/SECRET│  opcional — sincronização bancária US/EU           │
+└────────────────────────┴────────────────────────────────────────────────────┘
+```
+
+---
+
+## 05 · Deploy
+
+Docker, atrás de proxy reverso com TLS. Ver [`docs/hosting/docker.md`](docs/hosting/docker.md).
+
+Por ser monolito same-origin, o deploy é **um container** com um roteador
+apontando o domínio para a porta 3000. Não há CORS a configurar.
+
+```
+Cloudflare (proxy, SSL Full strict)
+      │
+      ▼
+Traefik  ──►  muquirana:3000  ──►  postgres · redis · sidekiq
+```
 
 > [!WARNING]
-> Antes de expor a instância na internet:
->
-> - **Gere um `SECRET_KEY_BASE` próprio** (`openssl rand -hex 64`). Nunca use o
->   valor de exemplo do `compose.example.yml` — ele é público. Em modo
->   self-hosted esse mesmo segredo deriva as chaves de criptografia do banco:
->   quem o obtiver lê os tokens de acesso bancário e as chaves de API.
-> - **Defina `SOURCE_CODE_URL`** apontando para o repositório desta instância.
->   A AGPLv3 (seção 13) exige que usuários que acessam o app pela rede possam
->   obter o código-fonte correspondente, incluindo suas modificações.
+> - `SSL/TLS` no Cloudflare precisa ser **Full (strict)**. Em *Flexible*, o
+>   Cloudflare fala HTTP com o origin e o Rails com `force_ssl` entra em
+>   redirect loop infinito.
+> - Desligue o **Rocket Loader** — ele reordena scripts e quebra Turbo/Stimulus.
+> - **Nunca** faça cache de HTML na CDN: as páginas têm token CSRF e conteúdo por
+>   usuário.
+> - `RAILS_ASSUME_SSL=true` para o Rails confiar no `X-Forwarded-Proto` do proxy.
 
-## Licença
+---
 
-Distribuído sob a [AGPLv3](LICENSE), herdada do Maybe Finance. Entre outras
-coisas, isso significa que **se você hospedar este software como um serviço
-acessível pela rede, precisa disponibilizar o código-fonte aos seus usuários**,
-inclusive das modificações que fizer.
+## 06 · Segurança
+
+O projeto original foi arquivado em jul/2025 e não publica mais correções — elas
+são responsabilidade deste repositório.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  [■] bundler-audit         - Gate obrigatório no CI + varredura diária      │
+│  [■] Brakeman              - Análise estática a cada PR                     │
+│  [■] AR Encryption         - access_token bancário e API key cifrados       │
+│  [■] Rack::Attack          - Rate limiting na API                           │
+│  [■] Escopo por família    - Validado inclusive nas FKs de transação        │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+Três vulnerabilidades críticas herdadas foram corrigidas, cada uma com teste de
+regressão: token OAuth revogado que continuava autenticando (toda revogação do
+app era inoperante), vazamento de dados entre famílias por chave estrangeira não
+validada, e token de acesso bancário gravado em texto plano. 165 alertas de
+vulnerabilidade em dependências foram zerados.
+
+> [!WARNING]
+> Gere um `SECRET_KEY_BASE` próprio antes de expor a instância. **Nunca** use o
+> valor de exemplo do `compose.example.yml` — ele é público. Em modo self-hosted
+> esse mesmo segredo deriva as chaves de criptografia do banco: quem o obtiver lê
+> os tokens de acesso bancário e as chaves de API.
+
+---
+
+## 07 · Development
+
+```sh
+bin/rails test                  # suíte completa
+bin/rails test:system           # system tests (mais lentos)
+bin/rubocop                     # lint Ruby
+bundle exec erb_lint ./app/**/*.erb
+bin/brakeman --no-pager         # análise estática
+bundle exec bundler-audit check --update
+```
+
+Antes de abrir PR: testes, rubocop, erb_lint e brakeman precisam passar.
+Convenções e arquitetura em [`CLAUDE.md`](CLAUDE.md).
+
+---
+
+**Última atualização**: 2026-07-15
+**Ruby**: 3.4.8 · **Rails**: 7.2.3.1
+**Locale padrão**: pt-BR · **Moeda**: BRL
+
+---
+
+<details>
+<summary><kbd>▶ Fork do Maybe Finance · não afiliado nem endossado · AGPLv3 (clique para expandir)</kbd></summary>
+
+<br>
+
+O Muquirana é um fork do [Maybe Finance](https://github.com/maybe-finance/maybe),
+derivado do commit `77b5469` (tag `v0.6.0`) em **14/07/2026** e mantido de forma
+independente desde então.
+
+**Não é afiliado, mantido, patrocinado nem endossado pela Maybe Finance, Inc.**
+"Maybe" é marca registrada da Maybe Finance, Inc., citada aqui exclusivamente
+para atribuir a autoria do trabalho original — não como marca deste projeto.
+Nenhum asset de marca do projeto original é distribuído aqui.
+
+O projeto original foi arquivado em julho de 2025, na
+[versão v0.6.0](https://github.com/maybe-finance/maybe/releases/tag/v0.6.0).
+Defeitos, alterações e decisões deste repositório são de responsabilidade dele,
+não do original.
+
+Distribuído sob a [licença AGPLv3](LICENSE), preservada integralmente nos mesmos
+termos do original. Entre outras coisas, isso significa que **hospedar este
+software como serviço acessível pela rede obriga a disponibilizar o código-fonte
+aos usuários**, inclusive das modificações feitas.
+
+</details>
