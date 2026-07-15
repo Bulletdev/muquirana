@@ -1,0 +1,218 @@
+# Muquirana — deploy de producao no Coolify
+#
+# Mesma estrutura do docker-compose.production.yml da prostaff-api, que ja roda
+# nesta VPS: rede `coolify` externa, labels `coolify.managed`, roteamento por
+# Host no Traefik com TLS do Let's Encrypt e healthcheck em /up.
+#
+# DIFERENCA IMPORTANTE EM RELACAO A PROSTAFF: aqui NAO existe middleware de CORS.
+# A prostaff-api e API-only e o front vive em outra origem, entao precisa liberar
+# CORS. O Muquirana e um monolito Hotwire -- HTML, Turbo Streams, assets e
+# WebSocket saem todos da MESMA origem. CORS nao se aplica; adicionar so criaria
+# superficie a toa.
+#
+# Como usar no Coolify:
+#   1. New Resource > Docker Compose, aponte para este arquivo.
+#   2. Cole as variaveis de docker/.env.production.example no painel.
+#   3. Aponte o dominio para o IP da VPS no Cloudflare (registro A, proxied).
+#   4. SSL do Cloudflare em "Full (strict)" -- NUNCA "Flexible": com
+#      RAILS_FORCE_SSL=true, o modo Flexible gera loop infinito de redirect.
+#
+# A imagem sai de .github/workflows/publish.yml (ghcr.io/<owner>/<repo>), que
+# dispara em push na main e em tag v*.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    networks:
+      - coolify
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: '${POSTGRES_DB:-muquirana_production}'
+      POSTGRES_USER: '${POSTGRES_USER:-muquirana}'
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-muquirana} -d ${POSTGRES_DB:-muquirana_production}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    labels:
+      - coolify.managed=true
+      - coolify.type=application
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD} --appendonly yes
+    networks:
+      - coolify
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    labels:
+      - coolify.managed=true
+      - coolify.type=application
+
+  web:
+    image: '${MUQUIRANA_IMAGE:-ghcr.io/bulletdev/muquirana:latest}'
+    restart: unless-stopped
+    stop_grace_period: 35s
+    networks:
+      - coolify
+    expose:
+      - "3000"
+    volumes:
+      # ActiveStorage em disco: anexos (foto de perfil, ZIP de exportacao).
+      # Sem volume, some a cada redeploy.
+      - app-storage:/rails/storage
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    labels:
+      - coolify.managed=true
+      - coolify.type=application
+
+      # Traefik — roteamento por Host (HTTPS)
+      - traefik.enable=true
+      - traefik.http.routers.muquirana.rule=Host(`${APP_DOMAIN}`)
+      - traefik.http.routers.muquirana.entrypoints=https
+      - traefik.http.routers.muquirana.tls=true
+      - traefik.http.routers.muquirana.tls.certresolver=letsencrypt
+      - traefik.http.services.muquirana.loadbalancer.server.port=3000
+      - traefik.http.services.muquirana.loadbalancer.server.scheme=http
+
+      # Redirect HTTP -> HTTPS
+      - traefik.http.routers.muquirana-http.rule=Host(`${APP_DOMAIN}`)
+      - traefik.http.routers.muquirana-http.entrypoints=http
+      - traefik.http.routers.muquirana-http.middlewares=muquirana-redirect-https
+      - traefik.http.middlewares.muquirana-redirect-https.redirectscheme.scheme=https
+
+      - traefik.docker.network=coolify
+
+      # Healthcheck do Traefik sobre o /up do Rails (defesa em profundidade
+      # sobre o healthcheck do Docker abaixo)
+      - traefik.http.services.muquirana.loadbalancer.healthcheck.path=/up
+      - traefik.http.services.muquirana.loadbalancer.healthcheck.interval=10s
+      - traefik.http.services.muquirana.loadbalancer.healthcheck.timeout=5s
+
+    environment:
+      RAILS_ENV: production
+      RAILS_LOG_TO_STDOUT: 'true'
+      WEB_CONCURRENCY: '${WEB_CONCURRENCY:-2}'
+      RAILS_MAX_THREADS: '${RAILS_MAX_THREADS:-5}'
+      PORT: 3000
+
+      # Desliga o paywall/Stripe (subscriptions_controller.rb:3)
+      SELF_HOSTED: 'true'
+
+      DB_HOST: postgres
+      DB_PORT: 5432
+      POSTGRES_DB: '${POSTGRES_DB:-muquirana_production}'
+      POSTGRES_USER: '${POSTGRES_USER:-muquirana}'
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
+      REDIS_URL: 'redis://default:${REDIS_PASSWORD}@redis:6379/0'
+
+      SECRET_KEY_BASE: '${SECRET_KEY_BASE}'
+
+      # Atras do Traefik o Rails so sabe que a conexao e HTTPS pelo
+      # X-Forwarded-Proto -- e o que assume_ssl le. Sem ele, force_ssl
+      # redireciona em loop.
+      RAILS_FORCE_SSL: '${RAILS_FORCE_SSL:-true}'
+      RAILS_ASSUME_SSL: '${RAILS_ASSUME_SSL:-true}'
+
+      # Host canonico dos links de e-mail (reset de senha, convite).
+      # Sem isto os links saem quebrados.
+      APP_DOMAIN: '${APP_DOMAIN}'
+
+      # AGPLv3 secao 13: o rodape linka o codigo-fonte desta instancia.
+      SOURCE_CODE_URL: '${SOURCE_CODE_URL:-https://github.com/Bulletdev/muquirana}'
+
+      # Tela "Novidades" e os links de versao/commit no menu. Sem isto, nao ha
+      # chamada e o app nao exibe release notes de projeto nenhum.
+      GITHUB_REPO_OWNER: '${GITHUB_REPO_OWNER:-Bulletdev}'
+      GITHUB_REPO_NAME: '${GITHUB_REPO_NAME:-muquirana}'
+
+      OPENAI_ACCESS_TOKEN: '${OPENAI_ACCESS_TOKEN}'
+
+      SMTP_ADDRESS: '${SMTP_ADDRESS}'
+      SMTP_PORT: '${SMTP_PORT:-587}'
+      SMTP_USERNAME: '${SMTP_USERNAME}'
+      SMTP_PASSWORD: '${SMTP_PASSWORD}'
+      SMTP_TLS_ENABLED: '${SMTP_TLS_ENABLED:-true}'
+      EMAIL_SENDER: '${EMAIL_SENDER}'
+
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:3000/up || exit 1" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  worker:
+    image: '${MUQUIRANA_IMAGE:-ghcr.io/bulletdev/muquirana:latest}'
+    command: 'bundle exec sidekiq -C config/sidekiq.yml'
+    restart: unless-stopped
+    networks:
+      - coolify
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    labels:
+      - coolify.managed=true
+      - coolify.type=application
+    environment:
+      RAILS_ENV: production
+      RAILS_LOG_TO_STDOUT: 'true'
+      SELF_HOSTED: 'true'
+
+      DB_HOST: postgres
+      DB_PORT: 5432
+      POSTGRES_DB: '${POSTGRES_DB:-muquirana_production}'
+      POSTGRES_USER: '${POSTGRES_USER:-muquirana}'
+      POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
+      REDIS_URL: 'redis://default:${REDIS_PASSWORD}@redis:6379/0'
+
+      SECRET_KEY_BASE: '${SECRET_KEY_BASE}'
+
+      # O worker manda e-mail (convite, reset de senha) fora do ciclo da
+      # request, entao precisa do APP_DOMAIN tanto quanto o web.
+      APP_DOMAIN: '${APP_DOMAIN}'
+
+      OPENAI_ACCESS_TOKEN: '${OPENAI_ACCESS_TOKEN}'
+
+      SMTP_ADDRESS: '${SMTP_ADDRESS}'
+      SMTP_PORT: '${SMTP_PORT:-587}'
+      SMTP_USERNAME: '${SMTP_USERNAME}'
+      SMTP_PASSWORD: '${SMTP_PASSWORD}'
+      SMTP_TLS_ENABLED: '${SMTP_TLS_ENABLED:-true}'
+      EMAIL_SENDER: '${EMAIL_SENDER}'
+
+    healthcheck:
+      test: [ "CMD-SHELL", "pgrep -f sidekiq || exit 1" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  postgres-data:
+    driver: local
+  redis-data:
+    driver: local
+  app-storage:
+    driver: local
+
+networks:
+  coolify:
+    external: true

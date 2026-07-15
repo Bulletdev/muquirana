@@ -1,56 +1,66 @@
 # ===========================================================================
-# Example Docker Compose file
+# Exemplo de Docker Compose — Muquirana
 # ===========================================================================
 #
-# Purpose:
-# --------
+# Para rodar o Muquirana na sua maquina ou numa VPS simples.
 #
-# This file is an example Docker Compose configuration for self hosting
-# Maybe on your local machine or on a cloud VPS.
+# SE VOCE USA COOLIFY, use docker/docker-compose.production.yml -- ele delega o
+# proxy reverso e o TLS ao Coolify/Traefik e nao expoe portas na VPS.
 #
-# The configuration below is a "standard" setup that works out of the box,
-# but if you're running this outside of a local network, it is recommended
-# to set the environment variables for extra security.
+# Guia: docs/hosting/docker.md
 #
-# Setup:
-# ------
-#
-# To run this, you should read the setup guide:
-#
-# https://github.com/maybe-finance/maybe/blob/main/docs/hosting/docker.md
-#
-# Troubleshooting:
-# ----------------
-#
-# If you run into problems, you should open a Discussion here:
-#
-# https://github.com/maybe-finance/maybe/discussions/categories/general
-#
+# ---------------------------------------------------------------------------
+# ANTES DE EXPOR NA INTERNET
+# ---------------------------------------------------------------------------
+#   1. Gere um SECRET_KEY_BASE proprio:  openssl rand -hex 64
+#      O default abaixo e PUBLICO e serve so para subir local. Em modo
+#      self-hosted ele deriva as chaves de criptografia do banco: quem o tiver
+#      le os tokens de acesso bancario e as chaves de API.
+#   2. Troque POSTGRES_PASSWORD.
+#   3. Se houver proxy com TLS na frente, ligue RAILS_FORCE_SSL e
+#      RAILS_ASSUME_SSL, e defina APP_DOMAIN.
 
 x-db-env: &db_env
-  POSTGRES_USER: ${POSTGRES_USER:-maybe_user}
-  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-maybe_password}
-  POSTGRES_DB: ${POSTGRES_DB:-maybe_production}
+  POSTGRES_USER: ${POSTGRES_USER:-muquirana}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-muquirana_local_only}
+  POSTGRES_DB: ${POSTGRES_DB:-muquirana_production}
 
 x-rails-env: &rails_env
   <<: *db_env
-  SECRET_KEY_BASE: ${SECRET_KEY_BASE:-a7523c3d0ae56415046ad8abae168d71074a79534a7062258f8d1d51ac2f76d3c3bc86d86b6b0b307df30d9a6a90a2066a3fa9e67c5e6f374dbd7dd4e0778e13}
+  SECRET_KEY_BASE: ${SECRET_KEY_BASE:-troque_isto_openssl_rand_hex_64}
   SELF_HOSTED: "true"
-  RAILS_FORCE_SSL: "false"
-  RAILS_ASSUME_SSL: "false"
+  # Deixe false para rodar em http://localhost. Ligue os dois quando houver
+  # proxy com TLS na frente -- ASSUME_SSL faz o Rails confiar no
+  # X-Forwarded-Proto, sem ele o FORCE_SSL entra em loop de redirect.
+  RAILS_FORCE_SSL: ${RAILS_FORCE_SSL:-false}
+  RAILS_ASSUME_SSL: ${RAILS_ASSUME_SSL:-false}
   DB_HOST: db
   DB_PORT: 5432
   REDIS_URL: redis://redis:6379/1
-# NOTE: enabling OpenAI will incur costs when you use AI-related features in the app (chat, rules).  Make sure you have set appropriate spend limits on your account before adding this.
+  # Host canonico dos links de e-mail (reset de senha, convite).
+  APP_DOMAIN: ${APP_DOMAIN:-localhost:3000}
+  # AGPLv3 secao 13: o rodape linka o codigo-fonte desta instancia. Se voce
+  # modificar o app, aponte para o SEU fork.
+  SOURCE_CODE_URL: ${SOURCE_CODE_URL:-https://github.com/Bulletdev/muquirana}
+  # Tela "Novidades". Sem isto, nenhuma chamada e feita.
+  GITHUB_REPO_OWNER: ${GITHUB_REPO_OWNER:-Bulletdev}
+  GITHUB_REPO_NAME: ${GITHUB_REPO_NAME:-muquirana}
+  # Opcional: habilita o assistente de IA. Gera custo na sua conta OpenAI --
+  # configure limite de gasto antes de ativar.
   OPENAI_ACCESS_TOKEN: ${OPENAI_ACCESS_TOKEN}
 
 services:
+  # A imagem sai de .github/workflows/publish.yml (push na main e tag v*).
+  #
+  # O compose herdado do projeto original apontava para
+  # `ghcr.io/maybe-finance/maybe:latest` -- ou seja, subia a imagem do Maybe, e
+  # nao a deste fork.
   web:
-    image: ghcr.io/maybe-finance/maybe:latest
+    image: ${MUQUIRANA_IMAGE:-ghcr.io/bulletdev/muquirana:latest}
     volumes:
       - app-storage:/rails/storage
     ports:
-      - 3000:3000
+      - "${PORT:-3000}:3000"
     restart: unless-stopped
     environment:
       <<: *rails_env
@@ -59,20 +69,28 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:3000/up || exit 1" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
     networks:
-      - maybe_net
+      - muquirana_net
 
   worker:
-    image: ghcr.io/maybe-finance/maybe:latest
-    command: bundle exec sidekiq
+    image: ${MUQUIRANA_IMAGE:-ghcr.io/bulletdev/muquirana:latest}
+    command: bundle exec sidekiq -C config/sidekiq.yml
     restart: unless-stopped
     depends_on:
+      db:
+        condition: service_healthy
       redis:
         condition: service_healthy
     environment:
       <<: *rails_env
     networks:
-      - maybe_net
+      - muquirana_net
 
   db:
     image: postgres:16
@@ -87,10 +105,10 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - maybe_net
+      - muquirana_net
 
   redis:
-    image: redis:latest
+    image: redis:7
     restart: unless-stopped
     volumes:
       - redis-data:/data
@@ -100,7 +118,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - maybe_net
+      - muquirana_net
 
 volumes:
   app-storage:
@@ -108,5 +126,5 @@ volumes:
   redis-data:
 
 networks:
-  maybe_net:
+  muquirana_net:
     driver: bridge
