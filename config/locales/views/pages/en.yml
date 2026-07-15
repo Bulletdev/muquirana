@@ -50,45 +50,57 @@ en:
       title: Leave feedback
     home:
       cta_primary: Host my own
-      cta_secondary: View the code
-      data_body: Muquirana is free software under the AGPLv3 license. Run it on your
-        own machine, read every line, change whatever you want, and keep using it even
-        if this project stops tomorrow. Your entries live in your database, not ours.
+      cta_secondary: See the demo
+      data_body: |-
+        Muquirana is free software under the AGPLv3 license.
+        Run it on your own machine, read every line, change whatever you want, and keep using it even if this project stops tomorrow.
+        Your entries live in your database, not ours.
       data_title: Your data stays with you
       eyebrow: Personal finance · open source
       feature_contas_body: Checking, savings, credit card, investments, crypto, property,
         vehicles and loans. Each with its own history and balance.
       feature_contas_title: Accounts
-      feature_ia_body: Ask about your numbers and get answers grounded in your own data.
-        You bring your OpenAI key, and you can leave it off.
+      feature_ia_body: Ask about your numbers and get answers grounded in your own
+        data. You bring your OpenAI key, and you can leave it off.
       feature_ia_title: AI assistant
       feature_importacao_body: Bring your bank statement as CSV and map each column.
         No bank integration required.
       feature_importacao_title: CSV import
-      feature_orcamento_body: Set how much you plan to spend per category each month and
-        track how much is left.
+      feature_orcamento_body: Set how much you plan to spend per category each month
+        and track how much is left.
       feature_orcamento_title: Budget
-      feature_patrimonio_body: Everything you own minus everything you owe, month by month,
-        with the trend over time.
+      feature_patrimonio_body: Everything you own minus everything you owe, month
+        by month, with the trend over time.
       feature_patrimonio_title: Net worth
-      feature_transacoes_body: Categories, tags, merchants, and rules that classify the
-        recurring ones for you.
+      feature_transacoes_body: Categories, tags, merchants, and rules that classify
+        the recurring ones for you.
       feature_transacoes_title: Transactions
       features_title: What it does
+      footer_col_project: Project
+      footer_col_selfhost: Self-host
+      footer_compose: Compose file
+      footer_issue: Report an issue
       footer_license: AGPLv3 · %{year}
+      footer_quickstart: Get started
+      footer_releases: Releases
+      footer_tagline: Personal finance. Open source, your data, no subscription.
       headline: Too tight-fisted to pay for a finance app subscription.
+      language_en: English
+      language_pt: Portuguese
       meta_description: Open-source, self-hosted personal finance. Net worth, accounts,
         transactions and budgets. No subscription.
       meta_title: Muquirana · Personal finance, no subscription
       nav_code: Code
       nav_enter: Sign in
+      nav_switch_language_aria: 'Language: %{current}. Switch to %{language}'
       price: R$ 0.00
-      price_explainer: No plans, no trial that turns into a charge, no feature locked
-        behind an upgrade. The code is open and you host it wherever you like — the only
-        bill is your own infrastructure.
+      price_explainer: |-
+        No plans, no trial that turns into a charge, no feature locked behind an upgrade.
+        The code is open and you host it wherever you like - the only bill is your own infrastructure.
       price_period: per month, forever
-      subhead: So host your own. Track net worth, accounts, transactions and budgets,
-        with the code in your hands.
+      subhead: |-
+        So host your own.
+        Track net worth, accounts, transactions and budgets, with the code in your hands.
     redis_configuration_error:
       heading: Redis Configuration Required
       page_title: Redis Configuration Required - Muquirana
@@ -99,6 +111,6 @@ en:
       subtitle: Your self-hosted Muquirana installation needs Redis to be properly
         configured.
       why_body: Muquirana uses Redis to power Sidekiq background jobs for tasks like
-        syncing account data, processing imports, and other background operations that
-        keep your financial data up to date.
+        syncing account data, processing imports, and other background operations
+        that keep your financial data up to date.
       why_title: Why is Redis required?

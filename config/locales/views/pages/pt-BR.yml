@@ -51,11 +51,11 @@ pt-BR:
       title: Deixe seu feedback
     home:
       cta_primary: Hospedar o meu
-      cta_secondary: Ver o código
-      data_body: O Muquirana é software livre, sob licença AGPLv3. Você pode rodar
-        na sua máquina, ler cada linha do código, mudar o que quiser e continuar
-        usando mesmo que este projeto pare amanhã. Seus lançamentos ficam no seu
-        banco de dados, não no nosso.
+      cta_secondary: Ver a demo
+      data_body: |-
+        O Muquirana é software livre, sob licença AGPLv3.
+        Você pode rodar na sua máquina, ler cada linha do código, mudar o que quiser e continuar usando mesmo que este projeto pare amanhã.
+        Seus lançamentos ficam no seu banco de dados, não no nosso.
       data_title: Seus dados ficam com você
       eyebrow: Finanças pessoais · código aberto
       feature_contas_body: Corrente, poupança, cartão, investimento, cripto, imóvel,
@@ -77,20 +77,31 @@ pt-BR:
         classificam sozinhas o que se repete.
       feature_transacoes_title: Transações
       features_title: O que ele faz
+      footer_col_project: Projeto
+      footer_col_selfhost: Hospedar
+      footer_compose: Arquivo Compose
+      footer_issue: Relatar um problema
       footer_license: AGPLv3 · %{year}
+      footer_quickstart: Começar
+      footer_releases: Versões
+      footer_tagline: Finanças pessoais. Código aberto, seus dados, sem assinatura.
       headline: Muquirana demais para pagar assinatura de app de finanças.
+      language_en: Inglês
+      language_pt: Português
       meta_description: App de finanças pessoais em português, código aberto e self-hosted.
         Patrimônio, contas, transações e orçamento em reais. Sem assinatura.
       meta_title: Muquirana · Finanças pessoais em português, sem assinatura
       nav_code: Código
       nav_enter: Entrar
+      nav_switch_language_aria: 'Idioma: %{current}. Mudar para %{language}'
       price: R$ 0,00
-      price_explainer: Não tem plano, não tem teste grátis que vira cobrança, não tem
-        recurso escondido atrás de upgrade. O código é aberto e você hospeda onde
-        quiser — a conta que sobra é a da sua própria infraestrutura.
+      price_explainer: |-
+        Não tem plano, não tem teste grátis que vira cobrança, não tem recurso escondido atrás de upgrade.
+        O código é aberto e você hospeda onde quiser - a conta que sobra é a da sua própria infraestrutura.
       price_period: por mês, para sempre
-      subhead: Então hospede o seu. Acompanhe patrimônio, contas, transações e orçamento
-        em reais, com o código na sua mão.
+      subhead: |-
+        Então hospede o seu.
+        Acompanhe patrimônio, contas, transações e orçamento em reais, com o código na sua mão.
     redis_configuration_error:
       heading: Configuração do Redis necessária
       page_title: Configuração do Redis necessária - Muquirana

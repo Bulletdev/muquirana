@@ -1,0 +1,33 @@
+<%#
+  Assinatura de autoria. Usada na landing (pages/home) e nas telas de entrada
+  (layouts/auth: login e cadastro).
+
+  Existe como partial para o link, o aria-label e o texto terem UMA fonte so:
+  se o endereco mudar, muda num lugar.
+
+  Por que cor vem por parametro em vez de estar aqui dentro:
+
+  A logo e um PNG BRANCO. Onde ela cai muda o que precisa ser feito:
+
+  - landing  -> fundo escuro fixo (#0B0B0B) e o <html> NAO tem data-theme.
+                Logo branca, sem filtro. Variante de tema ali nao resolve
+                nada, porque nao ha data-theme para casar.
+  - auth     -> fundo bg-surface, que E tematico (quase branco no claro,
+                preto no escuro) via data-theme. A logo branca sumiria no
+                tema claro, entao inverte por padrao e volta ao branco no
+                theme-dark.
+
+  locals:
+    text_class: classes do "Feito por"
+    logo_class: classes da imagem (filtro/opacidade)
+%>
+<a href="https://www.michaelbullet.dev/links"
+   target="_blank" rel="noopener noreferrer"
+   aria-label="<%= t(".aria") %>"
+   class="group inline-flex items-center gap-2.5 shrink-0 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5BFF] focus-visible:ring-offset-2 <%= local_assigns[:ring_offset_class] %>">
+  <span class="text-xs transition-colors <%= text_class %>"><%= t(".made_by") %></span>
+  <%# alt vazio de proposito: o wordmark ja diz "Bullet" e o nome acessivel
+      vive no aria-label do link -- senao um leitor de tela leria duas vezes. %>
+  <%= image_tag "bullet-logo.png", alt: "", width: 80, height: 32,
+        class: "h-8 w-auto transition-opacity #{logo_class}" %>
+</a>

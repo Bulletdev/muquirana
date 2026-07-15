@@ -30,13 +30,49 @@
 
 <div class="min-h-full flex flex-col">
 
-  <%# ---------------------------------------------------------------- nav %>
+  <%# ---------------------------------------------------------------- nav
+      A logo e line art monocromatica: `invert` a deixa clara sobre o breu. %>
   <header class="w-full max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
-    <span class="font-mono text-sm tracking-tight text-[#FAFAFA]">muquirana</span>
+    <%= link_to root_path, class: "flex items-center gap-2.5 group", "aria-label": "Muquirana" do %>
+      <%= image_tag "logomark.png", alt: "", width: 28, height: 28, class: "w-7 h-7 invert opacity-90 group-hover:opacity-100 transition-opacity" %>
+      <span class="text-base font-medium tracking-tight text-[#FAFAFA]">Muquirana</span>
+    <% end %>
 
-    <%# So "Entrar" aqui: o link do codigo ja e o botao principal na primeira
-        dobra, e repetir o mesmo destino no topo nao da caminho novo a ninguem. %>
-    <nav class="flex items-center text-sm">
+    <nav class="flex items-center gap-5 text-sm">
+      <%#
+        Seletor de idioma.
+
+        Existe porque o locale era resolvido so pela familia do usuario: quem
+        chega sem conta caia sempre em pt-BR, e a traducao en -- que esta
+        completa -- era inalcancavel na landing, no login e no cadastro.
+
+        Sem bandeira de proposito: bandeira e pais, nao idioma. A dos EUA
+        deixaria de fora quem le em ingles fora de la, e a do Brasil faria o
+        mesmo com Portugal. O codigo do idioma nao tem esse problema.
+
+        Mostra o idioma ATUAL, nao o destino: e a convencao que o usuario
+        reconhece (um seletor exibe o que esta selecionado, como um <select>).
+        Em portugues le-se "PT"; clicando, vai para o ingles.
+
+        O aria-label carrega o destino porque o rotulo visivel sozinho ("PT")
+        nao diz o que o clique faz -- quem navega por leitor de tela precisa
+        dessa parte, que para quem enxerga esta implicita no contexto.
+      %>
+      <% atual = I18n.locale.to_s == "en" ? "en" : "pt-BR" %>
+      <% destino = atual == "en" ? "pt-BR" : "en" %>
+      <%= link_to url_for(locale: destino),
+            class: "inline-flex items-center gap-1.5 text-[#9E9E9E] hover:text-[#FAFAFA] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5BFF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B] rounded",
+            "aria-label": t("pages.home.nav_switch_language_aria",
+                            current: t("pages.home.language_#{atual == "en" ? "en" : "pt"}"),
+                            language: t("pages.home.language_#{destino == "en" ? "en" : "pt"}")) do %>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+          <path d="M2 12h20"></path>
+        </svg>
+        <span class="font-mono text-xs tracking-wider"><%= atual == "en" ? "EN" : "PT" %></span>
+      <% end %>
+
       <%= link_to t("pages.home.nav_enter"), new_session_path,
             class: "text-[#9E9E9E] hover:text-[#FAFAFA] transition-colors" %>
     </nav>
@@ -56,10 +92,27 @@
         <%= t("pages.home.headline") %>
       </h1>
 
-      <p class="mt-6 text-lg md:text-xl text-[#9E9E9E] max-w-xl leading-relaxed">
+      <%# whitespace-pre-line: o texto vem do locale como bloco literal (|-), uma
+          frase por linha, e as quebras sao de quem escreveu a copy -- nao do
+          acaso da largura da tela. pre-line preserva o \n e ainda deixa a linha
+          longa quebrar sozinha no mobile. %>
+      <p class="mt-6 text-lg md:text-xl text-[#9E9E9E] max-w-xl leading-relaxed whitespace-pre-line">
         <%= t("pages.home.subhead") %>
       </p>
 
+      <%#
+        Dois botoes, dois destinos diferentes.
+
+        Antes o secundario era "Ver o codigo" apontando para a raiz do
+        repositorio -- o primario ja levava ao README do mesmo repositorio, na
+        ancora do quick start. Eram a mesma pagina do GitHub duas vezes: o
+        segundo botao nao pagava o espaco que ocupava. O link do codigo continua
+        no rodape, na coluna PROJETO, que e onde ele pertence.
+
+        "Ver a demo" so aparece com DEMO_URL configurada. A demo e uma
+        instancia separada, com banco proprio e nenhum dado real -- ver
+        docker/.env.production.example.
+      %>
       <div class="mt-10 flex flex-col sm:flex-row gap-3">
         <% if repo_url %>
           <a href="<%= repo_url %>#01--quick-start"
@@ -67,9 +120,10 @@
              class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-[#FAFAFA] text-[#0B0B0B] font-medium hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5BFF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B]">
             <%= t("pages.home.cta_primary") %>
           </a>
+        <% end %>
 
-          <a href="<%= repo_url %>"
-             target="_blank" rel="noopener noreferrer"
+        <% if @demo_url %>
+          <a href="<%= @demo_url %>"
              class="inline-flex items-center justify-center px-6 py-3 rounded-full border border-[#363636] text-[#FAFAFA] hover:border-[#5C5C5C] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5BFF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B]">
             <%= t("pages.home.cta_secondary") %>
           </a>
@@ -97,7 +151,7 @@
           </p>
         </div>
 
-        <p class="text-lg md:text-xl text-[#9E9E9E] leading-relaxed max-w-lg">
+        <p class="text-lg md:text-xl text-[#9E9E9E] leading-relaxed max-w-lg whitespace-pre-line">
           <%= t("pages.home.price_explainer") %>
         </p>
       </div>
@@ -132,7 +186,7 @@
         <h2 class="text-2xl md:text-3xl font-medium tracking-tight mb-4">
           <%= t("pages.home.data_title") %>
         </h2>
-        <p class="text-lg text-[#9E9E9E] leading-relaxed">
+        <p class="text-lg text-[#9E9E9E] leading-relaxed whitespace-pre-line">
           <%= t("pages.home.data_body") %>
         </p>
 
@@ -142,24 +196,91 @@
   </main>
 
   <%# -------------------------------------------------------------- rodape
-      Sem aviso de nao-afiliacao ao projeto original aqui: esta pagina e
-      autoral e nao usa marca, texto nem design de terceiro -- citar um nome
-      que nao aparece em lugar nenhum CRIA a associacao em vez de negar. A
-      atribuicao vive no README e no codigo-fonte, que e onde a licenca a
-      exige.
+      Sem colunas de "Produto / Empresa / Recursos": este projeto nao tem
+      /features, /pricing, /about nem /contact -- inventar as colunas daria
+      links quebrados. Aqui so entra destino que existe de verdade.
 
-      O link do codigo fica: a AGPLv3 secao 13 obriga a oferecer o fonte a
-      quem usa o app pela rede, e a landing e a porta de entrada. %>
-  <footer class="w-full max-w-6xl mx-auto px-6 py-12 border-t border-[#242424]">
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 text-sm text-[#737373]">
-      <p><%= t("pages.home.footer_license", year: Date.current.year) %></p>
+      Sem aviso de nao-afiliacao ao projeto original: esta pagina e autoral e
+      nao usa marca, texto nem design de terceiro. Citar um nome que nao
+      aparece em lugar nenhum CRIA a associacao em vez de negar. A atribuicao
+      vive no README e no codigo-fonte, onde a licenca a exige.
 
-      <div class="flex items-center gap-8">
-        <% if repo_url %>
-          <a href="<%= repo_url %>" target="_blank" rel="noopener noreferrer"
-             class="hover:text-[#FAFAFA] transition-colors"><%= t("pages.home.nav_code") %></a>
-        <% end %>
-        <%= link_to t("pages.home.nav_enter"), new_session_path, class: "hover:text-[#FAFAFA] transition-colors" %>
+      O link do codigo fica por obrigacao da AGPLv3 secao 13: quem usa o app
+      pela rede tem direito de receber o fonte, e a landing e a porta. %>
+  <footer class="w-full border-t border-[#242424] mt-8">
+    <div class="w-full max-w-6xl mx-auto px-6 py-14">
+      <%# grid-cols arbitrario (ex.: md:grid-cols-[1.5fr_1fr_1fr]) NAO e gerado
+          pelo tailwind aqui -- a classe some do CSS e o grid cai para uma
+          coluna so. Usar utilitario padrao: a marca ocupa 2, sobra 1 para cada
+          coluna de links. %>
+      <div class="grid grid-cols-2 gap-10 md:grid-cols-4">
+
+        <div class="col-span-2">
+          <%= link_to root_path, class: "flex items-center gap-2.5 mb-4", "aria-label": "Muquirana" do %>
+            <%= image_tag "logomark.png", alt: "", width: 24, height: 24, class: "w-6 h-6 invert opacity-70" %>
+            <span class="text-sm font-medium text-[#9E9E9E]">Muquirana</span>
+          <% end %>
+          <p class="text-sm text-[#5C5C5C] leading-relaxed max-w-xs">
+            <%= t("pages.home.footer_tagline") %>
+          </p>
+        </div>
+
+        <div>
+          <p class="text-xs uppercase tracking-[0.12em] text-[#5C5C5C] mb-4"><%= t("pages.home.footer_col_project") %></p>
+          <ul class="space-y-2.5 text-sm">
+            <% if repo_url %>
+              <li><a href="<%= repo_url %>" target="_blank" rel="noopener noreferrer" class="text-[#9E9E9E] hover:text-[#FAFAFA] transition-colors"><%= t("pages.home.nav_code") %></a></li>
+              <li><a href="<%= repo_url %>/releases" target="_blank" rel="noopener noreferrer" class="text-[#9E9E9E] hover:text-[#FAFAFA] transition-colors"><%= t("pages.home.footer_releases") %></a></li>
+              <li><a href="<%= repo_url %>/issues/new" target="_blank" rel="noopener noreferrer" class="text-[#9E9E9E] hover:text-[#FAFAFA] transition-colors"><%= t("pages.home.footer_issue") %></a></li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div>
+          <p class="text-xs uppercase tracking-[0.12em] text-[#5C5C5C] mb-4"><%= t("pages.home.footer_col_selfhost") %></p>
+          <ul class="space-y-2.5 text-sm">
+            <% if repo_url %>
+              <li><a href="<%= repo_url %>#01--quick-start" target="_blank" rel="noopener noreferrer" class="text-[#9E9E9E] hover:text-[#FAFAFA] transition-colors"><%= t("pages.home.footer_quickstart") %></a></li>
+              <%#
+                Aqui havia um link para docs/hosting/docker.md. Ele saiu porque
+                aquele doc ainda e o do projeto original: manda o leitor baixar
+                o compose.yml de maybe-finance/maybe (arquivado) em vez do
+                nosso docker/docker-compose.production.yml. Mandar quem quer
+                hospedar o Muquirana instalar outro app e pior do que nao ter
+                o link. Volta quando o doc for reescrito.
+              %>
+              <li><a href="<%= repo_url %>/blob/main/docker/docker-compose.production.yml" target="_blank" rel="noopener noreferrer" class="text-[#9E9E9E] hover:text-[#FAFAFA] transition-colors"><%= t("pages.home.footer_compose") %></a></li>
+            <% end %>
+          </ul>
+        </div>
+
+      </div>
+
+      <%#
+        Assinatura de autoria, na mesma linha da licenca -- sao as duas
+        informacoes de rodape-de-rodape: quem fez e sob que termos.
+
+        A logo e o proprio wordmark ("Bullet"), entao o texto ao lado e so
+        "Feito por": repetir o nome escrito seria dizer a mesma coisa duas
+        vezes. Por isso o alt fica vazio e quem carrega o nome acessivel e o
+        aria-label do link inteiro -- senao um leitor de tela ouviria
+        "Feito por Bullet Bullet".
+
+        Branca por padrao (o PNG ja e branco), sem invert: opacity-60 apaga
+        para nao competir com a marca do produto la em cima.
+      %>
+      <%# flex-row tambem no mobile: assinatura (~145px) e licenca (~90px) cabem
+          lado a lado ate em 390px. Antes era flex-col ate o sm e a licenca caia
+          embaixo da assinatura em vez de ficar no canto direito. %>
+      <div class="mt-14 pt-6 border-t border-[#171717] flex flex-row items-center justify-between gap-3">
+        <%# Landing e escura fixa e o <html> nao tem data-theme: logo branca,
+            sem filtro de tema. %>
+        <%= render "shared/signature",
+              text_class: "text-[#5C5C5C] group-hover:text-[#9E9E9E]",
+              logo_class: "opacity-70 group-hover:opacity-100",
+              ring_offset_class: "focus-visible:ring-offset-[#0B0B0B]" %>
+
+        <p class="text-xs text-[#5C5C5C] text-right"><%= t("pages.home.footer_license", year: Date.current.year) %></p>
       </div>
     </div>
   </footer>

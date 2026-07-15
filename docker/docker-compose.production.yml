@@ -1,4 +1,4 @@
-# Muquirana — deploy de producao no Coolify
+# Muquirana - deploy de producao no Coolify
 #
 # Mesma estrutura do docker-compose.production.yml da prostaff-api, que ja roda
 # nesta VPS: rede `coolify` externa, labels `coolify.managed`, roteamento por
@@ -197,6 +197,12 @@ services:
       GITHUB_REPO_NAME: '${GITHUB_REPO_NAME:-muquirana}'
 
       OPENAI_ACCESS_TOKEN: '${OPENAI_ACCESS_TOKEN}'
+
+      # Sem esta linha, definir DEMO_URL no painel do Coolify nao teria efeito
+      # nenhum: a variavel existiria no host e nunca dentro do container.
+      # Vazia por padrao -- a landing so mostra o botao da demo se ela vier
+      # preenchida. So a web precisa: quem renderiza a landing e ela.
+      DEMO_URL: '${DEMO_URL:-}'
 
       SMTP_ADDRESS: '${SMTP_ADDRESS}'
       SMTP_PORT: '${SMTP_PORT:-587}'

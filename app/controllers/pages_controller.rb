@@ -14,6 +14,13 @@ class PagesController < ApplicationController
   def home
     return redirect_to dashboard_path if find_session_by_cookie
 
+    # A demo vive em OUTRA instancia (banco proprio, nenhum dado real): e por
+    # isso que ela e uma URL de configuracao e nao uma rota daqui.
+    #
+    # Sem DEMO_URL o botao some, em vez de apontar para um endereco que nao
+    # existe. Prometer uma demo que da 404 e pior do que nao ter demo.
+    @demo_url = ENV["DEMO_URL"].presence
+
     render layout: "landing"
   end
 

@@ -1,6 +1,35 @@
 require "test_helper"
 
 class PagesControllerTest < ActionDispatch::IntegrationTest
+  # A demo roda em outra instancia. O botao so pode existir quando ela existe:
+  # sem DEMO_URL ele tem que sumir, e nao apontar para um endereco quebrado.
+  #
+  # reset! porque o setup desta classe faz login, e a landing manda quem tem
+  # sessao direto para o /painel -- quem ve a landing e justamente quem chega
+  # deslogado.
+  test "landing hides the demo button without DEMO_URL" do
+    reset!
+
+    get root_url
+
+    assert_response :success
+    assert_select "a[href=?]", "https://demo.muquirana.com", count: 0
+    assert_no_match I18n.t("pages.home.cta_secondary"), response.body
+  end
+
+  test "landing shows the demo button when DEMO_URL is set" do
+    reset!
+
+    with_env_overrides DEMO_URL: "https://demo.muquirana.com" do
+      get root_url
+
+      assert_response :success
+      assert_select "a[href=?]", "https://demo.muquirana.com" do |links|
+        assert_equal I18n.t("pages.home.cta_secondary"), links.first.text.strip
+      end
+    end
+  end
+
   setup do
     sign_in @user = users(:family_admin)
   end

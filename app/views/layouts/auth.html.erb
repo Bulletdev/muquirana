@@ -41,6 +41,24 @@
         </div>
       </div>
 
+      <%#
+        Assinatura aqui e nao em layouts/shared/footer: aquele partial tambem e
+        renderizado pelo onboarding e pela tela de upgrade, e a assinatura e
+        para as telas de ENTRADA (login, cadastro, reset de senha) -- as que um
+        visitante ve antes de ter conta, como a landing.
+
+        invert theme-dark:invert-0: o PNG e branco e o fundo daqui (bg-surface)
+        e tematico -- quase branco no tema claro, onde a logo branca sumiria.
+        Inverte por padrao (fica preta no claro) e volta ao branco no escuro.
+        Diferente da landing, que e escura fixa e nao leva filtro nenhum.
+      %>
+      <div class="pb-6 flex justify-center">
+        <%= render "shared/signature",
+              text_class: "text-secondary",
+              logo_class: "opacity-70 group-hover:opacity-100 invert theme-dark:invert-0",
+              ring_offset_class: "focus-visible:ring-offset-surface" %>
+      </div>
+
       <%= render "layouts/shared/footer" %>
     </div>
   </div>
