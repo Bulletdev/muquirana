@@ -5,12 +5,13 @@
 ██║╚██╔╝██║██║   ██║██║▄▄ ██║██║   ██║██║██╔══██╗██╔══██║██║╚██╗██║██╔══██║
 ██║ ╚═╝ ██║╚██████╔╝╚██████╔╝╚██████╔╝██║██║  ██║██║  ██║██║ ╚████║██║  ██║
 ╚═╝     ╚═╝ ╚═════╝  ╚══▀▀═╝  ╚═════╝ ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝
-              Finanças pessoais em português — muquirana.com
+              Finanças pessoais em português - muquirana.com
 ```
 
 <div align="center">
 
 [![Security Audit](https://github.com/Bulletdev/muquirana/actions/workflows/security.yml/badge.svg)](https://github.com/Bulletdev/muquirana/actions/workflows/security.yml)
+[![Version](https://img.shields.io/badge/version-0.7.0-B91C1C)](https://github.com/Bulletdev/muquirana/releases/tag/v0.7.0)
 
 [![Ruby Version](https://img.shields.io/badge/ruby-3.4.8-CC342D?logo=ruby)](https://www.ruby-lang.org/)
 [![Rails Version](https://img.shields.io/badge/rails-7.2.3.1-CC342D?logo=rubyonrails)](https://rubyonrails.org/)
@@ -26,7 +27,7 @@
 
 ```
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║  MUQUIRANA — Ruby on Rails 7.2 · Hotwire · PWA                               ║
+║  MUQUIRANA - Ruby on Rails 7.2 · Hotwire · PWA                               ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
 ║  App de finanças pessoais em pt-BR, self-hosted.                             ║
 ║  Monolito server-side · Sem CORS · Sem build de front · Instalável no celular║
@@ -42,7 +43,7 @@
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │  [■] Contas               - Corrente, poupança, cartão, investimento, cripto│
 │  [■] Patrimônio           - Série histórica de saldos e evolução no tempo   │
-│  [■] Transações           - Categorias, tags, comerciantes e regras         │
+│  [■] Transações           - Categorias, etiquetas, estabelecimentos e regras│
 │  [■] Orçamento            - Metas por categoria e acompanhamento mensal     │
 │  [■] Investimentos        - Posições, negociações e cotação de ativos       │
 │  [■] Importação CSV       - Mapeamento de colunas por arquivo               │
@@ -88,7 +89,7 @@ bin/dev
 bin/rails demo_data:default
 ```
 
-http://localhost:3000 — o seed cria `user@muquirana.local` / `password`.
+http://localhost:3000 - o seed cria `user@muquirana.local` / `password`.
 
 ---
 
@@ -98,7 +99,7 @@ http://localhost:3000 — o seed cria `user@muquirana.local` / `password`.
 ┌──────────────────┬──────────────────────────────────────────────────────────┐
 │  Runtime         │  Ruby 3.4.8                                              │
 │  Framework       │  Rails 7.2.3.1 (monolito, não API-only)                  │
-│  Front           │  Hotwire — Turbo + Stimulus + ViewComponent              │
+│  Front           │  Hotwire - Turbo + Stimulus + ViewComponent              │
 │  Estilo          │  Tailwind CSS 4 · design system próprio                  │
 │  Banco           │  PostgreSQL 16                                           │
 │  Jobs            │  Sidekiq 8 + sidekiq-cron · Redis 7                      │
@@ -114,7 +115,7 @@ http://localhost:3000 — o seed cria `user@muquirana.local` / `password`.
 ## 03 · Arquitetura
 
 Monolito server-side. O Rails entrega o HTML; o Turbo troca fragmentos de página
-sem recarregar. **Não há front desacoplado, build de JS nem CORS** — HTML e JSON
+sem recarregar. **Não há front desacoplado, build de JS nem CORS** - HTML e JSON
 saem da mesma origem.
 
 ```
@@ -134,7 +135,7 @@ saem da mesma origem.
 ```
 
 Convenções: lógica de negócio nos models (`app/models/`), não em `app/services/`.
-Escopo multi-tenant por `Current.family` — não há `default_scope` de tenant, então
+Escopo multi-tenant por `Current.family` - não há `default_scope` de tenant, então
 toda query precisa partir da família. Detalhes em [`CLAUDE.md`](CLAUDE.md).
 
 ---
@@ -143,16 +144,16 @@ toda query precisa partir da família. Detalhes em [`CLAUDE.md`](CLAUDE.md).
 
 ```
 ┌────────────────────────┬────────────────────────────────────────────────────┐
-│  SELF_HOSTED           │  true — desliga assinatura/Stripe                  │
+│  SELF_HOSTED           │  true - desliga assinatura/Stripe                  │
 │  SECRET_KEY_BASE       │  obrigatório · openssl rand -hex 64                │
 │  DB_HOST / DB_PORT     │  Postgres                                          │
 │  POSTGRES_USER/PASSWORD│  Postgres                                          │
 │  REDIS_URL             │  Sidekiq e Action Cable                            │
-│  APP_DOMAIN            │  host canônico — usado nos links de e-mail         │
+│  APP_DOMAIN            │  host canônico - usado nos links de e-mail         │
 │  SOURCE_CODE_URL       │  link do código no rodapé (AGPLv3 §13)             │
 │  GITHUB_REPO_OWNER/NAME│  tela "Novidades" · sem isso, não busca nada       │
-│  OPENAI_ACCESS_TOKEN   │  opcional — habilita o assistente de IA            │
-│  PLAID_CLIENT_ID/SECRET│  opcional — sincronização bancária US/EU           │
+│  OPENAI_ACCESS_TOKEN   │  opcional - habilita o assistente de IA            │
+│  PLAID_CLIENT_ID/SECRET│  opcional - sincronização bancária US/EU           │
 └────────────────────────┴────────────────────────────────────────────────────┘
 ```
 
@@ -176,7 +177,7 @@ Traefik  ──►  muquirana:3000  ──►  postgres · redis · sidekiq
 > - `SSL/TLS` no Cloudflare precisa ser **Full (strict)**. Em *Flexible*, o
 >   Cloudflare fala HTTP com o origin e o Rails com `force_ssl` entra em
 >   redirect loop infinito.
-> - Desligue o **Rocket Loader** — ele reordena scripts e quebra Turbo/Stimulus.
+> - Desligue o **Rocket Loader** - ele reordena scripts e quebra Turbo/Stimulus.
 > - **Nunca** faça cache de HTML na CDN: as páginas têm token CSRF e conteúdo por
 >   usuário.
 > - `RAILS_ASSUME_SSL=true` para o Rails confiar no `X-Forwarded-Proto` do proxy.
@@ -185,7 +186,7 @@ Traefik  ──►  muquirana:3000  ──►  postgres · redis · sidekiq
 
 ## 06 · Segurança
 
-O projeto original foi arquivado em jul/2025 e não publica mais correções — elas
+O projeto original foi arquivado em jul/2025 e não publica mais correções - elas
 são responsabilidade deste repositório.
 
 ```
@@ -206,9 +207,18 @@ vulnerabilidade em dependências foram zerados.
 
 > [!WARNING]
 > Gere um `SECRET_KEY_BASE` próprio antes de expor a instância. **Nunca** use o
-> valor de exemplo do `compose.example.yml` — ele é público. Em modo self-hosted
+> valor de exemplo do `compose.example.yml` - ele é público. Em modo self-hosted
 > esse mesmo segredo deriva as chaves de criptografia do banco: quem o obtiver lê
 > os tokens de acesso bancário e as chaves de API.
+
+> [!IMPORTANT]
+> **O suporte ao Rails 7.2 termina em 09/08/2026.** A partir dessa data, uma CVE
+> no framework não recebe correção oficial - e o projeto original, arquivado, não
+> vai fazer esse upgrade. Subir para o Rails 8 é trabalho deste repositório e
+> está planejado como ciclo próprio, separado do rebranding/i18n desta versão.
+> O Brakeman acusa esse prazo; a dívida está registrada em
+> [`config/brakeman.ignore`](config/brakeman.ignore) com data e instrução de
+> remoção, em vez de silenciada.
 
 ---
 
@@ -221,16 +231,33 @@ bin/rubocop                     # lint Ruby
 bundle exec erb_lint ./app/**/*.erb
 bin/brakeman --no-pager         # análise estática
 bundle exec bundler-audit check --update
+bundle exec i18n-tasks missing  # chaves de tradução faltando
+bundle exec i18n-tasks unused   # chaves órfãs
 ```
 
 Antes de abrir PR: testes, rubocop, erb_lint e brakeman precisam passar.
 Convenções e arquitetura em [`CLAUDE.md`](CLAUDE.md).
 
+### Traduções
+
+`pt-BR` é o locale padrão e `en` é o fallback de tudo (`config/application.rb`).
+Strings de UI ficam em `config/locales/views/**`; rótulo que nasce em model ou
+helper (tipo de conta, período, categoria padrão) fica em `config/locales/models/**`.
+
+Dois cuidados que já custaram bug aqui:
+
+- **`i18n-tasks missing` não enxerga string hardcoded.** Ele só compara chaves já
+  chamadas via `t()` - um literal em ERB é invisível para ele. Zero "missing" não
+  significa tela traduzida.
+- **Não derive o singular do plural.** `String#singularize` usa regra de inflexão
+  do inglês e destrói português ("Imóveis" → "Imóvei"). As duas formas têm chave
+  própria: `display_name` e `display_name_singular`.
+
 ---
 
-**Última atualização**: 2026-07-15
+**Última atualização**: 2026-07-15 · **Versão**: 0.7.0
 **Ruby**: 3.4.8 · **Rails**: 7.2.3.1
-**Locale padrão**: pt-BR · **Moeda**: BRL
+**Locale padrão**: pt-BR · **Moeda**: BRL · **Fallback**: en
 
 ---
 
@@ -245,7 +272,7 @@ independente desde então.
 
 **Não é afiliado, mantido, patrocinado nem endossado pela Maybe Finance, Inc.**
 "Maybe" é marca registrada da Maybe Finance, Inc., citada aqui exclusivamente
-para atribuir a autoria do trabalho original — não como marca deste projeto.
+para atribuir a autoria do trabalho original - não como marca deste projeto.
 Nenhum asset de marca do projeto original é distribuído aqui.
 
 O projeto original foi arquivado em julho de 2025, na

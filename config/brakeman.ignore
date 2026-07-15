@@ -1,6 +1,72 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "442be6fdf6894b8fc88135ab23979446495bba234e8ab0741943de2e30a1bc4b",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/users/_user_menu.html.erb",
+      "line": 30,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(Muquirana.commit_sha.first(7), Provider::Github.new.commit_url(Muquirana.commit_sha), :target => \"_blank\", :class => \"hover:underline\")",
+      "render_path": [
+        {
+          "type": "template",
+          "name": "layouts/application",
+          "line": 42,
+          "file": "app/views/layouts/application.html.erb",
+          "rendered": {
+            "name": "users/_user_menu",
+            "file": "app/views/users/_user_menu.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_user_menu"
+      },
+      "user_input": "Provider::Github.new.commit_url(Muquirana.commit_sha)",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": "Falso positivo. A href e montada por Provider::Github#release_url/#commit_url a partir de GITHUB_REPO_OWNER/GITHUB_REPO_NAME (env) e de Muquirana.version/commit_sha (constante do app e SHA do build). Nenhuma das partes vem de input do usuario -- o Brakeman marca como 'Weak' porque nao consegue provar a origem. Antes o link era uma string literal apontando para maybe-finance/maybe, o que dava 404 por exibir o SHA deste fork num repo alheio."
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "6361c19f59df5c9b5ccab8650b1ce9bc0eed0410a524da44a024fa8c3e6de103",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/users/_user_menu.html.erb",
+      "line": 26,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(Muquirana.version.to_release_tag, Provider::Github.new.release_url(Muquirana.version.to_release_tag), :target => \"_blank\", :class => \"hover:underline\")",
+      "render_path": [
+        {
+          "type": "template",
+          "name": "layouts/application",
+          "line": 42,
+          "file": "app/views/layouts/application.html.erb",
+          "rendered": {
+            "name": "users/_user_menu",
+            "file": "app/views/users/_user_menu.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "users/_user_menu"
+      },
+      "user_input": "Provider::Github.new.release_url(Muquirana.version.to_release_tag)",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": "Falso positivo. A href e montada por Provider::Github#release_url/#commit_url a partir de GITHUB_REPO_OWNER/GITHUB_REPO_NAME (env) e de Muquirana.version/commit_sha (constante do app e SHA do build). Nenhuma das partes vem de input do usuario -- o Brakeman marca como 'Weak' porque nao consegue provar a origem. Antes o link era uma string literal apontando para maybe-finance/maybe, o que dava 404 por exibir o SHA deste fork num repo alheio."
+    },
+    {
       "warning_type": "Redirect",
       "warning_code": 18,
       "fingerprint": "723b1970ca6bf16ea0c2c1afa0c00d3c54854a16568d6cb933e497947565d9ab",
@@ -45,6 +111,25 @@
         915
       ],
       "note": "account_id is properly validated in create action - line 79 ensures account belongs to user's family: family.accounts.find(transaction_params[:account_id])"
+    },
+    {
+      "warning_type": "Unmaintained Dependency",
+      "warning_code": 122,
+      "fingerprint": "98b26f60d776fd41ee6f088c833725145be9aac2d7c5b33780241c273622db42",
+      "check_name": "EOLRails",
+      "message": "Support for Rails 7.2.3.1 ends on 2026-08-09",
+      "file": "Gemfile.lock",
+      "line": 417,
+      "link": "https://brakemanscanner.org/docs/warning_types/unmaintained_dependency/",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        1104
+      ],
+      "note": "DIVIDA TECNICA ACEITA CONSCIENTEMENTE, NAO E FALSO POSITIVO. O suporte ao Rails 7.2.3.1 termina em 09/08/2026. Decisao de 15/07/2026: permanecer no 7.2 por ora e tratar o upgrade para o Rails 8 como trabalho proprio, em vez de misturar com o rebranding/i18n. O upstream (maybe-finance/maybe) foi arquivado em jul/2025 e nao vai fazer esse upgrade -- e responsabilidade exclusiva deste fork. REVISAR ate 09/08/2026: depois dessa data, CVE no Rails nao recebe correcao oficial. Ao subir para o Rails 8, REMOVA esta entrada."
     },
     {
       "warning_type": "Mass Assignment",
