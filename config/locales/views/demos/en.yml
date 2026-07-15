@@ -1,0 +1,5 @@
+---
+en:
+  demos:
+    create:
+      not_seeded: The demo has not been seeded on this instance yet.
