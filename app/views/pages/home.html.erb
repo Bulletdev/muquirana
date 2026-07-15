@@ -34,14 +34,9 @@
   <header class="w-full max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
     <span class="font-mono text-sm tracking-tight text-[#FAFAFA]">muquirana</span>
 
-    <nav class="flex items-center gap-6 text-sm">
-      <% if repo_url %>
-        <a href="<%= repo_url %>"
-           target="_blank" rel="noopener noreferrer"
-           class="hidden sm:block text-[#9E9E9E] hover:text-[#FAFAFA] transition-colors">
-          <%= t("pages.home.nav_code") %>
-        </a>
-      <% end %>
+    <%# So "Entrar" aqui: o link do codigo ja e o botao principal na primeira
+        dobra, e repetir o mesmo destino no topo nao da caminho novo a ninguem. %>
+    <nav class="flex items-center text-sm">
       <%= link_to t("pages.home.nav_enter"), new_session_path,
             class: "text-[#9E9E9E] hover:text-[#FAFAFA] transition-colors" %>
     </nav>
@@ -67,7 +62,7 @@
 
       <div class="mt-10 flex flex-col sm:flex-row gap-3">
         <% if repo_url %>
-          <a href="<%= repo_url %>#quick-start"
+          <a href="<%= repo_url %>#01--quick-start"
              target="_blank" rel="noopener noreferrer"
              class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-[#FAFAFA] text-[#0B0B0B] font-medium hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5BFF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B]">
             <%= t("pages.home.cta_primary") %>
@@ -141,13 +136,7 @@
           <%= t("pages.home.data_body") %>
         </p>
 
-        <% if repo_url %>
-          <a href="<%= repo_url %>"
-             target="_blank" rel="noopener noreferrer"
-             class="inline-flex items-center gap-2 mt-6 font-mono text-sm text-[#FAFAFA] border-b border-[#363636] hover:border-[#FAFAFA] transition-colors pb-0.5">
-            <%= t("pages.home.data_link") %>
-          </a>
-        <% end %>
+
       </div>
     </section>
   </main>

@@ -54,7 +54,6 @@ en:
       data_body: Muquirana is free software under the AGPLv3 license. Run it on your
         own machine, read every line, change whatever you want, and keep using it even
         if this project stops tomorrow. Your entries live in your database, not ours.
-      data_link: github.com/Bulletdev/muquirana
       data_title: Your data stays with you
       eyebrow: Personal finance · open source
       feature_contas_body: Checking, savings, credit card, investments, crypto, property,
