@@ -1,0 +1,35 @@
+---
+en:
+  chats:
+    ai_consent:
+      description: Muquirana AI can answer financial questions and provide insights
+        based on your data. To use this feature you'll need to explicitly enable it.
+      disclaimer: Disable anytime.  All data sent to our LLM providers is anonymized.
+      missing_token_html: To use the AI assistant, you need to set the %{env_var} environment
+        variable in your self-hosted instance.
+      submit: Enable Muquirana AI
+      title: Enable Muquirana AI
+    ai_greeting:
+      commands_hint_html: You can use %{key} to access commands
+      fallback_name: there
+      greeting: Hey %{name}! I'm the Muquirana AI, here to help with your finances.
+        I have access to the web and your account data.
+      question_patterns: Find unusual patterns
+      question_portfolio: Evaluate investment portfolio
+      question_spending: Show spending insights
+      sample_questions_title: 'Here''s a few questions you can ask:'
+    chat:
+      delete: Delete chat
+      edit_title: Edit chat title
+      updated_ago: "%{time} ago"
+    chat_nav:
+      all_chats: All chats
+      delete: Delete chat
+      edit_title: Edit chat title
+      start_new_chat: Start new chat
+    error:
+      failed: Failed to generate response.  Please try again.
+      retry: Retry
+    index:
+      new_chat: New chat
+      title: Chats

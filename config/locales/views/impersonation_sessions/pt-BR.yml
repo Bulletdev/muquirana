@@ -1,0 +1,36 @@
+---
+pt-BR:
+  impersonation_sessions:
+    approval_bar:
+      access_request: Solicitação de acesso
+      access_session: Sessão de acesso
+      approve: Aprovar
+      end_session: Encerrar sessão
+      error: Algo deu errado. Fale com a gente.
+      in_progress_message: Alguém da equipe do Muquirana está vendo seus dados neste
+        momento. Você pode encerrar a sessão quando quiser.
+      pending_message: A equipe de suporte do Muquirana solicitou acesso à sua conta
+        (provavelmente para ajudar com um chamado de suporte). Se você aprovar a solicitação,
+        tudo o que a equipe fizer vai ficar registrado para fins de segurança e auditoria.
+      reject: Recusar
+    approve:
+      success: Solicitação aprovada
+    complete:
+      success: Sessão encerrada
+    create:
+      success: Solicitação enviada ao usuário. Aguardando aprovação.
+    join:
+      success: Você entrou na sessão
+    leave:
+      success: Você saiu da sessão
+    reject:
+      success: Solicitação recusada
+    super_admin_bar:
+      impersonating: "Personificando:"
+      jobs: Jobs
+      join: Entrar
+      join_prompt: Entrar em uma sessão
+      leave: Sair
+      request_impersonation: Solicitar personificação
+      terminate: Encerrar
+      title: Super Admin

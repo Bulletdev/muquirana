@@ -1,0 +1,26 @@
+---
+pt-BR:
+  credit_cards:
+    edit:
+      edit: Editar %{account}
+    form:
+      annual_fee: Anuidade
+      annual_fee_placeholder: '99'
+      apr: Taxa de juros anual
+      apr_placeholder: '15.99'
+      available_credit: Limite disponível
+      available_credit_placeholder: '10000'
+      expiration_date: Data de validade
+      minimum_payment: Pagamento mínimo
+      minimum_payment_placeholder: '100'
+    new:
+      title: Informe os dados do cartão de crédito
+    overview:
+      amount_owed: Valor devido
+      annual_fee: Anuidade
+      apr: Taxa de juros anual
+      available_credit: Limite disponível
+      edit_account_details: Editar dados da conta
+      expiration_date: Data de validade
+      minimum_payment: Pagamento mínimo
+      unknown: Desconhecido

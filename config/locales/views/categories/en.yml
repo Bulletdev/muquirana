@@ -1,6 +1,22 @@
 ---
 en:
   categories:
+    defaults:
+      entertainment: Entertainment
+      fees: Fees
+      food_and_drink: Food & Drink
+      gifts_and_donations: Gifts & Donations
+      healthcare: Healthcare
+      home_improvement: Home Improvement
+      income: Income
+      loan_payments: Loan Payments
+      personal_care: Personal Care
+      rent_and_utilities: Rent & Utilities
+      services: Services
+      shopping: Shopping
+      transportation: Transportation
+      travel: Travel
+      uncategorized: Uncategorized
     bootstrap:
       success: Default categories created successfully
     category:
@@ -13,12 +29,23 @@ en:
     edit:
       edit: Edit category
     form:
+      auto_adjust: auto-adjust.
+      classification_expense: Expense
+      classification_income: Income
+      classification_label: Classification
+      color: Color
+      contrast_warning: Poor contrast, choose darker color or
+      icon: Icon
+      name_label: Name
+      parent_blank: "(unassigned)"
+      parent_label: Parent category (optional)
       placeholder: Category name
     index:
       bootstrap: Use defaults (recommended)
       categories: Categories
       categories_expenses: Expense categories
       categories_incomes: Income categories
+      delete_all: Delete all
       empty: No categories found
       new: New category
     menu:

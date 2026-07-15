@@ -20,8 +20,8 @@
         <% if @budget.initialized? && @budget.available_to_allocate.positive? %>
           <%= render DS::Tabs.new(active_tab: params[:tab].presence || "budgeted") do |tabs| %>
             <% tabs.with_nav do |nav| %>
-              <% nav.with_btn(id: "budgeted", label: "Budgeted") %>
-              <% nav.with_btn(id: "actuals", label: "Actual") %>
+              <% nav.with_btn(id: "budgeted", label: t(".tab_budgeted")) %>
+              <% nav.with_btn(id: "actuals", label: t(".tab_actuals")) %>
             <% end %>
 
             <% tabs.with_panel(tab_id: "budgeted") do %>
@@ -46,11 +46,11 @@
 
     <div class="w-full grow bg-container rounded-xl shadow-border-xs p-4">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-medium">Categories</h2>
+        <h2 class="text-lg font-medium"><%= t(".categories") %></h2>
 
         <% if @budget.initialized? %>
           <%= render DS::Link.new(
-            text: "Edit",
+            text: t(".edit"),
             variant: "secondary",
             icon: "settings-2",
             href: budget_budget_categories_path(@budget)

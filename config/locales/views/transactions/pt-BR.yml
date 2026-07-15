@@ -1,0 +1,154 @@
+---
+pt-BR:
+  transactions:
+    bulk_updates:
+      new:
+        cancel: Cancelar
+        category: Categoria
+        category_prompt: Selecione uma categoria
+        date: Data
+        merchant: Estabelecimento
+        merchant_prompt: Selecione um estabelecimento
+        none: Nenhuma
+        note_label: Observações
+        note_placeholder: Escreva uma observação que será aplicada às transações selecionadas
+        overview: Visão geral
+        save: Salvar
+        tags_label: Etiquetas
+        title: Editar transações
+        transactions: Transações
+    form:
+      account: Conta
+      account_prompt: Selecione uma conta
+      amount: Valor
+      category: Categoria
+      category_prompt: Selecione uma categoria
+      date: Data
+      description: Descrição
+      description_placeholder: Descreva a transação
+      details: Detalhes
+      expense: Despesa
+      income: Receita
+      none: "(nenhuma)"
+      note_label: Observações
+      note_placeholder: Escreva uma observação
+      submit: Adicionar transação
+      tags_label: Etiquetas
+      transfer: Transferência
+    header:
+      linked_with_plaid: Sincronizado com o Plaid
+    index:
+      amount: valor
+      category: categoria
+      edit_categories: Editar categorias
+      edit_imports: Editar importações
+      edit_merchants: Editar estabelecimentos
+      edit_prefix: Editar
+      edit_rules: Editar regras
+      edit_tags: Editar etiquetas
+      import: Importar
+      new_rule: Nova regra
+      new_transaction: Nova transação
+      selected_suffix: selecionadas
+      title: Transações
+      transaction: transação
+      transactions: transações
+    new:
+      new_transaction: Nova transação
+    searches:
+      filters:
+        account_filter:
+          filter_placeholder: Filtrar contas
+        amount_filter:
+          equal_to: Igual a
+          greater_than: Maior que
+          less_than: Menor que
+          placeholder: '0'
+        badge:
+          expense: Despesa
+          income: Receita
+          on_or_after: a partir de %{date}
+          on_or_before: até %{date}
+          transfer: Transferência
+        category_filter:
+          filter_placeholder: Filtrar categorias
+        date_filter:
+          end_date: Data final
+          start_date: Data inicial
+        merchant_filter:
+          filter_placeholder: Filtrar estabelecimentos
+        tag_filter:
+          filter_placeholder: Filtrar etiquetas
+        type_filter:
+          expense: Despesa
+          income: Receita
+          transfer: Transferência
+      form:
+        filter: Filtro
+        search_placeholder: Buscar transações ...
+      menu:
+        account_filter: Conta
+        amount_filter: Valor
+        apply: Aplicar
+        cancel: Cancelar
+        category_filter: Categoria
+        clear_filters: Limpar filtros
+        date_filter: Data
+        merchant_filter: Estabelecimento
+        tag_filter: Etiqueta
+        type_filter: Tipo
+      search:
+        equal_to: igual a
+        greater_than: maior que
+        less_than: menor que
+    selection_bar:
+      delete: Excluir
+      edit: Editar
+    show:
+      account_label: Conta
+      amount: Valor
+      category_label: Categoria
+      date_label: Data
+      delete: Excluir
+      delete_subtitle: Isso exclui a transação para sempre, afeta seus saldos anteriores
+        e não pode ser desfeito.
+      delete_title: Excluir transação
+      details: Detalhes
+      exclude_subtitle: Transações ignoradas ficam de fora dos cálculos de orçamento
+        e dos relatórios.
+      exclude_title: Ignorar transação
+      expense: Despesa
+      income: Receita
+      merchant_label: Estabelecimento
+      name_label: Nome
+      nature: Tipo
+      none: "(nenhum)"
+      note_label: Observações
+      note_placeholder: Escreva uma observação
+      one_time_expense_title: Despesa única
+      one_time_income_title: Receita única
+      one_time_subtitle: Transações únicas ficam de fora de alguns cálculos de orçamento
+        e relatórios, para ajudar você a enxergar o que realmente importa.
+      open_matcher: Abrir conciliação
+      overview: Visão geral
+      settings: Configurações
+      tags_label: Etiquetas
+      transfer_subtitle: Transferências e pagamentos são tipos especiais de transação
+        que indicam movimentação de dinheiro entre 2 contas.
+      transfer_title: Transferência ou pagamento de dívida?
+      uncategorized: "(sem categoria)"
+    summary:
+      expenses: Despesas
+      income: Receitas
+      total_transactions: Total de transações
+    transaction:
+      loan_payment: Pagamento de empréstimo
+      one_time_expense: Despesa única (fora das médias)
+      one_time_income: Receita única (fora das médias)
+      transfer: Transferência
+    transfer_match:
+      auto_matched: Conciliado automaticamente
+      confirm_match: Confirmar conciliação
+      payment_confirmed: Pagamento confirmado
+      reject_match: Rejeitar conciliação
+      transfer_confirmed: Transferência confirmada

@@ -1,0 +1,19 @@
+---
+pt-BR:
+  settings:
+    securities:
+      show:
+        disable_mfa: Desativar verificação em duas etapas
+        disable_mfa_confirm: Tem certeza que quer desativar a verificação em duas
+          etapas? Sua conta vai ficar menos protegida.
+        enable_mfa: Ativar verificação em duas etapas
+        mfa_description: Adicione uma camada extra de proteção exigindo um código
+          do seu aplicativo autenticador toda vez que você entrar
+        mfa_disabled_description: Ative a verificação em duas etapas para adicionar
+          uma camada extra de proteção à sua conta.
+        mfa_enabled_description: Sua conta está protegida com uma camada extra de
+          segurança.
+        mfa_status_html: A verificação em duas etapas está %{status}
+        mfa_title: Verificação em duas etapas
+        status_disabled: desativada
+        status_enabled: ativada

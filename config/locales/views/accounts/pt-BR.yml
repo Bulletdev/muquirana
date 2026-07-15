@@ -1,0 +1,92 @@
+---
+pt-BR:
+  accounts:
+    account:
+      complete_setup: Concluir cadastro
+      deletion_in_progress: "(exclusão em andamento...)"
+      troubleshoot: Resolver problemas
+    account_sidebar_tabs:
+      all: Todas
+      assets: Ativos
+      debts: Dívidas
+      missing_data_body: O Muquirana usa a API Synth para buscar cotações de câmbio,
+        preços de ativos e outros dados históricos. Esses dados são necessários para
+        calcular corretamente o saldo histórico das contas.
+      missing_data_link: Cadastre sua chave da API Synth aqui.
+      missing_data_title: Dados históricos indisponíveis
+      new_account: Nova conta
+      new_asset: Novo ativo
+      new_debt: Nova dívida
+    accountable_group:
+      new_account_group: Adicionar %{group}
+    chart:
+      data_not_available: Sem dados para o período selecionado
+    create:
+      success: Conta de %{type} criada
+    destroy:
+      success: Conta de %{type} agendada para exclusão
+    empty:
+      empty_message: Adicione uma conta conectando ao banco, importando ou informando
+        manualmente.
+      new_account: Nova conta
+      no_accounts: Nenhuma conta ainda
+    form:
+      balance: Saldo atual
+      name_label: Nome da conta
+      name_placeholder: Exemplo de nome da conta
+    index:
+      accounts: Contas
+      manual_accounts:
+        other_accounts: Outras contas
+      new_account: Nova conta
+      sync: Sincronizar tudo
+    new:
+      container:
+        close: Fechar
+        navigate: Navegar
+        next: Próximo
+        previous: Anterior
+        select: Selecionar
+      import_accounts: Importar contas
+      method_selector:
+        connected_entry: Conectar conta
+        connected_entry_eu: Conectar conta europeia
+        manual_entry: Informar saldo da conta
+        title: Como você quer adicionar?
+      title: O que você quer adicionar?
+    show:
+      activity:
+        amount: Valor
+        balance: Saldo
+        date: Data
+        entries: lançamentos
+        entry: lançamento
+        new: Novo
+        new_balance: Novo saldo
+        new_transaction: Nova transação
+        no_entries: Nenhum lançamento encontrado
+        search_placeholder: Buscar lançamentos por nome
+        title: Atividade
+      chart:
+        balance: Saldo
+        owed: Valor devido
+      header:
+        complete_setup: Concluir cadastro
+      menu:
+        confirm_accept: Excluir "%{name}"
+        confirm_body_html: "<p>Ao excluir esta conta, você apaga todo o histórico
+          de valores dela, o que afeta vários pontos do seu panorama financeiro. Isso
+          tem impacto direto no cálculo do seu patrimônio e nos gráficos da conta.</p><br
+          /> <p>Depois de excluir, não tem como restaurar as informações da conta
+          — você vai precisar adicioná-la de novo do zero.</p>"
+        confirm_title: Excluir conta?
+        delete_account: Excluir conta
+        edit: Editar
+        import: Importar transações
+        manage: Gerenciar contas
+    update:
+      success: Conta de %{type} atualizada
+  email_confirmations:
+    new:
+      invalid_token: Link de confirmação inválido ou expirado.
+      success_login: Seu e-mail foi confirmado. Entre com o novo endereço de e-mail.

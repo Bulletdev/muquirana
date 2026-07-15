@@ -1,0 +1,8 @@
+---
+pt-BR:
+  messages:
+    chat_form:
+      coming_soon: Em breve
+      disclaimer: As respostas da IA são apenas informativas e não constituem recomendação
+        financeira.
+      placeholder: Pergunte qualquer coisa ...

@@ -1,0 +1,72 @@
+---
+pt-BR:
+  onboardings:
+    goals:
+      next: Continuar
+      options:
+        ai_insights: Deixar a IA me ajudar a entender minhas finanças
+        budgeting: Gerenciar planos financeiros e orçamento
+        cashflow: Entender meu fluxo de caixa e minhas despesas
+        investments: Acompanhar investimentos
+        optimization: Analisar e otimizar minhas contas
+        partner: Cuidar das finanças junto com outra pessoa
+        reduce_stress: Reduzir o estresse ou a ansiedade com dinheiro
+        unified_accounts: Ver todas as minhas contas em um só lugar
+      subtitle: Selecione um ou mais objetivos que você tem ao usar o Muquirana como
+        sua ferramenta de finanças pessoais.
+      title: O que traz você ao Muquirana?
+    logout:
+      sign_out: Sair
+    onboarding_nav:
+      goals: Objetivos
+      preferences: Preferências
+      setup: Configuração
+      start: Começar
+    preferences:
+      as_of: em %{date}
+      color_theme: Tema
+      currency: Moeda
+      date_format: Formato de data
+      example: Conta de exemplo
+      locale: Idioma
+      preview: Veja como os dados aparecem de acordo com suas preferências.
+      submit: Concluir
+      subtitle: Vamos configurar suas preferências.
+      theme_dark: Escuro
+      theme_light: Claro
+      theme_system: Sistema
+      title: Configure suas preferências
+    show:
+      country: País
+      first_name: Nome
+      household_name: Nome da família
+      last_name: Sobrenome
+      submit: Continuar
+      subtitle: Primeiro, vamos configurar seu perfil.
+      title: Vamos configurar sua conta
+    trial:
+      continue_trial: Continuar teste
+      description: Ao iniciar o teste, sua conta do Muquirana é ativada. Você não
+        precisa informar dados de pagamento.
+      features:
+        ai_chats: Acesso e conversas ilimitadas com a IA do Muquirana
+        currencies: Várias moedas e cobertura quase global
+        early_access: Acesso antecipado a novos recursos
+        institutions: Mais de 10.000 instituições para conectar
+        manual_tracking: Controle manual de contas que funciona de verdade
+        performance: Desempenho e retorno dos investimentos em toda a carteira
+        support: Suporte humano prioritário do time
+        transactions: Acompanhamento completo das suas transações
+        unlimited_accounts: Conecte contas e tipos de conta ilimitados
+      headline: Experimente o Muquirana por 14 dias.
+      how_it_works_title: Como funciona seu período de teste
+      in_13_days: Em 13 dias (%{date})
+      in_13_days_description: Vamos avisar você quando o teste estiver perto do fim.
+      in_14_days: Em 14 dias (%{date})
+      in_14_days_description: Seu teste termina — assine para continuar usando o Muquirana
+      included_title: O que está incluído
+      no_credit_card: Sem precisar de cartão de crédito
+      start_trial: Experimentar o Muquirana por 14 dias
+      today: Hoje
+      today_description: Você terá acesso gratuito ao Muquirana por 14 dias
+      upgrade: Fazer upgrade

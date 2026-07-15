@@ -1,9 +1,34 @@
 ---
 en:
   valuations:
-    form:
-      amount: Amount
-      submit: Add balance update
+    confirm_create:
+      submit: Confirm
+      title: Confirm new balance
+    confirm_update:
+      submit: Update
+      title: Update balance
+    confirmation_contents:
+      balance_labels:
+        credit_card: credit card balance
+        crypto: crypto balance
+        default: balance
+        depository: account balance
+        loan: loan balance
+        other_asset: asset value
+        other_liability: liability balance
+        property: property value
+        vehicle: vehicle value
+      brokerage_cash: Brokerage cash
+      holdings_value: Holdings value
+      investment_intro_set_html: 'This will set the account value on %{date} to:'
+      investment_intro_update_html: 'This will update the account value on %{date} to:'
+      non_investment_set_html: Set %{label} on %{date} to %{amount}.
+      non_investment_update_html: Update %{label} on %{date} to %{amount}.
+      recalculation_change: All future transactions and balances will be recalculated
+        based on this change.
+      recalculation_update: All future transactions and balances will be recalculated
+        based on this update.
+      total_account_value: Total account value
     header:
       balance: Balance
     index:
@@ -14,8 +39,11 @@ en:
       valuations: Value
       value: value
     new:
+      amount: Amount
+      submit: Add balance update
       title: New balance
     show:
+      account_value_label: Account value on date
       amount: Amount
       date_label: Date
       delete: Delete
@@ -28,3 +56,4 @@ en:
       note_placeholder: Add any additional details about this entry
       overview: Overview
       settings: Settings
+      update_value: Update value

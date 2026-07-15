@@ -1,0 +1,133 @@
+---
+pt-BR:
+  settings:
+    nav:
+      account: Conta
+      accounts: Contas
+      api_key: Chave de API
+      billing: Cobrança
+      categories: Categorias
+      changelog: Novidades
+      feedback: Feedback
+      imports: Importações
+      merchants: Estabelecimentos
+      preferences: Preferências
+      rules: Regras
+      security: Segurança
+      self_hosting: Hospedagem própria
+      tags: Etiquetas
+    billings:
+      show:
+        billing_via_stripe: Cobrança via Stripe
+        choose_plan: Escolher plano
+        manage: Gerenciar
+        not_subscribed_html: No momento você está %{status}
+        not_subscribed_status: sem assinatura
+        page_title: Cobrança
+        renews_html: Seu plano renova em %{date}.
+        subscribe_cta: Depois que você assinar o Muquirana+, suas configurações de
+          cobrança aparecem aqui.
+        subscribed_html: No momento você assina o %{plan}.
+        subscription_subtitle: Atualize sua assinatura e seus dados de cobrança
+        subscription_title: Gerenciar assinatura
+        trial_days_remaining: "(faltam %{days} dias)"
+        trialing: No momento você está no período de teste do Muquirana
+    preferences:
+      show:
+        country: País
+        currency: Moeda
+        date_format: Formato de data
+        default_period: Período padrão
+        general_subtitle: Configure suas preferências
+        general_title: Geral
+        language: Idioma
+        page_title: Preferências
+        theme_dark: Escuro
+        theme_light: Claro
+        theme_preview_alt: Prévia do tema %{theme}
+        theme_subtitle: Escolha o tema do app
+        theme_system: Sistema
+        theme_title: Tema
+        timezone: Fuso horário
+        translations_note: Nem todo idioma está totalmente traduzido. O texto sem
+          tradução aparece em inglês.
+    profiles:
+      destroy:
+        cannot_remove_self: Você não pode remover a si mesmo da conta.
+        member_removal_failed: Não foi possível remover o membro.
+        member_removed: Membro removido.
+        not_authorized: Você não tem permissão para remover membros.
+      show:
+        confirm_delete:
+          body: Tem certeza que quer excluir sua conta permanentemente? Essa ação
+            é irreversível.
+          title: Excluir conta?
+        confirm_remove_invitation:
+          body: Tem certeza que quer remover o convite de %{email}?
+          title: Remover convite
+        confirm_remove_member:
+          body: Tem certeza que quer remover %{name} da sua conta?
+          title: Remover membro
+        confirm_reset:
+          body: Isso vai excluir todos os dados associados à sua conta. Seu perfil
+            de usuário continua ativo.
+          title: Redefinir conta?
+        danger_zone_title: Zona de perigo
+        data_title: Importar/Exportar dados
+        delete_account: Excluir conta
+        delete_account_warning: Excluir sua conta remove todos os seus dados permanentemente
+          e não pode ser desfeito.
+        email: E-mail
+        export_data: Exportar dados
+        first_name: Nome
+        household_form_input_placeholder: Digite o nome da família
+        household_form_label: Nome da família
+        household_subtitle: Convide familiares, parceiros e outras pessoas. Quem for
+          convidado pode entrar na sua família e acessar as contas compartilhadas.
+        household_title: Família
+        invitation_link: Link do convite
+        invite_member: Adicionar membro
+        last_name: Sobrenome
+        page_title: Conta
+        pending: Pendente
+        profile_subtitle: Personalize como você aparece no Muquirana
+        profile_title: Perfil
+        remove_invitation: Remover convite
+        remove_member: Remover membro
+        reset_account: Redefinir conta
+        reset_account_warning: Redefinir sua conta exclui todas as suas contas, categorias,
+          estabelecimentos, etiquetas e outros dados, mas mantém seu usuário.
+        save: Salvar
+        unconfirmed_email: Você pediu para alterar seu e-mail para %{email}. Acesse
+          sua caixa de entrada e confirme para que a alteração tenha efeito.
+    securities:
+      show:
+        page_title: Segurança
+    settings_nav:
+      accounts_label: Contas
+      api_key_label: Chave de API
+      back: Voltar
+      billing_label: Cobrança
+      categories_label: Categorias
+      feedback_label: Feedback
+      general_section_title: Geral
+      imports_label: Importações
+      logout: Sair
+      merchants_label: Estabelecimentos
+      other_section_title: Mais
+      preferences_label: Preferências
+      profile_label: Conta
+      rules_label: Regras
+      security_label: Segurança
+      self_hosting_label: Hospedagem própria
+      tags_label: Etiquetas
+      transactions_section_title: Transações
+      whats_new_label: Novidades
+    settings_nav_link_large:
+      next: Próximo
+      previous: Voltar
+    user_avatar_field:
+      accepted_formats: JPG ou PNG. Máximo 5MB.
+      change: Trocar foto
+      choose: Enviar foto
+      choose_label: "(opcional)"

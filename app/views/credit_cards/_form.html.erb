@@ -1,6 +1,12 @@
 <%# locals: (account:, url:) %>
 
 <%= render "accounts/form", account: account, url: url do |form| %>
+  <%#
+    Lookup ABSOLUTO de proposito, nao lazy. Este bloco e passado para o partial
+    "accounts/form", e o t('.chave') resolve o @virtual_path em tempo de
+    execucao -- que aqui ja e "accounts/form". Com lazy, as chaves viravam
+    accounts.form.* e a tela renderizava "translation missing".
+  %>
   <%= render "shared/ruler", classes: "my-4" %>
 
   <div class="space-y-2">

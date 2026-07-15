@@ -1,7 +1,7 @@
-<%= content_for :page_title, "API Key" %>
+<%= content_for :page_title, t(".title") %>
 
 <% if @newly_created && @plain_key %>
-  <%= settings_section title: "API Key Created Successfully", subtitle: "Your new API key has been generated successfully." do %>
+  <%= settings_section title: t(".created.title"), subtitle: t(".created.subtitle") do %>
     <div class="space-y-4">
       <div class="p-3 shadow-border-xs bg-container rounded-lg">
         <div class="flex items-start gap-3">
@@ -12,21 +12,21 @@
             variant: :success
           ) %>
           <div class="flex-1">
-            <h3 class="font-medium text-primary">API Key Created Successfully!</h3>
-            <p class="text-secondary text-sm mt-1">Your new API key "<%= @current_api_key.name %>" has been created and is ready to use.</p>
+            <h3 class="font-medium text-primary"><%= t(".created.heading") %></h3>
+            <p class="text-secondary text-sm mt-1"><%= t(".created.description", name: @current_api_key.name) %></p>
           </div>
         </div>
       </div>
 
       <div class="bg-surface-inset rounded-xl p-4">
-        <h4 class="font-medium text-primary mb-3">Your API Key</h4>
-        <p class="text-secondary text-sm mb-3">Copy and store this key securely. You'll need it to authenticate your API requests.</p>
+        <h4 class="font-medium text-primary mb-3"><%= t(".your_api_key_title") %></h4>
+        <p class="text-secondary text-sm mb-3"><%= t(".your_api_key_description") %></p>
 
         <div class="bg-container rounded-lg p-3 border border-primary" data-controller="clipboard">
           <div class="flex items-center justify-between gap-3">
             <code id="api-key-display" class="font-mono text-sm text-primary break-all" data-clipboard-target="source"><%= @current_api_key.plain_key %></code>
             <%= render DS::Button.new(
-              text: "Copy API Key",
+              text: t(".copy_key"),
               variant: "ghost",
               icon: "copy",
               data: { action: "clipboard#copy" }
@@ -36,8 +36,8 @@
       </div>
 
       <div class="bg-surface-inset rounded-xl p-4">
-        <h4 class="font-medium text-primary mb-3">How to use your API key</h4>
-        <p class="text-secondary text-sm mb-3">Include your API key in the X-Api-Key header when making requests:</p>
+        <h4 class="font-medium text-primary mb-3"><%= t(".usage_instructions_title") %></h4>
+        <p class="text-secondary text-sm mb-3"><%= t(".usage_instructions") %></p>
         <div class="bg-container rounded-lg p-3 font-mono text-sm text-primary border border-primary">
           curl -H "X-Api-Key: <%= @current_api_key.plain_key %>" <%= request.base_url %>/api/v1/accounts
         </div>
@@ -45,7 +45,7 @@
 
       <div class="flex justify-end pt-4 border-t border-primary">
         <%= render DS::Link.new(
-          text: "Continue to API Key Settings",
+          text: t(".continue"),
           href: settings_api_key_path,
           variant: "primary"
         ) %>
@@ -53,7 +53,7 @@
     </div>
   <% end %>
 <% elsif @current_api_key %>
-  <%= settings_section title: "Your API Key", subtitle: "Manage your API key for programmatic access to your Maybe data." do %>
+  <%= settings_section title: t(".current_api_key.title"), subtitle: t(".current_api_key.subtitle") do %>
     <div class="space-y-4">
       <div class="p-3 shadow-border-xs bg-container rounded-lg flex justify-between items-center">
         <div class="flex items-center gap-3">
@@ -66,30 +66,30 @@
           <div class="text-sm space-y-1">
             <p class="text-primary font-medium"><%= @current_api_key.name %></p>
             <p class="text-secondary">
-              Created <%= time_ago_in_words(@current_api_key.created_at) %> ago
+              <%= t(".current_api_key.created_ago", time: time_ago_in_words(@current_api_key.created_at)) %>
               <% if @current_api_key.last_used_at %>
-                • Last used <%= time_ago_in_words(@current_api_key.last_used_at) %> ago
+                • <%= t(".current_api_key.last_used", time: time_ago_in_words(@current_api_key.last_used_at)) %>
               <% else %>
-                • Never used
+                • <%= t(".current_api_key.never_used") %>
               <% end %>
             </p>
           </div>
         </div>
 
         <div class="rounded-md bg-success px-2 py-1">
-          <p class="text-success-foreground font-medium text-xs">Active</p>
+          <p class="text-success-foreground font-medium text-xs"><%= t(".current_api_key.active") %></p>
         </div>
       </div>
 
       <div class="bg-surface-inset rounded-xl p-4">
-        <h4 class="font-medium text-primary mb-3">Permissions</h4>
+        <h4 class="font-medium text-primary mb-3"><%= t(".current_api_key.permissions") %></h4>
         <div class="flex flex-wrap gap-2">
           <% @current_api_key.scopes.each do |scope| %>
             <span class="inline-flex items-center gap-1 px-2 py-1 bg-primary text-primary-foreground rounded-full text-xs font-medium">
               <%= icon("shield-check", class: "w-3 h-3") %>
               <%= case scope
-                  when "read" then "Read Only"
-                  when "read_write" then "Read/Write"
+                  when "read" then t(".current_api_key.scope_read")
+                  when "read_write" then t(".current_api_key.scope_read_write")
                   else scope.humanize
                   end %>
             </span>
@@ -98,14 +98,14 @@
       </div>
 
       <div class="bg-surface-inset rounded-xl p-4">
-        <h4 class="font-medium text-primary mb-3">Your API Key</h4>
-        <p class="text-secondary text-sm mb-3">Copy and store this key securely. You'll need it to authenticate your API requests.</p>
+        <h4 class="font-medium text-primary mb-3"><%= t(".your_api_key_title") %></h4>
+        <p class="text-secondary text-sm mb-3"><%= t(".your_api_key_description") %></p>
 
         <div class="bg-container rounded-lg p-3 border border-primary" data-controller="clipboard">
           <div class="flex items-center justify-between gap-3">
             <code id="api-key-display" class="font-mono text-sm text-primary break-all" data-clipboard-target="source"><%= @current_api_key.plain_key %></code>
             <%= render DS::Button.new(
-              text: "Copy API Key",
+              text: t(".copy_key"),
               variant: "ghost",
               icon: "copy",
               data: { action: "clipboard#copy" }
@@ -115,8 +115,8 @@
       </div>
 
       <div class="bg-surface-inset rounded-xl p-4">
-        <h4 class="font-medium text-primary mb-3">How to use your API key</h4>
-        <p class="text-secondary text-sm mb-3">Include your API key in the X-Api-Key header when making requests:</p>
+        <h4 class="font-medium text-primary mb-3"><%= t(".usage_instructions_title") %></h4>
+        <p class="text-secondary text-sm mb-3"><%= t(".usage_instructions") %></p>
         <div class="bg-container rounded-lg p-3 font-mono text-sm text-primary border border-primary">
           curl -H "X-Api-Key: <%= @current_api_key.plain_key %>" <%= request.base_url %>/api/v1/accounts
         </div>
@@ -124,25 +124,25 @@
 
       <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-primary">
         <%= render DS::Link.new(
-          text: "Create New Key",
+          text: t(".current_api_key.regenerate_key"),
           href: new_settings_api_key_path(regenerate: true),
           variant: "secondary"
         ) %>
 
         <%= render DS::Button.new(
-          text: "Revoke Key",
+          text: t(".current_api_key.revoke_key"),
           href: settings_api_key_path,
           method: :delete,
           variant: "destructive",
           data: {
-            turbo_confirm: "Are you sure you want to revoke this API key?"
+            turbo_confirm: t(".current_api_key.revoke_confirmation")
           }
         ) %>
       </div>
     </div>
   <% end %>
 <% else %>
-  <%= settings_section title: "Create Your API Key", subtitle: "Get programmatic access to your Maybe data" do %>
+  <%= settings_section title: t(".no_api_key.title"), subtitle: t(".no_api_key.subtitle") do %>
     <div class="space-y-4">
       <div class="p-3 shadow-border-xs bg-container rounded-lg">
         <div class="flex items-start gap-3">
@@ -152,37 +152,37 @@
             size: "lg"
           ) %>
           <div class="flex-1">
-            <h3 class="font-medium text-primary">Access your account data programmatically</h3>
-            <p class="text-secondary text-sm mt-1">Generate an API key to integrate with your applications and access your financial data securely.</p>
+            <h3 class="font-medium text-primary"><%= t(".no_api_key.heading") %></h3>
+            <p class="text-secondary text-sm mt-1"><%= t(".no_api_key.description") %></p>
           </div>
         </div>
       </div>
 
       <div class="bg-surface-inset rounded-xl p-4">
-        <h4 class="font-medium text-primary mb-3">What you can do with API keys:</h4>
+        <h4 class="font-medium text-primary mb-3"><%= t(".no_api_key.what_you_can_do") %></h4>
         <ul class="space-y-2 text-sm text-secondary">
           <li class="flex items-start gap-2">
             <%= icon("check", class: "w-4 h-4 text-primary mt-0.5") %>
-            <span>Access your accounts and balances</span>
+            <span><%= t(".no_api_key.feature_1") %></span>
           </li>
           <li class="flex items-start gap-2">
             <%= icon("check", class: "w-4 h-4 text-primary mt-0.5") %>
-            <span>View transaction history</span>
+            <span><%= t(".no_api_key.feature_2") %></span>
           </li>
           <li class="flex items-start gap-2">
             <%= icon("check", class: "w-4 h-4 text-primary mt-0.5") %>
-            <span>Create new transactions</span>
+            <span><%= t(".no_api_key.feature_3") %></span>
           </li>
           <li class="flex items-start gap-2">
             <%= icon("check", class: "w-4 h-4 text-primary mt-0.5") %>
-            <span>Integrate with third-party applications</span>
+            <span><%= t(".no_api_key.feature_4") %></span>
           </li>
         </ul>
       </div>
 
       <div class="flex justify-start">
         <%= render DS::Link.new(
-          text: "Create API Key",
+          text: t(".no_api_key.create_api_key"),
           href: new_settings_api_key_path,
           variant: "primary"
         ) %>

@@ -1,9 +1,30 @@
 ---
 en:
   onboardings:
-    header:
-      sign_out: Log out
+    goals:
+      next: Next
+      options:
+        ai_insights: Let AI help me understand my finances
+        budgeting: Manage financial plans and budgeting
+        cashflow: Understand cashflow and expenses
+        investments: Track investments
+        optimization: Analyze and optimize accounts
+        partner: Manage finances with a partner
+        reduce_stress: Reduce financial stress or anxiety
+        unified_accounts: See all my accounts in one place
+      subtitle: Select one or more goals that you have with using Muquirana as your personal
+        finance tool.
+      title: What brings you to Muquirana?
+    logout:
+      sign_out: Sign out
+    onboarding_nav:
+      goals: Goals
+      preferences: Preferences
+      setup: Setup
+      start: Start
     preferences:
+      as_of: as of %{date}
+      color_theme: Color theme
       currency: Currency
       date_format: Date format
       example: Example account
@@ -11,18 +32,42 @@ en:
       preview: Preview how data displays based on preferences.
       submit: Complete
       subtitle: Let's configure your preferences.
+      theme_dark: Dark
+      theme_light: Light
+      theme_system: System
       title: Configure your preferences
-    profile:
-      country: Country
-      first_name: First Name
-      household_name: Household Name
-      last_name: Last Name
-      profile_image: Profile Image
-      submit: Continue
-      subtitle: Let's complete your profile.
-      title: Let's set up the basics
     show:
-      message: We’re really excited you’re here. In the next step we’ll ask you a
-        few questions to complete your profile and then get you all set up.
-      setup: Set up account
-      title: Meet Maybe
+      country: Country
+      first_name: First name
+      household_name: Household name
+      last_name: Last name
+      submit: Continue
+      subtitle: First things first, let's get your profile set up.
+      title: Let's set up your account
+    trial:
+      continue_trial: Continue trial
+      description: Starting the trial activates your account for Muquirana. You won't
+        need to enter payment details.
+      features:
+        ai_chats: Unlimited access and chats with Muquirana AI
+        currencies: Multiple currencies and near global coverage
+        early_access: Early access to newly released features
+        institutions: More than 10,000 institutions to connect to
+        manual_tracking: Manual account tracking that works well
+        performance: Performance and investment returns across portfolio
+        support: Priority human support from team
+        transactions: Comprehensive transaction tracking experience
+        unlimited_accounts: Connect unlimited accounts and account types
+      headline: Try Muquirana for 14 days.
+      how_it_works_title: How your trial will work
+      in_13_days: In 13 days (%{date})
+      in_13_days_description: We'll notify you to remind you when your trial will
+        end.
+      in_14_days: In 14 days (%{date})
+      in_14_days_description: Your trial ends — subscribe to continue using Muquirana
+      included_title: Here's what's included
+      no_credit_card: No credit card required
+      start_trial: Try Muquirana for 14 days
+      today: Today
+      today_description: You'll get free access to Muquirana for 14 days
+      upgrade: Upgrade

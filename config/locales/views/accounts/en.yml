@@ -2,7 +2,23 @@
 en:
   accounts:
     account:
+      complete_setup: Complete setup
+      deletion_in_progress: "(deletion in progress...)"
       troubleshoot: Troubleshoot
+    account_sidebar_tabs:
+      all: All
+      assets: Assets
+      debts: Debts
+      missing_data_body: Muquirana uses Synth API to fetch historical exchange rates,
+        security prices, and more.  This data is required to calculate accurate historical
+        account balances.
+      missing_data_link: Add your Synth API key here.
+      missing_data_title: Missing historical data
+      new_account: New account
+      new_asset: New asset
+      new_debt: New debt
+    accountable_group:
+      new_account_group: New %{group}
     chart:
       data_not_available: Data not available for the selected period
     create:
@@ -24,6 +40,12 @@ en:
       new_account: New account
       sync: Sync all
     new:
+      container:
+        close: Close
+        navigate: Navigate
+        next: Next
+        previous: Previous
+        select: Select
       import_accounts: Import accounts
       method_selector:
         connected_entry: Link account
@@ -42,10 +64,13 @@ en:
         new_balance: New balance
         new_transaction: New transaction
         no_entries: No entries found
+        search_placeholder: Search entries by name
         title: Activity
       chart:
         balance: Balance
         owed: Amount owed
+      header:
+        complete_setup: Complete setup
       menu:
         confirm_accept: Delete "%{name}"
         confirm_body_html: "<p>By deleting this account, you will erase its value
@@ -54,6 +79,7 @@ en:
           graphs.</p><br /> <p>After deletion, there is no way you'll be able to restore
           the account information because you'll need to add it as a new account.</p>"
         confirm_title: Delete account?
+        delete_account: Delete account
         edit: Edit
         import: Import transactions
         manage: Manage accounts

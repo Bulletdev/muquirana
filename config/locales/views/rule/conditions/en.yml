@@ -1,0 +1,9 @@
+---
+en:
+  rule:
+    conditions:
+      condition:
+        value_placeholder: Enter a value
+      condition_group:
+        add_condition: Add condition
+        of_the_following: of the following conditions

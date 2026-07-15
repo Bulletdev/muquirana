@@ -1,0 +1,64 @@
+---
+pt-BR:
+  pages:
+    changelog:
+      title: Novidades
+    dashboard:
+      balance_sheet:
+        empty_subtitle: Adicione suas contas de %{group} para ver o detalhamento completo
+        empty_title: Você ainda não tem %{group}
+        name_col: Nome
+        value_col: Valor
+        weight_col: Peso
+      cashflow_sankey:
+        cash_flow_node: Fluxo de caixa
+        surplus_node: Sobra
+        add_transaction: Adicionar transação
+        empty_subtitle: Adicione transações ou amplie o período para ver o fluxo de
+          caixa
+        empty_title: Sem dados de fluxo de caixa nesse período
+        title: Fluxo de caixa
+      net_worth_chart:
+        data_not_available: Não há dados para o período selecionado
+        title: Patrimônio
+      new_account_button: Nova
+      no_account_empty_state:
+        new_account: Nova conta
+        no_account_subtitle: Como nenhuma conta foi adicionada, ainda não há dados
+          para exibir. Adicione suas primeiras contas para começar a ver seus dados
+          aqui.
+        no_account_title: Nenhuma conta ainda
+      no_accounts_graph_placeholder:
+        add_account: Adicionar conta
+        subtitle: Adicione contas para ver seu patrimônio
+        title: Nenhuma conta ainda
+      shutdown_export: Você tem até 31 de julho de 2025 para exportar seus dados.
+        Faça isso
+      shutdown_export_link: aqui
+      shutdown_notice: 'Tomamos a difícil decisão de encerrar a versão hospedada do
+        Maybe. Veja o que acontece agora:'
+      shutdown_reason_link: Leia aqui por que estamos fazendo isso
+      shutdown_refund: Você será reembolsado integralmente.
+      welcome_subtitle: Veja como estão suas finanças
+      welcome_title: Bem-vindo de volta, %{name}
+    feedback:
+      bug_report: Relatar um bug
+      discussions: Conversar sobre o Muquirana com outras pessoas
+      feature_request: Sugerir uma funcionalidade
+      page_title: Feedback
+      subtitle: Conte o que você achou. Fique à vontade para incluir links de vídeos
+        ou capturas de tela.
+      title: Deixe seu feedback
+    redis_configuration_error:
+      heading: Configuração do Redis necessária
+      page_title: Configuração do Redis necessária - Muquirana
+      refresh_button: Atualizar página
+      refresh_hint: Depois de configurar o Redis, atualize esta página para continuar.
+      setup_guide_button: Ver guia de configuração
+      setup_guide_hint: Siga nosso guia completo de configuração com Docker para configurar
+        o Redis
+      subtitle: Sua instalação própria do Muquirana precisa do Redis configurado corretamente.
+      why_body: O Muquirana usa o Redis para rodar os jobs em segundo plano do Sidekiq,
+        como sincronizar dados das contas, processar importações e outras tarefas
+        que mantêm seus dados financeiros atualizados.
+      why_title: Por que o Redis é necessário?

@@ -1,0 +1,67 @@
+---
+en:
+  rules:
+    category_rule_cta:
+      create_rule: Create rule
+      description: You can create a rule to automatically categorize transactions like
+        this one
+      dismiss: Dismiss
+      dont_show_again: Don't show this again
+      message: Updated to %{category}
+    confirm:
+      body_html: You are about to apply this rule to %{resources} that meet the specified
+        rule criteria.  Please confirm if you wish to proceed with this change.
+      submit: Confirm changes
+      title: Confirm changes
+      title_named: Confirm changes to "%{name}"
+    edit:
+      back: Back to rules
+      title: Edit %{resource_type} rule
+      title_named: Edit %{resource_type} rule "%{name}"
+    form:
+      add_action: Add action
+      add_condition: Add condition
+      add_condition_group: Add condition group
+      all_past_and_future: All past and future %{resource_type}
+      for: FOR
+      if: IF
+      name_label: Rule name (optional)
+      name_placeholder: Enter a name for this rule
+      starting_from: Starting from
+      then: THEN
+    index:
+      ai_cost_warning: AI-enabled rule actions will cost money.  Be sure to filter as
+        narrowly as possible to avoid unnecessary costs.
+      delete_all: Delete all rules
+      empty_description: Set up rules to perform actions to your transactions and other
+        data on every account sync.
+      empty_title: No rules yet
+      new_rule: New rule
+      sort_by: 'Sort by:'
+      sort_name: Name
+      sort_updated_at: Updated At
+      title: Rules
+      toggle_sort_direction: Toggle sort direction
+    new:
+      back: Back to rules
+      title: New %{resource_type} rule
+    resource_types:
+      transaction:
+        one: transaction
+        other: transactions
+    rule:
+      action_with_value: "%{label} to %{value}"
+      delete: Delete
+      edit: Edit
+      effective_all: All past and future %{resource_type}
+      effective_from: "%{resource_type} on or after %{date}"
+      for: FOR
+      if: IF
+      more_actions:
+        one: and %{count} more action
+        other: and %{count} more actions
+      more_conditions:
+        one: and %{count} more condition
+        other: and %{count} more conditions
+      reapply: Re-apply rule
+      then: THEN

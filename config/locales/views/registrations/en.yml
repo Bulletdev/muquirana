@@ -13,13 +13,18 @@ en:
       invalid_invite_code: Invalid invite code, please try again.
       success: You have signed up successfully.
     new:
+      email_placeholder: you@example.com
       invitation_message: "%{inviter} has invited you to join as a %{role}"
       join_family_title: Join %{family}
+      password_placeholder: Enter your password
+      password_rule_case: Upper and lowercase letters
+      password_rule_length: Minimum 8 characters
+      password_rule_number: A number (0-9)
+      password_rule_special: A special character (!, @, #, $, %, etc)
       role_admin: administrator
       role_member: member
       submit: Create account
       title: Create your account
       welcome_body: To get started, you must sign up for a new account.  You will
         then be able to configure additional settings within the app.
-      welcome_title: Welcome to Self Hosted Maybe!
-      password_placeholder: Enter your password
+      welcome_title: Welcome to Self Hosted Muquirana!

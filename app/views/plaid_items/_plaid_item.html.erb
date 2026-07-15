@@ -20,7 +20,7 @@
           <div class="flex items-center gap-2">
             <%= tag.p plaid_item.name, class: "font-medium text-primary" %>
             <% if plaid_item.scheduled_for_deletion? %>
-              <p class="text-destructive text-sm animate-pulse">(deletion in progress...)</p>
+              <p class="text-destructive text-sm animate-pulse"><%= t(".deletion_in_progress") %></p>
             <% end %>
           </div>
           <% if plaid_item.syncing? %>
@@ -70,7 +70,13 @@
             icon: "trash-2",
             href: plaid_item_path(plaid_item),
             method: :delete,
-            confirm: CustomConfirm.for_resource_deletion(plaid_item.name, high_severity: true)
+            confirm: CustomConfirm.new(
+              title: t(".confirm_title"),
+              body: t(".confirm_body"),
+              btn_text: t(".confirm_accept"),
+              destructive: true,
+              high_severity: true
+            )
           ) %>
         <% end %>
       </div>

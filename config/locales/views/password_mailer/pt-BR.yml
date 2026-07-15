@@ -1,0 +1,9 @@
+---
+pt-BR:
+  password_mailer:
+    password_reset:
+      cta: Redefinir sua senha
+      ignore_if_not_requested: Se não foi você que pediu isso, é só ignorar este e-mail.
+      request_made: Recebemos um pedido para redefinir a sua senha do Muquirana. Clique
+        no link para redefinir.
+      subject: 'Muquirana: redefina sua senha'

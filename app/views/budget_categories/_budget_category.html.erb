@@ -28,17 +28,17 @@
 
       <% if budget_category.initialized? %>
         <% if budget_category.available_to_spend.negative? %>
-          <p class="text-sm font-medium text-red-500"><%= format_money(budget_category.available_to_spend_money.abs) %> over</p>
+          <p class="text-sm font-medium text-red-500"><%= t(".over", amount: format_money(budget_category.available_to_spend_money.abs)) %></p>
         <% elsif budget_category.available_to_spend.zero? %>
           <p class="text-sm font-medium <%= budget_category.budgeted_spending.positive? ? "text-orange-500" : "text-secondary" %>">
-            <%= format_money(budget_category.available_to_spend_money) %> left
+            <%= t(".left", amount: format_money(budget_category.available_to_spend_money)) %>
           </p>
         <% else %>
-          <p class="text-sm text-secondary font-medium"><%= format_money(budget_category.available_to_spend_money) %> left</p>
+          <p class="text-sm text-secondary font-medium"><%= t(".left", amount: format_money(budget_category.available_to_spend_money)) %></p>
         <% end %>
       <% else %>
         <p class="text-sm text-secondary font-medium">
-          <%= budget_category.median_monthly_expense_money.format %> avg
+          <%= t(".avg", amount: budget_category.median_monthly_expense_money.format) %>
         </p>
       <% end %>
     </div>
@@ -47,7 +47,7 @@
       <p class="text-sm font-medium text-primary"><%= format_money(budget_category.actual_spending_money) %></p>
 
       <% if budget_category.initialized? %>
-        <p class="text-sm text-secondary">from <%= format_money(budget_category.budgeted_spending_money) %></p>
+        <p class="text-sm text-secondary"><%= t(".from", amount: format_money(budget_category.budgeted_spending_money)) %></p>
       <% end %>
     </div>
   <% end %>

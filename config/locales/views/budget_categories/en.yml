@@ -1,0 +1,42 @@
+---
+en:
+  budget_categories:
+    allocation_progress:
+      exceeded_by: Budget exceeded by
+      left_to_allocate: left to allocate
+      over_allocated: "> 100% set"
+      set: "%{percent} set"
+    budget_category:
+      avg: "%{amount} avg"
+      from: from %{amount}
+      left: "%{amount} left"
+      over: "%{amount} over"
+    budget_category_form:
+      monthly_avg: "%{amount}/m avg"
+    confirm_button:
+      confirm: Confirm
+    index:
+      description: Adjust category budgets to set spending limits. Unallocated funds
+        will be automatically assigned as uncategorized.
+      title: Edit your category budgets
+    no_categories:
+      description: You have not created or assigned any expense categories to your
+        transactions yet.
+      new_category: New category
+      title: Oops!
+      use_defaults: Use defaults (recommended)
+    show:
+      budgeted: Budgeted
+      category: Category
+      left: left
+      monthly_average_spending: Monthly average spending
+      monthly_median_spending: Monthly median spending
+      no_transactions: No transactions found for this budget period.
+      overspent: overspent
+      overview: Overview
+      recent_transactions: Recent Transactions
+      spending_for_period: "%{period} spending"
+      status: Status
+      view_all_transactions: View all category transactions
+    uncategorized_budget_category_form:
+      monthly_avg: "%{amount}/m avg"

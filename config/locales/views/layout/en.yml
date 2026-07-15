@@ -1,13 +1,25 @@
 ---
 en:
   layouts:
+    application:
+      days_remaining: "%{days} days remaining"
+      free_trial: Free trial
+      nav_assistant: Assistant
+      nav_budgets: Budgets
+      nav_home: Home
+      nav_transactions: Transactions
+      upgrade: Upgrade
     auth:
       existing_account: Already have an account?
-      no_account: New to Maybe?
+      no_account: New to Muquirana?
       sign_in: Sign in
       sign_up: Create account
       your_account: Your account
     shared:
+      confirm_dialog:
+        confirm_button: Confirm
+        subtitle: This action cannot be undone.
+        title: Are you sure?
       footer:
         privacy_policy: Privacy Policy
         terms_of_service: Terms of Service

@@ -3,7 +3,7 @@ en:
   settings:
     hostings:
       invite_code_settings:
-        description: Every new user that joins your instance of Maybe can only do
+        description: Every new user that joins your instance of Muquirana can only do
           so via an invite code
         email_confirmation_description: When enabled, users must confirm their email
           address when changing it.
@@ -24,6 +24,8 @@ en:
       synth_settings:
         api_calls_used: "%{used} / %{limit} API calls used (%{percentage})"
         description: Input the API key provided by Synth
+        env_var_configured: You have successfully configured your Synth API key through
+          the SYNTH_API_KEY environment variable.
         label: API Key
         placeholder: Enter your API key here
         plan: "%{plan} plan"

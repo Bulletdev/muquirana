@@ -8,7 +8,7 @@
   <div class="text-sm mr-3">
     <p class="text-primary font-medium mb-0.5"><%= budget_category.category.name %></p>
 
-    <p class="text-secondary"><%= budget_category.median_monthly_expense_money.format(precision: 0) %>/m avg</p>
+    <p class="text-secondary"><%= t(".monthly_avg", amount: budget_category.median_monthly_expense_money.format(precision: 0)) %></p>
   </div>
 
   <div class="ml-auto">

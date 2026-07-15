@@ -3,27 +3,108 @@ en:
   import:
     cleans:
       show:
+        all_rows: All rows
+        cleaned_notice: Your data has been cleaned
         description: Edit your data in the table below.  Red cells are invalid.
+        error_rows: Error rows
         errors_notice: You have errors in your data.  Hover over the error to see
           details.
         errors_notice_mobile: You have errors in your data.  Tap over the error tooltip to see
           details.
+        next_step: Next step
         title: Clean your data
     configurations:
+      account_import:
+        amount_label: Balance
+        currency_label: Currency
+        default_option: Default
+        entity_type_label: Entity Type
+        leave_empty: Leave empty
+        name_label: Name
+        submit: Apply configuration
       mint_import:
+        account_label: Account (optional)
+        amount_label: Amount
+        category_label: Category (optional)
+        currency_label: Currency
         date_format_label: Date format
+        date_label: Date
+        format_label: Format
+        leave_empty: Leave empty
+        name_label: Name (optional)
+        preconfigured_notice: We have pre-configured your Mint import for you. Please
+          proceed to the next step.
+        select_format_prompt: Select format
+        signage_convention_label: Signage convention
+        signage_incomes_negative: Incomes are negative
+        signage_incomes_positive: Incomes are positive
+        submit: Apply configuration
+        tags_label: Tags (optional)
       show:
+        apply_template: Apply template
         description: Select the columns that correspond to each field in your CSV.
+        manually_configure: Manually configure
+        sample_data_caption: Sample data from your uploaded CSV
+        template_found_description: We found a configuration from a previous import
+          for this account.  Would you like to apply it to this import?
+        template_found_title: Template configuration found
         title: Configure your import
       trade_import:
+        account_label: Account
+        currency_label: Currency
         date_format_label: Date format
+        date_label: Date
+        default_option: Default
+        exchange_label: Stock exchange code
+        format_label: Format
+        leave_empty: Leave empty
+        name_label: Name
+        price_label: Price
+        qty_label: Quantity
+        security_provider_note: The security prices provider is not configured.  Your
+          trade imports will work, but Muquirana will not backfill price history.  Please
+          go to your settings to configure this.
+        security_provider_note_label: "Note:"
+        select_column: Select column
+        select_format_prompt: Select format
+        signage_buys_negative: Buys are negative qty
+        signage_buys_positive: Buys are positive qty
+        signage_convention_label: Signage convention
+        submit: Apply configuration
+        ticker_label: Ticker
       transaction_import:
+        account_label: Account
+        amount_label: Amount
+        amount_type_label: Amount type
+        amount_type_strategy_custom_column: Custom column
+        amount_type_strategy_label: Amount type strategy
+        amount_type_strategy_signed_amount: Signed amount
+        as_amount_type_column: as amount type column
+        as_inflow_value: as "income" (inflow) value
+        category_label: Category
+        currency_label: Currency
         date_format_label: Date format
+        date_label: Date
+        default_option: Default
+        format_label: Format
+        leave_empty: Leave empty
+        name_label: Name
+        notes_label: Notes
+        select_column: Select column
+        select_convention_prompt: Select convention
+        select_format_prompt: Select format
+        select_strategy_prompt: Select strategy
+        set_prefix: Set
+        signage_incomes_negative: Incomes are negative
+        signage_incomes_positive: Incomes are positive
+        submit: Apply configuration
+        tags_label: Tags
     confirms:
       mappings:
         create_account: Create account
         csv_mapping_label: "%{mapping} in CSV"
-        maybe_mapping_label: "%{mapping} in Maybe"
+        maybe_mapping_label: "%{mapping} in Muquirana"
+        next: Next
         no_accounts: You don't have any accounts yet. Please create an account that
           we can use for (unassigned) rows in your CSV or go back to the Clean step
           and provide an account name we can use.
@@ -31,21 +112,32 @@ en:
         unassigned_account: Need to create a new account for unassigned rows?
       show:
         account_mapping_description: Assign all of your imported file's accounts to
-          Maybe's existing accounts.  You can also add new accounts or leave them
+          Muquirana's existing accounts.  You can also add new accounts or leave them
           uncategorized.
         account_mapping_title: Assign your accounts
         account_type_mapping_description: Assign all of your imported file's account
-          types to Maybe's
+          types to Muquirana's
         account_type_mapping_title: Assign your account types
         category_mapping_description: Assign all of your imported file's categories
-          to Maybe's existing categories.  You can also add new categories or leave
+          to Muquirana's existing categories.  You can also add new categories or leave
           them uncategorized.
         category_mapping_title: Assign your categories
-        tag_mapping_description: Assign all of your imported file's tags to Maybe's
+        step: Step %{number}
+        tag_mapping_description: Assign all of your imported file's tags to Muquirana's
           existing tags.  You can also add new tags or leave them uncategorized.
         tag_mapping_title: Assign your tags
+    mappings:
+      form:
+        leave_unassigned: Leave unassigned
+        select_an_option: Select an option
+        unassigned: "(unassigned)"
     uploads:
       show:
+        account_include_blank: Multi-account import
+        account_label: Account (optional)
+        browse: Browse
+        browse_prompt_html: "%{browse} to add your CSV file here"
+        col_sep_label: Col sep
         description: Paste or upload your CSV file below.  Please review the instructions
           in the table below before beginning.
         instructions_1: Below is an example CSV with columns available for import.
@@ -54,25 +146,57 @@ en:
           them at a later step.
         instructions_4: Columns marked with an asterisk (*) are required data.
         instructions_5: No commas, no currency symbols, and no parentheses in numbers.
+        paste_placeholder: Paste your CSV file contents here
+        sample_csv_hint_html: "%{link} to see the required CSV format"
+        sample_csv_link: Download a sample CSV
+        separator_comma: Comma (,)
+        separator_semicolon: Semicolon (;)
+        submit: Upload CSV
+        tab_paste: Copy & Paste
+        tab_upload: Upload CSV
         title: Import your data
   imports:
     empty:
       message: No imports yet.
       new: New import
+    failure:
+      description: Please check that your file format, for any errors and that all
+        required fields are filled, then come back and try again.
+      title: Import failed
+      try_again: Try again
     import:
       complete: Complete
       delete: Delete
       failed: Failed
       in_progress: In progress
       label: "%{type}: %{datetime}"
+      revert: Revert
+      revert_confirm_body: This will delete transactions that were imported, but you
+        will still be able to review and re-import your data at any time.
+      revert_confirm_btn: Revert
+      revert_confirm_title: Revert import?
       revert_failed: Revert failed
       reverting: Reverting
       uploading: Processing rows
       view: View
+    importing:
+      back_to_dashboard: Back to dashboard
+      check_status: Check status
+      description: Your import is in progress. Check the imports menu for status updates
+        or click '%{check_status}' to refresh the page for updates. Feel free to continue
+        using the app.
+      title: Import in progress
     index:
       imports: Imports
       new: New import
       title: Imports
+    nav:
+      step_clean: Clean
+      step_configure: Configure
+      step_confirm: Confirm
+      step_map: Map
+      step_of: Step %{number} of %{total}
+      step_upload: Upload
     new:
       description: You can manually import various types of data via CSV or use one
         of our import templates like Mint.
@@ -80,10 +204,23 @@ en:
       import_mint: Import from Mint
       import_portfolio: Import investments
       import_transactions: Import transactions
+      mint_logo_alt: Mint logo
       resume: Resume %{type}
       sources: Sources
       title: New CSV Import
     ready:
+      count_header: count
       description: Here's a summary of the new items that will be added to your account
         once you publish this import.
+      item_header: item
+      publish: Publish import
       title: Confirm your import data
+    revert_failure:
+      description: Please try again or contact support.
+      title: Reverting import failed
+      try_again: Try again
+    success:
+      back_to_dashboard: Back to dashboard
+      description: Your imported data has been successfully added to the app and is
+        now ready for use.
+      title: Import successful

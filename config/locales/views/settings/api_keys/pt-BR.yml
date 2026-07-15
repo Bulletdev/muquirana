@@ -1,0 +1,93 @@
+---
+pt-BR:
+  settings:
+    api_keys:
+      created:
+        continue: Ir para as configurações de chave de API
+        copy_key: Copiar chave de API
+        created_at: Criada em
+        description: Sua nova chave de API "%{name}" foi criada e já pode ser usada.
+        heading: Chave de API criada!
+        key_details: Detalhes da chave
+        key_name: Nome
+        permissions: Permissões
+        scope_descriptions:
+          read_accounts: Ver contas
+          read_balances: Ver saldos
+          read_transactions: Ver transações
+          write_transactions: Criar transações
+        security_note: Esta é a única vez que sua chave de API será exibida. Copie
+          agora e guarde em local seguro. Se você perdê-la, vai precisar gerar outra.
+        security_note_title: Aviso importante de segurança
+        success_description: Sua nova chave de API foi gerada.
+        success_title: Chave de API criada
+        title: Chave de API criada
+        usage_instructions: "Inclua a chave no cabeçalho X-Api-Key nas suas requisições:"
+        usage_instructions_title: Como usar sua chave de API
+        your_api_key: Sua chave de API
+        your_api_key_description: Copie e guarde esta chave em local seguro. Você vai
+          precisar dela para autenticar suas requisições à API.
+      new:
+        cancel: Cancelar
+        create_key: Criar chave de API
+        create_new_key: Criar nova chave de API
+        description: Gere uma nova chave de API para acessar os dados do seu Muquirana
+          por programação.
+        name_help: Escolha um nome descritivo para identificar esta chave depois.
+        name_label: Nome da chave de API
+        name_placeholder: "ex: Meu app de orçamento, Acompanhamento de carteira"
+        permissions_help: "Selecione as permissões que esta chave de API deve ter:"
+        permissions_label: Permissões
+        scope_read: Somente leitura
+        scope_read_details: Ver suas contas, transações e saldos
+        scope_read_write: Leitura e escrita
+        scope_read_write_details: Ver seus dados e criar novas transações
+        security_warning: Sua chave de API será exibida apenas uma vez, logo após a
+          criação. Copie e guarde em local seguro. Qualquer pessoa com acesso a esta
+          chave pode acessar seus dados conforme as permissões que você selecionar.
+        security_warning_title: Aviso de segurança
+        title: Criar nova chave de API
+      show:
+        continue: Ir para as configurações de chave de API
+        copy_key: Copiar chave de API
+        created:
+          description: Sua nova chave de API "%{name}" foi criada e já pode ser usada.
+          heading: Chave de API criada!
+          subtitle: Sua nova chave de API foi gerada.
+          title: Chave de API criada
+        current_api_key:
+          active: Ativa
+          created_ago: Criada há %{time}
+          last_used: Último uso há %{time}
+          never_used: Nunca usada
+          permissions: Permissões
+          regenerate_key: Criar nova chave
+          revoke_confirmation: Tem certeza que quer revogar esta chave de API?
+          revoke_key: Revogar chave
+          scope_read: Somente leitura
+          scope_read_write: Leitura e escrita
+          subtitle: Gerencie sua chave de API para acessar os dados do seu Muquirana
+            por programação.
+          title: Sua chave de API
+        no_api_key:
+          create_api_key: Criar chave de API
+          description: Gere uma chave de API para integrar com seus aplicativos e acessar
+            seus dados financeiros com segurança.
+          feature_1: Acessar suas contas e saldos
+          feature_2: Ver o histórico de transações
+          feature_3: Criar novas transações
+          feature_4: Integrar com aplicativos de terceiros
+          heading: Acesse os dados da sua conta por programação
+          subtitle: Acesse os dados do seu Muquirana por programação
+          title: Crie sua chave de API
+          what_you_can_do: "O que dá para fazer com chaves de API:"
+        title: Chave de API
+        usage_instructions: "Inclua a chave no cabeçalho X-Api-Key nas suas requisições:"
+        usage_instructions_title: Como usar sua chave de API
+        your_api_key_description: Copie e guarde esta chave em local seguro. Você vai
+          precisar dela para autenticar suas requisições à API.
+        your_api_key_title: Sua chave de API
+    api_keys_controller:
+      revoke_failed: "Não foi possível revogar a chave de API"
+      revoked_successfully: "A chave de API foi revogada"
+      success: "Sua chave de API foi criada"

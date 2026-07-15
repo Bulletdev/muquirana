@@ -10,5 +10,9 @@ en:
       label: Amount
     syncing_notice:
       syncing: Syncing accounts data...
+    transaction_tabs:
+      expense: Expense
+      income: Income
+      transfer: Transfer
     trend_change:
       no_change: "no change"

@@ -1,0 +1,25 @@
+---
+pt-BR:
+  family_exports:
+    list:
+      download: Baixar
+      exported_at: Exportação de %{datetime}
+      exporting: Exportando...
+      failed: Falhou
+      no_exports: Nenhuma exportação ainda
+    new:
+      cancel: Cancelar
+      included_accounts: Todas as contas e saldos
+      included_categories: Categorias e etiquetas
+      included_title: 'O que está incluído:'
+      included_trades: Negociações de investimentos
+      included_transactions: Histórico de transações
+      note_body: Esta exportação inclui todos os seus dados, mas só uma parte deles
+        pode ser importada de volta para o Muquirana pela importação de CSV. Damos
+        suporte à importação de contas, transações (com categoria e etiquetas) e negociações.
+        Os demais dados das contas não podem ser importados e ficam apenas para o seu
+        registro.
+      note_label: 'Observação:'
+      submit: Exportar dados
+      subtitle: Baixe todos os seus dados financeiros
+      title: Exportar seus dados

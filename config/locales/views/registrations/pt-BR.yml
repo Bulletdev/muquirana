@@ -1,0 +1,30 @@
+---
+pt-BR:
+  helpers:
+    label:
+      user:
+        invite_code: Código de convite
+    submit:
+      user:
+        create: Continuar
+  registrations:
+    create:
+      failure: Não foi possível criar sua conta.
+      invalid_invite_code: Código de convite inválido, tente novamente.
+      success: Sua conta foi criada.
+    new:
+      email_placeholder: voce@exemplo.com
+      invitation_message: "%{inviter} convidou você para entrar como %{role}"
+      join_family_title: Entrar em %{family}
+      password_placeholder: Digite sua senha
+      password_rule_case: Letras maiúsculas e minúsculas
+      password_rule_length: No mínimo 8 caracteres
+      password_rule_number: Um número (0-9)
+      password_rule_special: Um caractere especial (!, @, #, $, %, etc)
+      role_admin: administrador
+      role_member: membro
+      submit: Criar conta
+      title: Crie sua conta
+      welcome_body: Para começar, você precisa criar uma conta. Depois disso, você
+        vai poder ajustar as outras configurações dentro do app.
+      welcome_title: Boas-vindas ao Muquirana!

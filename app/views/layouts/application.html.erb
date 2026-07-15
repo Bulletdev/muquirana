@@ -1,8 +1,8 @@
 <% mobile_nav_items = [
-  { name: "Home", path: root_path, icon: "pie-chart", icon_custom: false, active: page_active?(root_path) },
-  { name: "Transactions", path: transactions_path, icon: "credit-card", icon_custom: false, active: page_active?(transactions_path) },
-  { name: "Budgets", path: budgets_path, icon: "map", icon_custom: false, active: page_active?(budgets_path) },
-  { name: "Assistant", path: chats_path, icon: "icon-assistant", icon_custom: true, active: page_active?(chats_path), mobile_only: true }
+  { name: t("layouts.application.nav_home"), path: root_path, icon: "pie-chart", icon_custom: false, active: page_active?(root_path) },
+  { name: t("layouts.application.nav_transactions"), path: transactions_path, icon: "credit-card", icon_custom: false, active: page_active?(transactions_path) },
+  { name: t("layouts.application.nav_budgets"), path: budgets_path, icon: "map", icon_custom: false, active: page_active?(budgets_path) },
+  { name: t("layouts.application.nav_assistant"), path: chats_path, icon: "icon-assistant", icon_custom: true, active: page_active?(chats_path), mobile_only: true }
 ] %>
 
 <% desktop_nav_items = mobile_nav_items.reject { |item| item[:mobile_only] } %>
@@ -89,12 +89,12 @@
             <div class="px-4 py-3 space-y-4 bg-container shadow-border-xs rounded-xl">
               <div class="flex items-start justify-between">
                 <div>
-                  <p class="text-sm font-medium text-primary">Free trial</p>
-                  <p class="text-sm text-secondary"><%= Current.family.days_left_in_trial %> days remaining</p>
+                  <p class="text-sm font-medium text-primary"><%= t("layouts.application.free_trial") %></p>
+                  <p class="text-sm text-secondary"><%= t("layouts.application.days_remaining", days: Current.family.days_left_in_trial) %></p>
                 </div>
 
                 <%= render DS::Link.new(
-                  text: "Upgrade",
+                  text: t("layouts.application.upgrade"),
                   href: upgrade_subscription_path,
                 ) %>
               </div>

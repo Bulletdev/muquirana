@@ -1,0 +1,9 @@
+---
+pt-BR:
+  rule:
+    conditions:
+      condition:
+        value_placeholder: Informe um valor
+      condition_group:
+        add_condition: Adicionar condição
+        of_the_following: das condições abaixo

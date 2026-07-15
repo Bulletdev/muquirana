@@ -1,0 +1,75 @@
+---
+pt-BR:
+  properties:
+    address:
+      country: País
+      country_placeholder: Brasil
+      line1: Endereço
+      line1_placeholder: Rua das Flores, 123
+      locality: Cidade
+      locality_placeholder: São Paulo
+      postal_code: CEP
+      postal_code_placeholder: 01310-100
+      region: Estado
+      region_placeholder: SP
+      save: Salvar
+      title: Informe o imóvel manualmente
+    balances:
+      balance: Valor de mercado estimado
+      balance_tooltip: O valor de mercado estimado do seu imóvel. Esse número costuma
+        ser encontrado em sites de anúncios de imóveis e nunca é um valor exato.
+      next: Continuar
+      save: Salvar
+      title: Informe o imóvel manualmente
+    edit:
+      next: Continuar
+      save: Salvar
+      title: Informe o imóvel manualmente
+    form:
+      address_line1: Endereço
+      address_line1_placeholder: Rua das Flores, 123
+      area: Área construída
+      area_placeholder: '2000'
+      area_unit: Unidade de medida
+      area_unit_sqft: Pés quadrados
+      area_unit_sqm: Metros quadrados
+      country: País
+      country_placeholder: BR
+      locality: Cidade
+      locality_placeholder: São Paulo
+      none: Nenhum
+      postal_code: CEP
+      postal_code_placeholder: 01310-100
+      region: Estado
+      region_placeholder: SP
+      subtype_prompt: Selecione o tipo de imóvel
+      year_built: Ano de construção
+      year_built_placeholder: '2000'
+    form_tabs:
+      address: Endereço
+      overview: Visão geral
+      value: Valor
+    new:
+      next: Continuar
+      title: Informe o imóvel manualmente
+    overview_fields:
+      area: Área (opcional)
+      area_placeholder: '1200'
+      area_unit: Unidade de área
+      area_unit_sqft: Pés quadrados
+      area_unit_sqm: Metros quadrados
+      name: Nome
+      name_placeholder: Casa de praia
+      subtype: Tipo de imóvel
+      subtype_prompt: Selecione o tipo
+      year_built: Ano de construção (opcional)
+      year_built_placeholder: '1990'
+    tabs:
+      overview:
+        edit_account_details: Editar dados da conta
+        living_area: Área construída
+        market_value: Valor de mercado
+        purchase_price: Valor de compra
+        trend: Tendência
+        unknown: Desconhecido
+        year_built: Ano de construção

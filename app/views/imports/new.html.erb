@@ -89,7 +89,7 @@
           <li>
             <%= button_to imports_path(import: { type: "MintImport" }), class: "flex items-center justify-between p-4 group w-full", data: { turbo: false } do %>
               <div class="flex items-center gap-2">
-                <%= image_tag("mint-logo.jpeg", alt: "Mint logo", class: "w-8 h-8 rounded-md") %>
+                <%= image_tag("mint-logo.jpeg", alt: t(".mint_logo_alt"), class: "w-8 h-8 rounded-md") %>
                 <span class="text-sm text-primary">
                   <%= t(".import_mint") %>
                 </span>

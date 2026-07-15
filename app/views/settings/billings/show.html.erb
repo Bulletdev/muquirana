@@ -13,29 +13,29 @@
         <div class="text-sm space-y-1">
           <% if @family.has_active_subscription? %>
             <p class="text-primary">
-              <span>You are currently subscribed to the <span class="font-medium"><%= @family.subscription.name %></span>.</span>
+              <span><%= t(".subscribed_html", plan: tag.span(@family.subscription.name, class: "font-medium")) %></span>
 
               <% if @family.next_billing_date %>
-                <span>Your plan renews on <span class="font-medium"><%= @family.next_billing_date.strftime("%B %d, %Y") %></span>.</span>
+                <span><%= t(".renews_html", date: tag.span(@family.next_billing_date.strftime("%B %d, %Y"), class: "font-medium")) %></span>
               <% end %>
             </p>
           <% elsif @family.trialing? %>
             <p class="text-primary">
-              You are currently trialing Maybe
+              <%= t(".trialing") %>
               <span class="text-secondary">
-                (<%= @family.days_left_in_trial %> days remaining)
+                <%= t(".trial_days_remaining", days: @family.days_left_in_trial) %>
               </span>
             </p>
           <% else %>
-            <p class="text-primary">You are currently <span class="font-medium">not subscribed</span></p>
-            <p class="text-secondary">Once you subscribe to Maybe+, you'll see your billing settings here.</p>
+            <p class="text-primary"><%= t(".not_subscribed_html", status: tag.span(t(".not_subscribed_status"), class: "font-medium")) %></p>
+            <p class="text-secondary"><%= t(".subscribe_cta") %></p>
           <% end %>
         </div>
       </div>
 
       <% if @family.has_active_subscription? %>
         <%= render DS::Link.new(
-          text: "Manage",
+          text: t(".manage"),
           icon: "external-link",
           variant: "primary",
           icon_position: "right",
@@ -44,7 +44,7 @@
         ) %>
       <% else %>
         <%= render DS::Link.new(
-          text: "Choose plan",
+          text: t(".choose_plan"),
           variant: "primary",
           icon: "plus",
           icon_position: "right",
@@ -55,7 +55,7 @@
 
     <div class="flex items-center gap-2">
       <%= image_tag "stripe-logo.svg", class: "w-5 h-5 shrink-0" %>
-      <p class="text-secondary text-sm">Billing via Stripe</p>
+      <p class="text-secondary text-sm"><%= t(".billing_via_stripe") %></p>
     </div>
   </div>
 <% end %>

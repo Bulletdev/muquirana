@@ -1,0 +1,15 @@
+---
+pt-BR:
+  sessions:
+    create:
+      invalid_credentials: E-mail ou senha inválidos.
+    destroy:
+      logout_successful: Você saiu da sua conta.
+    new:
+      email: E-mail
+      email_placeholder: voce@exemplo.com
+      forgot_password: Esqueceu sua senha?
+      password: Senha
+      password_placeholder: Digite sua senha
+      submit: Entrar
+      title: Entre na sua conta

@@ -1,6 +1,18 @@
 ---
 en:
   impersonation_sessions:
+    approval_bar:
+      access_request: Access Request
+      access_session: Access Session
+      approve: Approve
+      end_session: End Session
+      error: Something went wrong.  Please contact us.
+      in_progress_message: Someone from the Muquirana team is currently viewing your
+        data.  You may end the session at any time.
+      pending_message: Muquirana support staff has requested access to your account
+        (likely to help you with a support request). If you approve the request, all
+        activity they take will be logged for security and audit purposes.
+      reject: Reject
     approve:
       success: Request approved
     complete:
@@ -13,3 +25,12 @@ en:
       success: Left session
     reject:
       success: Request rejected
+    super_admin_bar:
+      impersonating: "Impersonating:"
+      jobs: Jobs
+      join: Join
+      join_prompt: Join a session
+      leave: Leave
+      request_impersonation: Request Impersonation
+      terminate: Terminate
+      title: Super Admin

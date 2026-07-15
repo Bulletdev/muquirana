@@ -4,11 +4,60 @@ en:
     changelog:
       title: What's new
     dashboard:
+      balance_sheet:
+        empty_subtitle: Add your %{group} accounts to see a full breakdown
+        empty_title: No %{group} yet
+        name_col: Name
+        value_col: Value
+        weight_col: Weight
+      cashflow_sankey:
+        cash_flow_node: Cash Flow
+        surplus_node: Surplus
+        add_transaction: Add transaction
+        empty_subtitle: Add transactions to display cash flow data or expand the time
+          period
+        empty_title: No cash flow data for this time period
+        title: Cashflow
       net_worth_chart:
         data_not_available: Data not available for the selected period
         title: Net Worth
+      new_account_button: New
       no_account_empty_state:
         new_account: New account
         no_account_subtitle: Since no accounts have been added, there's no data to
           display. Add your first accounts to start viewing dashboard data.
         no_account_title: No accounts yet
+      no_accounts_graph_placeholder:
+        add_account: Add account
+        subtitle: Add accounts to display net worth data
+        title: No accounts yet
+      shutdown_export: You have until July 31, 2025 to export your data. You can do
+        that
+      shutdown_export_link: here
+      shutdown_notice: 'We''ve made a tough decision to shut down the hosted version
+        of Maybe. Here''s what''s happening next:'
+      shutdown_reason_link: Read why we're doing this here
+      shutdown_refund: You will be refunded in full.
+      welcome_subtitle: Here's what's happening with your finances
+      welcome_title: Welcome back, %{name}
+    feedback:
+      bug_report: File a bug report
+      discussions: Discuss Muquirana with others
+      feature_request: Write a feature request
+      page_title: Feedback
+      subtitle: Let us know if you have any specific feedback. Feel free to include
+        links to videos or screenshots.
+      title: Leave feedback
+    redis_configuration_error:
+      heading: Redis Configuration Required
+      page_title: Redis Configuration Required - Muquirana
+      refresh_button: Refresh Page
+      refresh_hint: Once you've configured Redis, refresh this page to continue.
+      setup_guide_button: View Setup Guide
+      setup_guide_hint: Follow our complete Docker setup guide to configure Redis
+      subtitle: Your self-hosted Muquirana installation needs Redis to be properly
+        configured.
+      why_body: Muquirana uses Redis to power Sidekiq background jobs for tasks like
+        syncing account data, processing imports, and other background operations that
+        keep your financial data up to date.
+      why_title: Why is Redis required?

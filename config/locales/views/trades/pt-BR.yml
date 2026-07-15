@@ -1,0 +1,47 @@
+---
+pt-BR:
+  trades:
+    form:
+      account: Conta de transferência (opcional)
+      account_prompt: Buscar conta
+      amount: Valor
+      holding: Código do ativo
+      price: Preço por cota
+      qty: Quantidade
+      submit: Adicionar transação
+      ticker_placeholder: AAPL
+      type: Tipo
+      type_buy: Compra
+      type_deposit: Depósito
+      type_interest: Juros
+      type_sell: Venda
+      type_withdrawal: Retirada
+    header:
+      buy: Comprar
+      current_market_price_label: Preço de mercado atual
+      linked_with_plaid: Vinculado ao Plaid
+      overview: Visão geral
+      purchase_price_label: Preço de compra
+      purchase_qty_label: Quantidade comprada
+      sell: Vender
+      symbol_label: Código
+      total_return_label: Ganho/perda não realizado
+    new:
+      title: Nova transação
+    show:
+      additional: Adicional
+      buy: Compra
+      cost_per_share_label: Custo por cota
+      date_label: Data
+      delete: Excluir
+      delete_subtitle: Esta ação não pode ser desfeita
+      delete_title: Excluir negociação
+      details: Detalhes
+      exclude_subtitle: Esta negociação não vai entrar nos relatórios e cálculos
+      exclude_title: Excluir das análises
+      note_label: Observação
+      note_placeholder: Escreva aqui outras observações...
+      quantity_label: Quantidade
+      sell: Venda
+      settings: Configurações
+      type_label: Tipo

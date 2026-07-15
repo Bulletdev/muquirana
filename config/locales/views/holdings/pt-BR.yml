@@ -1,0 +1,40 @@
+---
+pt-BR:
+  holdings:
+    cash:
+      brokerage_cash: Dinheiro na corretora
+    destroy:
+      success: Posição excluída
+    holding:
+      per_share: por cota
+      shares: "%{qty} cotas"
+    index:
+      average_cost: Custo médio
+      holdings: Posições
+      name: Nome
+      new_holding: Nova transação
+      no_holdings: Nenhuma posição para mostrar.
+      return: Retorno total
+      weight: Peso
+    missing_price_tooltip:
+      description: Faltam valores neste investimento e não conseguimos calcular o
+        retorno nem o valor dele.
+      missing_data: Dados faltando
+    new:
+      coming_soon: Em breve...
+    show:
+      avg_cost_label: Custo médio
+      current_market_price_label: Preço de mercado atual
+      delete: Excluir
+      delete_subtitle: Isso exclui a posição e todas as suas negociações nesta conta.
+        Esta ação não pode ser desfeita.
+      delete_title: Excluir posição
+      history: Histórico
+      no_trade_history: Nenhum histórico de negociações para esta posição.
+      overview: Visão geral
+      portfolio_weight_label: Peso na carteira
+      settings: Configurações
+      ticker_label: Código do ativo
+      total_return_label: Retorno total
+      trade_history_entry: "%{qty} cotas de %{security} a %{price}"
+      unknown: Desconhecido

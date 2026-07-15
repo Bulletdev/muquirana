@@ -1,0 +1,7 @@
+---
+pt-BR:
+  invite_codes:
+    index:
+      invite_code_description: Gere um novo código para vê-lo aqui. Códigos que já
+        foram usados não aparecem mais.
+      no_invite_codes: Nenhum código para mostrar

@@ -1,3 +1,35 @@
+---
 en:
   subscriptions:
-    self_hosted_alert: "Maybe+ is not available in self-hosted mode."
+    create:
+      trial_already_used: You have already started or completed a trial. Please upgrade
+        to continue.
+      welcome: Welcome to Muquirana!
+    plan_choice:
+      billed_annually: Billed annually, 2 months free
+      billed_monthly: Billed monthly
+      or_per_week: or %{amount}/week
+      per_month: "/month"
+      per_year: "/year"
+      plan_annual: Annual
+      plan_monthly: Monthly
+    self_hosted_alert: Muquirana+ is not available in self-hosted mode.
+    success:
+      error: Something went wrong processing your subscription. Please contact us to
+        get this fixed.
+      welcome: Welcome to Muquirana!  Your subscription has been created.
+    upgrade:
+      account_settings: Account Settings
+      already_subscribed: You are already subscribed.
+      pick_plan: To continue using Muquirana pick a plan below.
+      sign_out: Sign out
+      stripe_notice: In the next step, you'll be redirected to Stripe which handles
+        our billing.
+      subscribe: Subscribe and unlock Muquirana
+      title: Upgrade
+      trial_over: Your trial is over
+      trial_remaining:
+        one: Your trial has 1 day remaining
+        other: Your trial has %{count} days remaining
+      unlock_prefix: Unlock
+      unlock_suffix: today

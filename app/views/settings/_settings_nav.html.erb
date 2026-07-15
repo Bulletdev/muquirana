@@ -6,7 +6,7 @@ nav_sections = [
       { label: t(".profile_label"), path: settings_profile_path, icon: "circle-user" },
       { label: t(".preferences_label"), path: settings_preferences_path, icon: "bolt" },
       { label: t(".security_label"), path: settings_security_path, icon: "shield-check" },
-      { label: "API Key", path: settings_api_key_path, icon: "key" },
+      { label: t(".api_key_label"), path: settings_api_key_path, icon: "key" },
       { label: t(".self_hosting_label"), path: settings_hosting_path, icon: "database", if: self_hosted? },
       { label: t(".billing_label"), path: settings_billing_path, icon: "circle-dollar-sign", if: !self_hosted? },
       { label: t(".accounts_label"), path: accounts_path, icon: "layers" },
@@ -35,7 +35,7 @@ nav_sections = [
 <div class="space-y-4">
   <div class="hidden lg:flex items-center gap-2 p-1.5">
     <%= render DS::Link.new(
-      text: "Back",
+      text: t(".back"),
       icon: "chevron-left",
       href: previous_path,
       variant: "ghost",
@@ -72,7 +72,7 @@ nav_sections = [
     <ul class="flex space-y-1">
       <li>
         <%= render DS::Link.new(
-          text: "Back",
+          text: t(".back"),
           icon: "chevron-left",
           href: previous_path,
           variant: "ghost",

@@ -1,0 +1,34 @@
+---
+pt-BR:
+  subscriptions:
+    create:
+      trial_already_used: Você já iniciou ou concluiu um teste grátis. Assine para
+        continuar.
+      welcome: Boas-vindas ao Muquirana!
+    plan_choice:
+      billed_annually: Cobrança anual, 2 meses grátis
+      billed_monthly: Cobrança mensal
+      or_per_week: ou %{amount}/semana
+      per_month: "/mês"
+      per_year: "/ano"
+      plan_annual: Anual
+      plan_monthly: Mensal
+    self_hosted_alert: O Muquirana+ não está disponível no modo de hospedagem própria.
+    success:
+      error: Algo deu errado ao processar sua assinatura. Fale com a gente para resolver.
+      welcome: Boas-vindas ao Muquirana! Sua assinatura foi criada.
+    upgrade:
+      account_settings: Configurações da conta
+      already_subscribed: Você já tem uma assinatura ativa.
+      pick_plan: Para continuar usando o Muquirana, escolha um plano abaixo.
+      sign_out: Sair
+      stripe_notice: Na próxima etapa, você vai ser redirecionado para o Stripe, que
+        cuida da nossa cobrança.
+      subscribe: Assinar o Muquirana
+      title: Assinar
+      trial_over: Seu teste grátis acabou
+      trial_remaining:
+        one: Falta 1 dia do seu teste grátis
+        other: Faltam %{count} dias do seu teste grátis
+      unlock_prefix: Assine o
+      unlock_suffix: hoje

@@ -1,0 +1,39 @@
+---
+pt-BR:
+  mfa:
+    backup_codes:
+      backup_codes_description: Cada código só pode ser usado uma vez. Guarde estes
+        códigos em um lugar seguro.
+      backup_codes_title: Seus códigos de backup
+      continue: Ir para configurações de segurança
+      description: Guarde estes códigos de backup em um lugar seguro — você vai precisar
+        deles se perder o acesso ao seu app autenticador
+      page_title: Códigos de backup
+      title: Salve seus códigos de backup
+    create:
+      invalid_code: Código de verificação inválido. Tente novamente.
+    disable:
+      success: A verificação em duas etapas foi desativada
+    new:
+      code_label: Código de verificação
+      code_placeholder: Digite o código de 6 dígitos
+      description: Reforce a segurança da sua conta ativando a verificação em duas
+        etapas
+      page_title: Configurar verificação em duas etapas
+      scan_description: Use um app autenticador como Google Authenticator ou 1Password
+        para escanear este QR code
+      scan_title: 1. Escaneie o QR code
+      secret_description: Se você não conseguir escanear o QR code, digite esta chave
+        secreta manualmente no seu app autenticador
+      secret_title: Código para entrada manual
+      title: Configurar verificação em duas etapas
+      verify_button: Verificar e ativar
+      verify_description: Digite o código de 6 dígitos do seu app autenticador
+      verify_title: 2. Digite o código de verificação
+    verify:
+      description: Digite o código do seu app autenticador para continuar
+      page_title: Verificar em duas etapas
+      title: Verificação em duas etapas
+      verify_button: Verificar
+    verify_code:
+      invalid_code: Código de autenticação inválido. Tente novamente.

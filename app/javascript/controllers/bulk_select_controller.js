@@ -9,9 +9,15 @@ export default class extends Controller {
     "selectionBarText",
     "bulkEditDrawerHeader",
   ];
+  // selectedSuffix / editPrefix vem do I18n via data attribute, como os labels.
+  // Antes as duas palavras estavam escritas em ingles aqui dentro, entao a
+  // barra renderizava "10 transacoes selected" e o drawer "Edit 10 transacoes".
+  // JS nao enxerga o I18n do Rails -- quem traduz e a view.
   static values = {
     singularLabel: String,
     pluralLabel: String,
+    selectedSuffix: String,
+    editPrefix: String,
     selectedIds: { type: Array, default: [] },
   };
 
@@ -27,7 +33,7 @@ export default class extends Controller {
 
   bulkEditDrawerHeaderTargetConnected(element) {
     const headingTextEl = element.querySelector("h2");
-    headingTextEl.innerText = `Edit ${
+    headingTextEl.innerText = `${this.editPrefixValue} ${
       this.selectedIdsValue.length
     } ${this._pluralizedResourceName()}`;
   }
@@ -131,7 +137,7 @@ export default class extends Controller {
 
   _updateSelectionBar() {
     const count = this.selectedIdsValue.length;
-    this.selectionBarTextTarget.innerText = `${count} ${this._pluralizedResourceName()} selected`;
+    this.selectionBarTextTarget.innerText = `${count} ${this._pluralizedResourceName()} ${this.selectedSuffixValue}`;
     this.selectionBarTarget.classList.toggle("hidden", count === 0);
     this.selectionBarTarget.querySelector("input[type='checkbox']").checked =
       count > 0;

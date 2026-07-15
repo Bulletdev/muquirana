@@ -1,0 +1,6 @@
+---
+pt-BR:
+  rule:
+    actions:
+      action:
+        value_placeholder: Informe um valor

@@ -1,0 +1,8 @@
+---
+pt-BR:
+  invitation_mailer:
+    invite_email:
+      accept_button: Aceitar convite
+      body: "%{inviter} convidou você para entrar na família %{family} no Muquirana!"
+      expiry_notice: Este convite expira em %{days} dias
+      greeting: Boas-vindas ao Muquirana!

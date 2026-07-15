@@ -60,7 +60,7 @@
 
                   <div class="flex items-center gap-1 flex-shrink-0">
                     <% if transaction.one_time? %>
-                      <span class="text-orange-500" title="One-time <%= entry.amount.negative? ? "income" : "expense" %> (excluded from averages)">
+                      <span class="text-orange-500" title="<%= entry.amount.negative? ? t(".one_time_income") : t(".one_time_expense") %>">
                         <%= icon "asterisk", size: "sm", color: "current" %>
                       </span>
                     <% end %>
@@ -74,7 +74,7 @@
                 <div class="text-secondary text-xs font-normal hidden lg:block">
                   <% if transaction.transfer? %>
                     <span class="text-secondary">
-                      <%= transaction.loan_payment? ? "Loan Payment" : "Transfer" %> • <%= entry.account.name %>
+                      <%= transaction.loan_payment? ? t(".loan_payment") : t(".transfer") %> • <%= entry.account.name %>
                     </span>
                   <% else %>
                     <%= link_to entry.account.name,

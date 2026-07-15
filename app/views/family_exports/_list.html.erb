@@ -8,32 +8,32 @@
       <% exports.each do |export| %>
         <div class="flex items-center justify-between bg-container p-4 rounded-lg border border-primary">
           <div>
-            <p class="text-sm font-medium text-primary">Export from <%= export.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+            <p class="text-sm font-medium text-primary"><%= t(".exported_at", datetime: l(export.created_at, format: :long)) %></p>
             <p class="text-xs text-secondary"><%= export.filename %></p>
           </div>
 
           <% if export.processing? || export.pending? %>
             <div class="flex items-center gap-2 text-secondary">
               <div class="animate-spin h-4 w-4 border-2 border-secondary border-t-transparent rounded-full"></div>
-              <span class="text-sm">Exporting...</span>
+              <span class="text-sm"><%= t(".exporting") %></span>
             </div>
           <% elsif export.completed? %>
             <%= link_to download_family_export_path(export),
                 class: "flex items-center gap-2 text-primary hover:text-primary-hover",
                 data: { turbo_frame: "_top" } do %>
               <%= icon "download", class: "w-5 h-5" %>
-              <span class="text-sm font-medium">Download</span>
+              <span class="text-sm font-medium"><%= t(".download") %></span>
             <% end %>
           <% elsif export.failed? %>
             <div class="flex items-center gap-2 text-destructive">
               <%= icon "alert-circle", class: "w-4 h-4" %>
-              <span class="text-sm">Failed</span>
+              <span class="text-sm"><%= t(".failed") %></span>
             </div>
           <% end %>
         </div>
       <% end %>
     <% else %>
-      <p class="text-sm text-secondary text-center py-4">No exports yet</p>
+      <p class="text-sm text-secondary text-center py-4"><%= t(".no_exports") %></p>
     <% end %>
   </div>
 <% end %>

@@ -1,0 +1,165 @@
+---
+pt-BR:
+  activerecord:
+    attributes:
+      doorkeeper/application:
+        name: Nome
+        redirect_uri: Redirect URI
+    errors:
+      models:
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              forbidden_uri: é proibida pelo servidor.
+              fragment_present: não pode conter um fragmento.
+              invalid_uri: precisa ser uma URI válida.
+              relative_uri: precisa ser uma URI absoluta.
+              secured_uri: precisa ser uma URI HTTPS/SSL.
+              unspecified_scheme: precisa especificar um esquema.
+            scopes:
+              not_match_configured: não correspondem às permissões configuradas no
+                servidor.
+  doorkeeper:
+    applications:
+      buttons:
+        authorize: Autorizar
+        cancel: Cancelar
+        destroy: Excluir
+        edit: Editar
+        submit: Enviar
+      confirmations:
+        destroy: Tem certeza?
+      edit:
+        title: Editar aplicativo
+      form:
+        error: Opa! Verifique se há erros no formulário
+      help:
+        blank_redirect_uri: Deixe em branco se você configurou seu provedor para usar
+          Client Credentials, Resource Owner Password Credentials ou qualquer outro
+          grant type que não exija redirect URI.
+        confidential: O aplicativo será usado onde o client secret pode ser mantido
+          em sigilo. Apps mobile nativos e Single Page Apps são considerados não confidenciais.
+        redirect_uri: Use uma linha por URI
+        scopes: Separe as permissões com espaços. Deixe em branco para usar as permissões
+          padrão.
+      index:
+        actions: Ações
+        callback_url: Callback URL
+        confidential: Confidencial?
+        confidentiality:
+          'no': Não
+          'yes': Sim
+        name: Nome
+        new: Novo aplicativo
+        title: Seus aplicativos
+      new:
+        title: Novo aplicativo
+      show:
+        actions: Ações
+        application_id: UID
+        callback_urls: Callback urls
+        confidential: Confidencial
+        not_defined: Não definido
+        scopes: Permissões
+        secret: Secret
+        secret_hashed: Secret com hash
+        title: 'Aplicativo: %{name}'
+    authorizations:
+      buttons:
+        authorize: Autorizar
+        deny: Negar
+      error:
+        go_back: Voltar
+        title: Ocorreu um erro
+      form_post:
+        redirecting: Redirecionando você de volta para o aplicativo...
+        title: Envie este formulário
+      new:
+        able_to: Este aplicativo vai poder
+        prompt: Autorizar %{client_name} a usar sua conta?
+        title: Autorização necessária
+      show:
+        title: Código de autorização
+    authorized_applications:
+      buttons:
+        revoke: Revogar
+      confirmations:
+        revoke: Tem certeza?
+      index:
+        application: Aplicativo
+        created_at: Criado em
+        date_format: "%d/%m/%Y %H:%M:%S"
+        title: Seus aplicativos autorizados
+    errors:
+      messages:
+        access_denied: O dono do recurso ou o servidor de autorização negou a requisição.
+        admin_authenticator_not_configured: O acesso ao painel de admin está bloqueado
+          porque Doorkeeper.configure.admin_authenticator não está configurado.
+        credential_flow_not_configured: O fluxo Resource Owner Password Credentials
+          falhou porque Doorkeeper.configure.resource_owner_from_credentials não está
+          configurado.
+        forbidden_token:
+          missing_scope: O acesso a este recurso exige a permissão "%{oauth_scopes}".
+        invalid_client: A autenticação do cliente falhou por cliente desconhecido,
+          autenticação de cliente ausente ou método de autenticação sem suporte.
+        invalid_code_challenge_method:
+          one: O code_challenge_method precisa ser %{challenge_methods}.
+          other: 'O code_challenge_method precisa ser um destes: %{challenge_methods}.'
+          zero: O servidor de autorização não suporta PKCE porque não há valores de
+            code_challenge_method aceitos.
+        invalid_grant: A concessão de autorização informada é inválida, expirou, foi
+          revogada, não corresponde à redirect URI usada na requisição de autorização
+          ou foi emitida para outro cliente.
+        invalid_redirect_uri: A redirect uri informada está malformada ou não corresponde
+          à redirect URI do cliente.
+        invalid_request:
+          invalid_code_challenge: O code challenge é obrigatório.
+          missing_param: 'Parâmetro obrigatório ausente: %{value}.'
+          request_not_authorized: A requisição precisa ser autorizada. O parâmetro
+            obrigatório para autorizar a requisição está ausente ou é inválido.
+          unknown: A requisição não tem um parâmetro obrigatório, inclui um valor
+            de parâmetro sem suporte ou está malformada.
+        invalid_scope: A permissão solicitada é inválida, desconhecida ou está malformada.
+        invalid_token:
+          expired: O access token expirou
+          revoked: O access token foi revogado
+          unknown: O access token é inválido
+        resource_owner_authenticator_not_configured: A busca pelo Resource Owner falhou
+          porque Doorkeeper.configure.resource_owner_authenticator não está configurado.
+        revoke:
+          unauthorized: Você não tem autorização para revogar este token
+        server_error: O servidor de autorização encontrou uma condição inesperada
+          que o impediu de atender à requisição.
+        temporarily_unavailable: No momento o servidor de autorização não consegue
+          atender à requisição por causa de sobrecarga temporária ou manutenção do
+          servidor.
+        unauthorized_client: O cliente não tem autorização para fazer esta requisição
+          usando este método.
+        unsupported_grant_type: O servidor de autorização não suporta este tipo de
+          concessão de autorização.
+        unsupported_response_mode: O servidor de autorização não suporta este response
+          mode.
+        unsupported_response_type: O servidor de autorização não suporta este response
+          type.
+    flash:
+      applications:
+        create:
+          notice: Aplicativo criado.
+        destroy:
+          notice: Aplicativo excluído.
+        update:
+          notice: Aplicativo atualizado.
+      authorized_applications:
+        destroy:
+          notice: Aplicativo revogado.
+    layouts:
+      admin:
+        nav:
+          applications: Aplicativos
+          home: Início
+          oauth2_provider: Provedor OAuth2
+        title: Doorkeeper
+      application:
+        title: Autorização OAuth necessária
+    pre_authorization:
+      status: Pré-autorização

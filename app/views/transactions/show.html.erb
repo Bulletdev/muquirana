@@ -24,7 +24,7 @@
           <% unless @entry.transaction.transfer? %>
             <div class="flex items-center gap-2">
               <%= f.select :nature,
-                    [["Expense", "outflow"], ["Income", "inflow"]],
+                    [[t(".expense"), "outflow"], [t(".income"), "inflow"]],
                     { container_class: "w-1/3", label: t(".nature"), selected: @entry.amount.negative? ? "inflow" : "outflow" },
                     { data: { "auto-submit-form-target": "auto" }, disabled: @entry.linked? } %>
 
@@ -106,8 +106,8 @@
               data: { controller: "auto-submit-form" } do |f| %>
           <div class="flex cursor-pointer items-center gap-4 justify-between">
             <div class="text-sm space-y-1">
-              <h4 class="text-primary">Exclude</h4>
-              <p class="text-secondary">Excluded transactions will be removed from budgeting calculations and reports.</p>
+              <h4 class="text-primary"><%= t(".exclude_title") %></h4>
+              <p class="text-secondary"><%= t(".exclude_subtitle") %></p>
             </div>
 
             <%= f.toggle :excluded, { data: { auto_submit_form_target: "auto" } } %>
@@ -123,8 +123,8 @@
           <%= f.fields_for :entryable do |ef| %>
             <div class="flex cursor-pointer items-center gap-4 justify-between">
               <div class="text-sm space-y-1">
-                <h4 class="text-primary">One-time <%= @entry.amount.negative? ? "Income" : "Expense" %></h4>
-                <p class="text-secondary">One-time transactions will be excluded from certain budgeting calculations and reports to help you see what's really important.</p>
+                <h4 class="text-primary"><%= @entry.amount.negative? ? t(".one_time_income_title") : t(".one_time_expense_title") %></h4>
+                <p class="text-secondary"><%= t(".one_time_subtitle") %></p>
               </div>
 
               <%= ef.toggle :kind, {
@@ -137,12 +137,12 @@
 
         <div class="flex items-center justify-between gap-4 p-3">
           <div class="text-sm space-y-1">
-            <h4 class="text-primary">Transfer or Debt Payment?</h4>
-            <p class="text-secondary">Transfers and payments are special types of transactions that indicate money movement between 2 accounts.</p>
+            <h4 class="text-primary"><%= t(".transfer_title") %></h4>
+            <p class="text-secondary"><%= t(".transfer_subtitle") %></p>
           </div>
 
           <%= render DS::Link.new(
-            text: "Open matcher",
+            text: t(".open_matcher"),
             icon: "arrow-left-right",
             variant: "outline",
             href: new_transaction_transfer_match_path(@entry),

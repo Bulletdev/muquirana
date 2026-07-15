@@ -65,6 +65,7 @@ en:
         authorize: 'Authorize'
         deny: 'Deny'
       error:
+        go_back: 'Go back'
         title: 'An error has occurred'
       new:
         title: 'Authorization required'
@@ -73,6 +74,7 @@ en:
       show:
         title: 'Authorization code'
       form_post:
+        redirecting: 'Redirecting you back to the application...'
         title: 'Submit this form'
 
     authorized_applications:

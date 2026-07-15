@@ -1,0 +1,10 @@
+---
+pt-BR:
+  email_confirmation_mailer:
+    confirmation_email:
+      body: Você pediu para mudar o seu e-mail. Clique no botão abaixo para confirmar
+        a mudança.
+      cta: Confirmar novo e-mail
+      expiry_notice: Este link expira em %{hours} horas.
+      greeting: Olá!
+      subject: 'Muquirana: confirme a mudança de e-mail'

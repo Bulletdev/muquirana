@@ -1,0 +1,22 @@
+---
+pt-BR:
+  transfer_matches:
+    matching_fields:
+      description: Escolha um método para conciliar suas transações.
+      matched_entry_label: Transação da conciliação
+      method_existing: Conciliar com transação existente (recomendado)
+      method_label: Método de conciliação
+      method_new: Criar nova transação
+      no_candidates: Não encontramos nenhuma transação para conciliar nas suas outras
+        contas. Selecione uma conta e vamos criar uma nova transação de entrada para
+        você.
+      target_account_label: Conta de destino
+    new:
+      from_account: Conta de origem
+      from_account_named: "Conta de origem: %{account}"
+      inflow_transaction: Transação de entrada
+      outflow_transaction: Transação de saída
+      submit: Criar conciliação de transferência
+      title: Conciliar transferência ou pagamento
+      to_account: Conta de destino
+      to_account_named: "Conta de destino: %{account}"

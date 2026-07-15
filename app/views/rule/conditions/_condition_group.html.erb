@@ -15,7 +15,7 @@
       </div>
       <p class="text-sm text-secondary">match</p>
       <%= form.select :operator, [["all", "and"], ["any", "or"]], { container_class: "w-fit" }, data: { rules_target: "operatorField" } %>
-      <p class="text-sm text-secondary">of the following conditions</p>
+      <p class="text-sm text-secondary"><%= t(".of_the_following") %></p>
     </div>
 
     <%= icon(
@@ -40,7 +40,7 @@
   </ul>
 
   <%= render DS::Button.new(
-    text: "Add condition",
+    text: t(".add_condition"),
     leading_icon: "plus",
     variant: "ghost",
     type: "button",

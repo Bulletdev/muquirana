@@ -6,7 +6,7 @@
         <%= import.account.name + " " %>
       <% end %>
 
-      <%= t(".label", type: import.type.titleize, datetime: import.updated_at.strftime("%b %-d, %Y at %l:%M %p")) %>
+      <%= t(".label", type: import.type.titleize, datetime: l(import.updated_at, format: :long)) %>
     <% end %>
 
     <% if import.pending? %>
@@ -47,9 +47,9 @@
         icon: "rotate-ccw",
         method: :put,
         confirm: CustomConfirm.new(
-          title: "Revert import?",
-          body: "This will delete transactions that were imported, but you will still be able to review and re-import your data at any time.",
-          btn_text: "Revert"
+          title: t(".revert_confirm_title"),
+          body: t(".revert_confirm_body"),
+          btn_text: t(".revert_confirm_btn")
         )) %>
 
     <% else %>

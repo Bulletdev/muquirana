@@ -20,6 +20,8 @@ en:
       description: This investment has missing values and we could not calculate
         its returns or value.
       missing_data: Missing data
+    new:
+      coming_soon: Coming soon...
     show:
       avg_cost_label: Average Cost
       current_market_price_label: Current Market Price
@@ -28,10 +30,11 @@ en:
         on this account.  This action cannot be undone.
       delete_title: Delete holding
       history: History
+      no_trade_history: No trade history available for this holding.
       overview: Overview
       portfolio_weight_label: Portfolio Weight
       settings: Settings
       ticker_label: Ticker
-      trade_history_entry: "%{qty} shares of %{security} at %{price}"
       total_return_label: Total Return
+      trade_history_entry: "%{qty} shares of %{security} at %{price}"
       unknown: Unknown

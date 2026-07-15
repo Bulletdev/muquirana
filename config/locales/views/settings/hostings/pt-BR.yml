@@ -1,0 +1,43 @@
+---
+pt-BR:
+  settings:
+    hostings:
+      clear_cache:
+        cache_cleared: O cache de dados foi limpo. Pode levar alguns instantes para
+          concluir.
+      invite_code_settings:
+        description: Toda pessoa nova só consegue entrar na sua instância do Muquirana
+          usando um código de convite
+        email_confirmation_description: Quando ativado, as pessoas precisam confirmar
+          o e-mail ao alterá-lo.
+        email_confirmation_title: Exigir confirmação de e-mail
+        generate_tokens: Gerar novo código
+        generated_tokens: Códigos gerados
+        title: Exigir código de convite no cadastro
+      not_authorized: Você não tem permissão para fazer isso
+      show:
+        clear_cache: Limpar cache de dados
+        clear_cache_warning: Limpar o cache remove todas as taxas de câmbio, preços
+          de ativos, saldos de contas e outros dados calculados. Não exclui contas,
+          transações, categorias nem nada que você tenha cadastrado.
+        confirm_clear_cache:
+          body: Tem certeza que quer limpar o cache de dados? Isso remove todas as
+            taxas de câmbio, preços de ativos, saldos de contas e outros dados calculados.
+            Não dá para desfazer.
+          title: Limpar cache de dados?
+        danger_zone: Zona de perigo
+        general: Configurações gerais
+        invites: Códigos de convite
+        title: Hospedagem própria
+      synth_settings:
+        api_calls_used: "%{used} / %{limit} chamadas de API usadas (%{percentage})"
+        description: Informe a chave de API fornecida pela Synth
+        env_var_configured: Sua chave de API da Synth foi configurada pela variável
+          de ambiente SYNTH_API_KEY.
+        label: Chave de API
+        placeholder: Cole sua chave de API aqui
+        plan: Plano %{plan}
+        title: Configurações da Synth
+      update:
+        failure: Valor inválido
+        success: Configurações salvas

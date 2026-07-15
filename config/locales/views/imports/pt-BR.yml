@@ -1,0 +1,230 @@
+---
+pt-BR:
+  import:
+    cleans:
+      show:
+        all_rows: Todas as linhas
+        cleaned_notice: Seus dados foram revisados
+        description: Edite seus dados na tabela abaixo.  As células vermelhas são
+          inválidas.
+        error_rows: Linhas com erro
+        errors_notice: Você tem erros nos seus dados.  Passe o mouse sobre o erro
+          para ver os detalhes.
+        errors_notice_mobile: Você tem erros nos seus dados.  Toque no aviso de erro
+          para ver os detalhes.
+        next_step: Próxima etapa
+        title: Revise seus dados
+    configurations:
+      account_import:
+        amount_label: Saldo
+        currency_label: Moeda
+        default_option: Padrão
+        entity_type_label: Tipo de entidade
+        leave_empty: Deixar em branco
+        name_label: Nome
+        submit: Aplicar configuração
+      mint_import:
+        account_label: Conta (opcional)
+        amount_label: Valor
+        category_label: Categoria (opcional)
+        currency_label: Moeda
+        date_format_label: Formato de data
+        date_label: Data
+        format_label: Formato
+        leave_empty: Deixar em branco
+        name_label: Nome (opcional)
+        preconfigured_notice: Já pré-configuramos a sua importação do Mint. Siga para
+          a próxima etapa.
+        select_format_prompt: Selecione o formato
+        signage_convention_label: Convenção de sinal
+        signage_incomes_negative: Receitas são negativas
+        signage_incomes_positive: Receitas são positivas
+        submit: Aplicar configuração
+        tags_label: Etiquetas (opcional)
+      show:
+        apply_template: Aplicar modelo
+        description: Selecione as colunas que correspondem a cada campo do seu CSV.
+        manually_configure: Configurar manualmente
+        sample_data_caption: Amostra dos dados do CSV que você enviou
+        template_found_description: Encontramos a configuração de uma importação anterior
+          para esta conta.  Quer aplicá-la a esta importação?
+        template_found_title: Configuração de modelo encontrada
+        title: Configure sua importação
+      trade_import:
+        account_label: Conta
+        currency_label: Moeda
+        date_format_label: Formato de data
+        date_label: Data
+        default_option: Padrão
+        exchange_label: Código da bolsa
+        format_label: Formato
+        leave_empty: Deixar em branco
+        name_label: Nome
+        price_label: Preço
+        qty_label: Quantidade
+        security_provider_note: O provedor de preços de ativos não está configurado.  Suas
+          importações de negociações vão funcionar, mas o Muquirana não vai preencher
+          o histórico de preços.  Acesse suas configurações para configurá-lo.
+        security_provider_note_label: "Nota:"
+        select_column: Selecione a coluna
+        select_format_prompt: Selecione o formato
+        signage_buys_negative: Compras têm quantidade negativa
+        signage_buys_positive: Compras têm quantidade positiva
+        signage_convention_label: Convenção de sinal
+        submit: Aplicar configuração
+        ticker_label: Ticker
+      transaction_import:
+        account_label: Conta
+        amount_label: Valor
+        amount_type_label: Tipo de valor
+        amount_type_strategy_custom_column: Coluna personalizada
+        amount_type_strategy_label: Estratégia de tipo de valor
+        amount_type_strategy_signed_amount: Valor com sinal
+        as_amount_type_column: como coluna de tipo de valor
+        as_inflow_value: como valor de "receita" (entrada)
+        category_label: Categoria
+        currency_label: Moeda
+        date_format_label: Formato de data
+        date_label: Data
+        default_option: Padrão
+        format_label: Formato
+        leave_empty: Deixar em branco
+        name_label: Nome
+        notes_label: Observações
+        select_column: Selecione a coluna
+        select_convention_prompt: Selecione a convenção
+        select_format_prompt: Selecione o formato
+        select_strategy_prompt: Selecione a estratégia
+        set_prefix: Definir
+        signage_incomes_negative: Receitas são negativas
+        signage_incomes_positive: Receitas são positivas
+        submit: Aplicar configuração
+        tags_label: Etiquetas
+    confirms:
+      mappings:
+        create_account: Criar conta
+        csv_mapping_label: "%{mapping} no CSV"
+        maybe_mapping_label: "%{mapping} no Muquirana"
+        next: Continuar
+        no_accounts: Você ainda não tem nenhuma conta. Crie uma conta que possamos
+          usar para as linhas sem conta atribuída no seu CSV, ou volte para a etapa
+          de revisão e informe um nome de conta que possamos usar.
+        rows_label: Linhas
+        unassigned_account: Precisa criar uma nova conta para as linhas sem conta
+          atribuída?
+      show:
+        account_mapping_description: Vincule todas as contas do arquivo importado
+          às contas que já existem no Muquirana.  Você também pode adicionar novas
+          contas ou deixá-las sem categoria.
+        account_mapping_title: Vincule suas contas
+        account_type_mapping_description: Vincule todos os tipos de conta do arquivo
+          importado aos do Muquirana
+        account_type_mapping_title: Vincule seus tipos de conta
+        category_mapping_description: Vincule todas as categorias do arquivo importado
+          às categorias que já existem no Muquirana.  Você também pode adicionar novas
+          categorias ou deixá-las sem categoria.
+        category_mapping_title: Vincule suas categorias
+        step: Etapa %{number}
+        tag_mapping_description: Vincule todas as etiquetas do arquivo importado às
+          etiquetas que já existem no Muquirana.  Você também pode adicionar novas
+          etiquetas ou deixá-las sem categoria.
+        tag_mapping_title: Vincule suas etiquetas
+    mappings:
+      form:
+        leave_unassigned: Deixar sem atribuição
+        select_an_option: Selecione uma opção
+        unassigned: "(sem atribuição)"
+    uploads:
+      show:
+        account_include_blank: Importação com várias contas
+        account_label: Conta (opcional)
+        browse: Procurar
+        browse_prompt_html: "%{browse} para adicionar seu arquivo CSV aqui"
+        col_sep_label: Separador de colunas
+        description: Cole ou envie seu arquivo CSV abaixo.  Leia as instruções na
+          tabela abaixo antes de começar.
+        instructions_1: Abaixo está um exemplo de CSV com as colunas disponíveis para
+          importação.
+        instructions_2: Seu CSV precisa ter uma linha de cabeçalho
+        instructions_3: Você pode dar o nome que quiser às colunas.  Você vai mapeá-las
+          em uma etapa posterior.
+        instructions_4: As colunas marcadas com asterisco (*) são obrigatórias.
+        instructions_5: Sem vírgulas, sem símbolos de moeda e sem parênteses nos números.
+        paste_placeholder: Cole aqui o conteúdo do seu arquivo CSV
+        sample_csv_hint_html: "%{link} para ver o formato de CSV exigido"
+        sample_csv_link: Baixe um CSV de exemplo
+        separator_comma: Vírgula (,)
+        separator_semicolon: Ponto e vírgula (;)
+        submit: Enviar CSV
+        tab_paste: Copiar e colar
+        tab_upload: Enviar CSV
+        title: Importe seus dados
+  imports:
+    empty:
+      message: Nenhuma importação ainda.
+      new: Nova importação
+    failure:
+      description: Verifique o formato do arquivo, se há erros e se todos os campos
+        obrigatórios estão preenchidos, depois volte e tente de novo.
+      title: Falha na importação
+      try_again: Tentar de novo
+    import:
+      complete: Concluída
+      delete: Excluir
+      failed: Falhou
+      in_progress: Em andamento
+      label: "%{type}: %{datetime}"
+      revert: Reverter
+      revert_confirm_body: As transações importadas serão excluídas, mas você poderá
+        revisar e importar os dados de novo quando quiser.
+      revert_confirm_btn: Reverter
+      revert_confirm_title: Reverter a importação?
+      revert_failed: Falha ao reverter
+      reverting: Revertendo
+      uploading: Processando linhas
+      view: Ver
+    importing:
+      back_to_dashboard: Voltar ao painel
+      check_status: Verificar status
+      description: Sua importação está em andamento. Acompanhe o status pelo menu
+        de importações ou clique em '%{check_status}' para atualizar a página. Fique
+        à vontade para continuar usando o app.
+      title: Importação em andamento
+    index:
+      imports: Importações
+      new: Nova importação
+      title: Importações
+    nav:
+      step_clean: Revisar
+      step_configure: Configurar
+      step_confirm: Confirmar
+      step_map: Vincular
+      step_of: Etapa %{number} de %{total}
+      step_upload: Enviar
+    new:
+      description: Você pode importar vários tipos de dados manualmente via CSV ou
+        usar um dos nossos modelos de importação, como o do Mint.
+      import_accounts: Importar contas
+      import_mint: Importar do Mint
+      import_portfolio: Importar investimentos
+      import_transactions: Importar transações
+      mint_logo_alt: Logo do Mint
+      resume: Retomar %{type}
+      sources: Fontes
+      title: Nova importação de CSV
+    ready:
+      count_header: quantidade
+      description: Este é um resumo dos novos itens que serão adicionados à sua conta
+        quando você publicar esta importação.
+      item_header: item
+      publish: Publicar importação
+      title: Confirme os dados da importação
+    revert_failure:
+      description: Tente de novo ou entre em contato com o suporte.
+      title: Falha ao reverter a importação
+      try_again: Tentar de novo
+    success:
+      back_to_dashboard: Voltar ao painel
+      description: Seus dados importados foram adicionados ao app e já estão prontos
+        para uso.
+      title: Importação concluída

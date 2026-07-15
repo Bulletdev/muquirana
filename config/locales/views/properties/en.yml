@@ -1,14 +1,38 @@
 ---
 en:
   properties:
+    address:
+      country: Country
+      country_placeholder: USA
+      line1: Address Line 1
+      line1_placeholder: 123 Main Street
+      locality: City
+      locality_placeholder: San Francisco
+      postal_code: Postal Code
+      postal_code_placeholder: '12345'
+      region: State/Region
+      region_placeholder: CA
+      save: Save
+      title: Enter property manually
+    balances:
+      balance: Estimated market value
+      balance_tooltip: The estimated market value of your property. This number can
+        often be found on real estate listing sites, and is never an exact number.
+      next: Next
+      save: Save
+      title: Enter property manually
     edit:
-      edit: Edit %{account}
+      next: Next
+      save: Save
+      title: Enter property manually
     form:
       address_line1: Street address
       address_line1_placeholder: 123 Main St
       area: Living area
       area_placeholder: '2000'
       area_unit: Unit of measurement
+      area_unit_sqft: Square Feet
+      area_unit_sqm: Square Meters
       country: Country
       country_placeholder: US
       locality: City
@@ -21,12 +45,31 @@ en:
       subtype_prompt: Select property type
       year_built: Year built
       year_built_placeholder: '2000'
+    form_tabs:
+      address: Address
+      overview: Overview
+      value: Value
     new:
-      title: Enter property details
-    overview:
-      living_area: Living Area
-      market_value: Market Value
-      purchase_price: Purchase Price
-      trend: Trend
-      unknown: Unknown
-      year_built: Year Built
+      next: Next
+      title: Enter property manually
+    overview_fields:
+      area: Area (optional)
+      area_placeholder: '1200'
+      area_unit: Area Unit
+      area_unit_sqft: Square Feet
+      area_unit_sqm: Square Meters
+      name: Name
+      name_placeholder: Vacation home
+      subtype: Property type
+      subtype_prompt: Select type
+      year_built: Year Built (optional)
+      year_built_placeholder: '1990'
+    tabs:
+      overview:
+        edit_account_details: Edit account details
+        living_area: Living Area
+        market_value: Market Value
+        purchase_price: Purchase Price
+        trend: Trend
+        unknown: Unknown
+        year_built: Year Built

@@ -17,31 +17,34 @@
       </div>
 
       <% if self_hosted? %>
+        <% github = Provider::Github.new %>
+        <% release_tag = Muquirana.version.to_release_tag %>
+        <% release_url = github.release_url(release_tag) %>
         <div class="px-4 py-3 border-t border-tertiary">
           <p class="text-sm">
-            <span class="font-medium text-primary">Version:</span>
-            <%= link_to Muquirana.version.to_release_tag, "https://github.com/maybe-finance/maybe/releases/tag/#{Muquirana.version.to_release_tag}", target: "_blank", class: "hover:underline" %>
+            <span class="font-medium text-primary"><%= t(".version") %></span>
+            <%= release_url ? link_to(release_tag, release_url, target: "_blank", class: "hover:underline") : release_tag %>
 
             <% if Muquirana.commit_sha.present? %>
-              (<%= link_to Muquirana.commit_sha.first(7), "https://github.com/maybe-finance/maybe/commit/#{Muquirana.commit_sha}", target: "_blank", class: "hover:underline" %>)
+              <% commit_url = github.commit_url(Muquirana.commit_sha) %>
+              (<%= commit_url ? link_to(Muquirana.commit_sha.first(7), commit_url, target: "_blank", class: "hover:underline") : Muquirana.commit_sha.first(7) %>)
             <% end %>
           </p>
         </div>
       <% end %>
     <% end %>
 
-    <% menu.with_item(variant: "link", text: "Settings", icon: "settings", href: settings_profile_path(return_to: request.fullpath)) %>
-    <% menu.with_item(variant: "link", text: "Changelog", icon: "box", href: changelog_path) %>
+    <% menu.with_item(variant: "link", text: t(".settings"), icon: "settings", href: settings_profile_path(return_to: request.fullpath)) %>
+    <% menu.with_item(variant: "link", text: t(".changelog"), icon: "box", href: changelog_path) %>
 
     <% if self_hosted? %>
-      <% menu.with_item(variant: "link", text: "Feedback", icon: "megaphone", href: feedback_path) %>
-      <% menu.with_item(variant: "link", text: "Contact", icon: "message-square-more", href: "https://link.maybe.co/discord") %>
+      <% menu.with_item(variant: "link", text: t(".feedback"), icon: "megaphone", href: feedback_path) %>
     <% else %>
-      <% menu.with_item(variant: "button", text: "Contact", icon: "message-square-more", data: { action: "intercom#show" }) %>
+      <% menu.with_item(variant: "button", text: t(".contact"), icon: "message-square-more", data: { action: "intercom#show" }) %>
     <% end %>
 
     <% menu.with_item(variant: "divider") %>
 
-    <% menu.with_item(variant: "button", text: "Log out", icon: "log-out", href: session_path(Current.session), method: :delete) %>
+    <% menu.with_item(variant: "button", text: t(".log_out"), icon: "log-out", href: session_path(Current.session), method: :delete) %>
   <% end %>
 </div>

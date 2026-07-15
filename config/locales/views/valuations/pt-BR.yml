@@ -1,0 +1,60 @@
+---
+pt-BR:
+  valuations:
+    confirm_create:
+      submit: Confirmar
+      title: Confirmar novo saldo
+    confirm_update:
+      submit: Atualizar
+      title: Atualizar saldo
+    confirmation_contents:
+      balance_labels:
+        credit_card: o saldo do cartão de crédito
+        crypto: o saldo de criptomoedas
+        default: o saldo
+        depository: o saldo da conta
+        loan: o saldo do empréstimo
+        other_asset: o valor do ativo
+        other_liability: o saldo do passivo
+        property: o valor do imóvel
+        vehicle: o valor do veículo
+      brokerage_cash: Dinheiro na corretora
+      holdings_value: Valor das posições
+      investment_intro_set_html: 'Isso vai definir o valor da conta em %{date} como:'
+      investment_intro_update_html: 'Isso vai atualizar o valor da conta em %{date}
+        para:'
+      non_investment_set_html: Definir %{label} em %{date} como %{amount}.
+      non_investment_update_html: Atualizar %{label} em %{date} para %{amount}.
+      recalculation_change: Todas as transações e saldos futuros serão recalculados
+        com base nesta alteração.
+      recalculation_update: Todas as transações e saldos futuros serão recalculados
+        com base nesta atualização.
+      total_account_value: Valor total da conta
+    header:
+      balance: Saldo
+    index:
+      change: variação
+      date: data
+      new_entry: Novo lançamento
+      no_valuations: Nenhuma avaliação nesta conta ainda
+      valuations: Valor
+      value: valor
+    new:
+      amount: Valor
+      submit: Atualizar saldo
+      title: Novo saldo
+    show:
+      account_value_label: Valor da conta na data
+      amount: Valor
+      date_label: Data
+      delete: Excluir
+      delete_subtitle: Esta ação não pode ser desfeita
+      delete_title: Excluir lançamento
+      details: Detalhes
+      name_label: Nome
+      name_placeholder: Dê um nome para este lançamento
+      note_label: Observações
+      note_placeholder: Escreva outros detalhes sobre este lançamento
+      overview: Visão geral
+      settings: Configurações
+      update_value: Atualizar valor

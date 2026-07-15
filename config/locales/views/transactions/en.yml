@@ -1,6 +1,22 @@
 ---
 en:
   transactions:
+    bulk_updates:
+      new:
+        cancel: Cancel
+        category: Category
+        category_prompt: Select a category
+        date: Date
+        merchant: Merchant
+        merchant_prompt: Select a merchant
+        none: None
+        note_label: Notes
+        note_placeholder: Enter a note that will be applied to selected transactions
+        overview: Overview
+        save: Save
+        tags_label: Tags
+        title: Edit transactions
+        transactions: Transactions
     form:
       account: Account
       account_prompt: Select an Account
@@ -10,47 +26,39 @@ en:
       date: Date
       description: Description
       description_placeholder: Describe transaction
+      details: Details
       expense: Expense
       income: Income
-      none: (none)
+      none: "(none)"
       note_label: Notes
       note_placeholder: Enter a note
       submit: Add transaction
       tags_label: Tags
       transfer: Transfer
-    new:
-      new_transaction: New transaction
-    show:
-      account_label: Account
-      amount: Amount
-      category_label: Category
-      date_label: Date
-      delete: Delete
-      delete_subtitle: This permanently deletes the transaction, affects your historical
-        balances, and cannot be undone.
-      delete_title: Delete transaction
-      details: Details
-      merchant_label: Merchant
-      name_label: Name
-      nature: Type
-      none: "(none)"
-      note_label: Notes
-      note_placeholder: Enter a note
-      overview: Overview
-      settings: Settings
-      tags_label: Tags
-      uncategorized: "(uncategorized)"
     header:
+      linked_with_plaid: Linked with Plaid
+    index:
+      amount: amount
+      category: category
       edit_categories: Edit categories
       edit_imports: Edit imports
       edit_merchants: Edit merchants
+      edit_prefix: Edit
+      edit_rules: Edit rules
       edit_tags: Edit tags
       import: Import
-    index:
+      new_rule: New rule
+      new_transaction: New transaction
+      selected_suffix: selected
+      title: Transactions
       transaction: transaction
       transactions: transactions
+    new:
+      new_transaction: New transaction
     searches:
       filters:
+        account_filter:
+          filter_placeholder: Filter accounts
         amount_filter:
           equal_to: Equal to
           greater_than: Greater than
@@ -62,10 +70,22 @@ en:
           on_or_after: on or after %{date}
           on_or_before: on or before %{date}
           transfer: Transfer
+        category_filter:
+          filter_placeholder: Filter category
+        date_filter:
+          end_date: End date
+          start_date: Start date
+        merchant_filter:
+          filter_placeholder: Filter merchants
+        tag_filter:
+          filter_placeholder: Filter tags
         type_filter:
           expense: Expense
           income: Income
           transfer: Transfer
+      form:
+        filter: Filter
+        search_placeholder: Search transactions ...
       menu:
         account_filter: Account
         amount_filter: Amount
@@ -81,3 +101,54 @@ en:
         equal_to: equal to
         greater_than: greater than
         less_than: less than
+    selection_bar:
+      delete: Delete
+      edit: Edit
+    show:
+      account_label: Account
+      amount: Amount
+      category_label: Category
+      date_label: Date
+      delete: Delete
+      delete_subtitle: This permanently deletes the transaction, affects your historical
+        balances, and cannot be undone.
+      delete_title: Delete transaction
+      details: Details
+      exclude_subtitle: Excluded transactions will be removed from budgeting calculations
+        and reports.
+      exclude_title: Exclude
+      expense: Expense
+      income: Income
+      merchant_label: Merchant
+      name_label: Name
+      nature: Type
+      none: "(none)"
+      note_label: Notes
+      note_placeholder: Enter a note
+      one_time_expense_title: One-time Expense
+      one_time_income_title: One-time Income
+      one_time_subtitle: One-time transactions will be excluded from certain budgeting
+        calculations and reports to help you see what's really important.
+      open_matcher: Open matcher
+      overview: Overview
+      settings: Settings
+      tags_label: Tags
+      transfer_subtitle: Transfers and payments are special types of transactions that
+        indicate money movement between 2 accounts.
+      transfer_title: Transfer or Debt Payment?
+      uncategorized: "(uncategorized)"
+    summary:
+      expenses: Expenses
+      income: Income
+      total_transactions: Total transactions
+    transaction:
+      loan_payment: Loan Payment
+      one_time_expense: One-time expense (excluded from averages)
+      one_time_income: One-time income (excluded from averages)
+      transfer: Transfer
+    transfer_match:
+      auto_matched: Auto-matched
+      confirm_match: Confirm match
+      payment_confirmed: Payment is confirmed
+      reject_match: Reject match
+      transfer_confirmed: Transfer is confirmed

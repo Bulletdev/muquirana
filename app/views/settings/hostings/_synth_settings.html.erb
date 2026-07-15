@@ -2,7 +2,7 @@
   <div>
     <h2 class="font-medium mb-1"><%= t(".title") %></h2>
     <% if ENV["SYNTH_API_KEY"].present? %>
-      <p class="text-sm text-secondary">You have successfully configured your Synth API key through the SYNTH_API_KEY environment variable.</p>
+      <p class="text-sm text-secondary"><%= t(".env_var_configured") %></p>
     <% else %>
       <p class="text-secondary text-sm mb-4"><%= t(".description") %></p>
     <% end %>

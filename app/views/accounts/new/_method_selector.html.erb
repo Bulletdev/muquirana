@@ -1,6 +1,21 @@
 <%# locals: (path:, accountable_type:, show_us_link: true, show_eu_link: true) %>
 
-<%= render layout: "accounts/new/container", locals: { title: t(".title"), back_path: new_account_path } do %>
+<%#
+  Lookup ABSOLUTO nas chaves abaixo, nao lazy.
+
+  O conteudo esta dentro do bloco de `render layout: "accounts/new/container"`,
+  e o t('.chave') resolve o @virtual_path em tempo de execucao -- que dentro do
+  bloco ja e o do LAYOUT. Com lazy, `t(".manual_entry")` virava
+  accounts.new.container.manual_entry, que nao existe: o Rails caia no fallback
+  `titleize` e a tela imprimia "Manual Entry" em ingles, mesmo com a chave
+  accounts.new.method_selector.manual_entry traduzida e disponivel.
+
+  Nao era string hardcoded -- era fallback. Por isso grep por "Manual Entry" no
+  codigo nao achava nada.
+
+  O mesmo padrao ja existia em accounts/new.html.erb:31 (t("accounts.new.import_accounts")).
+%>
+<%= render layout: "accounts/new/container", locals: { title: t("accounts.new.method_selector.title"), back_path: new_account_path } do %>
   <div class="text-sm">
     <%= link_to path, class: "flex items-center gap-4 w-full text-center text-primary focus:outline-hidden focus:bg-surface border border-transparent focus:border focus:border-gray-200 px-2 hover:bg-surface rounded-lg p-2" do %>
       <span class="flex w-8 h-8 shrink-0 grow-0 items-center justify-center rounded-lg bg-alpha-black-50 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.02)]">

@@ -1,7 +1,19 @@
 <%# locals: (account:, url:) %>
 
 <%= render "accounts/form", account: account, url: url do |form| %>
+  <%#
+    Lookup ABSOLUTO de proposito, nao lazy. Este bloco e passado para o partial
+    "accounts/form", e o t('.chave') resolve o @virtual_path em tempo de
+    execucao -- que aqui ja e "accounts/form". Com lazy, as chaves viravam
+    accounts.form.* e a tela renderizava "translation missing".
+  %>
+  <%#
+    O rotulo vem de Accountable#long_subtype_label_for, nao de uma chave local:
+    o mesmo subtipo tambem e exibido no badge da sidebar (accounts/_account),
+    que ja passa por esse metodo. Traduzir aqui em paralelo faria a mesma conta
+    aparecer como "CDB" no formulario e "Certificate of Deposit" na sidebar.
+  %>
   <%= form.select :subtype,
-                 Depository::SUBTYPES.map { |k, v| [v[:long], k] },
+                 Depository::SUBTYPES.keys.map { |k| [Depository.long_subtype_label_for(k), k] },
                  { label: true, prompt: t("depositories.form.subtype_prompt"), include_blank: t("depositories.form.none") } %>
 <% end %>

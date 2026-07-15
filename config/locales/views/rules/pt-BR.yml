@@ -1,0 +1,67 @@
+---
+pt-BR:
+  rules:
+    category_rule_cta:
+      create_rule: Criar regra
+      description: Você pode criar uma regra para categorizar automaticamente transações
+        como esta
+      dismiss: Dispensar
+      dont_show_again: Não mostrar de novo
+      message: Alterado para %{category}
+    confirm:
+      body_html: Você está prestes a aplicar esta regra a %{resources} que atendem aos
+        critérios definidos. Confirme se deseja prosseguir com esta alteração.
+      submit: Confirmar alterações
+      title: Confirmar alterações
+      title_named: Confirmar alterações em "%{name}"
+    edit:
+      back: Voltar para regras
+      title: Editar regra de %{resource_type}
+      title_named: Editar regra de %{resource_type} "%{name}"
+    form:
+      add_action: Adicionar ação
+      add_condition: Adicionar condição
+      add_condition_group: Adicionar grupo de condições
+      all_past_and_future: Todas as %{resource_type} passadas e futuras
+      for: PARA
+      if: SE
+      name_label: Nome da regra (opcional)
+      name_placeholder: Dê um nome para esta regra
+      starting_from: A partir de
+      then: ENTÃO
+    index:
+      ai_cost_warning: Ações de regra com IA têm custo. Filtre da forma mais restrita
+        possível para evitar gastos desnecessários.
+      delete_all: Excluir todas as regras
+      empty_description: Crie regras para executar ações nas suas transações e em outros
+        dados a cada sincronização de conta.
+      empty_title: Nenhuma regra ainda
+      new_rule: Nova regra
+      sort_by: 'Ordenar por:'
+      sort_name: Nome
+      sort_updated_at: Atualizado em
+      title: Regras
+      toggle_sort_direction: Inverter a ordenação
+    new:
+      back: Voltar para regras
+      title: Nova regra de %{resource_type}
+    resource_types:
+      transaction:
+        one: transação
+        other: transações
+    rule:
+      action_with_value: "%{label} para %{value}"
+      delete: Excluir
+      edit: Editar
+      effective_all: Todas as %{resource_type} passadas e futuras
+      effective_from: "%{resource_type} a partir de %{date}"
+      for: PARA
+      if: SE
+      more_actions:
+        one: e mais %{count} ação
+        other: e mais %{count} ações
+      more_conditions:
+        one: e mais %{count} condição
+        other: e mais %{count} condições
+      reapply: Reaplicar regra
+      then: ENTÃO

@@ -1,0 +1,42 @@
+---
+pt-BR:
+  budget_categories:
+    allocation_progress:
+      exceeded_by: Orçamento estourado em
+      left_to_allocate: disponível para alocar
+      over_allocated: "> 100% alocado"
+      set: "%{percent} alocado"
+    budget_category:
+      avg: "%{amount} em média"
+      from: de %{amount}
+      left: "%{amount} restantes"
+      over: "%{amount} a mais"
+    budget_category_form:
+      monthly_avg: "%{amount}/mês em média"
+    confirm_button:
+      confirm: Confirmar
+    index:
+      description: Ajuste o orçamento de cada categoria para definir limites de gastos.
+        O que não for alocado entra automaticamente como sem categoria.
+      title: Edite o orçamento por categoria
+    no_categories:
+      description: Você ainda não criou nem atribuiu categorias de despesa às suas
+        transações.
+      new_category: Nova categoria
+      title: Ops!
+      use_defaults: Usar padrões (recomendado)
+    show:
+      budgeted: Orçado
+      category: Categoria
+      left: restante
+      monthly_average_spending: Gasto médio mensal
+      monthly_median_spending: Gasto mediano mensal
+      no_transactions: Nenhuma transação neste período do orçamento.
+      overspent: estourado
+      overview: Visão geral
+      recent_transactions: Transações recentes
+      spending_for_period: Gastos em %{period}
+      status: Status
+      view_all_transactions: Ver todas as transações da categoria
+    uncategorized_budget_category_form:
+      monthly_avg: "%{amount}/mês em média"

@@ -1,0 +1,40 @@
+---
+pt-BR:
+  transfers:
+    account_links:
+      missing_account: 'Erro de dados: conta ausente'
+      transfer_id_title: 'ID da transferência: %{id}'
+    create:
+      success: Transferência criada
+    destroy:
+      success: Transferência removida
+    form:
+      amount: Valor
+      date: Data
+      expense: Despesa
+      from: De
+      income: Receita
+      select_account: Selecione a conta
+      submit: Criar transferência
+      to: Para
+      transfer: Transferência
+    new:
+      title: Nova transferência
+    show:
+      amount: Valor
+      category_label: Categoria
+      date: Data
+      delete: Remover transferência
+      delete_subtitle: Isso remove a transferência. As transações que estão por trás
+        dela não serão excluídas.
+      delete_title: Remover transferência?
+      details: Detalhes
+      from: De
+      note_label: Observações
+      note_placeholder: Escreva uma observação sobre esta transferência
+      overview: Visão geral
+      settings: Configurações
+      to: Para
+      uncategorized: Sem categoria
+    update:
+      success: Transferência atualizada

@@ -1,0 +1,25 @@
+---
+pt-BR:
+  layouts:
+    application:
+      days_remaining: "%{days} dias restantes"
+      free_trial: Teste grátis
+      nav_assistant: Assistente
+      nav_budgets: Orçamentos
+      nav_home: Início
+      nav_transactions: Transações
+      upgrade: Assinar
+    auth:
+      existing_account: Já tem uma conta?
+      no_account: Novo no Muquirana?
+      sign_in: Entrar
+      sign_up: Criar conta
+      your_account: Sua conta
+    shared:
+      confirm_dialog:
+        confirm_button: Confirmar
+        subtitle: Essa ação não pode ser desfeita.
+        title: Tem certeza?
+      footer:
+        privacy_policy: Política de Privacidade
+        terms_of_service: Termos de Uso

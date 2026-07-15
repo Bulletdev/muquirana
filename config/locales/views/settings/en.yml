@@ -1,11 +1,37 @@
 ---
 en:
   settings:
+    nav:
+      account: Account
+      accounts: Accounts
+      api_key: API Key
+      billing: Billing
+      categories: Categories
+      changelog: What's new
+      feedback: Feedback
+      imports: Imports
+      merchants: Merchants
+      preferences: Preferences
+      rules: Rules
+      security: Security
+      self_hosting: Self hosting
+      tags: Tags
     billings:
       show:
+        billing_via_stripe: Billing via Stripe
+        choose_plan: Choose plan
+        manage: Manage
+        not_subscribed_html: You are currently %{status}
+        not_subscribed_status: not subscribed
         page_title: Billing
+        renews_html: Your plan renews on %{date}.
+        subscribe_cta: Once you subscribe to Muquirana+, you'll see your billing settings
+          here.
+        subscribed_html: You are currently subscribed to the %{plan}.
         subscription_subtitle: Update your subscription and billing details
         subscription_title: Manage subscription
+        trial_days_remaining: "(%{days} days remaining)"
+        trialing: You are currently trialing Muquirana
     preferences:
       show:
         country: Country
@@ -18,10 +44,13 @@ en:
         page_title: Preferences
         theme_dark: Dark
         theme_light: Light
+        theme_preview_alt: "%{theme} Theme Preview"
         theme_subtitle: Choose a preferred theme for the app
         theme_system: System
         theme_title: Theme
         timezone: Timezone
+        translations_note: Not every language is fully translated yet. Untranslated
+          text falls back to English.
     profiles:
       destroy:
         cannot_remove_self: You cannot remove yourself from the account.
@@ -34,7 +63,7 @@ en:
             is irreversible.
           title: Delete account?
         confirm_reset:
-          body: Are you sure you want to reset your account? This will delete all your accounts, categories, merchants, tags, and other data. This action cannot be undone.
+          body: This will delete all data associated with your account. Your user profile will remain active.
           title: Reset account?
         confirm_remove_invitation:
           body: Are you sure you want to remove the invitation for %{email}?
@@ -43,12 +72,14 @@ en:
           body: Are you sure you want to remove %{name} from your account?
           title: Remove Member
         danger_zone_title: Danger Zone
+        data_title: Data Import/Export
         delete_account: Delete account
         delete_account_warning: Deleting your account will permanently remove all
           your data and cannot be undone.
         reset_account: Reset account
         reset_account_warning: Resetting your account will delete all your accounts, categories, merchants, tags, and other data, but keep your user account intact.
         email: Email
+        export_data: Export data
         first_name: First Name
         household_form_input_placeholder: Enter household name
         household_form_label: Household name
@@ -60,17 +91,20 @@ en:
         last_name: Last Name
         page_title: Account
         pending: Pending
-        profile_subtitle: Customize how you appear on Maybe
+        profile_subtitle: Customize how you appear on Muquirana
         profile_title: Profile
         remove_invitation: Remove Invitation
         remove_member: Remove Member
         save: Save
+        unconfirmed_email: You have requested to change your email to %{email}. Please
+          go to your email and confirm for the change to take effect.
     securities:
       show:
         page_title: Security
     settings_nav:
       accounts_label: Accounts
       api_key_label: API Key
+      back: Back
       billing_label: Billing
       categories_label: Categories
       feedback_label: Feedback

@@ -1,0 +1,38 @@
+---
+pt-BR:
+  loans:
+    edit:
+      edit: Editar %{account}
+    form:
+      initial_balance: Valor original do empréstimo
+      interest_rate: Taxa de juros
+      interest_rate_placeholder: '5.25'
+      rate_type: Tipo de taxa
+      rate_type_adjustable: Ajustável
+      rate_type_fixed: Prefixada
+      rate_type_variable: Pós-fixada
+      term_months: Prazo (meses)
+      term_months_placeholder: '360'
+    new:
+      title: Informe os dados do empréstimo
+    tabs:
+      overview:
+        edit_loan_details: Editar dados do empréstimo
+        interest_rate: Taxa de juros
+        monthly_payment: Parcela mensal
+        not_applicable: N/A
+        original_principal: Valor original
+        rate_types:
+          adjustable: Ajustável
+          fixed: Prefixada
+          variable: Pós-fixada
+        remaining_principal: Saldo devedor
+        term: Prazo
+        term_months:
+          one: "%{count} mês"
+          other: "%{count} meses"
+        term_years:
+          one: "%{count} ano"
+          other: "%{count} anos"
+        type: Tipo
+        unknown: Desconhecido

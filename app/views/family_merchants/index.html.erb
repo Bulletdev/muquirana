@@ -1,8 +1,8 @@
 <header class="flex items-center justify-between">
-  <h1 class="text-primary text-xl font-medium">Merchants</h1>
+  <h1 class="text-primary text-xl font-medium"><%= t(".title") %></h1>
 
   <%= render DS::Link.new(
-    text: "New merchant",
+    text: t(".new"),
     variant: "primary",
     href: new_family_merchant_path,
     frame: :modal

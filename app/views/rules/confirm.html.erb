@@ -1,22 +1,27 @@
 <%= render DS::Dialog.new(reload_on_close: true) do |dialog| %>
   <%
     title = if @rule.name.present?
-              "Confirm changes to \"#{@rule.name}\""
+              t(".title_named", name: @rule.name)
             else
-              "Confirm changes"
+              t(".title")
             end
   %>
   <% dialog.with_header(title: title) %>
 
   <% dialog.with_body do %>
+    <%
+      resource_count = @rule.affected_resource_count
+      resources = tag.span(
+        "#{resource_count} #{t("rules.resource_types.#{@rule.resource_type}", count: resource_count)}",
+        class: "text-primary font-medium"
+      )
+    %>
     <p class="text-secondary text-sm mb-4">
-      You are about to apply this rule to
-      <span class="text-primary font-medium"><%= @rule.affected_resource_count %> <%= @rule.resource_type.pluralize %></span>
-      that meet the specified rule criteria.  Please confirm if you wish to proceed with this change.
+      <%= t(".body_html", resources: resources) %>
     </p>
 
     <%= render DS::Button.new(
-      text: "Confirm changes",
+      text: t(".submit"),
       href: apply_rule_path(@rule),
       method: :post,
       full_width: true,

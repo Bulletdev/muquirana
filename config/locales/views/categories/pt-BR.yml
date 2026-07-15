@@ -1,0 +1,61 @@
+---
+pt-BR:
+  categories:
+    defaults:
+      entertainment: Lazer
+      fees: Tarifas
+      food_and_drink: Alimentação
+      gifts_and_donations: Presentes e doações
+      healthcare: Saúde
+      home_improvement: Casa e reforma
+      income: Receita
+      loan_payments: Pagamento de empréstimos
+      personal_care: Cuidados pessoais
+      rent_and_utilities: Aluguel e contas
+      services: Serviços
+      shopping: Compras
+      transportation: Transporte
+      travel: Viagem
+      uncategorized: Sem categoria
+    bootstrap:
+      success: Categorias padrão criadas com sucesso
+    category:
+      delete: Excluir categoria
+      edit: Editar categoria
+    create:
+      success: Categoria criada com sucesso
+    destroy:
+      success: Categoria excluída com sucesso
+    edit:
+      edit: Editar categoria
+    form:
+      auto_adjust: ajustar automaticamente.
+      classification_expense: Despesa
+      classification_income: Receita
+      classification_label: Tipo
+      color: Cor
+      contrast_warning: Contraste ruim, escolha uma cor mais escura ou
+      icon: Ícone
+      name_label: Nome
+      parent_blank: "(sem categoria pai)"
+      parent_label: Categoria pai (opcional)
+      placeholder: Nome da categoria
+    index:
+      bootstrap: Usar padrões (recomendado)
+      categories: Categorias
+      categories_expenses: Categorias de despesa
+      categories_incomes: Categorias de receita
+      delete_all: Excluir todas
+      empty: Nenhuma categoria encontrada
+      new: Nova categoria
+    menu:
+      loading: Carregando...
+    new:
+      new_category: Nova categoria
+    update:
+      success: Categoria atualizada com sucesso
+  category:
+    dropdowns:
+      show:
+        bootstrap: Gerar categorias padrão
+        empty: Nenhuma categoria encontrada

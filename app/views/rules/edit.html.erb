@@ -1,11 +1,13 @@
-<%= link_to "Back to rules", rules_path %>
+<%= link_to t(".back"), rules_path %>
 
 <%= render DS::Dialog.new do |dialog| %>
   <%
+    resource_type = t("rules.resource_types.#{@rule.resource_type}", count: 1)
+
     title = if @rule.name.present?
-              "Edit #{@rule.resource_type} rule \"#{@rule.name}\""
+              t(".title_named", resource_type: resource_type, name: @rule.name)
             else
-              "Edit #{@rule.resource_type} rule"
+              t(".title", resource_type: resource_type)
             end
   %>
   <% dialog.with_header(title: title) %>

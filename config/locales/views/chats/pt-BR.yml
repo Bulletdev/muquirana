@@ -1,0 +1,36 @@
+---
+pt-BR:
+  chats:
+    ai_consent:
+      description: A IA do Muquirana responde perguntas sobre finanças e traz análises
+        a partir dos seus dados. Para usar, você precisa habilitar explicitamente.
+      disclaimer: Você pode desativar quando quiser.  Todos os dados enviados aos provedores
+        de LLM são anonimizados.
+      missing_token_html: Para usar o assistente de IA, defina a variável de ambiente
+        %{env_var} na sua instalação própria.
+      submit: Habilitar a IA do Muquirana
+      title: Habilitar a IA do Muquirana
+    ai_greeting:
+      commands_hint_html: Use %{key} para acessar os comandos
+      fallback_name: tudo bem
+      greeting: 'Oi, %{name}! Sou a IA do Muquirana e ajudo você com suas finanças.
+        Tenho acesso à web e aos dados das suas contas.'
+      question_patterns: Encontre padrões fora do comum
+      question_portfolio: Avalie minha carteira de investimentos
+      question_spending: Mostre análises dos meus gastos
+      sample_questions_title: 'Algumas perguntas que você pode fazer:'
+    chat:
+      delete: Excluir conversa
+      edit_title: Editar título da conversa
+      updated_ago: há %{time}
+    chat_nav:
+      all_chats: Todas as conversas
+      delete: Excluir conversa
+      edit_title: Editar título da conversa
+      start_new_chat: Nova conversa
+    error:
+      failed: Não foi possível gerar a resposta.  Tente de novo.
+      retry: Tentar de novo
+    index:
+      new_chat: Nova conversa
+      title: Conversas

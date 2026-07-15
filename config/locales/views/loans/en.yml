@@ -4,20 +4,35 @@ en:
     edit:
       edit: Edit %{account}
     form:
+      initial_balance: Original loan balance
       interest_rate: Interest rate
       interest_rate_placeholder: '5.25'
-      initial_balance: Original loan balance
       rate_type: Rate type
+      rate_type_adjustable: Adjustable
+      rate_type_fixed: Fixed
+      rate_type_variable: Variable
       term_months: Term (months)
       term_months_placeholder: '360'
     new:
       title: Enter loan details
-    overview:
-      interest_rate: Interest Rate
-      monthly_payment: Monthly Payment
-      not_applicable: N/A
-      original_principal: Original Principal
-      remaining_principal: Remaining Principal
-      term: Term
-      type: Type
-      unknown: Unknown
+    tabs:
+      overview:
+        edit_loan_details: Edit loan details
+        interest_rate: Interest Rate
+        monthly_payment: Monthly Payment
+        not_applicable: N/A
+        original_principal: Original Principal
+        rate_types:
+          adjustable: Adjustable
+          fixed: Fixed
+          variable: Variable
+        remaining_principal: Remaining Principal
+        term: Term
+        term_months:
+          one: "%{count} month"
+          other: "%{count} months"
+        term_years:
+          one: "%{count} year"
+          other: "%{count} years"
+        type: Type
+        unknown: Unknown

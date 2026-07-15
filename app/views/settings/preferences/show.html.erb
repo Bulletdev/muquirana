@@ -35,7 +35,14 @@
             { label: t(".country") },
             { data: { auto_submit_form_target: "auto" } } %>
 
-        <p class="text-xs italic pl-2 text-secondary">Please note, we are still working on translations for various languages.  Please see the <%= link_to "I18n issue", "https://github.com/maybe-finance/maybe/issues/1225", target: "_blank", class: "underline" %> for more information.</p>
+        <%#
+          A nota linkava a issue de i18n de maybe-finance/maybe (#1225), que
+          descreve o esforco de traducao DAQUELE projeto -- nao deste. Aqui o
+          pt-BR e o en estao completos e o es so tem os defaults do rails-i18n,
+          caindo em ingles pelo fallback (ver config/application.rb). A nota
+          agora diz isso, sem depender de link nenhum.
+        %>
+        <p class="text-xs italic pl-2 text-secondary"><%= t(".translations_note") %></p>
       <% end %>
     <% end %>
   </div>
@@ -56,7 +63,7 @@
       ].each do |theme| %>
         <%= form.label :"theme_#{theme[:value]}", class: "group" do %>
           <div class="<%= theme_option_class %>">
-            <%= image_tag(theme[:image], alt: "#{theme[:value].titleize} Theme Preview", class: "h-44 mb-2") %>
+            <%= image_tag(theme[:image], alt: t(".theme_preview_alt", theme: t(".theme_#{theme[:value]}")), class: "h-44 mb-2") %>
             <div class="<%= theme[:value] == "system" ? "flex items-center gap-2 justify-center" : "text-sm font-medium text-primary" %>">
               <%= form.radio_button :theme, theme[:value], checked: @user.theme == theme[:value], class: "sr-only",
                 data: { auto_submit_form_target: "auto", autosubmit_trigger_event: "change", action: "theme#updateTheme" } %>

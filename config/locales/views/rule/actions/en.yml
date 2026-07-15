@@ -1,0 +1,6 @@
+---
+en:
+  rule:
+    actions:
+      action:
+        value_placeholder: Enter a value

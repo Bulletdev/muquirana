@@ -1,0 +1,19 @@
+---
+pt-BR:
+  invitations:
+    create:
+      failure: Não foi possível enviar o convite
+      success: Convite enviado
+    destroy:
+      failure: Não foi possível remover o convite.
+      not_authorized: Você não tem permissão para gerenciar convites.
+      success: Convite removido.
+    new:
+      email_label: E-mail
+      email_placeholder: Digite o e-mail
+      role_admin: Administrador
+      role_label: Função
+      role_member: Membro
+      submit: Enviar convite
+      subtitle: Envie um convite para alguém entrar na sua família no Muquirana
+      title: Convidar alguém

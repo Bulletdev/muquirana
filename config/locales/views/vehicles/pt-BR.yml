@@ -1,0 +1,29 @@
+---
+pt-BR:
+  vehicles:
+    edit:
+      edit: Editar %{account}
+    form:
+      make: Marca
+      make_placeholder: Toyota
+      mileage: Quilometragem
+      mileage_placeholder: '15000'
+      mileage_unit: Unidade
+      mileage_unit_km: Quilômetros
+      mileage_unit_mi: Milhas
+      model: Modelo
+      model_placeholder: Corolla
+      year: Ano
+      year_placeholder: '2023'
+    new:
+      title: Informe os dados do veículo
+    tabs:
+      overview:
+        current_price: Valor atual
+        edit_account_details: Editar dados da conta
+        make_model: Marca e modelo
+        mileage: Quilometragem
+        purchase_price: Valor de compra
+        trend: Tendência
+        unknown: Desconhecido
+        year: Ano
