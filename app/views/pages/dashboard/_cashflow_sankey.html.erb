@@ -5,7 +5,15 @@
       <%= t(".title") %>
     </h2>
 
-    <%= form_with url: root_path, method: :get, data: { controller: "auto-submit-form", turbo_frame: "cashflow_sankey_section" } do |form| %>
+    <%#
+      dashboard_path, NAO root_path.
+
+      A raiz virou a landing publica: um GET em "/" com sessao redireciona para
+      "/painel" e o redirect NAO leva a query string junto. O filtro chegava
+      como ?cashflow_period=... e morria no salto, entao a selecao nao aplicava
+      nunca -- o controller so via o default de 30 dias.
+    %>
+    <%= form_with url: dashboard_path, method: :get, data: { controller: "auto-submit-form", turbo_frame: "cashflow_sankey_section" } do |form| %>
       <%= form.select :cashflow_period,
                 Period.as_options,
                 { selected: period.key },

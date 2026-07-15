@@ -21,7 +21,10 @@
       </div>
     </div>
 
-    <%= form_with url: root_path, method: :get, data: { controller: "auto-submit-form" } do |form| %>
+    <%# dashboard_path e nao root_path: a raiz e a landing e o redirect dela
+        para "/painel" descarta a query string, entao o ?period=... nunca
+        chegava ao controller. Mesmo caso do filtro do fluxo de caixa. %>
+    <%= form_with url: dashboard_path, method: :get, data: { controller: "auto-submit-form" } do |form| %>
       <%= form.select :period,
                     Period.as_options,
                     { selected: period.key },

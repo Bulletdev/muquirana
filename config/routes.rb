@@ -194,7 +194,7 @@ Rails.application.routes.draw do
 
   resources :securities, only: :index
 
-  resources :invite_codes, only: %i[index create]
+  resources :invite_codes, only: %i[index create destroy]
 
   resources :invitations, only: [ :new, :create, :destroy ] do
     get :accept, on: :member
@@ -272,12 +272,30 @@ Rails.application.routes.draw do
 
   # O painel saiu de "/" para "/painel", e a raiz virou a landing publica.
   #
-  # `root_path` continua existindo e apontando para "/": as ~80 chamadas
-  # espalhadas pelo app nao precisaram mudar. Quem ja tem sessao cai na landing
-  # e e redirecionado para o painel (PagesController#home) -- um salto a mais,
-  # em troca de nao reescrever 80 referencias de uma vez. A nav e o logo, que
-  # sao os links mais clicados, ja apontam direto para o painel.
+  # `root_path` continua apontando para "/": as 45 chamadas espalhadas pelo app
+  # nao precisaram mudar. Quem ja tem sessao cai na landing e e redirecionado
+  # para o painel (PagesController#home) -- um salto a mais, em troca de nao
+  # reescrever tudo de uma vez.
+  #
+  # ATENCAO ao usar root_path: o redirect NAO leva a query string.
+  #
+  # `redirect_to root_path` depois de uma acao esta ok (nao ha parametro a
+  # preservar). Ja um form ou link que precise mandar parametro para o painel
+  # tem que apontar para `dashboard_path` DIRETO -- em "/" o parametro morre no
+  # salto, sem erro nenhum, e a tela so ignora o filtro.
+  #
+  # Isso ja aconteceu: os filtros de periodo do fluxo de caixa e do grafico de
+  # patrimonio postavam para root_path e nunca aplicavam.
   get "painel" => "pages#dashboard", as: :dashboard
+
+  # Entrada da instancia de demonstracao: loga o visitante como a conta publica
+  # de demo e joga ele no painel. Fora de uma instancia com DEMO_INSTANCE=true
+  # o controller responde 404 -- a rota existe no mapa, o recurso nao.
+  #
+  # GET e nao POST porque isto e um LINK: e o destino de DEMO_URL, colado na
+  # landing e mandado no WhatsApp. Nenhum dado real e tocado -- a instancia de
+  # demo nao tem dado real.
+  get "demo" => "demos#create", as: :demo
 
   # Defines the root path route ("/")
   root "pages#home"
