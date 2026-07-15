@@ -10,10 +10,17 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
   end
 
+  # O cassette e uma resposta real da API do GitHub gravada contra
+  # maybe-finance/maybe, o repositorio do projeto original. O env precisa
+  # coincidir com o que foi gravado para o VCR casar a requisicao. Isso e
+  # fixture de HTTP de terceiro, nao marca exibida ao usuario -- e nao ha como
+  # regravar contra um repositorio que ainda nao existe.
   test "changelog" do
-    VCR.use_cassette("git_repository_provider/fetch_latest_release_notes") do
-      get changelog_path
-      assert_response :ok
+    ClimateControl.modify GITHUB_REPO_OWNER: "maybe-finance", GITHUB_REPO_NAME: "maybe" do
+      VCR.use_cassette("git_repository_provider/fetch_latest_release_notes") do
+        get changelog_path
+        assert_response :ok
+      end
     end
   end
 
@@ -25,8 +32,30 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
 
     get changelog_path
     assert_response :ok
-    assert_select "h2", text: "Release notes unavailable"
-    assert_select "a[href='https://github.com/maybe-finance/maybe/releases']"
+    assert_select "h2", text: "Notas de versão indisponíveis"
+  end
+
+  # O estado vazio nao pode exibir a identidade de nenhum outro projeto. O
+  # fallback anterior injetava o avatar, o usuario e o link de releases de
+  # maybe-finance -- e o teste afirmava esse link, travando o vazamento de marca.
+  test "changelog fallback does not reference the upstream project" do
+    github_provider = mock
+    github_provider.expects(:fetch_latest_release_notes).returns(nil)
+    Provider::Registry.stubs(:get_provider).with(:github).returns(github_provider)
+
+    get changelog_path
+    assert_response :ok
+    assert_no_match(/maybe-finance/i, response.body)
+    assert_select "a[href*='github.com']", count: 0
+  end
+
+  # Sem GITHUB_REPO_OWNER/NAME o provider nao deve chamar a API do GitHub --
+  # nem a do projeto original, nem nenhuma.
+  test "github provider makes no request when repo is not configured" do
+    ClimateControl.modify GITHUB_REPO_OWNER: nil, GITHUB_REPO_NAME: nil do
+      Octokit.expects(:releases).never
+      assert_nil Provider::Github.new.fetch_latest_release_notes
+    end
   end
 
   test "changelog with incomplete release notes" do
@@ -34,7 +63,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     github_provider = mock
     incomplete_data = {
       avatar: nil,
-      username: "maybe-finance",
+      username: "someuser",
       name: "Test Release",
       published_at: nil,
       body: nil

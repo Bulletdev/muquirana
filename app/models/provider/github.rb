@@ -1,13 +1,26 @@
 class Provider::Github
   attr_reader :name, :owner, :branch
 
+  # O repositorio era fixo em maybe-finance/maybe. Isso fazia a tela "Novidades"
+  # exibir as notas de versao do projeto original -- com o avatar e o usuario
+  # deles -- como se fossem as deste app.
+  #
+  # Agora vem de env. Sem configuracao, nenhuma chamada e feita e o metodo
+  # devolve nil: melhor nao exibir novidade alguma do que exibir a de outro
+  # projeto.
   def initialize
-    @name = "maybe"
-    @owner = "maybe-finance"
-    @branch = "main"
+    @name = ENV["GITHUB_REPO_NAME"]
+    @owner = ENV["GITHUB_REPO_OWNER"]
+    @branch = ENV.fetch("GITHUB_REPO_BRANCH", "main")
+  end
+
+  def configured?
+    owner.present? && name.present?
   end
 
   def fetch_latest_release_notes
+    return nil unless configured?
+
     begin
       Rails.cache.fetch("latest_github_release_notes", expires_in: 2.hours) do
         release = Octokit.releases(repo).first

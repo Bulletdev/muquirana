@@ -4,18 +4,27 @@
   <div class="flex flex-col md:flex-row justify-between gap-4 mb-12 last:mb-0">
     <div class="w-full md:w-1/3">
       <div class="md:px-3 flex items-center gap-3">
-        <% if @release_notes[:avatar].present? %>
-          <div class="fg-inverse shrink-0 w-9 h-9">
-            <%= image_tag @release_notes[:avatar], class: "rounded-full w-full h-full object-cover" %>
-          </div>
-        <% else %>
-          <div class="bg-gray-300 text-gray-600 shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium">
-            <%= @release_notes[:username]&.first&.upcase || "?" %>
-          </div>
+        <%# Autor so existe quando ha release de verdade. No estado vazio, nao
+            renderiza avatar nem link -- antes o fallback injetava a identidade
+            do projeto original aqui. %>
+        <% if @release_notes[:username].present? %>
+          <% if @release_notes[:avatar].present? %>
+            <div class="fg-inverse shrink-0 w-9 h-9">
+              <%= image_tag @release_notes[:avatar], class: "rounded-full w-full h-full object-cover" %>
+            </div>
+          <% else %>
+            <div class="bg-gray-300 text-gray-600 shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium">
+              <%= @release_notes[:username].first.upcase %>
+            </div>
+          <% end %>
         <% end %>
         <div>
-          <a class="text-primary font-medium text-sm" href="https://github.com/<%= @release_notes[:username] %>"><%= "@#{@release_notes[:username]}" %></a>
-          <div class="text-secondary text-sm"><%= @release_notes[:published_at]&.strftime("%B %d, %Y") || "Date unavailable" %></div>
+          <% if @release_notes[:username].present? %>
+            <a class="text-primary font-medium text-sm" href="https://github.com/<%= @release_notes[:username] %>"><%= "@#{@release_notes[:username]}" %></a>
+          <% end %>
+          <% if @release_notes[:published_at].present? %>
+            <div class="text-secondary text-sm"><%= @release_notes[:published_at].strftime("%d/%m/%Y") %></div>
+          <% end %>
         </div>
       </div>
     </div>

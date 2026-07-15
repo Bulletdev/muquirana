@@ -30,14 +30,19 @@ class PagesController < ApplicationController
   def changelog
     @release_notes = github_provider.fetch_latest_release_notes
 
-    # Fallback if no release notes are available
+    # Fallback quando nao ha notas de versao -- seja porque GITHUB_REPO_OWNER/
+    # GITHUB_REPO_NAME nao estao configurados, seja porque a chamada falhou.
+    #
+    # O fallback anterior usava o avatar, o usuario e o link de releases de
+    # maybe-finance, o que exibia a identidade do projeto original nesta tela
+    # mesmo em caso de erro. Agora o estado vazio e neutro.
     if @release_notes.nil?
       @release_notes = {
-        avatar: "https://github.com/maybe-finance.png",
-        username: "maybe-finance",
-        name: "Release notes unavailable",
-        published_at: Date.current,
-        body: "<p>Unable to fetch the latest release notes at this time. Please check back later or visit our <a href='https://github.com/maybe-finance/maybe/releases' target='_blank'>GitHub releases page</a> directly.</p>"
+        avatar: nil,
+        username: nil,
+        name: "Notas de versão indisponíveis",
+        published_at: nil,
+        body: "<p>Não foi possível carregar as notas de versão no momento.</p>"
       }
     end
 
