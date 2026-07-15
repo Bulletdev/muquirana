@@ -1,7 +1,21 @@
 class PagesController < ApplicationController
   include Periodable
 
-  skip_authentication only: :redis_configuration_error
+  skip_authentication only: [ :redis_configuration_error, :home ]
+
+  # Landing publica em "/".
+  #
+  # Quem ja tem sessao nao ve a landing: vai direto para o painel. A checagem
+  # usa o MESMO find_session_by_cookie de Authentication#authenticate_user!,
+  # entao nao ha caminho por onde uma sessao valida seja ignorada aqui e
+  # aceita la (ou vice-versa).
+  #
+  # Nada de dado de familia e tocado nesta action -- ela e publica de proposito.
+  def home
+    return redirect_to dashboard_path if find_session_by_cookie
+
+    render layout: "landing"
+  end
 
   def dashboard
     @balance_sheet = Current.family.balance_sheet

@@ -1,5 +1,5 @@
 <% mobile_nav_items = [
-  { name: t("layouts.application.nav_home"), path: root_path, icon: "pie-chart", icon_custom: false, active: page_active?(root_path) },
+  { name: t("layouts.application.nav_home"), path: dashboard_path, icon: "pie-chart", icon_custom: false, active: page_active?(dashboard_path) },
   { name: t("layouts.application.nav_transactions"), path: transactions_path, icon: "credit-card", icon_custom: false, active: page_active?(transactions_path) },
   { name: t("layouts.application.nav_budgets"), path: budgets_path, icon: "map", icon_custom: false, active: page_active?(budgets_path) },
   { name: t("layouts.application.nav_assistant"), path: chats_path, icon: "icon-assistant", icon_custom: true, active: page_active?(chats_path), mobile_only: true }
@@ -35,7 +35,7 @@
     <nav class="lg:hidden flex justify-between items-center p-3">
       <%= icon("panel-left", as_button: true, data: { action: "app-layout#openMobileSidebar"}) %>
 
-      <%= link_to root_path, class: "block" do %>
+      <%= link_to dashboard_path, class: "block" do %>
         <%= image_tag "logomark.png", class: "w-9 h-9 mx-auto dark:invert" %>
       <% end %>
 
@@ -46,7 +46,7 @@
     <div class="hidden lg:block">
       <nav class="h-full flex flex-col shrink-0 w-[84px] py-4 mr-3">
         <div class="pl-2 mb-3">
-          <%= link_to root_path, class: "block" do %>
+          <%= link_to dashboard_path, class: "block" do %>
             <%= image_tag "logomark.png", class: "w-9 h-9 mx-auto dark:invert" %>
           <% end %>
         </div>

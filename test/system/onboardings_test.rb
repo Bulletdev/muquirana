@@ -206,6 +206,9 @@ class OnboardingsTest < ApplicationSystemTestCase
       end
 
       # Wait for successful login
-      assert_current_path root_path
+      #
+      # O login manda para "/", que agora e a landing publica: com sessao ela
+      # redireciona para o painel. O browser termina em /painel, nao em /.
+      assert_current_path dashboard_path
     end
 end

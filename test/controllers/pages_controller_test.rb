@@ -6,7 +6,9 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "dashboard" do
-    get root_path
+    # O painel saiu de "/" para "/painel": "/" e a landing publica, que
+    # redireciona quem tem sessao. Aponte para o painel direto.
+    get dashboard_path
     assert_response :ok
   end
 

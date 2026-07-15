@@ -1,0 +1,159 @@
+<%#
+  Landing publica. Layout: layouts/landing (escuro fixo, sem casca do app).
+
+  A pagina inteira sai dos tokens do proprio app (--color-black #0B0B0B,
+  gray-900, gray-25) e das fontes que ele ja carrega (Geist / Geist Mono). Nada
+  de fonte nem paleta nova: quem chega aqui e clica em "Criar conta" tem que
+  sentir que entrou no mesmo produto, nao num site de marketing colado por fora.
+
+  Geist Mono carrega os numeros e os rotulos porque dinheiro e tabular -- e
+  porque e a face que o app usa nos saldos.
+%>
+
+<%#
+  O link do codigo sai de GITHUB_REPO_OWNER/GITHUB_REPO_NAME, a mesma fonte da
+  tela "Novidades" e do menu -- URL e configuracao, nao traducao. Sem a config,
+  os links somem em vez de apontar para o repositorio de outro projeto.
+%>
+<% repo_url = Provider::Github.new.repo_url %>
+<% cta_criar = self_hosted? && !User.exists? ? new_registration_path : new_session_path %>
+
+<div class="min-h-full flex flex-col">
+
+  <%# ---------------------------------------------------------------- nav %>
+  <header class="w-full max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
+    <span class="font-mono text-sm tracking-tight text-[#FAFAFA]">muquirana</span>
+
+    <nav class="flex items-center gap-6 text-sm">
+      <% if repo_url %>
+        <a href="<%= repo_url %>"
+           target="_blank" rel="noopener noreferrer"
+           class="hidden sm:block text-[#9E9E9E] hover:text-[#FAFAFA] transition-colors">
+          <%= t("pages.home.nav_code") %>
+        </a>
+      <% end %>
+      <%= link_to t("pages.home.nav_enter"), new_session_path,
+            class: "text-[#9E9E9E] hover:text-[#FAFAFA] transition-colors" %>
+    </nav>
+  </header>
+
+  <%# --------------------------------------------------------------- hero
+      A tese: o nome E o posicionamento. "Muquirana" e pao-duro -- e a pessoa
+      pao-dura nao paga assinatura de app de financas. Nao paga mesmo: este
+      roda na sua maquina, de graca, para sempre. %>
+  <main class="grow w-full max-w-6xl mx-auto px-6">
+    <section class="pt-16 pb-24 md:pt-28 md:pb-32">
+      <p class="font-mono text-xs uppercase tracking-[0.2em] text-[#9E9E9E] mb-6">
+        <%= t("pages.home.eyebrow") %>
+      </p>
+
+      <h1 class="text-4xl md:text-6xl lg:text-7xl font-medium tracking-tight leading-[1.05] max-w-4xl">
+        <%= t("pages.home.headline") %>
+      </h1>
+
+      <p class="mt-6 text-lg md:text-xl text-[#9E9E9E] max-w-xl leading-relaxed">
+        <%= t("pages.home.subhead") %>
+      </p>
+
+      <div class="mt-10 flex flex-col sm:flex-row gap-3">
+        <%= link_to cta_criar,
+              class: "inline-flex items-center justify-center px-6 py-3 rounded-full bg-[#FAFAFA] text-[#0B0B0B] font-medium hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5BFF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B]" do %>
+          <%= t("pages.home.cta_primary") %>
+        <% end %>
+
+        <% if repo_url %>
+          <a href="<%= repo_url %>"
+             target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center justify-center px-6 py-3 rounded-full border border-[#363636] text-[#FAFAFA] hover:border-[#5C5C5C] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2D5BFF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0B0B]">
+            <%= t("pages.home.cta_secondary") %>
+          </a>
+        <% end %>
+      </div>
+    </section>
+
+    <%# ------------------------------------------------------ a assinatura
+        O preco. E o desfecho da piada do nome e, ao mesmo tempo, a unica
+        coisa que os concorrentes nao conseguem copiar. Por isso e o maior
+        numero da pagina, na mesma fonte em que o app mostra saldo. %>
+    <section class="py-16 md:py-24 border-t border-[#242424]">
+      <div class="grid md:grid-cols-[auto_1fr] gap-8 md:gap-16 items-center">
+        <div>
+          <p class="font-mono text-6xl md:text-8xl tracking-tighter text-[#FAFAFA] tabular-nums">
+            <%= t("pages.home.price") %>
+          </p>
+          <p class="font-mono text-sm text-[#9E9E9E] mt-2">
+            <%= t("pages.home.price_period") %>
+          </p>
+        </div>
+
+        <p class="text-lg md:text-xl text-[#9E9E9E] leading-relaxed max-w-lg">
+          <%= t("pages.home.price_explainer") %>
+        </p>
+      </div>
+    </section>
+
+    <%# --------------------------------------------------- o que ele faz
+        So o que o app entrega HOJE. Nada de "conectamos seu banco" ou
+        "detecta assinaturas": ele nao faz isso, e prometer o que nao existe
+        num app de financas nao e marketing, e mentira. %>
+    <section class="py-16 md:py-24 border-t border-[#242424]">
+      <h2 class="text-2xl md:text-3xl font-medium tracking-tight mb-12">
+        <%= t("pages.home.features_title") %>
+      </h2>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-10">
+        <% %w[patrimonio contas transacoes orcamento importacao ia].each do |k| %>
+          <div>
+            <h3 class="font-medium text-[#FAFAFA] mb-2">
+              <%= t("pages.home.feature_#{k}_title") %>
+            </h3>
+            <p class="text-[#9E9E9E] leading-relaxed">
+              <%= t("pages.home.feature_#{k}_body") %>
+            </p>
+          </div>
+        <% end %>
+      </div>
+    </section>
+
+    <%# ------------------------------------------------------- seus dados %>
+    <section class="py-16 md:py-24 border-t border-[#242424]">
+      <div class="max-w-2xl">
+        <h2 class="text-2xl md:text-3xl font-medium tracking-tight mb-4">
+          <%= t("pages.home.data_title") %>
+        </h2>
+        <p class="text-lg text-[#9E9E9E] leading-relaxed">
+          <%= t("pages.home.data_body") %>
+        </p>
+
+        <% if repo_url %>
+          <a href="<%= repo_url %>"
+             target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center gap-2 mt-6 font-mono text-sm text-[#FAFAFA] border-b border-[#363636] hover:border-[#FAFAFA] transition-colors pb-0.5">
+            <%= t("pages.home.data_link") %>
+          </a>
+        <% end %>
+      </div>
+    </section>
+  </main>
+
+  <%# -------------------------------------------------------------- rodape %>
+  <footer class="w-full max-w-6xl mx-auto px-6 py-10 border-t border-[#242424]">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-sm text-[#5C5C5C]">
+      <p class="font-mono"><%= t("pages.home.footer_license", year: Date.current.year) %></p>
+
+      <div class="flex items-center gap-6">
+        <% if repo_url %>
+          <a href="<%= repo_url %>" target="_blank" rel="noopener noreferrer"
+             class="hover:text-[#9E9E9E] transition-colors"><%= t("pages.home.nav_code") %></a>
+        <% end %>
+        <%= link_to t("pages.home.nav_enter"), new_session_path, class: "hover:text-[#9E9E9E] transition-colors" %>
+      </div>
+    </div>
+
+    <%# Atribuicao. O README ja traz o aviso completo; aqui fica a versao curta,
+        porque a landing e a face publica e a nao-afiliacao precisa estar nela. %>
+    <p class="mt-6 text-xs text-[#363636] leading-relaxed max-w-2xl">
+      <%= t("pages.home.footer_fork") %>
+    </p>
+  </footer>
+</div>

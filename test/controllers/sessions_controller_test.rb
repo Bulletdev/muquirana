@@ -15,7 +15,11 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
     assert Session.exists?(user_id: @user.id)
 
+    # root_url e a landing: com sessao, ela redireciona para o painel. Seguir o
+    # redirect prova o fluxo inteiro do login ate a app.
     get root_url
+    assert_redirected_to dashboard_path
+    follow_redirect!
     assert_response :success
   end
 

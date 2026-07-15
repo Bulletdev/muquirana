@@ -1,0 +1,44 @@
+<%#
+  Layout da landing publica (PagesController#home).
+
+  Nao usa layouts/shared/htmldoc: aquele monta a casca do APP -- turbo_stream
+  da familia, frames de modal/drawer, bandeja de notificacao, barra de
+  impersonation, controller de tema por usuario. Nada disso existe para um
+  visitante sem sessao, e varias dessas partes leem Current.user/Current.family,
+  que aqui sao nil.
+
+  Escuro fixo (sem data-theme): quem chega aqui nao tem preferencia salva.
+%>
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>" class="h-full">
+  <head>
+    <title><%= t("pages.home.meta_title") %></title>
+    <meta name="description" content="<%= t("pages.home.meta_description") %>">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0B0B0B">
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%# Open Graph: o link colado no WhatsApp/Twitter e a primeira impressao %>
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="<%= t("pages.home.meta_title") %>">
+    <meta property="og:description" content="<%= t("pages.home.meta_description") %>">
+    <meta property="og:url" content="<%= root_url %>">
+    <meta property="og:locale" content="<%= I18n.locale.to_s.tr("-", "_") %>">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="canonical" href="<%= root_url %>">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <%# So o tailwind: ele ja traz o design system e as fontes (Geist/Geist Mono).
+        Sem importmap -- esta pagina nao tem Stimulus nem Turbo. %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+  </head>
+
+  <body class="h-full antialiased bg-[#0B0B0B] text-[#FAFAFA] font-sans">
+    <%= yield %>
+  </body>
+</html>

@@ -9,8 +9,10 @@ class ImpersonationSessionsControllerTest < ActionDispatch::IntegrationTest
 
     post join_impersonation_sessions_path, params: { impersonation_session_id: impersonator_session.id }
 
+    # dashboard_path, nao root_path: "/" virou a landing publica e apenas
+    # redireciona -- nao gera log de atividade da impersonation.
     assert_difference "impersonator_session.logs.count", 2 do
-      get root_path
+      get dashboard_path
       get account_path(impersonated.family.accounts.first)
     end
   end

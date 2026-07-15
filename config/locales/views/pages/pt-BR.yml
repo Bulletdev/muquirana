@@ -49,6 +49,53 @@ pt-BR:
       subtitle: Conte o que você achou. Fique à vontade para incluir links de vídeos
         ou capturas de tela.
       title: Deixe seu feedback
+    home:
+      cta_primary: Criar minha conta
+      cta_secondary: Ver o código
+      data_body: O Muquirana é software livre, sob licença AGPLv3. Você pode rodar
+        na sua máquina, ler cada linha do código, mudar o que quiser e continuar
+        usando mesmo que este projeto pare amanhã. Seus lançamentos ficam no seu
+        banco de dados, não no nosso.
+      data_link: github.com/Bulletdev/muquirana
+      data_title: Seus dados ficam com você
+      eyebrow: Finanças pessoais · código aberto
+      feature_contas_body: Corrente, poupança, cartão, investimento, cripto, imóvel,
+        veículo e empréstimo. Cada uma com histórico e saldo próprio.
+      feature_contas_title: Contas
+      feature_ia_body: Converse sobre os seus números e receba resposta baseada nos
+        seus dados. Você usa a sua chave da OpenAI, e pode deixar desligado.
+      feature_ia_title: Assistente de IA
+      feature_importacao_body: Traga o extrato do seu banco em CSV e diga qual coluna
+        é o quê. Sem depender de integração bancária.
+      feature_importacao_title: Importação de CSV
+      feature_orcamento_body: Defina quanto pretende gastar por categoria no mês e
+        acompanhe o quanto já foi.
+      feature_orcamento_title: Orçamento
+      feature_patrimonio_body: Tudo que você tem menos tudo que você deve, mês a mês,
+        com a evolução no tempo.
+      feature_patrimonio_title: Patrimônio
+      feature_transacoes_body: Categorias, etiquetas, estabelecimentos e regras que
+        classificam sozinhas o que se repete.
+      feature_transacoes_title: Transações
+      features_title: O que ele faz
+      footer_fork: Fork do Maybe Finance, mantido de forma independente. Não é afiliado,
+        patrocinado nem endossado pela Maybe Finance, Inc. "Maybe" é marca registrada
+        da Maybe Finance, Inc., citada aqui apenas para atribuir a autoria do trabalho
+        original.
+      footer_license: AGPLv3 · %{year}
+      headline: Muquirana demais para pagar assinatura de app de finanças.
+      meta_description: App de finanças pessoais em português, código aberto e self-hosted.
+        Patrimônio, contas, transações e orçamento em reais. Sem assinatura.
+      meta_title: Muquirana · Finanças pessoais em português, sem assinatura
+      nav_code: Código
+      nav_enter: Entrar
+      price: R$ 0,00
+      price_explainer: Não tem plano, não tem teste grátis que vira cobrança, não tem
+        recurso escondido atrás de upgrade. O código é aberto e você hospeda onde
+        quiser — a conta que sobra é a da sua própria infraestrutura.
+      price_period: por mês, para sempre
+      subhead: Então hospede o seu. Acompanhe patrimônio, contas, transações e orçamento
+        em reais, com o código na sua mão.
     redis_configuration_error:
       heading: Configuração do Redis necessária
       page_title: Configuração do Redis necessária - Muquirana

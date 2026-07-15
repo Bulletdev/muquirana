@@ -270,6 +270,15 @@ Rails.application.routes.draw do
   get "imports/:import_id/upload/sample_csv", to: "import/uploads#sample_csv", as: :import_upload_sample_csv
 
 
+  # O painel saiu de "/" para "/painel", e a raiz virou a landing publica.
+  #
+  # `root_path` continua existindo e apontando para "/": as ~80 chamadas
+  # espalhadas pelo app nao precisaram mudar. Quem ja tem sessao cai na landing
+  # e e redirecionado para o painel (PagesController#home) -- um salto a mais,
+  # em troca de nao reescrever 80 referencias de uma vez. A nav e o logo, que
+  # sao os links mais clicados, ja apontam direto para o painel.
+  get "painel" => "pages#dashboard", as: :dashboard
+
   # Defines the root path route ("/")
-  root "pages#dashboard"
+  root "pages#home"
 end
