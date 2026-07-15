@@ -116,6 +116,33 @@ services:
       - traefik.http.routers.muquirana-http.middlewares=muquirana-redirect-https
       - traefik.http.middlewares.muquirana-redirect-https.redirectscheme.scheme=https
 
+      # www -> dominio sem www, 301.
+      #
+      # Sem estas regras, quem acessa www bate no Traefik, nenhuma regra casa e
+      # ele devolve 404 -- o DNS resolve www para o mesmo IP, mas o Traefik
+      # roteia por Host e nao sabe o que fazer com ele.
+      #
+      # Nao aponta para a app: redireciona. Servir o mesmo conteudo nos dois
+      # hosts duplicaria a origem (SEO) e faria a sessao, que e cookie assinado
+      # por dominio, nao acompanhar quem trocasse de um para o outro.
+      #
+      # O $$ escapa o $ do compose para o Traefik receber $1 (grupo do regex).
+      - traefik.http.routers.muquirana-www.rule=Host(`www.${APP_DOMAIN}`)
+      - traefik.http.routers.muquirana-www.entrypoints=https
+      - traefik.http.routers.muquirana-www.tls=true
+      - traefik.http.routers.muquirana-www.tls.certresolver=letsencrypt
+      - traefik.http.routers.muquirana-www.middlewares=muquirana-www-redirect
+      - traefik.http.routers.muquirana-www.service=muquirana
+      - traefik.http.middlewares.muquirana-www-redirect.redirectregex.regex=^https?://www\.(.+)
+      - traefik.http.middlewares.muquirana-www-redirect.redirectregex.replacement=https://$${1}
+      - traefik.http.middlewares.muquirana-www-redirect.redirectregex.permanent=true
+
+      # www no HTTP tambem, senao http://www da 404 antes de chegar no redirect
+      - traefik.http.routers.muquirana-www-http.rule=Host(`www.${APP_DOMAIN}`)
+      - traefik.http.routers.muquirana-www-http.entrypoints=http
+      - traefik.http.routers.muquirana-www-http.middlewares=muquirana-www-redirect
+      - traefik.http.routers.muquirana-www-http.service=muquirana
+
       - traefik.docker.network=coolify
 
       # Healthcheck do Traefik sobre o /up do Rails (defesa em profundidade
