@@ -10,6 +10,7 @@
 
 <div align="center">
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5e731351afc643cca1e0950451e0531e)](https://app.codacy.com/gh/Bulletdev/muquirana?utm_source=github.com&utm_medium=referral&utm_content=Bulletdev/muquirana&utm_campaign=Badge_Grade)
 [![Security Audit](https://github.com/Bulletdev/muquirana/actions/workflows/security.yml/badge.svg)](https://github.com/Bulletdev/muquirana/actions/workflows/security.yml)
 [![Version](https://img.shields.io/badge/version-0.7.0-B91C1C)](https://github.com/Bulletdev/muquirana/releases/tag/v0.7.0)
 
