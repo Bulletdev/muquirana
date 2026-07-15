@@ -3,6 +3,7 @@ en:
   activerecord:
     attributes:
       import:
+        date_format: Date format
         currency: Currency
         number_format: Number Format
     errors:

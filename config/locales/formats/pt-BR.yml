@@ -1,0 +1,8 @@
+---
+pt-BR:
+  date:
+    formats:
+      # Usado no nome do orçamento (Budget#name) e no cabecalho de gastos do
+      # periodo. O rails-i18n nao vendoriza um formato mes+ano, entao ele e
+      # definido aqui para os tres locales de available_locales.
+      month_year: "%B de %Y"

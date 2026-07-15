@@ -9,60 +9,38 @@ class Period
   validates :key, presence: true, if: -> { start_date.nil? || end_date.nil? }
   validate :must_be_valid_date_range
 
+  # As chaves ("last_30_days" etc) sao identificadores: ficam persistidas em
+  # users.default_period e sao validadas por User. Nao renomear.
+  #
+  # Os rotulos (label, label_short, comparison_label) sairam deste hash e vivem
+  # em config/locales/models/period/*.yml -- ver #label e #comparison_label.
   PERIODS = {
     "last_day" => {
-      date_range: -> { [ 1.day.ago.to_date, Date.current ] },
-      label_short: "1D",
-      label: "Last Day",
-      comparison_label: "vs. yesterday"
+      date_range: -> { [ 1.day.ago.to_date, Date.current ] }
     },
     "current_week" => {
-      date_range: -> { [ Date.current.beginning_of_week, Date.current ] },
-      label_short: "WTD",
-      label: "Current Week",
-      comparison_label: "vs. start of week"
+      date_range: -> { [ Date.current.beginning_of_week, Date.current ] }
     },
     "last_7_days" => {
-      date_range: -> { [ 7.days.ago.to_date, Date.current ] },
-      label_short: "7D",
-      label: "Last 7 Days",
-      comparison_label: "vs. last week"
+      date_range: -> { [ 7.days.ago.to_date, Date.current ] }
     },
     "current_month" => {
-      date_range: -> { [ Date.current.beginning_of_month, Date.current ] },
-      label_short: "MTD",
-      label: "Current Month",
-      comparison_label: "vs. start of month"
+      date_range: -> { [ Date.current.beginning_of_month, Date.current ] }
     },
     "last_30_days" => {
-      date_range: -> { [ 30.days.ago.to_date, Date.current ] },
-      label_short: "30D",
-      label: "Last 30 Days",
-      comparison_label: "vs. last month"
+      date_range: -> { [ 30.days.ago.to_date, Date.current ] }
     },
     "last_90_days" => {
-      date_range: -> { [ 90.days.ago.to_date, Date.current ] },
-      label_short: "90D",
-      label: "Last 90 Days",
-      comparison_label: "vs. last quarter"
+      date_range: -> { [ 90.days.ago.to_date, Date.current ] }
     },
     "current_year" => {
-      date_range: -> { [ Date.current.beginning_of_year, Date.current ] },
-      label_short: "YTD",
-      label: "Current Year",
-      comparison_label: "vs. start of year"
+      date_range: -> { [ Date.current.beginning_of_year, Date.current ] }
     },
     "last_365_days" => {
-      date_range: -> { [ 365.days.ago.to_date, Date.current ] },
-      label_short: "365D",
-      label: "Last 365 Days",
-      comparison_label: "vs. 1 year ago"
+      date_range: -> { [ 365.days.ago.to_date, Date.current ] }
     },
     "last_5_years" => {
-      date_range: -> { [ 5.years.ago.to_date, Date.current ] },
-      label_short: "5Y",
-      label: "Last 5 Years",
-      comparison_label: "vs. 5 years ago"
+      date_range: -> { [ 5.years.ago.to_date, Date.current ] }
     }
   }
 
@@ -96,11 +74,10 @@ class Period
     end
   end
 
-  def initialize(start_date: nil, end_date: nil, key: nil, date_format: "%b %d, %Y")
+  def initialize(start_date: nil, end_date: nil, key: nil)
     @key = key
     @start_date = start_date
     @end_date = end_date
-    @date_format = date_format
     validate!
   end
 
@@ -128,27 +105,34 @@ class Period
     end
   end
 
+  # Os rotulos vivem em config/locales/models/period/*.yml e nao no hash PERIODS
+  # (que ficou so com date_range). As chaves de PERIODS continuam identificadores
+  # -- sao persistidas em users.default_period e validadas em User.
   def label
     if key_metadata
-      key_metadata.fetch(:label)
+      I18n.t("periods.#{key}.label")
     else
-      "Custom Period"
+      I18n.t("periods.custom.label")
     end
   end
 
   def label_short
     if key_metadata
-      key_metadata.fetch(:label_short)
+      I18n.t("periods.#{key}.label_short")
     else
-      "Custom"
+      I18n.t("periods.custom.label_short")
     end
   end
 
   def comparison_label
     if key_metadata
-      key_metadata.fetch(:comparison_label)
+      I18n.t("periods.#{key}.comparison_label")
     else
-      "#{start_date.strftime(@date_format)} to #{end_date.strftime(@date_format)}"
+      I18n.t(
+        "periods.custom.comparison_label",
+        start_date: I18n.l(start_date, format: :long),
+        end_date: I18n.l(end_date, format: :long)
+      )
     end
   end
 

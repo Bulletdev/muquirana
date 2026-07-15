@@ -1,6 +1,10 @@
 ---
 en:
   activerecord:
+    attributes:
+      entry:
+        amount: Amount
+        date: Date
     errors:
       models:
         entry:

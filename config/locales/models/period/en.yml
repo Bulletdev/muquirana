@@ -1,0 +1,43 @@
+---
+en:
+  periods:
+    current_month:
+      comparison_label: vs. start of month
+      label: Current Month
+      label_short: MTD
+    current_week:
+      comparison_label: vs. start of week
+      label: Current Week
+      label_short: WTD
+    current_year:
+      comparison_label: vs. start of year
+      label: Current Year
+      label_short: YTD
+    custom:
+      comparison_label: "%{start_date} to %{end_date}"
+      label: Custom Period
+      label_short: Custom
+    last_30_days:
+      comparison_label: vs. last month
+      label: Last 30 Days
+      label_short: 30D
+    last_365_days:
+      comparison_label: vs. 1 year ago
+      label: Last 365 Days
+      label_short: 365D
+    last_5_years:
+      comparison_label: vs. 5 years ago
+      label: Last 5 Years
+      label_short: 5Y
+    last_7_days:
+      comparison_label: vs. last week
+      label: Last 7 Days
+      label_short: 7D
+    last_90_days:
+      comparison_label: vs. last quarter
+      label: Last 90 Days
+      label_short: 90D
+    last_day:
+      comparison_label: vs. yesterday
+      label: Last Day
+      label_short: 1D

@@ -1,0 +1,130 @@
+---
+pt-BR:
+  accountables:
+    # display_name_singular NAO e derivavel de display_name: o `singularize` do
+    # ActiveSupport usa regras do ingles ("Imoveis" -> "Imovei"). Por isso as
+    # duas formas sao chaves separadas.
+    #
+    # subtypes.*: rotulo exibido de accounts.subtype. As CHAVES ("checking",
+    # "401k") sao valores persistidos no banco -- nao sao traduziveis, so os
+    # rotulos. Este e o unico lugar onde os subtipos sao traduzidos: as views
+    # (dropdown do formulario) e a sidebar (badge da conta) passam ambas por
+    # Accountable#subtype_label_for, entao nao ha como divergirem.
+    #
+    # Produtos que so existem nos EUA (401k, Roth 401k, Roth IRA, IRA, 529, HSA)
+    # ficam com o nome proprio, as vezes com uma glosa entre parenteses. Nao ha
+    # equivalente brasileiro, e inventar um afirmaria uma equivalencia falsa.
+    # A taxonomia inteira ser americana e uma questao de produto em aberto.
+    credit_card:
+      display_name: Cartões de crédito
+      display_name_singular: Cartão de crédito
+      subtypes:
+        credit_card:
+          long: Cartão de crédito
+          short: Cartão de crédito
+    crypto:
+      display_name: Cripto
+      display_name_singular: Cripto
+    depository:
+      display_name: Dinheiro
+      display_name_singular: Dinheiro
+      subtypes:
+        cd:
+          long: CDB (Certificado de Depósito Bancário)
+          short: CDB
+        checking:
+          long: Conta corrente
+          short: Conta corrente
+        hsa:
+          long: Conta de poupança para saúde (HSA)
+          short: HSA
+        money_market:
+          long: Fundo de renda fixa
+          short: Renda fixa
+        savings:
+          long: Poupança
+          short: Poupança
+    investment:
+      display_name: Investimentos
+      display_name_singular: Investimento
+      subtypes:
+        '401k':
+          long: 401(k)
+          short: 401(k)
+        '529_plan':
+          long: Plano 529
+          short: Plano 529
+        angel:
+          long: Investimento anjo
+          short: Anjo
+        brokerage:
+          long: Conta em corretora
+          short: Corretora
+        hsa:
+          long: Conta de poupança para saúde (HSA)
+          short: HSA
+        ira:
+          long: IRA tradicional
+          short: IRA
+        mutual_fund:
+          long: Fundo de investimento
+          short: Fundo
+        pension:
+          long: Previdência privada
+          short: Previdência
+        retirement:
+          long: Aposentadoria
+          short: Aposentadoria
+        roth_401k:
+          long: Roth 401(k)
+          short: Roth 401(k)
+        roth_ira:
+          long: Roth IRA
+          short: Roth IRA
+    loan:
+      display_name: Empréstimos
+      display_name_singular: Empréstimo
+      subtypes:
+        auto:
+          long: Financiamento de veículo
+          short: Veículo
+        mortgage:
+          long: Financiamento imobiliário
+          short: Imobiliário
+        other:
+          long: Outro empréstimo
+          short: Outro
+        student:
+          long: Crédito estudantil
+          short: Estudantil
+    other_asset:
+      display_name: Outros ativos
+      display_name_singular: Outro ativo
+    other_liability:
+      display_name: Outros passivos
+      display_name_singular: Outro passivo
+    property:
+      display_name: Imóveis
+      display_name_singular: Imóvel
+      subtypes:
+        condominium:
+          long: Apartamento
+          short: Apartamento
+        investment_property:
+          long: Imóvel de investimento
+          short: Investimento
+        multi_family_home:
+          long: Imóvel multifamiliar
+          short: Multifamiliar
+        second_home:
+          long: Segunda residência
+          short: Segunda residência
+        single_family_home:
+          long: Casa
+          short: Casa
+        townhouse:
+          long: Sobrado
+          short: Sobrado
+    vehicle:
+      display_name: Veículos
+      display_name_singular: Veículo

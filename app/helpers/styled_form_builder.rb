@@ -116,13 +116,30 @@ class StyledFormBuilder < ActionView::Helpers::FormBuilder
 
       if options[:required]
         label_text = @template.safe_join([
-          label_text == true ? method.to_s.humanize : label_text,
+          label_text == true ? humanized_attribute(method) : label_text,
           @template.tag.span("*", class: "text-red-500 ml-0.5")
         ])
       end
 
       return label(method, class: "form-field__label") if label_text == true
       label(method, label_text, class: "form-field__label")
+    end
+
+    # Com `label: true` E `required: true`, este ramo monta o texto por conta
+    # propria e nunca chega no `label(method)` do Rails -- que faria o lookup de
+    # i18n sozinho. Usava `method.to_s.humanize`, entao o rotulo saia em ingles
+    # ("Date*") mesmo num app traduzido, so nos campos obrigatorios.
+    #
+    # human_attribute_name resolve activerecord.attributes.<model>.<attr> e cai
+    # no humanize quando nao ha chave -- mesmo comportamento de antes para quem
+    # nao tiver traducao, sem quebrar objeto que nao seja ActiveModel.
+    def humanized_attribute(method)
+      klass = @object.class
+      if klass.respond_to?(:human_attribute_name)
+        klass.human_attribute_name(method)
+      else
+        method.to_s.humanize
+      end
     end
 
     def build_tooltip(tooltip_text)

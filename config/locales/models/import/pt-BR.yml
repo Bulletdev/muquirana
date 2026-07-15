@@ -1,0 +1,14 @@
+---
+pt-BR:
+  activerecord:
+    attributes:
+      import:
+        date_format: Formato de data
+        currency: Moeda
+        number_format: Formato de número
+    errors:
+      models:
+        import:
+          attributes:
+            raw_file_str:
+              invalid_csv_format: não está em um formato CSV válido

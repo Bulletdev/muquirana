@@ -1,20 +1,29 @@
 module SettingsHelper
+  # `name` virou chave de locale (settings.nav.*) em vez de string literal: este
+  # hash monta a navegacao inteira das configuracoes, entao os rotulos apareciam
+  # em ingles no app traduzido ("Tags", "Rules", "Billing"...).
+  #
+  # A chave e um identificador; o rotulo e resolvido em `setting_label`.
   SETTINGS_ORDER = [
-    { name: "Account", path: :settings_profile_path },
-    { name: "Preferences", path: :settings_preferences_path },
-    { name: "Security", path: :settings_security_path },
-    { name: "Self hosting", path: :settings_hosting_path, condition: :self_hosted? },
-    { name: "API Key", path: :settings_api_key_path },
-    { name: "Billing", path: :settings_billing_path, condition: :not_self_hosted? },
-    { name: "Accounts", path: :accounts_path },
-    { name: "Imports", path: :imports_path },
-    { name: "Tags", path: :tags_path },
-    { name: "Categories", path: :categories_path },
-    { name: "Rules", path: :rules_path },
-    { name: "Merchants", path: :family_merchants_path },
-    { name: "What's new", path: :changelog_path },
-    { name: "Feedback", path: :feedback_path }
+    { key: "account", path: :settings_profile_path },
+    { key: "preferences", path: :settings_preferences_path },
+    { key: "security", path: :settings_security_path },
+    { key: "self_hosting", path: :settings_hosting_path, condition: :self_hosted? },
+    { key: "api_key", path: :settings_api_key_path },
+    { key: "billing", path: :settings_billing_path, condition: :not_self_hosted? },
+    { key: "accounts", path: :accounts_path },
+    { key: "imports", path: :imports_path },
+    { key: "tags", path: :tags_path },
+    { key: "categories", path: :categories_path },
+    { key: "rules", path: :rules_path },
+    { key: "merchants", path: :family_merchants_path },
+    { key: "changelog", path: :changelog_path },
+    { key: "feedback", path: :feedback_path }
   ]
+
+  def setting_label(setting)
+    I18n.t("settings.nav.#{setting[:key]}", default: setting[:key].to_s.humanize)
+  end
 
   def adjacent_setting(current_path, offset)
     visible_settings = SETTINGS_ORDER.select { |setting| setting[:condition].nil? || send(setting[:condition]) }
@@ -29,7 +38,7 @@ module SettingsHelper
     render partial: "settings/settings_nav_link_large", locals: {
       path: send(adjacent[:path]),
       direction: offset > 0 ? "next" : "previous",
-      title: adjacent[:name]
+      title: setting_label(adjacent)
     }
   end
 

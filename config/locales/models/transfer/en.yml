@@ -19,4 +19,6 @@ en:
                 be part of multiple transfers
   transfer:
     name: Transfer to %{to_account}
+    payment: Payment
     payment_name: Payment to %{to_account}
+    transfer: Transfer

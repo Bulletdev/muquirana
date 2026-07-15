@@ -1,0 +1,126 @@
+---
+en:
+  accountables:
+    # display_name / display_name_singular: rotulo do tipo de conta na UI.
+    # Reproduzem o que o upstream mostrava -- os overrides de Depository
+    # ("Cash") e Crypto ("Crypto") existiam porque `name.pluralize.titleize`
+    # geraria "Depositories" e "Cryptos".
+    #
+    # subtypes.*: rotulo exibido de accounts.subtype. As CHAVES ("checking",
+    # "401k") sao valores persistidos no banco -- nao sao traduziveis, so os
+    # rotulos. Este e o unico lugar onde os subtipos sao traduzidos: o dropdown
+    # do formulario e o badge da sidebar passam ambos por
+    # Accountable#subtype_label_for, entao nao ha como divergirem.
+    credit_card:
+      display_name: Credit Cards
+      display_name_singular: Credit Card
+      subtypes:
+        credit_card:
+          long: Credit Card
+          short: Credit Card
+    crypto:
+      display_name: Crypto
+      display_name_singular: Crypto
+    depository:
+      display_name: Cash
+      display_name_singular: Cash
+      subtypes:
+        cd:
+          long: Certificate of Deposit
+          short: CD
+        checking:
+          long: Checking
+          short: Checking
+        hsa:
+          long: Health Savings Account
+          short: HSA
+        money_market:
+          long: Money Market
+          short: MM
+        savings:
+          long: Savings
+          short: Savings
+    investment:
+      display_name: Investments
+      display_name_singular: Investment
+      subtypes:
+        '401k':
+          long: 401(k)
+          short: 401(k)
+        '529_plan':
+          long: 529 Plan
+          short: 529 Plan
+        angel:
+          long: Angel
+          short: Angel
+        brokerage:
+          long: Brokerage
+          short: Brokerage
+        hsa:
+          long: Health Savings Account
+          short: HSA
+        ira:
+          long: Traditional IRA
+          short: IRA
+        mutual_fund:
+          long: Mutual Fund
+          short: Mutual Fund
+        pension:
+          long: Pension
+          short: Pension
+        retirement:
+          long: Retirement
+          short: Retirement
+        roth_401k:
+          long: Roth 401(k)
+          short: Roth 401(k)
+        roth_ira:
+          long: Roth IRA
+          short: Roth IRA
+    loan:
+      display_name: Loans
+      display_name_singular: Loan
+      subtypes:
+        auto:
+          long: Auto Loan
+          short: Auto
+        mortgage:
+          long: Mortgage
+          short: Mortgage
+        other:
+          long: Other Loan
+          short: Other
+        student:
+          long: Student Loan
+          short: Student
+    other_asset:
+      display_name: Other Assets
+      display_name_singular: Other Asset
+    other_liability:
+      display_name: Other Liabilities
+      display_name_singular: Other Liability
+    property:
+      display_name: Properties
+      display_name_singular: Property
+      subtypes:
+        condominium:
+          long: Condominium
+          short: Condo
+        investment_property:
+          long: Investment Property
+          short: Investment Property
+        multi_family_home:
+          long: Multi-Family Home
+          short: Multi-Family Home
+        second_home:
+          long: Second Home
+          short: Second Home
+        single_family_home:
+          long: Single Family Home
+          short: Single Family Home
+        townhouse:
+          long: Townhouse
+          short: Townhouse
+    vehicle:
+      display_name: Vehicles
+      display_name_singular: Vehicle

@@ -1,0 +1,47 @@
+---
+pt-BR:
+  periods:
+    # label_short aparece nos botoes do seletor do grafico, onde cabe pouco.
+    # "1D/7D/30D/90D/365D/5A" seguem o padrao usado pelas corretoras e bancos
+    # brasileiros. As siglas de "to date" foram traduzidas: WTD -> "Semana",
+    # MTD -> "Mes", YTD -> "Ano" -- "STD/MTD/ATD" nao significam nada em pt-BR.
+    current_month:
+      comparison_label: vs. início do mês
+      label: Mês atual
+      label_short: Mês
+    current_week:
+      comparison_label: vs. início da semana
+      label: Semana atual
+      label_short: Semana
+    current_year:
+      comparison_label: vs. início do ano
+      label: Ano atual
+      label_short: Ano
+    custom:
+      comparison_label: "%{start_date} a %{end_date}"
+      label: Período personalizado
+      label_short: Personalizado
+    last_30_days:
+      comparison_label: vs. mês passado
+      label: Últimos 30 dias
+      label_short: 30D
+    last_365_days:
+      comparison_label: vs. 1 ano atrás
+      label: Últimos 365 dias
+      label_short: 365D
+    last_5_years:
+      comparison_label: vs. 5 anos atrás
+      label: Últimos 5 anos
+      label_short: 5A
+    last_7_days:
+      comparison_label: vs. semana passada
+      label: Últimos 7 dias
+      label_short: 7D
+    last_90_days:
+      comparison_label: vs. trimestre passado
+      label: Últimos 90 dias
+      label_short: 90D
+    last_day:
+      comparison_label: vs. ontem
+      label: Último dia
+      label_short: 1D

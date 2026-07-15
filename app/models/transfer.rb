@@ -65,12 +65,15 @@ class Transfer < ApplicationRecord
     inflow_transaction&.entry&.amount_money&.abs
   end
 
+  # As chaves transfer.name / transfer.payment_name ja existiam traduzidas e
+  # nunca eram chamadas -- o nome era montado em ingles aqui, e aparecia assim
+  # na lista de transacoes ("Payment to Cartao Nubank") mesmo em pt-BR.
   def name
     acc = to_account
     if payment?
-      acc ? "Payment to #{acc.name}" : "Payment"
+      acc ? I18n.t("transfer.payment_name", to_account: acc.name) : I18n.t("transfer.payment")
     else
-      acc ? "Transfer to #{acc.name}" : "Transfer"
+      acc ? I18n.t("transfer.name", to_account: acc.name) : I18n.t("transfer.transfer")
     end
   end
 

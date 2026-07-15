@@ -1,0 +1,8 @@
+---
+es:
+  date:
+    formats:
+      # Ver o comentario em pt-BR.yml. O :es so tem os defaults do rails-i18n,
+      # mas o formato precisa existir aqui senao o l(:month_year) quebra quando
+      # o locale for espanhol -- fallback nao se aplica a formatos de data.
+      month_year: "%B de %Y"

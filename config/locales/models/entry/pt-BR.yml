@@ -1,0 +1,14 @@
+---
+pt-BR:
+  activerecord:
+    attributes:
+      entry:
+        amount: Valor
+        date: Data
+    errors:
+      models:
+        entry:
+          attributes:
+            base:
+              invalid_sell_quantity: não é possível vender %{sell_qty} cotas de %{ticker}
+                porque você só tem %{current_qty} cotas

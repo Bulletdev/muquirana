@@ -62,29 +62,35 @@ class Category < ApplicationRecord
 
     def uncategorized
       new(
-        name: "Uncategorized",
+        name: I18n.t("categories.defaults.uncategorized"),
         color: UNCATEGORIZED_COLOR,
         lucide_icon: "circle-dashed"
       )
     end
 
     private
+      # Categorias que toda familia nova recebe em Category.bootstrap!.
+      #
+      # O nome vira um registro no banco e o usuario pode renomear depois, entao
+      # a traducao so afeta familias criadas dali em diante -- quem ja tem
+      # categoria criada mantem o nome que escolheu. Os identificadores da
+      # esquerda (cor, icone, classification) nao sao traduziveis.
       def default_categories
         [
-          [ "Income", "#e99537", "circle-dollar-sign", "income" ],
-          [ "Loan Payments", "#6471eb", "credit-card", "expense" ],
-          [ "Fees", "#6471eb", "credit-card", "expense" ],
-          [ "Entertainment", "#df4e92", "drama", "expense" ],
-          [ "Food & Drink", "#eb5429", "utensils", "expense" ],
-          [ "Shopping", "#e99537", "shopping-cart", "expense" ],
-          [ "Home Improvement", "#6471eb", "house", "expense" ],
-          [ "Healthcare", "#4da568", "pill", "expense" ],
-          [ "Personal Care", "#4da568", "pill", "expense" ],
-          [ "Services", "#4da568", "briefcase", "expense" ],
-          [ "Gifts & Donations", "#61c9ea", "hand-helping", "expense" ],
-          [ "Transportation", "#df4e92", "bus", "expense" ],
-          [ "Travel", "#df4e92", "plane", "expense" ],
-          [ "Rent & Utilities", "#db5a54", "lightbulb", "expense" ]
+          [ I18n.t("categories.defaults.income"), "#e99537", "circle-dollar-sign", "income" ],
+          [ I18n.t("categories.defaults.loan_payments"), "#6471eb", "credit-card", "expense" ],
+          [ I18n.t("categories.defaults.fees"), "#6471eb", "credit-card", "expense" ],
+          [ I18n.t("categories.defaults.entertainment"), "#df4e92", "drama", "expense" ],
+          [ I18n.t("categories.defaults.food_and_drink"), "#eb5429", "utensils", "expense" ],
+          [ I18n.t("categories.defaults.shopping"), "#e99537", "shopping-cart", "expense" ],
+          [ I18n.t("categories.defaults.home_improvement"), "#6471eb", "house", "expense" ],
+          [ I18n.t("categories.defaults.healthcare"), "#4da568", "pill", "expense" ],
+          [ I18n.t("categories.defaults.personal_care"), "#4da568", "pill", "expense" ],
+          [ I18n.t("categories.defaults.services"), "#4da568", "briefcase", "expense" ],
+          [ I18n.t("categories.defaults.gifts_and_donations"), "#61c9ea", "hand-helping", "expense" ],
+          [ I18n.t("categories.defaults.transportation"), "#df4e92", "bus", "expense" ],
+          [ I18n.t("categories.defaults.travel"), "#df4e92", "plane", "expense" ],
+          [ I18n.t("categories.defaults.rent_and_utilities"), "#db5a54", "lightbulb", "expense" ]
         ]
       end
   end

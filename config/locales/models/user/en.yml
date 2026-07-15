@@ -3,6 +3,7 @@ en:
   activerecord:
     attributes:
       user:
+        invite_code: Invite code
         email: Email
         family: Family
         family_id: Family

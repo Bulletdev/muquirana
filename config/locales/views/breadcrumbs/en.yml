@@ -1,0 +1,21 @@
+---
+en:
+  # Breadcrumbs montados em Breadcrumbable#set_breadcrumbs a partir do
+  # controller_name. Controllers sem chave aqui caem no `default:`
+  # (controller_name.titleize), que e o comportamento original do upstream.
+  breadcrumbs:
+    accounts: Accounts
+    budgets: Budgets
+    categories: Categories
+    changelog: What's new
+    chats: Assistant
+    dashboard: Dashboard
+    feedback: Feedback
+    holdings: Holdings
+    home: Home
+    imports: Imports
+    merchants: Merchants
+    rules: Rules
+    tags: Tags
+    trades: Trades
+    transactions: Transactions

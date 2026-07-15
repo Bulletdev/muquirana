@@ -1,0 +1,8 @@
+---
+en:
+  date:
+    formats:
+      # Used in the budget name (Budget#name) and the period spending header.
+      # rails-i18n does not vendor a month+year format, so it is defined here
+      # for all three locales in available_locales.
+      month_year: "%B %Y"
