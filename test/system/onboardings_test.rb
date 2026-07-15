@@ -60,8 +60,11 @@ class OnboardingsTest < ApplicationSystemTestCase
 
     # Verify the preview example shows
     assert_text "Example"
-    assert_text "$2,325.25"
-    assert_text "+$78.90"
+    # O preview usa a moeda da familia, que agora nasce BRL (nao mais USD).
+    # Formata pelo Money para nao fixar nem a moeda nem o separador.
+    currency = @user.family.currency
+    assert_text Money.new(2325.25, currency).format
+    assert_text "+#{Money.new(78.90, currency).format}"
   end
 
   test "can change currency and see preview update" do

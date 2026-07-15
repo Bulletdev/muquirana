@@ -1,3 +1,15 @@
+# Os locales que a aplicacao aceita (config.i18n.available_locales). Sem esta
+# chave o i18n-tasks descobre os locales pelos arquivos em disco e passa a
+# cobrar traducao dos ~136 idiomas vendorizados em config/locales/defaults/ --
+# reportando, por exemplo, chaves faltando em zh-TW.
+#
+# base_locale continua :en: e dele que as traducoes partem e para ele que o
+# fallback aponta (ver config/application.rb).
+locales:
+  - pt-BR
+  - en
+  - es
+
 base_locale: en
 fallbacks:
   - default
@@ -6,6 +18,11 @@ data:
     - config/locales/**/*%{locale}.yml
   write:
     - config/locales/**/*%{locale}.yml
+  # Os defaults do rails-i18n sao vendorizados e nao sao nossos para traduzir.
+  # Sem esta exclusao, `i18n-tasks missing` reporta milhares de chaves de data,
+  # numero e mensagem de validacao que ja vem prontas da gem.
+  exclude:
+    - config/locales/defaults/**/*
   router: conservative_router
 search:
   paths:

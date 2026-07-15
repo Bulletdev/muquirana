@@ -25,19 +25,21 @@ class ApiKeyTest < ActiveSupport::TestCase
   test "should require name presence" do
     @api_key.name = nil
     assert_not @api_key.valid?
-    assert_includes @api_key.errors[:name], "can't be blank"
+    assert @api_key.errors.of_kind?(:name, :blank)
   end
 
   test "should require scopes presence" do
     @api_key.scopes = nil
     assert_not @api_key.valid?
-    assert_includes @api_key.errors[:scopes], "can't be blank"
+    # of_kind? afirma o TIPO do erro, nao a mensagem: o texto e traduzido e o
+    # default_locale do app e pt-BR.
+    assert @api_key.errors.of_kind?(:scopes, :blank)
   end
 
   test "should require user association" do
     @api_key.user = nil
     assert_not @api_key.valid?
-    assert_includes @api_key.errors[:user], "must exist"
+    assert @api_key.errors.of_kind?(:user, :blank)
   end
 
   test "should set display_key from key before saving" do

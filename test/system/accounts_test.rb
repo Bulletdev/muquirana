@@ -115,7 +115,10 @@ class AccountsTest < ApplicationSystemTestCase
 
       yield if block_given?
 
-      click_button "Create Account"
+      # helpers.submit.create ja e traduzido pelo Rails: com locale pt-BR o
+      # botao vira "Criar Account". Resolver pelo I18n mantem o teste valido
+      # em qualquer locale.
+      click_button I18n.t("helpers.submit.create", model: Account.model_name.human)
 
       within_testid("account-sidebar-tabs") do
         click_on "All"
@@ -136,7 +139,7 @@ class AccountsTest < ApplicationSystemTestCase
       end
 
       fill_in "Account name", with: "Updated account name"
-      click_button "Update Account"
+      click_button I18n.t("helpers.submit.update", model: Account.model_name.human)
       assert_selector "h2", text: "Updated account name"
     end
 

@@ -37,6 +37,12 @@ class MarketDataImporterTest < ActiveSupport::TestCase
     expected_start_date = (SNAPSHOT_START_DATE + 1.day) - PROVIDER_BUFFER
     end_date            = Date.current.in_time_zone("America/New_York").to_date
 
+    # As familias das fixtures nascem em BRL e tem contas em USD, o que faz o
+    # importador descobrir tambem o par USD->BRL. Este teste e sobre o par
+    # CAD->USD da familia Smith criada acima; os demais pares sao stubados para
+    # nao interferir -- mesmo padrao usado em "syncs security prices".
+    @provider.stubs(:fetch_exchange_rates).returns(provider_success_response([]))
+
     @provider.expects(:fetch_exchange_rates)
              .with(from: "CAD",
                    to: "USD",

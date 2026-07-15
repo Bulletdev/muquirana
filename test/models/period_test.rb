@@ -6,8 +6,10 @@ class PeriodTest < ActiveSupport::TestCase
       Period.new(start_date: nil, end_date: nil)
     end
 
-    assert_includes error.message, "Start date can't be blank"
-    assert_includes error.message, "End date can't be blank"
+    # Afirma o TIPO do erro, nao a mensagem: o texto e traduzido e o
+    # default_locale do app e pt-BR.
+    assert error.model.errors.of_kind?(:start_date, :blank)
+    assert error.model.errors.of_kind?(:end_date, :blank)
   end
 
   test "raises validation error when start_date is not before end_date" do

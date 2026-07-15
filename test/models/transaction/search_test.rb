@@ -1,5 +1,7 @@
 require "test_helper"
 
+# Os totais saem sempre na moeda da familia, entao as assercoes derivam de
+# @family.currency em vez de fixar uma moeda -- o default passou de USD para BRL.
 class Transaction::SearchTest < ActiveSupport::TestCase
   include EntriesTestHelper
 
@@ -186,8 +188,8 @@ class Transaction::SearchTest < ActiveSupport::TestCase
     totals = search.totals
 
     assert_equal 2, totals.count
-    assert_equal Money.new(100, "USD"), totals.expense_money # $100
-    assert_equal Money.new(200, "USD"), totals.income_money  # $200
+    assert_equal Money.new(100, @family.currency), totals.expense_money
+    assert_equal Money.new(200, @family.currency), totals.income_money
   end
 
   test "totals handles multi-currency transactions with exchange rates" do
@@ -199,19 +201,19 @@ class Transaction::SearchTest < ActiveSupport::TestCase
       kind: "standard"
     )
 
-    # Create exchange rate EUR -> USD
+    # Taxa de cambio EUR -> moeda da familia
     ExchangeRate.create!(
       from_currency: "EUR",
-      to_currency: "USD",
+      to_currency: @family.currency,
       rate: 1.1,
       date: eur_entry.date
     )
 
-    # Create USD transaction
+    # Transacao na moeda da familia (nao converte)
     usd_entry = create_transaction(
       account: @checking_account,
       amount: 50,
-      currency: "USD",
+      currency: @family.currency,
       kind: "standard"
     )
 
@@ -219,9 +221,9 @@ class Transaction::SearchTest < ActiveSupport::TestCase
     totals = search.totals
 
     assert_equal 2, totals.count
-    # EUR 100 * 1.1 + USD 50 = 110 + 50 = 160
-    assert_equal Money.new(160, "USD"), totals.expense_money
-    assert_equal Money.new(0, "USD"), totals.income_money
+    # EUR 100 * 1.1 + 50 na moeda da familia = 110 + 50 = 160
+    assert_equal Money.new(160, @family.currency), totals.expense_money
+    assert_equal Money.new(0, @family.currency), totals.income_money
   end
 
   test "totals handles missing exchange rates gracefully" do
@@ -238,8 +240,8 @@ class Transaction::SearchTest < ActiveSupport::TestCase
 
     assert_equal 1, totals.count
     # Should use rate of 1 when exchange rate is missing
-    assert_equal Money.new(100, "USD"), totals.expense_money # EUR 100 * 1
-    assert_equal Money.new(0, "USD"), totals.income_money
+    assert_equal Money.new(100, @family.currency), totals.expense_money # EUR 100 * 1
+    assert_equal Money.new(0, @family.currency), totals.income_money
   end
 
   test "totals respects category filters" do
@@ -263,8 +265,8 @@ class Transaction::SearchTest < ActiveSupport::TestCase
     totals = search.totals
 
     assert_equal 1, totals.count
-    assert_equal Money.new(100, "USD"), totals.expense_money # Only food transaction
-    assert_equal Money.new(0, "USD"), totals.income_money
+    assert_equal Money.new(100, @family.currency), totals.expense_money # Only food transaction
+    assert_equal Money.new(0, @family.currency), totals.income_money
   end
 
   test "totals respects type filters" do
@@ -286,8 +288,8 @@ class Transaction::SearchTest < ActiveSupport::TestCase
     totals = search.totals
 
     assert_equal 1, totals.count
-    assert_equal Money.new(100, "USD"), totals.expense_money
-    assert_equal Money.new(0, "USD"), totals.income_money
+    assert_equal Money.new(100, @family.currency), totals.expense_money
+    assert_equal Money.new(0, @family.currency), totals.income_money
   end
 
   test "totals handles empty results" do
@@ -295,7 +297,7 @@ class Transaction::SearchTest < ActiveSupport::TestCase
     totals = search.totals
 
     assert_equal 0, totals.count
-    assert_equal Money.new(0, "USD"), totals.expense_money
-    assert_equal Money.new(0, "USD"), totals.income_money
+    assert_equal Money.new(0, @family.currency), totals.expense_money
+    assert_equal Money.new(0, @family.currency), totals.income_money
   end
 end

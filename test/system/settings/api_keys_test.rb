@@ -186,7 +186,11 @@ class Settings::ApiKeysTest < ApplicationSystemTestCase
 
     visit settings_api_key_path
 
-    assert_text "2 hours ago"
+    # A view renderiza `Last used <%= time_ago_in_words(...) %> ago`. O miolo e
+    # traduzido pelo Rails: "about 2 hours" em ingles, "aproximadamente 2 horas"
+    # em pt-BR. Afirma so o miolo -- "Last used"/"ago" sao strings hardcoded na
+    # view e serao traduzidas na extracao de i18n.
+    assert_text I18n.t("datetime.distance_in_words.about_x_hours", count: 2)
     assert_no_text "Never used"
   end
 

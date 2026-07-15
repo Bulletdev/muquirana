@@ -21,11 +21,33 @@ module Muquirana
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
-    # config.time_zone = "Central Time (US & Canada)"
+    config.time_zone = "America/Sao_Paulo"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    # TODO: This is here for incremental adoption of localization.  This can be removed when all translations are implemented.
-    config.i18n.fallbacks = true
+    # i18n
+    #
+    # available_locales restringe os 136 idiomas que o vendor de
+    # config/locales/defaults/ carrega. Os arquivos continuam no disco: para
+    # habilitar outro idioma basta adiciona-lo aqui.
+    #
+    # Isso restringe de graca dois pontos que derivam de I18n.available_locales:
+    # a validacao de Family#locale (family.rb:36) e o seletor de idioma das
+    # configuracoes (languages_helper.rb:357).
+    #
+    # :es tem apenas os defaults do Rails (datas, erros de validacao) -- nao ha
+    # traducao das strings da aplicacao. A UI cai em ingles pelo fallback ate
+    # que alguem traduza config/locales/views/**/es.yml.
+    config.i18n.default_locale = :"pt-BR"
+    config.i18n.available_locales = [ :"pt-BR", :en, :es ]
+
+    # Precisa ser [:en] explicito, e nao `true`.
+    #
+    # `fallbacks = true` cai no default_locale. Com o default em :"pt-BR" isso
+    # produziria dois problemas: espanhol cairia em portugues, e uma chave
+    # faltando em pt-BR nao teria para onde cair -- apareceria "translation
+    # missing" na tela. Como a traducao e incremental, o ingles precisa ser a
+    # rede de seguranca de todos os idiomas.
+    config.i18n.fallbacks = [ :en ]
 
     config.app_mode = (ENV["SELF_HOSTED"] == "true" || ENV["SELF_HOSTING_ENABLED"] == "true" ? "self_hosted" : "managed").inquiry
 

@@ -84,10 +84,35 @@ class MoneyTest < ActiveSupport::TestCase
     assert_not Money.new(-1000).positive?
   end
 
+  # Money#format depende de I18n.locale (ver Money::Formatting#locale_options),
+  # entao cada caso e explicito sobre o locale em vez de herdar o default do app.
+  #
+  # O caso original passava locale: :nl, que agora levanta I18n::InvalidLocale:
+  # number_to_currency valida o locale contra available_locales, e o holandes
+  # deixou de ser suportado. O branch [:"EUR", :nl] de locale_options ficou
+  # inalcancavel, assim como [:"EUR", :pt] -- pt-BR nao e :pt.
   test "can format" do
     assert_equal "$1,000.90", Money.new(1000.899).to_s
-    assert_equal "€1,000.12", Money.new(1000.12, :eur).to_s
-    assert_equal "€ 1.000,12", Money.new(1000.12, :eur).format(locale: :nl)
+  end
+
+  # BRL e USD nao tem override em locale_options: usam os separadores da propria
+  # moeda (config/currencies.yml) e por isso saem iguais em qualquer locale.
+  test "formats currency by the currency's own separators" do
+    [ :en, :"pt-BR" ].each do |locale|
+      I18n.with_locale(locale) do
+        assert_equal "R$1.000,12", Money.new(1000.12, :brl).to_s, "BRL em #{locale}"
+        assert_equal "$1,000.12", Money.new(1000.12, :usd).to_s, "USD em #{locale}"
+      end
+    end
+  end
+
+  # EUR TEM override em locale_options, mas apenas para :en/:en_IE (estilo
+  # americano) e :nl/:pt (estilo europeu). pt-BR nao esta na lista e cai no else,
+  # usando os separadores do EUR -- que e o resultado correto: brasileiro escreve
+  # euro com "." de milhar e "," de decimal, igual ao europeu.
+  test "formats EUR according to locale" do
+    assert_equal "€1,000.12", Money.new(1000.12, :eur).format(locale: :en)
+    assert_equal "€1.000,12", Money.new(1000.12, :eur).format(locale: :"pt-BR")
   end
 
   test "converts currency when rate available" do

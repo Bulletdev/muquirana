@@ -28,6 +28,9 @@ class CategoryTest < ActiveSupport::TestCase
       category.subcategories.create!(name: "Invalid category", family: @family)
     end
 
-    assert_equal "Validation failed: Parent can't have more than 2 levels of subcategories", error.message
+    # Afirma apenas a mensagem custom do model. O prefixo "Validation failed:"
+    # vem do Rails (activerecord.errors.messages.record_invalid) e e traduzido:
+    # em pt-BR sai "A validacao falhou:".
+    assert_includes error.message, "can't have more than 2 levels of subcategories"
   end
 end

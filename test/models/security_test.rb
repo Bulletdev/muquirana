@@ -20,7 +20,7 @@ class SecurityTest < ActiveSupport::TestCase
     duplicate = Security.new(ticker: "TEST", exchange_operating_mic: "XNAS")
 
     assert_not duplicate.valid?
-    assert_equal [ "has already been taken" ], duplicate.errors[:ticker]
+    assert duplicate.errors.of_kind?(:ticker, :taken)
   end
 
   test "cannot have duplicate tickers if exchange is nil" do
@@ -28,7 +28,7 @@ class SecurityTest < ActiveSupport::TestCase
     duplicate = Security.new(ticker: "TEST", exchange_operating_mic: nil)
 
     assert_not duplicate.valid?
-    assert_equal [ "has already been taken" ], duplicate.errors[:ticker]
+    assert duplicate.errors.of_kind?(:ticker, :taken)
   end
 
   test "casing is ignored when checking for duplicates" do
@@ -36,6 +36,6 @@ class SecurityTest < ActiveSupport::TestCase
     duplicate = Security.new(ticker: "tEst", exchange_operating_mic: "xNaS")
 
     assert_not duplicate.valid?
-    assert_equal [ "has already been taken" ], duplicate.errors[:ticker]
+    assert duplicate.errors.of_kind?(:ticker, :taken)
   end
 end

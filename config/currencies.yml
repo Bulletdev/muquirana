@@ -1848,7 +1848,9 @@ bob:
   default_precision: 2
 brl:
   name: Brazilian Real
-  priority: 100
+  # priority 1 coloca o real no topo dos seletores de moeda. Era 100 (mesmo
+  # patamar das moedas sem destaque); o dolar tinha 1.
+  priority: 1
   iso_code: BRL
   iso_numeric: "986"
   html_code: R$

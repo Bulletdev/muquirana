@@ -90,22 +90,24 @@ class OnboardingsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  # O exemplo usa a moeda da familia, que agora nasce BRL (nao mais USD).
+  # Formata pelo Money para nao fixar nem simbolo nem separador.
   test "preferences page shows currency formatting example" do
     get preferences_onboarding_url
     assert_response :success
 
-    # Should show formatted currency example
-    assert_select "p", text: /\$2,325\.25/
-    assert_select "span", text: /\+\$78\.90/
+    assert_select "p", text: /#{Regexp.escape(Money.new(2325.25, @family.currency).format)}/
+    assert_select "span", text: /#{Regexp.escape("+" + Money.new(78.90, @family.currency).format)}/
   end
 
+  # O exemplo usa o date_format da familia, que agora nasce %d/%m/%Y.
   test "preferences page shows date formatting example" do
-  get preferences_onboarding_url
-  assert_response :success
+    get preferences_onboarding_url
+    assert_response :success
 
-  # Should show formatted date example (checking for the specific format shown)
-  assert_match /10-23-2024/, response.body
-end
+    expected = Date.parse("2024-10-23").strftime(@family.date_format)
+    assert_includes response.body, expected
+  end
 
   test "preferences page includes all required form fields" do
   get preferences_onboarding_url
