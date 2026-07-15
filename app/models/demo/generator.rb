@@ -119,14 +119,12 @@ class Demo::Generator
     end
 
     def create_family_and_users!(family_name, email, onboarded:, subscribed:)
-      family = Family.create!(
-        name: family_name,
-        currency: "USD",
-        locale: "en",
-        country: "US",
-        timezone: "America/New_York",
-        date_format: "%m-%d-%Y"
-      )
+      # Sem argumentos de locale/moeda: a familia herda os defaults da tabela
+      # (BRL, pt-BR, %d/%m/%Y, BR, America/Sao_Paulo), definidos na migration
+      # SetBrazilianDefaults. Antes estavam fixos em USD/en/US/America/New_York,
+      # o que faria o seed produzir uma familia americana mesmo com os defaults
+      # brasileiros -- e o app abriria em dolar na primeira execucao.
+      family = Family.create!(name: family_name)
 
       family.start_subscription!("sub_demo_123") if subscribed
 
@@ -189,45 +187,45 @@ class Demo::Generator
 
     def create_realistic_accounts!(family)
       # Checking accounts (USD)
-      @chase_checking = family.accounts.create!(accountable: Depository.new, name: "Chase Premier Checking", balance: 0, currency: "USD")
-      @ally_checking = family.accounts.create!(accountable: Depository.new, name: "Ally Online Checking", balance: 0, currency: "USD")
+      @chase_checking = family.accounts.create!(accountable: Depository.new, name: "Chase Premier Checking", balance: 0, currency: "BRL")
+      @ally_checking = family.accounts.create!(accountable: Depository.new, name: "Ally Online Checking", balance: 0, currency: "BRL")
 
       # Savings account (USD)
-      @marcus_savings = family.accounts.create!(accountable: Depository.new, name: "Marcus High-Yield Savings", balance: 0, currency: "USD")
+      @marcus_savings = family.accounts.create!(accountable: Depository.new, name: "Marcus High-Yield Savings", balance: 0, currency: "BRL")
 
-      # EUR checking (EUR)
+      # Conta em moeda estrangeira (EUR) - vitrine de multi-moeda
       @eu_checking = family.accounts.create!(accountable: Depository.new, name: "Deutsche Bank EUR Account", balance: 0, currency: "EUR")
 
-      # Credit cards (USD)
-      @amex_gold = family.accounts.create!(accountable: CreditCard.new, name: "Amex Gold Card", balance: 0, currency: "USD")
-      @chase_sapphire = family.accounts.create!(accountable: CreditCard.new, name: "Chase Sapphire Reserve", balance: 0, currency: "USD")
+      # Cartoes de credito (moeda da familia)
+      @amex_gold = family.accounts.create!(accountable: CreditCard.new, name: "Amex Gold Card", balance: 0, currency: "BRL")
+      @chase_sapphire = family.accounts.create!(accountable: CreditCard.new, name: "Chase Sapphire Reserve", balance: 0, currency: "BRL")
 
       # Investment accounts (USD + GBP)
-      @vanguard_401k     = family.accounts.create!(accountable: Investment.new, name: "Vanguard 401(k)", balance: 0, currency: "USD")
-      @schwab_brokerage  = family.accounts.create!(accountable: Investment.new, name: "Charles Schwab Brokerage", balance: 0, currency: "USD")
-      @fidelity_roth_ira = family.accounts.create!(accountable: Investment.new, name: "Fidelity Roth IRA", balance: 0, currency: "USD")
-      @hsa_investment    = family.accounts.create!(accountable: Investment.new, name: "Fidelity HSA Investment", balance: 0, currency: "USD")
+      @vanguard_401k     = family.accounts.create!(accountable: Investment.new, name: "Vanguard 401(k)", balance: 0, currency: "BRL")
+      @schwab_brokerage  = family.accounts.create!(accountable: Investment.new, name: "Charles Schwab Brokerage", balance: 0, currency: "BRL")
+      @fidelity_roth_ira = family.accounts.create!(accountable: Investment.new, name: "Fidelity Roth IRA", balance: 0, currency: "BRL")
+      @hsa_investment    = family.accounts.create!(accountable: Investment.new, name: "Fidelity HSA Investment", balance: 0, currency: "BRL")
       @uk_isa           = family.accounts.create!(accountable: Investment.new, name: "Vanguard UK ISA", balance: 0, currency: "GBP")
 
-      # Property (USD)
-      @home = family.accounts.create!(accountable: Property.new, name: "Primary Residence", balance: 0, currency: "USD")
+      # Imoveis (moeda da familia)
+      @home = family.accounts.create!(accountable: Property.new, name: "Primary Residence", balance: 0, currency: "BRL")
 
       # Vehicles (USD)
-      @honda_accord = family.accounts.create!(accountable: Vehicle.new, name: "2016 Honda Accord", balance: 0, currency: "USD")
-      @tesla_model3 = family.accounts.create!(accountable: Vehicle.new, name: "2021 Tesla Model 3", balance: 0, currency: "USD")
+      @honda_accord = family.accounts.create!(accountable: Vehicle.new, name: "2016 Honda Accord", balance: 0, currency: "BRL")
+      @tesla_model3 = family.accounts.create!(accountable: Vehicle.new, name: "2021 Tesla Model 3", balance: 0, currency: "BRL")
 
       # Crypto (USD)
-      @coinbase_usdc = family.accounts.create!(accountable: Crypto.new, name: "Coinbase USDC", balance: 0, currency: "USD")
+      @coinbase_usdc = family.accounts.create!(accountable: Crypto.new, name: "Coinbase USDC", balance: 0, currency: "BRL")
 
       # Loans / Liabilities (USD)
-      @mortgage      = family.accounts.create!(accountable: Loan.new, name: "Home Mortgage", balance: 0, currency: "USD")
-      @car_loan      = family.accounts.create!(accountable: Loan.new, name: "Car Loan", balance: 0, currency: "USD")
-      @student_loan  = family.accounts.create!(accountable: Loan.new, name: "Student Loan", balance: 0, currency: "USD")
+      @mortgage      = family.accounts.create!(accountable: Loan.new, name: "Home Mortgage", balance: 0, currency: "BRL")
+      @car_loan      = family.accounts.create!(accountable: Loan.new, name: "Car Loan", balance: 0, currency: "BRL")
+      @student_loan  = family.accounts.create!(accountable: Loan.new, name: "Student Loan", balance: 0, currency: "BRL")
 
-      @personal_loc  = family.accounts.create!(accountable: OtherLiability.new, name: "Personal Line of Credit", balance: 0, currency: "USD")
+      @personal_loc  = family.accounts.create!(accountable: OtherLiability.new, name: "Personal Line of Credit", balance: 0, currency: "BRL")
 
       # Other asset (USD)
-      @jewelry = family.accounts.create!(accountable: OtherAsset.new, name: "Jewelry Collection", balance: 0, currency: "USD")
+      @jewelry = family.accounts.create!(accountable: OtherAsset.new, name: "Jewelry Collection", balance: 0, currency: "BRL")
     end
 
     def create_realistic_transactions!(family)
@@ -307,7 +305,7 @@ class Demo::Generator
       budget = family.budgets.where(start_date: current_month).first_or_initialize
       budget.update!(
         end_date: current_month.end_of_month,
-        currency: "USD",
+        currency: "BRL",
         budgeted_spending: spend_per_cat.values.sum / 3.0, # placeholder, refine below
         expected_income: 0 # Could compute similarly if desired
       )
@@ -1177,7 +1175,7 @@ class Demo::Generator
         entryable: Valuation.new(kind: "current_anchor"),
         amount: 350_000,
         name: Valuation.build_current_anchor_name(@home.accountable_type),
-        currency: "USD",
+        currency: "BRL",
         date: Date.current
       )
 
@@ -1186,7 +1184,7 @@ class Demo::Generator
         entryable: Valuation.new(kind: "current_anchor"),
         amount: 18_000,
         name: Valuation.build_current_anchor_name(@honda_accord.accountable_type),
-        currency: "USD",
+        currency: "BRL",
         date: Date.current
       )
 
@@ -1194,7 +1192,7 @@ class Demo::Generator
         entryable: Valuation.new(kind: "current_anchor"),
         amount: 4_500,
         name: Valuation.build_current_anchor_name(@tesla_model3.accountable_type),
-        currency: "USD",
+        currency: "BRL",
         date: Date.current
       )
 
@@ -1202,7 +1200,7 @@ class Demo::Generator
         entryable: Valuation.new(kind: "reconciliation"),
         amount: 2000,
         name: Valuation.build_reconciliation_name(@jewelry.accountable_type),
-        currency: "USD",
+        currency: "BRL",
         date: 90.days.ago.to_date
       )
 
@@ -1210,7 +1208,7 @@ class Demo::Generator
         entryable: Valuation.new(kind: "reconciliation"),
         amount: 800,
         name: Valuation.build_reconciliation_name(@personal_loc.accountable_type),
-        currency: "USD",
+        currency: "BRL",
         date: 120.days.ago.to_date
       )
 
