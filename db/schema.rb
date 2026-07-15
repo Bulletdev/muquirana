@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_07_15_010000) do
+ActiveRecord::Schema[7.2].define(version: 2026_07_15_230502) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -410,7 +410,11 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_15_010000) do
     t.string "token", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "used_at"
+    t.uuid "used_by_id"
+    t.index ["token", "used_at"], name: "index_invite_codes_on_token_and_used_at"
     t.index ["token"], name: "index_invite_codes_on_token", unique: true
+    t.index ["used_by_id"], name: "index_invite_codes_on_used_by_id"
   end
 
   create_table "loans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -848,6 +852,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_15_010000) do
   add_foreign_key "imports", "families"
   add_foreign_key "invitations", "families"
   add_foreign_key "invitations", "users", column: "inviter_id"
+  add_foreign_key "invite_codes", "users", column: "used_by_id"
   add_foreign_key "merchants", "families"
   add_foreign_key "messages", "chats"
   add_foreign_key "mobile_devices", "users"

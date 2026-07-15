@@ -1,16 +1,72 @@
-<%# app/views/invite_codes/_invite_code.html.erb %>
+<%#
+  Mostra o LINK de convite, nao o codigo cru.
+
+  O formulario de cadastro ja le ?invite=<token> e preenche o campo sozinho
+  (app/views/registrations/new.html.erb), entao o link pronto poupa quem
+  recebe de copiar e colar o codigo na mao.
+
+  O texto visivel e a propria URL de proposito: o clipboard_controller copia o
+  textContent do alvo `source`, ou seja, o que se ve e exatamente o que se
+  copia. O `truncate` corta so na exibicao -- o textContent continua inteiro.
+
+  bg-container-inset + text-primary, e nao bg-gray-25: os tokens gray-* sao
+  literais fixos (--color-gray-25 = #FAFAFA) que NAO acompanham o tema. Com o
+  tema escuro o texto herdava branco e caia sobre esse fundo quase branco --
+  o link ficava invisivel.
+
+  Codigo usado nao vira link: nao ha o que copiar, e o que interessa ali passa
+  a ser quem entrou.
+%>
 <div class="invite_code pt-2">
-  <div class="flex items-center justify-between p-2 w-1/2 bg-gray-25 rounded-md" data-controller="clipboard">
-    <div>
-      <span data-clipboard-target="source" class="text-sm font-medium"><%= invite_code.token %></span>
-    </div>
-    <button data-action="clipboard#copy" class="shrink-0 z-10 inline-flex items-center px-1 text-sm text-secondary font-sm text-center" type="button">
-      <span data-clipboard-target="iconDefault">
-        <%= icon "copy" %>
+  <div class="flex items-center justify-between gap-2 p-2 bg-container-inset rounded-md" data-controller="clipboard">
+    <% if invite_code.used? %>
+      <div class="min-w-0">
+        <p class="text-sm font-medium text-primary truncate">
+          <%= invite_code.used_by&.email || t(".used_by_unknown") %>
+        </p>
+        <p class="text-xs text-secondary">
+          <%= t(".used_at", quando: l(invite_code.used_at, format: :long)) %>
+        </p>
+      </div>
+
+      <span class="shrink-0 text-xs font-medium text-secondary bg-surface rounded px-1.5 py-0.5">
+        <%= t(".used_badge") %>
       </span>
-      <span class="hidden inline-flex items-center" data-clipboard-target="iconSuccess">
-        <%= icon "check" %>
-      </span>
-    </button>
+    <% else %>
+      <span data-clipboard-target="source"
+            class="text-sm font-medium truncate text-primary"
+            title="<%= new_registration_url(invite: invite_code.token) %>"><%= new_registration_url(invite: invite_code.token) %></span>
+
+      <div class="flex items-center gap-1 shrink-0">
+        <button data-action="clipboard#copy"
+                class="z-10 inline-flex items-center px-1 text-sm text-secondary font-sm text-center"
+                type="button"
+                aria-label="<%= t(".copy_link") %>"
+                title="<%= t(".copy_link") %>">
+          <span data-clipboard-target="iconDefault">
+            <%= icon "copy" %>
+          </span>
+          <span class="hidden inline-flex items-center" data-clipboard-target="iconSuccess">
+            <%= icon "check" %>
+          </span>
+        </button>
+
+        <%# Revogar so existe para codigo NAO usado: revogar um ja usado nao
+            desfaz a conta criada, so apagaria o registro de quem entrou. %>
+        <%= button_to invite_code_path(invite_code),
+              method: :delete,
+              class: "z-10 inline-flex items-center px-1 text-sm text-secondary hover:text-destructive",
+              "aria-label": t(".revoke"),
+              title: t(".revoke"),
+              data: { turbo_confirm: {
+                title: t(".revoke_confirm.title"),
+                body: t(".revoke_confirm.body"),
+                confirmText: t(".revoke_confirm.accept"),
+                variant: "destructive"
+              } } do %>
+          <%= icon "trash-2" %>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>

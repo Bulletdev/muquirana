@@ -1,7 +1,22 @@
 ---
 en:
   invite_codes:
+    create:
+      success: Code generated
+    destroy:
+      success: Invite revoked
     index:
       invite_code_description: Generate a new code to see it displayed here. Generated
         codes that have been used will no longer be shown.
       no_invite_codes: No codes to show
+    invite_code:
+      copy_link: Copy invite link
+      revoke: Revoke invite
+      revoke_confirm:
+        title: Revoke this invite?
+        body: The link stops working immediately. Anyone who already received it will
+          not be able to sign up with it.
+        accept: Revoke
+      used_badge: Used
+      used_at: Joined on %{quando}
+      used_by_unknown: Account removed

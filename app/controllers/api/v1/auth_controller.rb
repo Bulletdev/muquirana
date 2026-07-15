@@ -15,9 +15,18 @@ module Api
         end
 
         # Validate invite code if provided
-        if params[:invite_code].present? && !InviteCode.exists?(token: params[:invite_code]&.downcase)
-          render json: { error: "Invalid invite code" }, status: :forbidden
-          return
+        #
+        # `claimable` e nao `exists?`: o exists? aceitava um codigo JA USADO,
+        # porque so perguntava se a linha existia. Enquanto o uso apagava a
+        # linha isso funcionava por acidente; agora o uso e marcado, e a
+        # checagem tem que olhar used_at.
+        if params[:invite_code].present?
+          @invite_code = InviteCode.claimable(params[:invite_code])
+
+          if @invite_code.nil?
+            render json: { error: "Invalid invite code" }, status: :forbidden
+            return
+          end
         end
 
         # Validate password
@@ -41,8 +50,10 @@ module Api
         user.role = :admin
 
         if user.save
-          # Claim invite code if provided
-          InviteCode.claim!(params[:invite_code]) if params[:invite_code].present?
+          # Consome o codigo registrando quem usou. Antes era InviteCode.claim!,
+          # que destruia a linha e deixava o admin sem saber quem entrou pela
+          # API -- o mesmo buraco do cadastro pela web.
+          @invite_code&.mark_used!(user)
 
           # Create device and OAuth token
           device = create_or_update_device(user)

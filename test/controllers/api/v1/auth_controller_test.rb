@@ -155,8 +155,11 @@ class Api::V1::AuthControllerTest < ActionDispatch::IntegrationTest
     # Mock invite code requirement
     Api::V1::AuthController.any_instance.stubs(:invite_code_required?).returns(true)
 
+    # O codigo nao e mais destruido: o registro fica, marcado com quem usou.
+    # O que importa e que ele deixe de valer, e isso e afirmado abaixo com
+    # `claimable` -- contar linhas testava a implementacao, nao a regra.
     assert_difference("User.count", 1) do
-      assert_difference("InviteCode.count", -1) do
+      assert_no_difference("InviteCode.count") do
         post "/api/v1/auth/signup", params: {
           user: {
             email: "newuser@example.com",
@@ -171,6 +174,33 @@ class Api::V1::AuthControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :created
+
+    invite_code.reload
+    assert invite_code.used?, "o codigo tem que ficar marcado como usado"
+    assert_equal "newuser@example.com", invite_code.used_by.email,
+      "quem hospeda precisa saber quem entrou pela API"
+    assert_nil InviteCode.claimable(invite_code.token),
+      "codigo usado nao pode valer de novo"
+  end
+
+  # Enquanto o uso destruia a linha, a checagem `exists?` bastava por acidente.
+  # Com o uso marcado, um codigo ja usado voltaria a passar se a validacao nao
+  # olhasse used_at -- o que seria cadastro ilimitado com um convite so.
+  test "should reject an already used invite code" do
+    invite_code = InviteCode.create!
+    invite_code.mark_used!(users(:family_admin))
+
+    Api::V1::AuthController.any_instance.stubs(:invite_code_required?).returns(true)
+
+    assert_no_difference("User.count") do
+      post "/api/v1/auth/signup", params: {
+        user: { email: "outro@example.com", password: "SecurePass123!", first_name: "A", last_name: "B" },
+        device: @device_info,
+        invite_code: invite_code.token
+      }
+    end
+
+    assert_response :forbidden
   end
 
   test "should reject invalid invite code" do

@@ -25,6 +25,17 @@ class RegistrationsController < ApplicationController
 
     if @user.save
       @invitation&.update!(accepted_at: Time.current)
+
+      # O codigo so e consumido AGORA, com o usuario ja salvo -- assim fica
+      # registrado quem o usou, e um cadastro que falha na validacao nao
+      # queima o convite de quem ainda vai tentar de novo.
+      #
+      # Se mark_used! devolver false, outro cadastro consumiu o mesmo codigo
+      # entre a validacao e este ponto. A conta ja existe e nao ha o que
+      # desfazer com seguranca; o registro fica para o admin ver na tela de
+      # hospedagem, onde o codigo aparece com o primeiro que o usou.
+      @invite_code&.mark_used!(@user)
+
       @session = create_session_for(@user)
       redirect_to root_path, notice: t(".success")
     else
@@ -49,8 +60,12 @@ class RegistrationsController < ApplicationController
       specific_param ? params[specific_param] : params
     end
 
+    # Valida o codigo e guarda o registro para o #create consumir depois do
+    # save. Nao consome aqui: veja o comentario em InviteCode.claimable.
     def claim_invite_code
-      unless InviteCode.claim! params[:user][:invite_code]
+      @invite_code = InviteCode.claimable(params[:user][:invite_code])
+
+      if @invite_code.nil?
         redirect_to new_registration_path, alert: t("registrations.create.invalid_invite_code")
       end
     end
