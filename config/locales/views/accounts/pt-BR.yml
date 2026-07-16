@@ -9,12 +9,13 @@ pt-BR:
       all: Todas
       assets: Ativos
       debts: Dívidas
-      missing_data_body: Cotações de câmbio e preços de ativos vinham da API Synth,
-        que foi descontinuada junto com o projeto Maybe. Sem esses dados, o saldo
-        histórico das contas em outra moeda ou com investimentos não é calculado.
-        O resto do app funciona normalmente.
+      missing_data_body: As cotações de câmbio voltaram a funcionar (agora vêm do
+        Banco Central Europeu, via Frankfurter, de graça). Falta só o preço de ações
+        e fundos, que vinha da API Synth - descontinuada junto com o projeto Maybe.
+        Sem ele, o valor histórico dos seus investimentos não é calculado. O resto
+        do app funciona normalmente.
       missing_data_link: Como resolver isso
-      missing_data_title: Dados históricos indisponíveis
+      missing_data_title: Preços de ativos indisponíveis
       new_account: Nova conta
       new_asset: Novo ativo
       new_debt: Nova dívida

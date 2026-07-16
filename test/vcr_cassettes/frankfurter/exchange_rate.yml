@@ -1,0 +1,51 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.frankfurter.dev/v2/rate/USD/BRL?date=2024-01-15
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.14.3
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 16 Jul 2026 22:59:07 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - public, max-age=86400, stale-while-revalidate=86400, stale-if-error=86400
+      Vary:
+      - Origin
+      Age:
+      - '346'
+      Report-To:
+      - '{"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=Hx72ofTX9uSMRkEYXi9lksS5C%2FNoVX8%2BAt%2Bbr5VbaabIdSRd5iAVu62eNoK5LrIDP%2FzV1xp5%2B1oX%2FEMHOCpiZYg89%2FqYBpkFZJs5IBMQnIo1mDMU6WpIuFsreJGuUJ7JXo%2FrLaI%3D"}]}'
+      Last-Modified:
+      - Thu, 16 Jul 2026 22:53:20 GMT
+      Cf-Cache-Status:
+      - HIT
+      Nel:
+      - '{"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - a1c49d917dcff20e-GRU
+    body:
+      encoding: ASCII-8BIT
+      string: '{"date":"2024-01-15","base":"USD","quote":"BRL","rate":4.8677}'
+  recorded_at: Thu, 16 Jul 2026 22:59:07 GMT
+recorded_with: VCR 6.3.1

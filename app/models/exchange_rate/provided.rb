@@ -4,7 +4,11 @@ module ExchangeRate::Provided
   class_methods do
     def provider
       registry = Provider::Registry.for_concept(:exchange_rates)
-      registry.get_provider(:synth)
+
+      # Frankfurter primeiro (vivo, sem chave). Cai para o Synth so se ele
+      # estiver configurado -- para quem aponta SYNTH_URL a uma instancia
+      # propria. O Synth publico morreu junto com a Maybe.
+      registry.get_provider(:frankfurter) || registry.get_provider(:synth)
     end
 
     def find_or_fetch_rate(from:, to:, date: Date.current, cache: true)

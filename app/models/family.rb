@@ -85,7 +85,11 @@ class Family < ApplicationRecord
   end
 
   def missing_data_provider?
-    requires_data_provider? && Provider::Registry.get_provider(:synth).nil?
+    # Cambio agora vem do Frankfurter (sempre disponivel, sem chave), entao
+    # conta em outra moeda ja fica coberta. So PRECO DE ATIVO ainda depende de
+    # um provider ausente -- o Synth era o unico de securities e morreu -- e
+    # isso so importa para quem tem investimentos (trades).
+    trades.any? && Provider::Registry.for_concept(:securities).get_provider(:synth).nil?
   end
 
   def oldest_entry_date

@@ -224,6 +224,15 @@ services:
 
       OPENAI_ACCESS_TOKEN: '${OPENAI_ACCESS_TOKEN}'
 
+      # Cambio e preco de ativos. NAO precisa setar: o Frankfurter tem
+      # endereco publico embutido no codigo. Estas linhas existem para que
+      # setar no painel do Coolify FUNCIONE quando alguem quiser apontar a
+      # uma instancia propria -- sem elas, a variavel ficaria so no host e
+      # nunca no container (o mesmo bug que DEMO_URL teve). Vazias = usa o
+      # Frankfurter publico; securities fica sem provedor.
+      FRANKFURTER_URL: '${FRANKFURTER_URL:-}'
+      SYNTH_URL: '${SYNTH_URL:-}'
+
       # Sem esta linha, definir DEMO_URL no painel do Coolify nao teria efeito
       # nenhum: a variavel existiria no host e nunca dentro do container.
       # Vazia por padrao -- a landing so mostra o botao da demo se ela vier
@@ -292,6 +301,15 @@ services:
       APP_DOMAIN: '${APP_DOMAIN}'
 
       OPENAI_ACCESS_TOKEN: '${OPENAI_ACCESS_TOKEN}'
+
+      # Cambio e preco de ativos. NAO precisa setar: o Frankfurter tem
+      # endereco publico embutido no codigo. Estas linhas existem para que
+      # setar no painel do Coolify FUNCIONE quando alguem quiser apontar a
+      # uma instancia propria -- sem elas, a variavel ficaria so no host e
+      # nunca no container (o mesmo bug que DEMO_URL teve). Vazias = usa o
+      # Frankfurter publico; securities fica sem provedor.
+      FRANKFURTER_URL: '${FRANKFURTER_URL:-}'
+      SYNTH_URL: '${SYNTH_URL:-}'
 
       SMTP_ADDRESS: '${SMTP_ADDRESS}'
       SMTP_PORT: '${SMTP_PORT:-587}'
