@@ -129,13 +129,41 @@
           </a>
         <% end %>
       </div>
+
+      <%#
+        O produto, nao uma promessa dele.
+
+        Landing de app costuma mostrar mockup generico ou screenshot inventado.
+        Isto e o painel REAL do Muquirana, com dados de demonstracao em reais --
+        Nubank, imoveis, o grafico de patrimonio subindo. So nos podemos por
+        isto aqui com verdade: e a nossa tela, nao arte de marketing.
+
+        O print e escuro como a pagina, entao ele nao "cola" num retangulo: a
+        moldura fina e o brilho o levantam do fundo, e a mascara de gradiente na
+        base faz a imagem emergir do #0B0B0B em vez de terminar numa borda dura.
+      %>
+      <div class="mt-16 md:mt-24 relative">
+        <%# brilho difuso atras do painel, para ele nao flutuar no vazio %>
+        <div aria-hidden="true" class="absolute -inset-x-8 -top-8 bottom-0 bg-[#2D5BFF]/10 blur-3xl rounded-full"></div>
+
+        <div class="relative rounded-xl md:rounded-2xl border border-[#242424] overflow-hidden shadow-2xl shadow-black/60">
+          <%= image_tag "dashboard-preview.webp",
+                alt: t("pages.home.preview_alt"),
+                width: 2300, height: 1634,
+                class: "w-full block",
+                loading: "lazy", decoding: "async" %>
+
+          <%# fade da base: a imagem dissolve na pagina em vez de cortar %>
+          <div aria-hidden="true" class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#0B0B0B]"></div>
+        </div>
+      </div>
     </section>
 
     <%# ------------------------------------------------------ a assinatura
         O preco. E o desfecho da piada do nome e, ao mesmo tempo, a unica
         coisa que concorrente pago nao copia -- por isso e o maior numero
         da pagina.
-        
+
         Em Geist (sans), como o app mostra saldo -- NAO em mono. Fonte
         monoespacada serve para COLUNA de numeros alinhados; num numero de
         display isolado ela abre buracos entre os glifos ("R$   0 , 00").
@@ -161,18 +189,37 @@
         So o que o app entrega HOJE. Nada de "conectamos seu banco" ou
         "detecta assinaturas": ele nao faz isso, e prometer o que nao existe
         num app de financas nao e marketing, e mentira. %>
-    <section class="py-16 md:py-24 border-t border-[#242424]">
-      <h2 class="text-2xl md:text-3xl font-medium tracking-tight mb-12">
-        <%= t("pages.home.features_title") %>
+    <section class="py-16 md:py-28 border-t border-[#242424]">
+      <%# Titulo em duas cores: a tese em branco, o "hoje, de verdade" apagado.
+          E a assinatura tipografica que da ritmo a pagina -- e reforca a
+          honestidade: so o que o app entrega hoje, nada de promessa. %>
+      <h2 class="text-3xl md:text-5xl font-medium tracking-tight leading-[1.1] mb-12 md:mb-16">
+        <%= t("pages.home.features_title") %><br>
+        <span class="text-[#5C5C5C]"><%= t("pages.home.features_title_accent") %></span>
       </h2>
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-10">
-        <% %w[patrimonio contas transacoes orcamento importacao ia].each do |k| %>
-          <div>
+      <%# Cada feature vira um card com icone, em vez de texto solto. O icone e
+          lucide inline (SVG), entao funciona no layout minimo da landing. %>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <%
+          features = {
+            "patrimonio" => "trending-up",
+            "contas"     => "wallet",
+            "transacoes" => "arrow-right-left",
+            "orcamento"  => "chart-pie",
+            "importacao" => "file-up",
+            "ia"         => "sparkles"
+          }
+        %>
+        <% features.each do |k, ikon| %>
+          <div class="rounded-2xl border border-[#242424] bg-[#0F0F0F] p-6 hover:border-[#363636] transition-colors">
+            <div class="w-11 h-11 rounded-xl bg-[#1A1A1A] flex items-center justify-center mb-5 text-[#9E9E9E]">
+              <%= icon(ikon, size: "md", color: "current") %>
+            </div>
             <h3 class="font-medium text-[#FAFAFA] mb-2">
               <%= t("pages.home.feature_#{k}_title") %>
             </h3>
-            <p class="text-[#9E9E9E] leading-relaxed">
+            <p class="text-[#9E9E9E] text-sm leading-relaxed">
               <%= t("pages.home.feature_#{k}_body") %>
             </p>
           </div>
@@ -180,17 +227,41 @@
       </div>
     </section>
 
-    <%# ------------------------------------------------------- seus dados %>
-    <section class="py-16 md:py-24 border-t border-[#242424]">
-      <div class="max-w-2xl">
-        <h2 class="text-2xl md:text-3xl font-medium tracking-tight mb-4">
-          <%= t("pages.home.data_title") %>
-        </h2>
-        <p class="text-lg text-[#9E9E9E] leading-relaxed whitespace-pre-line">
-          <%= t("pages.home.data_body") %>
-        </p>
+    <%# ------------------------------------------------------- seus dados
+        Espelha a secao "Security / Transparency" do Sure em ESTRUTURA (titulo
+        em duas cores + 3 cards), mas com o que e verdade aqui: aberto, voce
+        hospeda, sem assinatura. Sem screenshot -- e sobre garantia, nao
+        sobre tela, entao icone + texto e o formato certo. %>
+    <section class="py-16 md:py-28 border-t border-[#242424]">
+      <h2 class="text-3xl md:text-5xl font-medium tracking-tight leading-[1.1] mb-4">
+        <%= t("pages.home.data_title") %><br>
+        <span class="text-[#5C5C5C]"><%= t("pages.home.data_title_accent") %></span>
+      </h2>
+      <p class="text-lg text-[#9E9E9E] leading-relaxed max-w-xl mb-12 md:mb-16">
+        <%= t("pages.home.data_lead") %>
+      </p>
 
-
+      <div class="grid md:grid-cols-3 gap-4">
+        <%
+          pilares = {
+            "aberto"    => "code-xml",
+            "hospeda"   => "server",
+            "assinatura" => "infinity"
+          }
+        %>
+        <% pilares.each do |k, ikon| %>
+          <div class="rounded-2xl border border-[#242424] bg-[#0F0F0F] p-6">
+            <div class="w-11 h-11 rounded-xl bg-[#1A1A1A] flex items-center justify-center mb-5 text-[#9E9E9E]">
+              <%= icon(ikon, size: "md", color: "current") %>
+            </div>
+            <h3 class="font-medium text-[#FAFAFA] mb-2">
+              <%= t("pages.home.pillar_#{k}_title") %>
+            </h3>
+            <p class="text-[#9E9E9E] text-sm leading-relaxed">
+              <%= t("pages.home.pillar_#{k}_body") %>
+            </p>
+          </div>
+        <% end %>
       </div>
     </section>
   </main>

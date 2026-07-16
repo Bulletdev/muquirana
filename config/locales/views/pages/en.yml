@@ -51,11 +51,10 @@ en:
     home:
       cta_primary: Host my own
       cta_secondary: See the demo
-      data_body: |-
-        Muquirana is free software under the AGPLv3 license.
-        Run it on your own machine, read every line, change whatever you want, and keep using it even if this project stops tomorrow.
-        Your entries live in your database, not ours.
+      data_lead: Free software under AGPLv3. None of these three depend on us sticking
+        around.
       data_title: Your data stays with you
+      data_title_accent: your rules
       eyebrow: Personal finance · open source
       feature_contas_body: Checking, savings, credit card, investments, crypto, property,
         vehicles and loans. Each with its own history and balance.
@@ -76,6 +75,7 @@ en:
         the recurring ones for you.
       feature_transacoes_title: Transactions
       features_title: What it does
+      features_title_accent: today, for real
       footer_col_project: Project
       footer_col_selfhost: Self-host
       footer_compose: Compose file
@@ -93,6 +93,16 @@ en:
       nav_code: Code
       nav_enter: Sign in
       nav_switch_language_aria: 'Language: %{current}. Switch to %{language}'
+      pillar_aberto_body: Every line is public. Read it, audit it, change what you
+        want. No black box handling your money.
+      pillar_aberto_title: Open source
+      pillar_assinatura_body: Free, forever. If this project stops tomorrow, yours
+        keeps running just the same.
+      pillar_assinatura_title: No subscription
+      pillar_hospeda_body: Runs on your own machine. Your entries live in your database,
+        not ours.
+      pillar_hospeda_title: You host it
+      preview_alt: Muquirana dashboard showing net worth, accounts and cash flow
       price: R$ 0.00
       price_explainer: |-
         No plans, no trial that turns into a charge, no feature locked behind an upgrade.

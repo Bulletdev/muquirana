@@ -52,11 +52,10 @@ pt-BR:
     home:
       cta_primary: Hospedar o meu
       cta_secondary: Ver a demo
-      data_body: |-
-        O Muquirana é software livre, sob licença AGPLv3.
-        Você pode rodar na sua máquina, ler cada linha do código, mudar o que quiser e continuar usando mesmo que este projeto pare amanhã.
-        Seus lançamentos ficam no seu banco de dados, não no nosso.
+      data_lead: Software livre sob AGPLv3. Nenhuma dessas três coisas depende de
+        a gente continuar existindo.
       data_title: Seus dados ficam com você
+      data_title_accent: suas regras
       eyebrow: Finanças pessoais · código aberto
       feature_contas_body: Corrente, poupança, cartão, investimento, cripto, imóvel,
         veículo e empréstimo. Cada uma com histórico e saldo próprio.
@@ -77,6 +76,7 @@ pt-BR:
         classificam sozinhas o que se repete.
       feature_transacoes_title: Transações
       features_title: O que ele faz
+      features_title_accent: hoje, de verdade
       footer_col_project: Projeto
       footer_col_selfhost: Hospedar
       footer_compose: Arquivo Compose
@@ -94,6 +94,17 @@ pt-BR:
       nav_code: Código
       nav_enter: Entrar
       nav_switch_language_aria: 'Idioma: %{current}. Mudar para %{language}'
+      pillar_aberto_body: Cada linha é pública. Leia, audite, mude o que quiser. Sem
+        caixa-preta cuidando do seu dinheiro.
+      pillar_aberto_title: Código aberto
+      pillar_assinatura_body: De graça, para sempre. Se este projeto parar amanhã,
+        o seu continua rodando igual.
+      pillar_assinatura_title: Sem assinatura
+      pillar_hospeda_body: Roda na sua máquina. Seus lançamentos ficam no seu banco
+        de dados, não no nosso.
+      pillar_hospeda_title: Você hospeda
+      preview_alt: Painel do Muquirana mostrando patrimônio, contas e fluxo de caixa
+        em reais
       price: R$ 0,00
       price_explainer: |-
         Não tem plano, não tem teste grátis que vira cobrança, não tem recurso escondido atrás de upgrade.
