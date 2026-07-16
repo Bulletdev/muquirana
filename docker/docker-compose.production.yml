@@ -39,8 +39,27 @@
 #
 # Detalhes de cada uma em docker/.env.production.example.
 
+# NAO renomeie os servicos para `postgres` e `redis`.
+#
+# A rede `coolify` e EXTERNA e compartilhada com os outros apps desta VPS. O
+# nome do servico vira alias de DNS nela: dois apps com um servico `redis` a
+# registram os dois, e o DNS embutido do Docker devolve os dois IPs. Quem
+# conecta pega qualquer um, a cada conexao.
+#
+# Isso nao e teorico -- aconteceu. O worker do Muquirana conectou no Redis da
+# prostaff-api, deu BRPOP na fila `default` e ROUBOU um StatusSnapshotJob dela:
+# 52 `uninitialized constant StatusSnapshotJob` por dia no log, um job que nunca
+# existiu neste repositorio. A direcao contraria e pior e silenciosa: o worker
+# da prostaff pegando um SyncJob daqui, falhando com uninitialized constant, e
+# aquele sync simplesmente nao acontecendo.
+#
+# A senha nao protege: se as duas instancias usarem o mesmo REDIS_PASSWORD, a
+# autenticacao passa e a troca fica invisivel.
+#
+# Vale para o postgres pelo mesmo motivo, e ali o estrago seria maior: conectar
+# no banco errado, nao perder job.
 services:
-  postgres:
+  muquirana-postgres:
     image: postgres:16-alpine
     restart: unless-stopped
     networks:
@@ -61,7 +80,7 @@ services:
       - coolify.managed=true
       - coolify.type=application
 
-  redis:
+  muquirana-redis:
     image: redis:7-alpine
     restart: unless-stopped
     # Guard em RUNTIME, nao na interpolacao (${VAR:?...}): o Coolify roda
@@ -75,7 +94,7 @@ services:
     # recusa a subir.
     #
     # Gere com `openssl rand -hex 32` -- HEX, nao base64: a senha entra no
-    # REDIS_URL (redis://default:SENHA@redis:6379/0) e o "/" do base64 corta
+    # REDIS_URL (redis://default:SENHA@muquirana-redis:6379/0) e o "/" do base64 corta
     # a URL, o parser le o resto como porta e estoura.
     command: >
       sh -c 'test -n "$$REDIS_PASSWORD" ||
@@ -111,9 +130,9 @@ services:
       # Sem volume, some a cada redeploy.
       - app-storage:/rails/storage
     depends_on:
-      postgres:
+      muquirana-postgres:
         condition: service_healthy
-      redis:
+      muquirana-redis:
         condition: service_healthy
     labels:
       - coolify.managed=true
@@ -169,12 +188,12 @@ services:
       # Desliga o paywall/Stripe (subscriptions_controller.rb:3)
       SELF_HOSTED: 'true'
 
-      DB_HOST: postgres
+      DB_HOST: muquirana-postgres
       DB_PORT: 5432
       POSTGRES_DB: '${POSTGRES_DB:-muquirana_production}'
       POSTGRES_USER: '${POSTGRES_USER:-muquirana}'
       POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
-      REDIS_URL: 'redis://default:${REDIS_PASSWORD}@redis:6379/0'
+      REDIS_URL: 'redis://default:${REDIS_PASSWORD}@muquirana-redis:6379/0'
 
       SECRET_KEY_BASE: '${SECRET_KEY_BASE}'
 
@@ -233,9 +252,9 @@ services:
       # anexo que o web acabou de gravar.
       - app-storage:/rails/storage
     depends_on:
-      postgres:
+      muquirana-postgres:
         condition: service_healthy
-      redis:
+      muquirana-redis:
         condition: service_healthy
     labels:
       - coolify.managed=true
@@ -245,12 +264,12 @@ services:
       RAILS_LOG_TO_STDOUT: 'true'
       SELF_HOSTED: 'true'
 
-      DB_HOST: postgres
+      DB_HOST: muquirana-postgres
       DB_PORT: 5432
       POSTGRES_DB: '${POSTGRES_DB:-muquirana_production}'
       POSTGRES_USER: '${POSTGRES_USER:-muquirana}'
       POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
-      REDIS_URL: 'redis://default:${REDIS_PASSWORD}@redis:6379/0'
+      REDIS_URL: 'redis://default:${REDIS_PASSWORD}@muquirana-redis:6379/0'
 
       SECRET_KEY_BASE: '${SECRET_KEY_BASE}'
 
