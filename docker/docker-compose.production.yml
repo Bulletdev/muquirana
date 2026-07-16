@@ -119,6 +119,13 @@ services:
 
   web:
     image: '${MUQUIRANA_IMAGE:-ghcr.io/bulletdev/muquirana:latest}'
+    # Tag MUTAVEL (:latest) sem secao `build:` = o compose so PUXA a imagem.
+    # Sem isto, o `docker compose up` ve que ja existe um `latest` local e
+    # reusa o cache: o deploy diz sucesso e sobe o build de ontem.
+    #
+    # Aconteceu: o deploy importou o commit certo e o container subiu com uma
+    # imagem de 7h antes. O painel do Coolify mostrava verde.
+    pull_policy: always
     restart: unless-stopped
     stop_grace_period: 35s
     networks:
@@ -239,6 +246,13 @@ services:
 
   worker:
     image: '${MUQUIRANA_IMAGE:-ghcr.io/bulletdev/muquirana:latest}'
+    # Tag MUTAVEL (:latest) sem secao `build:` = o compose so PUXA a imagem.
+    # Sem isto, o `docker compose up` ve que ja existe um `latest` local e
+    # reusa o cache: o deploy diz sucesso e sobe o build de ontem.
+    #
+    # Aconteceu: o deploy importou o commit certo e o container subiu com uma
+    # imagem de 7h antes. O painel do Coolify mostrava verde.
+    pull_policy: always
     command: 'bundle exec sidekiq -C config/sidekiq.yml'
     restart: unless-stopped
     networks:
