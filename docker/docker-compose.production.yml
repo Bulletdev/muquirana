@@ -224,6 +224,14 @@ services:
     restart: unless-stopped
     networks:
       - coolify
+    volumes:
+      # MESMO volume do web, e nao por simetria: o queue_adapter e sidekiq,
+      # entao TODO job roda aqui. O FamilyDataExportJob faz
+      # export_file.attach(...) -- sem este mount o ZIP era gravado no disco
+      # efemero do worker e o web nunca achava o arquivo para servir. O
+      # ActiveStorage::AnalyzeJob tem o problema espelhado: precisa LER o
+      # anexo que o web acabou de gravar.
+      - app-storage:/rails/storage
     depends_on:
       postgres:
         condition: service_healthy
