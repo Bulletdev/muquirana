@@ -11,12 +11,12 @@ pt-BR:
       no_invite_codes: Nenhum código para mostrar
     invite_code:
       copy_link: Copiar link de convite
+      exhausted_badge: esgotado
       revoke: Revogar convite
       revoke_confirm:
         title: Revogar este convite?
-        body: O link para de funcionar imediatamente. Quem já recebeu não vai conseguir
-          criar conta com ele.
+        body: O link para de funcionar imediatamente. Quem já entrou com ele continua
+          com a conta.
         accept: Revogar
-      used_badge: Usado
-      used_at: Entrou em %{quando}
-      used_by_unknown: Conta removida
+      revoked_badge: revogado
+      uses: "%{usados} de %{total} usos"

@@ -13,6 +13,7 @@ pt-BR:
         email_confirmation_title: Exigir confirmação de e-mail
         generate_tokens: Gerar novo código
         generated_tokens: Códigos gerados
+        max_uses_label: Para quantas pessoas
         title: Exigir código de convite no cadastro
       not_authorized: Você não tem permissão para fazer isso
       show:

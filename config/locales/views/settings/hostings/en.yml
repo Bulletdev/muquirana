@@ -10,6 +10,7 @@ en:
         email_confirmation_title: Require email confirmation
         generate_tokens: Generate new code
         generated_tokens: Generated codes
+        max_uses_label: How many people
         title: Require invite code for signup
       show:
         general: General Settings

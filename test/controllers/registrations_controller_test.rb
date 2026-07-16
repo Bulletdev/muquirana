@@ -100,10 +100,10 @@ class RegistrationsControllerTest < ActionDispatch::IntegrationTest
       end
 
       registro = InviteCode.find_by(token: code)
-      assert registro.used?, "o codigo tem que ficar marcado como usado"
-      assert_equal "convidado@exemplo.com", registro.used_by.email,
+      assert_equal 1, registro.uses_count, "o uso tem que ser contabilizado"
+      assert_equal [ "convidado@exemplo.com" ], registro.users.map(&:email),
         "o admin precisa saber QUEM entrou com o convite dele"
-      assert_nil InviteCode.claimable(code), "codigo usado nao vale de novo"
+      assert_nil InviteCode.claimable(code), "codigo de uso unico nao vale de novo"
     end
   end
 end

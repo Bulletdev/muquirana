@@ -2,6 +2,10 @@ class User < ApplicationRecord
   has_secure_password
 
   belongs_to :family
+
+  # De qual convite esta conta veio. Opcional: contas criadas antes do rastreio
+  # existir, ou com o cadastro aberto, nao tem convite nenhum.
+  belongs_to :invite_code, optional: true
   belongs_to :last_viewed_chat, class_name: "Chat", optional: true
   has_many :sessions, dependent: :destroy
   has_many :chats, dependent: :destroy

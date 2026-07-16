@@ -11,12 +11,12 @@ en:
       no_invite_codes: No codes to show
     invite_code:
       copy_link: Copy invite link
+      exhausted_badge: used up
       revoke: Revoke invite
       revoke_confirm:
         title: Revoke this invite?
-        body: The link stops working immediately. Anyone who already received it will
-          not be able to sign up with it.
+        body: The link stops working immediately. Anyone who already joined with it
+          keeps their account.
         accept: Revoke
-      used_badge: Used
-      used_at: Joined on %{quando}
-      used_by_unknown: Account removed
+      revoked_badge: revoked
+      uses: "%{usados} of %{total} uses"

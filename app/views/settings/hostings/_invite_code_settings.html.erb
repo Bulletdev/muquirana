@@ -32,16 +32,25 @@
       <div>
         <span class="text-primary text-base font-medium"><%= t(".generated_tokens") %></span>
       </div>
-      <div>
-        <%# bg-container-inset em vez de bg-gray-50: gray-50 e literal (#F7F7F7)
-            e nao muda com o tema, entao no escuro o text-primary (branco)
-            sumia dentro do botao. %>
-        <%= button_to invite_codes_path,
-                        method: :post,
-                        class: "flex gap-1 bg-container-inset text-primary text-sm rounded-lg px-3 py-2" do %>
-          <span><%= t(".generate_tokens") %></span>
-        <% end %>
-      </div>
+      <%#
+        O quantas-pessoas fica AQUI, na geracao, e nao numa tela de edicao
+        depois: e no momento de criar que se sabe para quem o link vai ("mando
+        pra minha esposa" = 1; "mando no grupo da familia" = 5).
+
+        bg-container-inset em vez de bg-gray-50: gray-50 e literal (#F7F7F7) e
+        nao muda com o tema, entao no escuro o text-primary (branco) sumia
+        dentro do botao.
+      %>
+      <%= form_with url: invite_codes_path, method: :post, class: "flex items-center gap-2" do |form| %>
+        <%= form.label :max_uses, t(".max_uses_label"), class: "text-secondary text-sm" %>
+        <%= form.select :max_uses,
+              options_for_select([ 1, 2, 5, 10, 25 ], 1),
+              {},
+              class: "bg-container-inset border border-secondary text-primary text-sm rounded-lg px-2 py-2 cursor-pointer focus:outline-hidden focus:ring-0" %>
+
+        <%= form.submit t(".generate_tokens"),
+              class: "flex gap-1 bg-container-inset text-primary text-sm rounded-lg px-3 py-2 cursor-pointer" %>
+      <% end %>
     </div>
 
     <div>

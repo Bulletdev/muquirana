@@ -176,18 +176,18 @@ class Api::V1::AuthControllerTest < ActionDispatch::IntegrationTest
     assert_response :created
 
     invite_code.reload
-    assert invite_code.used?, "o codigo tem que ficar marcado como usado"
-    assert_equal "newuser@example.com", invite_code.used_by.email,
+    assert_equal 1, invite_code.uses_count, "o uso tem que ser contabilizado"
+    assert_equal [ "newuser@example.com" ], invite_code.users.map(&:email),
       "quem hospeda precisa saber quem entrou pela API"
     assert_nil InviteCode.claimable(invite_code.token),
-      "codigo usado nao pode valer de novo"
+      "codigo no limite nao pode valer de novo"
   end
 
   # Enquanto o uso destruia a linha, a checagem `exists?` bastava por acidente.
   # Com o uso marcado, um codigo ja usado voltaria a passar se a validacao nao
   # olhasse used_at -- o que seria cadastro ilimitado com um convite so.
   test "should reject an already used invite code" do
-    invite_code = InviteCode.create!
+    invite_code = InviteCode.create!(max_uses: 1)
     invite_code.mark_used!(users(:family_admin))
 
     Api::V1::AuthController.any_instance.stubs(:invite_code_required?).returns(true)
