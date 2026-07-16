@@ -155,6 +155,7 @@ toda query precisa partir da família. Detalhes em [`CLAUDE.md`](CLAUDE.md).
 │  GITHUB_REPO_OWNER/NAME│  tela "Novidades" · sem isso, não busca nada       │
 │  OPENAI_ACCESS_TOKEN   │  opcional - habilita o assistente de IA            │
 │  PLAID_CLIENT_ID/SECRET│  opcional - sincronização bancária US/EU           │
+│  FRANKFURTER_URL       │  opcional - instância própria do Frankfurter       │
 │  SYNTH_URL             │  opcional - instância própria do Synth (ver 04.1)  │
 │  DEMO_URL              │  opcional - mostra "Ver a demo" na landing         │
 │  DEMO_INSTANCE         │  true SÓ na instância de demo (ver 04.2)           │
@@ -165,18 +166,20 @@ O assistente de IA lê `OPENAI_ACCESS_TOKEN` **da variável de ambiente**, não 
 banco: não há tela para configurá-lo. Além da chave, cada pessoa precisa aceitar
 o uso de IA na própria conta (`ai_enabled`), que nasce desligado.
 
-### 04.1 · Cotações e preços de ativos (Synth)
+### 04.1 · Cotações de câmbio e preços de ativos
 
-Câmbio e preço de ativos vinham da API Synth, **descontinuada junto com o
-projeto Maybe**: `api.synthfinance.com` não resolve mais em nenhum DNS público.
+**Câmbio funciona automaticamente, sem configurar nada.** As cotações vêm da API
+do [Frankfurter](https://frankfurter.dev) - livre, sem chave, com dados do Banco
+Central Europeu. Cobre a maioria das moedas; uma moeda que ela não publica
+degrada com aviso (sem saldo histórico para aquela conta). Para apontar a uma
+instância própria do Frankfurter (ele é self-hostable), use `FRANKFURTER_URL`.
 
-Sem ela, o app degrada com elegância - simplesmente não busca esses dados. Quem
-usa só BRL e não tem investimento não perde nada. Contas em outra moeda ou com
-trades ficam sem saldo histórico, e a interface avisa.
-
-O Synth era open source. Para ter os dados de volta, suba a sua a partir do
-[código arquivado](https://github.com/maybe-finance/synth-archive) e aponte
-`SYNTH_URL` para ela. **Não existe cadastro para o qual apontar** - o
+**Preço de ação e fundo é que não tem provedor público.** Vinha da API Synth,
+**descontinuada junto com o projeto Maybe**: `api.synthfinance.com` não resolve
+mais. Sem ela, contas de investimento ficam sem valor histórico - o resto do app
+funciona normal. O Synth era open source; para tê-lo de volta, suba a sua a
+partir do [código arquivado](https://github.com/maybe-finance/synth-archive) e
+aponte `SYNTH_URL` para ela. **Não existe cadastro para o qual apontar** - o
 `synthdata.co`, que aparece nas buscas, é outra empresa (dados sintéticos de
 previsão), sem relação com esta API.
 

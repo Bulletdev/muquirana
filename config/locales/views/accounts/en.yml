@@ -9,12 +9,13 @@ en:
       all: All
       assets: Assets
       debts: Debts
-      missing_data_body: Exchange rates and security prices came from the Synth API,
-        which was discontinued along with the Maybe project. Without that data, historical
-        balances for accounts in another currency or with investments are not calculated.
+      missing_data_body: Exchange rates work again (they now come from the European
+        Central Bank, via Frankfurter, for free). What is still missing is stock and
+        fund prices, which came from the Synth API - discontinued along with the Maybe
+        project. Without it, the historical value of your investments is not calculated.
         The rest of the app works normally.
       missing_data_link: How to fix this
-      missing_data_title: Missing historical data
+      missing_data_title: Security prices unavailable
       new_account: New account
       new_asset: New asset
       new_debt: New debt

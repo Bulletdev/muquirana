@@ -40,6 +40,11 @@ class Provider::Registry
         Provider::Synth.new(api_key)
       end
 
+      # Sempre disponivel: a API do Frankfurter e publica e sem chave.
+      def frankfurter
+        Provider::Frankfurter.new
+      end
+
       def plaid_us
         config = Rails.application.config.plaid
 
@@ -92,7 +97,9 @@ class Provider::Registry
     def available_providers
       case concept
       when :exchange_rates
-        %i[synth]
+        # frankfurter primeiro: e o provedor vivo (o Synth morreu). O synth fica
+        # na lista para quem apontar SYNTH_URL para uma instancia propria.
+        %i[frankfurter synth]
       when :securities
         %i[synth]
       when :llm
