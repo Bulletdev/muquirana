@@ -196,10 +196,8 @@ class TransactionsTest < ApplicationSystemTestCase
     transfer_date = Date.current
     visit account_url(investment_account, tab: "activity")
     within "[data-testid='activity-menu']" do
-      # O menu vem do ViewComponent UI::Account::ActivityFeed, que ainda tem os
-      # rotulos hardcoded em ingles -- nao ha chave de I18n para resolver aqui.
-      click_on "New"
-      click_on "New transaction"
+      click_on I18n.t("components.account.activity_feed.new")
+      click_on I18n.t("components.account.activity_feed.new_transaction")
     end
     select I18n.t("trades.form.type_deposit"), from: I18n.t("trades.form.type")
     # trades/_form usa `label: true` -> humanize, entao o rotulo continua "Date".
