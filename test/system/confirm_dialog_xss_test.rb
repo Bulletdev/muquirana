@@ -14,7 +14,7 @@ require "application_system_test_case"
 class ConfirmDialogXssTest < ApplicationSystemTestCase
   test "nome de estabelecimento com HTML nao executa script no confirm" do
     user = users(:family_admin)
-    payload = %q{<img src=x onerror="window.__xss_executou=true">}
+    payload = %q(<img src=x onerror="window.__xss_executou=true">)
     FamilyMerchant.create!(family: user.family, name: payload, color: "#e99537")
 
     sign_in user
