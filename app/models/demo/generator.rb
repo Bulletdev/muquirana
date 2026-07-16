@@ -33,14 +33,14 @@ class Demo::Generator
   def generate_empty_data!(skip_clear: false)
     with_timing(__method__) do
       unless skip_clear
-        puts "🧹 Clearing existing data..."
+        puts "Clearing existing data..."
         clear_all_data!
       end
 
-      puts "👥 Creating empty family..."
-      create_family_and_users!("Demo Family", "user@muquirana.local", onboarded: true, subscribed: true)
+      puts "Creating empty family..."
+      create_family_and_users!(demo_family_name, "user@muquirana.local", onboarded: true, subscribed: true)
 
-      puts "✅ Empty demo data loaded successfully!"
+      puts "Empty demo data loaded successfully!"
     end
   end
 
@@ -48,38 +48,38 @@ class Demo::Generator
   def generate_new_user_data!(skip_clear: false)
     with_timing(__method__) do
       unless skip_clear
-        puts "🧹 Clearing existing data..."
+        puts "Clearing existing data..."
         clear_all_data!
       end
 
-      puts "👥 Creating new user family..."
-      create_family_and_users!("Demo Family", "user@muquirana.local", onboarded: false, subscribed: false)
+      puts "Creating new user family..."
+      create_family_and_users!(demo_family_name, "user@muquirana.local", onboarded: false, subscribed: false)
 
-      puts "✅ New user demo data loaded successfully!"
+      puts "New user demo data loaded successfully!"
     end
   end
 
   # Generate comprehensive realistic demo data with multi-currency
   def generate_default_data!(skip_clear: false, email: "user@muquirana.local")
     if skip_clear
-      puts "⏭️  Skipping data clearing (appending new family)..."
+      puts "⏭ Skipping data clearing (appending new family)..."
     else
-      puts "🧹 Clearing existing data..."
+      puts "Clearing existing data..."
       clear_all_data!
     end
 
     with_timing(__method__, max_seconds: 1000) do
-      puts "👥 Creating demo family..."
-      family = create_family_and_users!("Demo Family", email, onboarded: true, subscribed: true)
+      puts "Creating demo family..."
+      family = create_family_and_users!(demo_family_name, email, onboarded: true, subscribed: true)
 
-      puts "📊 Creating realistic financial data..."
+      puts "Creating realistic financial data..."
       create_realistic_categories!(family)
       create_realistic_accounts!(family)
       create_realistic_transactions!(family)
       # Auto-fill current-month budget based on recent spending averages
       generate_budget_auto_fill!(family)
 
-      puts "✅ Realistic demo data loaded successfully!"
+      puts "Realistic demo data loaded successfully!"
     end
   end
 
@@ -93,7 +93,7 @@ class Demo::Generator
       start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
       result = yield
       duration = Process.clock_gettime(Process::CLOCK_MONOTONIC) - start
-      puts "⏱️  #{label} completed in #{duration.round(2)}s"
+      puts "⏱ #{label} completed in #{duration.round(2)}s"
 
       if max_seconds && duration > max_seconds
         raise "Demo::Generator ##{label} exceeded #{max_seconds}s (#{duration.round(2)}s)"
@@ -118,6 +118,11 @@ class Demo::Generator
       Demo::DataCleaner.new.destroy_everything!
     end
 
+    # Nome da familia da demo. Env-configuravel; default pt-BR apresentavel.
+    def demo_family_name
+      ENV["DEMO_FAMILY_NAME"].presence || "Família Souza"
+    end
+
     def create_family_and_users!(family_name, email, onboarded:, subscribed:)
       # Sem argumentos de locale/moeda: a familia herda os defaults da tabela
       # (BRL, pt-BR, %d/%m/%Y, BR, America/Sao_Paulo), definidos na migration
@@ -128,11 +133,18 @@ class Demo::Generator
 
       family.start_subscription!("sub_demo_123") if subscribed
 
+      # Nomes configuraveis por env. O default e apresentavel em pt-BR (a demo
+      # publica nao pode dizer "Demo (admin) Muquirana" numa gravacao); e o
+      # DEMO_ADMIN_NAME permite personalizar sem editar a UI a cada reset --
+      # util para gravar um video com um nome proprio.
+      admin_name = ENV["DEMO_ADMIN_NAME"].presence || "Ana Souza"
+      admin_first, admin_last = admin_name.split(" ", 2)
+
       # Admin user
       family.users.create!(
         email: email,
-        first_name: "Demo (admin)",
-        last_name: "Muquirana",
+        first_name: admin_first,
+        last_name: admin_last.presence || "",
         role: "admin",
         password: "password",
         onboarded_at: onboarded ? Time.current : nil
@@ -141,8 +153,8 @@ class Demo::Generator
       # Member user
       family.users.create!(
         email: "partner_#{email}",
-        first_name: "Demo (member)",
-        last_name: "Muquirana",
+        first_name: "Bruno",
+        last_name: admin_last.presence || "Souza",
         role: "member",
         password: "password",
         onboarded_at: onboarded ? Time.current : nil
@@ -153,138 +165,138 @@ class Demo::Generator
 
     def create_realistic_categories!(family)
       # Income categories (3 total)
-      @salary_cat = family.categories.create!(name: "Salary", color: "#10b981", classification: "income")
+      @salary_cat = family.categories.create!(name: "Salário", color: "#10b981", classification: "income")
       @freelance_cat = family.categories.create!(name: "Freelance", color: "#059669", classification: "income")
-      @investment_income_cat = family.categories.create!(name: "Investment Income", color: "#047857", classification: "income")
+      @investment_income_cat = family.categories.create!(name: "Rendimentos", color: "#047857", classification: "income")
 
       # Expense categories with subcategories (12 total)
-      @housing_cat = family.categories.create!(name: "Housing", color: "#dc2626", classification: "expense")
-      @rent_cat = family.categories.create!(name: "Rent/Mortgage", parent: @housing_cat, color: "#b91c1c", classification: "expense")
-      @utilities_cat = family.categories.create!(name: "Utilities", parent: @housing_cat, color: "#991b1b", classification: "expense")
+      @housing_cat = family.categories.create!(name: "Moradia", color: "#dc2626", classification: "expense")
+      @rent_cat = family.categories.create!(name: "Aluguel/Financiamento", parent: @housing_cat, color: "#b91c1c", classification: "expense")
+      @utilities_cat = family.categories.create!(name: "Contas de casa", parent: @housing_cat, color: "#991b1b", classification: "expense")
 
-      @food_cat = family.categories.create!(name: "Food & Dining", color: "#ea580c", classification: "expense")
-      @groceries_cat = family.categories.create!(name: "Groceries", parent: @food_cat, color: "#c2410c", classification: "expense")
-      @restaurants_cat = family.categories.create!(name: "Restaurants", parent: @food_cat, color: "#9a3412", classification: "expense")
-      @coffee_cat = family.categories.create!(name: "Coffee & Takeout", parent: @food_cat, color: "#7c2d12", classification: "expense")
+      @food_cat = family.categories.create!(name: "Alimentação", color: "#ea580c", classification: "expense")
+      @groceries_cat = family.categories.create!(name: "Mercado", parent: @food_cat, color: "#c2410c", classification: "expense")
+      @restaurants_cat = family.categories.create!(name: "Restaurantes", parent: @food_cat, color: "#9a3412", classification: "expense")
+      @coffee_cat = family.categories.create!(name: "Café e delivery", parent: @food_cat, color: "#7c2d12", classification: "expense")
 
-      @transportation_cat = family.categories.create!(name: "Transportation", color: "#2563eb", classification: "expense")
-      @gas_cat = family.categories.create!(name: "Gas", parent: @transportation_cat, color: "#1d4ed8", classification: "expense")
-      @car_payment_cat = family.categories.create!(name: "Car Payment", parent: @transportation_cat, color: "#1e40af", classification: "expense")
+      @transportation_cat = family.categories.create!(name: "Transporte", color: "#2563eb", classification: "expense")
+      @gas_cat = family.categories.create!(name: "Combustível", parent: @transportation_cat, color: "#1d4ed8", classification: "expense")
+      @car_payment_cat = family.categories.create!(name: "Prestação do carro", parent: @transportation_cat, color: "#1e40af", classification: "expense")
 
-      @entertainment_cat = family.categories.create!(name: "Entertainment", color: "#7c3aed", classification: "expense")
-      @healthcare_cat = family.categories.create!(name: "Healthcare", color: "#db2777", classification: "expense")
-      @shopping_cat = family.categories.create!(name: "Shopping", color: "#059669", classification: "expense")
-      @travel_cat = family.categories.create!(name: "Travel", color: "#0891b2", classification: "expense")
-      @personal_care_cat = family.categories.create!(name: "Personal Care", color: "#be185d", classification: "expense")
+      @entertainment_cat = family.categories.create!(name: "Lazer", color: "#7c3aed", classification: "expense")
+      @healthcare_cat = family.categories.create!(name: "Saúde", color: "#db2777", classification: "expense")
+      @shopping_cat = family.categories.create!(name: "Compras", color: "#059669", classification: "expense")
+      @travel_cat = family.categories.create!(name: "Viagem", color: "#0891b2", classification: "expense")
+      @personal_care_cat = family.categories.create!(name: "Cuidados pessoais", color: "#be185d", classification: "expense")
 
       # Additional high-level expense categories to reach 13 top-level items
-      @insurance_cat = family.categories.create!(name: "Insurance", color: "#6366f1", classification: "expense")
-      @misc_cat      = family.categories.create!(name: "Miscellaneous", color: "#6b7280", classification: "expense")
+      @insurance_cat = family.categories.create!(name: "Seguros", color: "#6366f1", classification: "expense")
+      @misc_cat      = family.categories.create!(name: "Diversos", color: "#6b7280", classification: "expense")
 
       # Interest expense bucket
-      @interest_cat = family.categories.create!(name: "Loan Interest", color: "#475569", classification: "expense")
+      @interest_cat = family.categories.create!(name: "Juros de empréstimo", color: "#475569", classification: "expense")
     end
 
     def create_realistic_accounts!(family)
       # Checking accounts (USD)
-      @chase_checking = family.accounts.create!(accountable: Depository.new, name: "Chase Premier Checking", balance: 0, currency: "BRL")
-      @ally_checking = family.accounts.create!(accountable: Depository.new, name: "Ally Online Checking", balance: 0, currency: "BRL")
+      @chase_checking = family.accounts.create!(accountable: Depository.new, name: "Nubank Conta", balance: 0, currency: "BRL")
+      @ally_checking = family.accounts.create!(accountable: Depository.new, name: "Inter Conta Corrente", balance: 0, currency: "BRL")
 
       # Savings account (USD)
-      @marcus_savings = family.accounts.create!(accountable: Depository.new, name: "Marcus High-Yield Savings", balance: 0, currency: "BRL")
+      @marcus_savings = family.accounts.create!(accountable: Depository.new, name: "Poupança Caixa", balance: 0, currency: "BRL")
 
       # Conta em moeda estrangeira (EUR) - vitrine de multi-moeda
-      @eu_checking = family.accounts.create!(accountable: Depository.new, name: "Deutsche Bank EUR Account", balance: 0, currency: "EUR")
+      @eu_checking = family.accounts.create!(accountable: Depository.new, name: "Conta em Euro (Wise)", balance: 0, currency: "EUR")
 
       # Cartoes de credito (moeda da familia)
-      @amex_gold = family.accounts.create!(accountable: CreditCard.new, name: "Amex Gold Card", balance: 0, currency: "BRL")
-      @chase_sapphire = family.accounts.create!(accountable: CreditCard.new, name: "Chase Sapphire Reserve", balance: 0, currency: "BRL")
+      @amex_gold = family.accounts.create!(accountable: CreditCard.new, name: "Cartão Nubank", balance: 0, currency: "BRL")
+      @chase_sapphire = family.accounts.create!(accountable: CreditCard.new, name: "Cartão Itaú", balance: 0, currency: "BRL")
 
       # Investment accounts (USD + GBP)
-      @vanguard_401k     = family.accounts.create!(accountable: Investment.new, name: "Vanguard 401(k)", balance: 0, currency: "BRL")
-      @schwab_brokerage  = family.accounts.create!(accountable: Investment.new, name: "Charles Schwab Brokerage", balance: 0, currency: "BRL")
-      @fidelity_roth_ira = family.accounts.create!(accountable: Investment.new, name: "Fidelity Roth IRA", balance: 0, currency: "BRL")
-      @hsa_investment    = family.accounts.create!(accountable: Investment.new, name: "Fidelity HSA Investment", balance: 0, currency: "BRL")
-      @uk_isa           = family.accounts.create!(accountable: Investment.new, name: "Vanguard UK ISA", balance: 0, currency: "GBP")
+      @vanguard_401k     = family.accounts.create!(accountable: Investment.new, name: "Previdência PGBL", balance: 0, currency: "BRL")
+      @schwab_brokerage  = family.accounts.create!(accountable: Investment.new, name: "Corretora XP", balance: 0, currency: "BRL")
+      @fidelity_roth_ira = family.accounts.create!(accountable: Investment.new, name: "Previdência VGBL", balance: 0, currency: "BRL")
+      @hsa_investment    = family.accounts.create!(accountable: Investment.new, name: "Fundo de Reserva", balance: 0, currency: "BRL")
+      @uk_isa           = family.accounts.create!(accountable: Investment.new, name: "Conta no Exterior", balance: 0, currency: "GBP")
 
       # Imoveis (moeda da familia)
-      @home = family.accounts.create!(accountable: Property.new, name: "Primary Residence", balance: 0, currency: "BRL")
+      @home = family.accounts.create!(accountable: Property.new, name: "Casa própria", balance: 0, currency: "BRL")
 
       # Vehicles (USD)
-      @honda_accord = family.accounts.create!(accountable: Vehicle.new, name: "2016 Honda Accord", balance: 0, currency: "BRL")
-      @tesla_model3 = family.accounts.create!(accountable: Vehicle.new, name: "2021 Tesla Model 3", balance: 0, currency: "BRL")
+      @honda_accord = family.accounts.create!(accountable: Vehicle.new, name: "Honda Civic 2019", balance: 0, currency: "BRL")
+      @tesla_model3 = family.accounts.create!(accountable: Vehicle.new, name: "Toyota Corolla 2022", balance: 0, currency: "BRL")
 
       # Crypto (USD)
-      @coinbase_usdc = family.accounts.create!(accountable: Crypto.new, name: "Coinbase USDC", balance: 0, currency: "BRL")
+      @coinbase_usdc = family.accounts.create!(accountable: Crypto.new, name: "Binance USDC", balance: 0, currency: "BRL")
 
       # Loans / Liabilities (USD)
-      @mortgage      = family.accounts.create!(accountable: Loan.new, name: "Home Mortgage", balance: 0, currency: "BRL")
-      @car_loan      = family.accounts.create!(accountable: Loan.new, name: "Car Loan", balance: 0, currency: "BRL")
-      @student_loan  = family.accounts.create!(accountable: Loan.new, name: "Student Loan", balance: 0, currency: "BRL")
+      @mortgage      = family.accounts.create!(accountable: Loan.new, name: "Financiamento do imóvel", balance: 0, currency: "BRL")
+      @car_loan      = family.accounts.create!(accountable: Loan.new, name: "Financiamento do carro", balance: 0, currency: "BRL")
+      @student_loan  = family.accounts.create!(accountable: Loan.new, name: "FIES", balance: 0, currency: "BRL")
 
-      @personal_loc  = family.accounts.create!(accountable: OtherLiability.new, name: "Personal Line of Credit", balance: 0, currency: "BRL")
+      @personal_loc  = family.accounts.create!(accountable: OtherLiability.new, name: "Cheque especial", balance: 0, currency: "BRL")
 
       # Other asset (USD)
-      @jewelry = family.accounts.create!(accountable: OtherAsset.new, name: "Jewelry Collection", balance: 0, currency: "BRL")
+      @jewelry = family.accounts.create!(accountable: OtherAsset.new, name: "Coleção de joias", balance: 0, currency: "BRL")
     end
 
     def create_realistic_transactions!(family)
       load_securities!
 
-      puts "   📈 Generating salary history (12 years)..."
+      puts "   Generating salary history (12 years)..."
       generate_salary_history!
 
-      puts "   🏠 Generating housing transactions..."
+      puts "   Generating housing transactions..."
       generate_housing_transactions!
 
-      puts "   🍕 Generating food & dining transactions..."
+      puts "   Generating food & dining transactions..."
       generate_food_transactions!
 
-      puts "   🚗 Generating transportation transactions..."
+      puts "   Generating transportation transactions..."
       generate_transportation_transactions!
 
-      puts "   🎬 Generating entertainment transactions..."
+      puts "   Generating entertainment transactions..."
       generate_entertainment_transactions!
 
-      puts "   🛒 Generating shopping transactions..."
+      puts "   Generating shopping transactions..."
       generate_shopping_transactions!
 
-      puts "   ⚕️ Generating healthcare transactions..."
+      puts "   Generating healthcare transactions..."
       generate_healthcare_transactions!
 
-      puts "   ✈️ Generating travel transactions..."
+      puts "   Generating travel transactions..."
       generate_travel_transactions!
 
-      puts "   💅 Generating personal care transactions..."
+      puts "   Generating personal care transactions..."
       generate_personal_care_transactions!
 
-      puts "   💰 Generating investment transactions..."
+      puts "   Generating investment transactions..."
       generate_investment_transactions!
 
-      puts "   🏡 Generating major purchases..."
+      puts "   Generating major purchases..."
       generate_major_purchases!
 
-      puts "   💳 Generating transfers and payments..."
+      puts "   Generating transfers and payments..."
       generate_transfers_and_payments!
 
-      puts "   🏦 Generating loan payments..."
+      puts "   Generating loan payments..."
       generate_loan_payments!
 
-      puts "   🧾 Generating regular expense baseline..."
+      puts "   Generating regular expense baseline..."
       generate_regular_expenses!
 
-      puts "   🗄️  Generating legacy historical data..."
+      puts "    Generating legacy historical data..."
       generate_legacy_transactions!
 
-      puts "   🔒 Generating crypto & misc asset transactions..."
+      puts "   Generating crypto & misc asset transactions..."
       generate_crypto_and_misc_assets!
 
-      puts "   ✅ Reconciling balances to target snapshot..."
+      puts "   Reconciling balances to target snapshot..."
       reconcile_balances!(family)
 
-      puts "   📊 Generated approximately #{Entry.joins(:account).where(accounts: { family_id: family.id }).count} transactions"
+      puts "   Generated approximately #{Entry.joins(:account).where(accounts: { family_id: family.id }).count} transactions"
 
-      puts "🔄 Final sync to calculate adjusted balances..."
+      puts "Final sync to calculate adjusted balances..."
       sync_family_accounts!(family)
     end
 
@@ -351,39 +363,39 @@ class Demo::Generator
         break if date > Date.current # safety
 
         amount = -jitter(deposit_amount, 0.02).round # negative inflow per conventions
-        create_transaction!(@chase_checking, amount, "Acme Corp Payroll", @salary_cat, date)
+        create_transaction!(@chase_checking, amount, "Folha de pagamento", @salary_cat, date)
 
         # 10 % automated savings transfer to Marcus Savings same day
         savings_amount = (-amount * 0.10).round
-        create_transfer!(@chase_checking, @marcus_savings, savings_amount, "Auto-Save 10% of Paycheck", date)
+        create_transfer!(@chase_checking, @marcus_savings, savings_amount, "Reserva automática (10% do salário)", date)
       end
 
       # Add freelance income to help balance expenses
       15.times do
         date = weighted_random_date
         amount = -rand(1500..4000)  # Negative for income
-        create_transaction!(@chase_checking, amount, "Freelance Project", @freelance_cat, date)
+        create_transaction!(@chase_checking, amount, "Projeto freelance", @freelance_cat, date)
       end
 
       # Add quarterly investment dividends
       (3.years.ago.to_date..Date.current).each do |date|
         next unless date.day == 15 && [ 3, 6, 9, 12 ].include?(date.month) # Quarterly
         dividend_amount = -rand(800..1500)  # Negative for income
-        create_transaction!(@chase_checking, dividend_amount, "Investment Dividends", @investment_income_cat, date)
+        create_transaction!(@chase_checking, dividend_amount, "Dividendos", @investment_income_cat, date)
       end
 
       # Add more regular freelance income to maintain positive checking balance
       40.times do  # Increased from 15
         date = weighted_random_date
         amount = -rand(800..2500)  # More frequent, smaller freelance income
-        create_transaction!(@chase_checking, amount, "Freelance Payment", @freelance_cat, date)
+        create_transaction!(@chase_checking, amount, "Pagamento freelance", @freelance_cat, date)
       end
 
       # Add side income streams
       25.times do
         date = weighted_random_date
         amount = -rand(200..800)
-        income_types = [ "Cash Tips", "Selling Items", "Refund", "Rebate", "Gift Card Cash Out" ]
+        income_types = [ "Gorjetas", "Venda de itens", "Reembolso", "Cashback", "Resgate de vale-presente" ]
         create_transaction!(@chase_checking, amount, income_types.sample, @freelance_cat, date)
       end
     end
@@ -397,18 +409,18 @@ class Demo::Generator
         next unless date.day == 1 # First of month
 
         # Mortgage payment from checking account (positive expense)
-        create_transaction!(@chase_checking, 2800, "Mortgage Payment", @rent_cat, date)
+        create_transaction!(@chase_checking, 2800, "Parcela do financiamento", @rent_cat, date)
         # Principal payment reduces mortgage debt (negative transaction)
         principal_payment = 800 # ~$800 goes to principal
-        create_transaction!(@mortgage, -principal_payment, "Principal Payment", nil, date)
+        create_transaction!(@mortgage, -principal_payment, "Amortização", nil, date)
       end
 
       # Monthly utilities (reduced frequency)
       utilities = [
-        { name: "ConEd Electric", range: 150..300 },
-        { name: "Verizon Internet", range: 85..105 },
-        { name: "Water & Sewer", range: 60..90 },
-        { name: "Gas Bill", range: 80..220 }
+        { name: "Enel (luz)", range: 150..300 },
+        { name: "Vivo Internet", range: 85..105 },
+        { name: "Sabesp (água)", range: 60..90 },
+        { name: "Comgás (gás)", range: 80..220 }
       ]
 
       utilities.each do |utility|
@@ -425,15 +437,15 @@ class Demo::Generator
       120.times do  # Increased from 60
         date = weighted_random_date
         amount = rand(60..180) # Reduced max from 220
-        stores = [ "Whole Foods", "Trader Joe's", "Safeway", "Stop & Shop", "Fresh Market" ]
-        create_transaction!(@chase_checking, amount, "#{stores.sample} Market", @groceries_cat, date)
+        stores = [ "Pão de Açúcar", "Carrefour", "Extra", "Assaí", "Hortifruti" ]
+        create_transaction!(@chase_checking, amount, "#{stores.sample}", @groceries_cat, date)
       end
 
       # Restaurant dining (increased volume)
       100.times do  # Increased from 50
         date = weighted_random_date
         amount = rand(25..65) # Reduced max from 80
-        restaurants = [ "Pizza Corner", "Sushi Place", "Italian Kitchen", "Mexican Grill", "Greek Taverna" ]
+        restaurants = [ "Pizzaria do Bairro", "Temakeria", "Cantina Italiana", "Restaurante Mexicano", "Taverna Grega" ]
         create_transaction!(@chase_checking, amount, restaurants.sample, @restaurants_cat, date)
       end
 
@@ -441,7 +453,7 @@ class Demo::Generator
       80.times do  # Increased from 40
         date = weighted_random_date
         amount = rand(8..20) # Reduced from 10-25
-        places = [ "Local Coffee", "Dunkin'", "Corner Deli", "Food Truck" ]
+        places = [ "Cafeteria", "Starbucks", "Padaria da Esquina", "Lanchonete" ]
         create_transaction!(@chase_checking, amount, places.sample, @coffee_cat, date)
       end
     end
@@ -451,8 +463,8 @@ class Demo::Generator
       60.times do
         date = weighted_random_date
         amount = rand(35..75)
-        stations = [ "Shell", "Exxon", "BP", "Chevron", "Mobil", "Sunoco" ]
-        create_transaction!(@chase_checking, amount, "#{stations.sample} Gas", @gas_cat, date)
+        stations = [ "Shell", "Ipiranga", "Petrobras", "Ale", "Shell", "BR" ]
+        create_transaction!(@chase_checking, amount, "Posto #{stations.sample}", @gas_cat, date)
       end
 
       # Car payment (monthly for 6 years)
@@ -461,7 +473,7 @@ class Demo::Generator
 
       (car_payment_start..car_payment_end).each do |date|
         next unless date.day == 15 # 15th of month
-        create_transaction!(@chase_checking, 385, "Auto Loan Payment", @car_payment_cat, date)
+        create_transaction!(@chase_checking, 385, "Parcela do carro", @car_payment_cat, date)
       end
     end
 
@@ -469,9 +481,9 @@ class Demo::Generator
       # Monthly subscriptions (increased timeframe)
       subscriptions = [
         { name: "Netflix", amount: 15 },
-        { name: "Spotify Premium", amount: 12 },
+        { name: "Spotify", amount: 12 },
         { name: "Disney+", amount: 8 },
-        { name: "HBO Max", amount: 16 },
+        { name: "Max", amount: 16 },
         { name: "Amazon Prime", amount: 14 }
       ]
 
@@ -486,7 +498,7 @@ class Demo::Generator
       60.times do  # Increased from 25
         date = weighted_random_date
         amount = rand(15..60) # Reduced from 20-80
-        activities = [ "Movie Theater", "Sports Game", "Museum", "Comedy Club", "Bowling", "Mini Golf", "Arcade" ]
+        activities = [ "Cinema", "Jogo de futebol", "Museu", "Show de comédia", "Boliche", "Minigolfe", "Fliperama" ]
         create_transaction!(@chase_checking, amount, activities.sample, @entertainment_cat, date)
       end
     end
@@ -496,15 +508,15 @@ class Demo::Generator
       80.times do  # Increased from 40
         date = weighted_random_date
         amount = rand(30..90) # Reduced max from 120
-        stores = [ "Target.com", "Walmart", "Costco" ]
-        create_transaction!(@chase_checking, amount, "#{stores.sample} Purchase", @shopping_cat, date)
+        stores = [ "Magazine Luiza", "Carrefour", "Atacadão" ]
+        create_transaction!(@chase_checking, amount, "Compra em #{stores.sample}", @shopping_cat, date)
       end
 
       # In-store shopping (increased volume)
       60.times do  # Increased from 25
         date = weighted_random_date
         amount = rand(35..80) # Reduced max from 100
-        stores = [ "Target", "REI", "Barnes & Noble", "GameStop" ]
+        stores = [ "Americanas", "Decathlon", "Livraria Cultura", "Loja de games" ]
         create_transaction!(@chase_checking, amount, stores.sample, @shopping_cat, date)
       end
     end
@@ -514,7 +526,7 @@ class Demo::Generator
       45.times do  # Increased from 25
         date = weighted_random_date
         amount = rand(150..350) # Reduced from 180-450
-        providers = [ "Dr. Smith", "Dr. Johnson", "Dr. Williams", "Specialist Visit", "Urgent Care" ]
+        providers = [ "Dr. Silva", "Dra. Souza", "Dr. Oliveira", "Consulta com especialista", "Pronto atendimento" ]
         create_transaction!(@chase_checking, amount, providers.sample, @healthcare_cat, date)
       end
 
@@ -522,7 +534,7 @@ class Demo::Generator
       80.times do  # Increased from 40
         date = weighted_random_date
         amount = rand(12..65) # Reduced from 15-85
-        pharmacies = [ "CVS Pharmacy", "Walgreens", "Rite Aid", "Local Pharmacy" ]
+        pharmacies = [ "Drogasil", "Droga Raia", "Pacheco", "Farmácia do bairro" ]
         create_transaction!(@chase_checking, amount, pharmacies.sample, @healthcare_cat, date)
       end
     end
@@ -534,7 +546,7 @@ class Demo::Generator
 
         # Smaller local trips from checking
         hotel_amount = rand(200..500)
-        hotels = [ "Local Hotel", "B&B", "Nearby Resort" ]
+        hotels = [ "Hotel", "B&B", "Resort" ]
         if rand < 0.3 && date > 3.years.ago.to_date # Some EUR transactions
           create_transaction!(@eu_checking, hotel_amount, hotels.sample, @travel_cat, date)
         else
@@ -543,11 +555,11 @@ class Demo::Generator
 
         # Domestic flights (smaller amounts)
         flight_amount = rand(200..400)
-        create_transaction!(@chase_checking, flight_amount, "Domestic Flight", @travel_cat, date + rand(1..5).days)
+        create_transaction!(@chase_checking, flight_amount, "Voo doméstico", @travel_cat, date + rand(1..5).days)
 
         # Local activities
         activity_amount = rand(50..150)
-        activities = [ "Local Tour", "Museum Tickets", "Activity Pass" ]
+        activities = [ "Passeio guiado", "Ingresso de museu", "Passaporte de atividades" ]
         create_transaction!(@chase_checking, activity_amount, activities.sample, @travel_cat, date + rand(1..7).days)
       end
     end
@@ -556,20 +568,20 @@ class Demo::Generator
       # Gym membership
       (12.years.ago.to_date..Date.current).each do |date|
         next unless date.day == 1 && rand < 0.8 # Monthly
-        create_transaction!(@chase_checking, 45, "Gym Membership", @personal_care_cat, date)
+        create_transaction!(@chase_checking, 45, "Academia", @personal_care_cat, date)
       end
 
       # Beauty/grooming (checking account only)
       40.times do
         date = weighted_random_date
         amount = rand(25..80)
-        services = [ "Hair Salon", "Barber Shop", "Nail Salon" ]
+        services = [ "Salão de beleza", "Barbearia", "Manicure" ]
         create_transaction!(@chase_checking, amount, services.sample, @personal_care_cat, date)
       end
     end
 
     def generate_investment_transactions!
-      security = Security.first || Security.create!(ticker: "VTI", name: "Vanguard Total Stock Market ETF", country_code: "US")
+      security = Security.first || Security.create!(ticker: "VTI", name: "ETF Ibovespa (BOVA11)", country_code: "US")
 
       generate_401k_trades!(security)
       generate_brokerage_trades!(security)
@@ -596,7 +608,7 @@ class Demo::Generator
       while date_cursor <= Date.current
         4.times do |i|
           trade_date = date_cursor + i * 7.days # roughly spread within month
-          create_trade_for(@schwab_brokerage, security, rand(400..1_000), trade_date, "Brokerage Purchase")
+          create_trade_for(@schwab_brokerage, security, rand(400..1_000), trade_date, "Compra na corretora")
         end
         date_cursor = date_cursor.next_month.beginning_of_month
       end
@@ -609,7 +621,7 @@ class Demo::Generator
         # Split $500 monthly across 3 staggered trades
         3.times do |i|
           trade_date = date_cursor + i * 10.days
-          create_trade_for(@fidelity_roth_ira, security, (500 / 3.0), trade_date, "Roth IRA Contribution")
+          create_trade_for(@fidelity_roth_ira, security, (500 / 3.0), trade_date, "Aporte em previdência")
         end
         date_cursor = date_cursor.next_month.beginning_of_month
       end
@@ -621,7 +633,7 @@ class Demo::Generator
       while date_cursor <= Date.current
         3.times do |i|
           trade_date = date_cursor + i * 10.days
-          create_trade_for(@uk_isa, security, (400 / 3.0), trade_date, "ISA Investment", price_range: 60..150)
+          create_trade_for(@uk_isa, security, (400 / 3.0), trade_date, "Aporte no exterior", price_range: 60..150)
         end
         date_cursor = date_cursor.next_month.beginning_of_month
       end
@@ -649,25 +661,25 @@ class Demo::Generator
       # Home purchase (5 years ago) - only record the down payment, not full value
       # Property value will be set by valuation in reconcile_balances!
       home_date = 5.years.ago.to_date
-      create_transaction!(@chase_checking, 70_000, "Home Down Payment", @housing_cat, home_date)
-      create_transaction!(@mortgage, 320_000, "Mortgage Principal", nil, home_date) # Initial mortgage debt
+      create_transaction!(@chase_checking, 70_000, "Entrada do imóvel", @housing_cat, home_date)
+      create_transaction!(@mortgage, 320_000, "Saldo do financiamento", nil, home_date) # Initial mortgage debt
 
       # Initial account funding (realistic amounts)
-      create_transaction!(@chase_checking, -5_000, "Initial Deposit", @salary_cat, 12.years.ago.to_date)
-      create_transaction!(@ally_checking, -2_000, "Initial Deposit", @salary_cat, 12.years.ago.to_date)
-      create_transaction!(@marcus_savings, -10_000, "Initial Savings", @salary_cat, 12.years.ago.to_date)
+      create_transaction!(@chase_checking, -5_000, "Depósito inicial", @salary_cat, 12.years.ago.to_date)
+      create_transaction!(@ally_checking, -2_000, "Depósito inicial", @salary_cat, 12.years.ago.to_date)
+      create_transaction!(@marcus_savings, -10_000, "Saldo inicial", @salary_cat, 12.years.ago.to_date)
       create_transaction!(@eu_checking, -5_000, "EUR Account Opening", nil, 4.years.ago.to_date)
 
       # Car purchases (realistic amounts)
-      create_transaction!(@chase_checking, 3_000, "Car Down Payment", @transportation_cat, 6.years.ago.to_date)
-      create_transaction!(@chase_checking, 2_500, "Second Car Down Payment", @transportation_cat, 8.years.ago.to_date)
+      create_transaction!(@chase_checking, 3_000, "Entrada do carro", @transportation_cat, 6.years.ago.to_date)
+      create_transaction!(@chase_checking, 2_500, "Entrada do segundo carro", @transportation_cat, 8.years.ago.to_date)
 
       # Major but realistic expenses
-      create_transaction!(@chase_checking, 8_000, "Kitchen Renovation", @utilities_cat, 2.years.ago.to_date)
+      create_transaction!(@chase_checking, 8_000, "Reforma da cozinha", @utilities_cat, 2.years.ago.to_date)
       create_transaction!(@chase_checking, 5_000, "Bathroom Remodel", @utilities_cat, 1.year.ago.to_date)
       create_transaction!(@chase_checking, 12_000, "Roof Replacement", @utilities_cat, 3.years.ago.to_date)
       create_transaction!(@chase_checking, 8_000, "Family Emergency", @healthcare_cat, 4.years.ago.to_date)
-      create_transaction!(@chase_checking, 15_000, "Wedding Expenses", @entertainment_cat, 9.years.ago.to_date)
+      create_transaction!(@chase_checking, 15_000, "Despesas do casamento", @entertainment_cat, 9.years.ago.to_date)
     end
 
     def generate_transfers_and_payments!
@@ -684,21 +696,21 @@ class Demo::Generator
       (3.years.ago.to_date..Date.current).each do |date|
         next unless date.day == 15 && rand < 0.7 # Semi-monthly savings
         amount = rand(500..1500)
-        create_transfer!(@chase_checking, @marcus_savings, amount, "Extra Savings Transfer", date)
+        create_transfer!(@chase_checking, @marcus_savings, amount, "Transferência para poupança", date)
       end
 
       # Quarterly HSA contributions
       (3.years.ago.to_date..Date.current).each do |date|
         next unless date.day == 1 && [ 1, 4, 7, 10 ].include?(date.month) # Quarterly
         amount = rand(1000..2000)
-        create_transfer!(@chase_checking, @hsa_investment, amount, "HSA Contribution", date)
+        create_transfer!(@chase_checking, @hsa_investment, amount, "Aporte no fundo de reserva", date)
       end
 
       # Occasional windfalls (tax refunds, bonuses, etc.)
       8.times do
         date = weighted_random_date
         amount = rand(2000..8000)
-        create_transaction!(@chase_checking, -amount, "Tax Refund/Bonus", @salary_cat, date)
+        create_transaction!(@chase_checking, -amount, "Restituição do IR", @salary_cat, date)
       end
 
       # CRITICAL: Regular transfers FROM savings TO checking to maintain positive balance
@@ -706,14 +718,14 @@ class Demo::Generator
       (3.years.ago.to_date..Date.current).each do |date|
         next unless date.day == rand(20..28) && rand < 0.8 # Monthly transfers from savings
         amount = rand(2000..5000)
-        create_transfer!(@marcus_savings, @chase_checking, amount, "Transfer from Savings", date)
+        create_transfer!(@marcus_savings, @chase_checking, amount, "Resgate da poupança", date)
       end
 
       # Weekly smaller transfers from savings for cash flow
       (3.years.ago.to_date..Date.current).each do |date|
         next unless date.wday == 1 && rand < 0.4 # Some Mondays
         amount = rand(500..1200)
-        create_transfer!(@marcus_savings, @chase_checking, amount, "Weekly Cash Flow", date)
+        create_transfer!(@marcus_savings, @chase_checking, amount, "Movimentação semanal", date)
       end
     end
 
@@ -723,7 +735,7 @@ class Demo::Generator
       date_cursor = 36.months.ago.beginning_of_month
       while date_cursor <= Date.current
         transfer_date = first_business_day(date_cursor)
-        create_transfer!(@chase_checking, @ally_checking, 300, "Monthly Ally Transfer", transfer_date)
+        create_transfer!(@chase_checking, @ally_checking, 300, "Transferência mensal", transfer_date)
         date_cursor = date_cursor.next_month.beginning_of_month
       end
     end
@@ -733,7 +745,7 @@ class Demo::Generator
       date_cursor = 36.months.ago.beginning_of_quarter
       while date_cursor <= Date.current
         transfer_date = date_cursor + 2.days # arbitrary within quarter start
-        create_transfer!(@chase_checking, @eu_checking, 2_000, "Quarterly FX Transfer", transfer_date)
+        create_transfer!(@chase_checking, @eu_checking, 2_000, "Transferência em moeda", transfer_date)
         date_cursor = date_cursor.next_quarter.beginning_of_quarter
       end
     end
@@ -781,14 +793,14 @@ class Demo::Generator
 
         if amex_total.positive?
           amex_payment = (amex_total * rand(0.90..0.95)).round
-          create_transfer!(@chase_checking, @amex_gold, amex_payment, "Amex Payment", payment_date)
+          create_transfer!(@chase_checking, @amex_gold, amex_payment, "Pagamento Cartão Nubank", payment_date)
           amex_balance -= amex_payment
           payments_this_run += 1
         end
 
         if sapphire_total.positive?
           sapphire_payment = (sapphire_total * rand(0.90..0.95)).round
-          create_transfer!(@chase_checking, @chase_sapphire, sapphire_payment, "Sapphire Payment", payment_date)
+          create_transfer!(@chase_checking, @chase_sapphire, sapphire_payment, "Pagamento Cartão Itaú", payment_date)
           sapphire_balance -= sapphire_payment
           payments_this_run += 1
         end
@@ -807,19 +819,19 @@ class Demo::Generator
 
       if diff_amex.abs > 250
         adjust_payment = diff_amex.positive? ? diff_amex : 0
-        create_transfer!(@chase_checking, @amex_gold, adjust_payment, "Amex Balance Adjust", Date.current)
+        create_transfer!(@chase_checking, @amex_gold, adjust_payment, "Ajuste Cartão Nubank", Date.current)
         amex_balance -= adjust_payment
       end
 
       if diff_sapphire.abs > 250
         adjust_payment = diff_sapphire.positive? ? diff_sapphire : 0
-        create_transfer!(@chase_checking, @chase_sapphire, adjust_payment, "Sapphire Balance Adjust", Date.current)
+        create_transfer!(@chase_checking, @chase_sapphire, adjust_payment, "Ajuste Cartão Itaú", Date.current)
         sapphire_balance -= adjust_payment
       end
 
-      puts "   💳 Charges generated: #{charges_this_run} | Payments: #{payments_this_run}"
-      puts "   💳 Final Amex balance: ~$#{amex_balance} | target ~$#{target_amex}"
-      puts "   💳 Final Sapphire balance: ~$#{sapphire_balance} | target ~$#{target_sapphire}"
+      puts "   Charges generated: #{charges_this_run} | Payments: #{payments_this_run}"
+      puts "   Final Amex balance: ~$#{amex_balance} | target ~$#{target_amex}"
+      puts "   Final Sapphire balance: ~$#{sapphire_balance} | target ~$#{target_sapphire}"
     end
 
     # Generate exactly +count+ charges on +account+ within the month of +base_date+.
@@ -896,9 +908,9 @@ class Demo::Generator
       return if Security.exists?
 
       Security.create!([
-        { ticker: "VTI", name: "Vanguard Total Stock Market ETF", country_code: "US" },
-        { ticker: "VXUS", name: "Vanguard Total International Stock ETF", country_code: "US" },
-        { ticker: "BND", name: "Vanguard Total Bond Market ETF", country_code: "US" }
+        { ticker: "VTI", name: "ETF Ibovespa (BOVA11)", country_code: "US" },
+        { ticker: "VXUS", name: "ETF S&P 500 (IVVB11)", country_code: "US" },
+        { ticker: "BND", name: "ETF Renda Fixa (IMAB11)", country_code: "US" }
       ])
     end
 
@@ -949,7 +961,7 @@ class Demo::Generator
           interest_amount: 1_100,
           interest_category: @housing_cat,
           date: payment_date,
-          memo: "Mortgage Payment"
+          memo: "Parcela do financiamento"
         )
 
         # Student loan
@@ -959,7 +971,7 @@ class Demo::Generator
           interest_amount: 100,
           interest_category: @interest_cat,
           date: payment_date,
-          memo: "Student Loan Payment"
+          memo: "Parcela do FIES"
         )
 
         # Car loan – assume 300 principal / 130 interest
@@ -969,7 +981,7 @@ class Demo::Generator
           interest_amount: 130,
           interest_category: @transportation_cat,
           date: payment_date,
-          memo: "Auto Loan Payment"
+          memo: "Parcela do carro"
         )
 
         date_cursor = date_cursor.next_month.beginning_of_month
@@ -981,17 +993,17 @@ class Demo::Generator
       create_transfer!(@chase_checking, principal_account, principal_amount, memo, date)
 
       # Interest portion – expense from checking
-      create_transaction!(@chase_checking, interest_amount, "#{memo} Interest", interest_category, date)
+      create_transaction!(@chase_checking, interest_amount, "Juros #{memo}", interest_category, date)
     end
 
     # Generate additional baseline expenses to reach 8k-12k transaction target
     def generate_regular_expenses!
       expense_generators = [
-        ->(date) { create_transaction!(@chase_checking, jitter(rand(150..220), 0.05).round, pick([ "ConEd Electric", "National Grid", "Gas & Power" ]), @utilities_cat, date) },
-        ->(date) { create_transaction!(@chase_checking, jitter(rand(10..20), 0.1).round, pick([ "Spotify", "Netflix", "Hulu", "Apple One" ]), @entertainment_cat, date) },
-        ->(date) { create_transaction!(@chase_checking, jitter(rand(45..90), 0.1).round, pick([ "Whole Foods", "Trader Joe's", "Safeway" ])+" Market", @groceries_cat, date) },
-        ->(date) { create_transaction!(@chase_checking, jitter(rand(25..50), 0.1).round, pick([ "Shell Gas", "BP Gas", "Exxon" ]), @gas_cat, date) },
-        ->(date) { create_transaction!(@chase_checking, jitter(rand(15..40), 0.1).round, pick([ "Movie Streaming", "Book Purchase", "Mobile Game" ]), @entertainment_cat, date) }
+        ->(date) { create_transaction!(@chase_checking, jitter(rand(150..220), 0.05).round, pick([ "Enel (luz)", "Cemig", "Copel" ]), @utilities_cat, date) },
+        ->(date) { create_transaction!(@chase_checking, jitter(rand(10..20), 0.1).round, pick([ "Spotify", "Netflix", "Globoplay", "Apple One" ]), @entertainment_cat, date) },
+        ->(date) { create_transaction!(@chase_checking, jitter(rand(45..90), 0.1).round, pick([ "Pão de Açúcar", "Carrefour", "Extra" ]), @groceries_cat, date) },
+        ->(date) { create_transaction!(@chase_checking, jitter(rand(25..50), 0.1).round, pick([ "Posto Shell", "Posto BR", "Ipiranga" ]), @gas_cat, date) },
+        ->(date) { create_transaction!(@chase_checking, jitter(rand(15..40), 0.1).round, pick([ "Streaming de filme", "Compra de livro", "Jogo mobile" ]), @entertainment_cat, date) }
       ]
 
       desired = 600  # Increased from 300 to help reach 8k
@@ -1022,7 +1034,7 @@ class Demo::Generator
       200.times do  # Reduced from 300
         date = weighted_random_date
         amount = rand(3..15)
-        stores = [ "7-Eleven", "Wawa", "Circle K", "Quick Stop", "Corner Store" ]
+        stores = [ "7-Eleven", "Wawa", "Circle K", "Quick Stop", "Mercadinho" ]
         create_transaction!(@chase_checking, amount, stores.sample, @shopping_cat, date)
       end
 
@@ -1030,7 +1042,7 @@ class Demo::Generator
       120.times do  # Reduced from 200
         date = weighted_random_date
         amount = rand(1..10)
-        items = [ "App Store", "Google Play", "iTunes", "Steam", "Kindle Book" ]
+        items = [ "Loja de apps", "Google Play", "iTunes", "Steam", "Livro Kindle" ]
         create_transaction!(@chase_checking, amount, items.sample, @entertainment_cat, date)
       end
 
@@ -1045,7 +1057,7 @@ class Demo::Generator
       150.times do  # Reduced from 250
         date = weighted_random_date
         amount = rand(5..25)
-        vendors = [ "Food Truck", "Farmer's Market", "Street Vendor", "Tip", "Donation" ]
+        vendors = [ "Lanchonete", "Feira livre", "Street Vendor", "Tip", "Donation" ]
         create_transaction!(@chase_checking, amount, vendors.sample, @misc_cat, date)
       end
 
@@ -1060,7 +1072,7 @@ class Demo::Generator
       120.times do  # Reduced from 180
         date = weighted_random_date
         amount = rand(2..8)
-        transit = [ "Metro Card", "Bus Fare", "Train Ticket", "Uber/Lyft" ]
+        transit = [ "Bilhete de transporte", "Bus Fare", "Train Ticket", "Uber/Lyft" ]
         create_transaction!(@chase_checking, amount, transit.sample, @transportation_cat, date)
       end
 
@@ -1069,9 +1081,9 @@ class Demo::Generator
         date = weighted_random_date
         amount = rand(1..12)
         merchants = [
-          "Newsstand", "Coffee Cart", "Tip Jar", "Donation Box", "Laundromat",
+          "Newsstand", "Carrinho de café", "Tip Jar", "Donation Box", "Laundromat",
           "Car Wash", "Redbox", "PayPhone", "Photo Booth", "Arcade Game",
-          "Postage", "Newspaper", "Lottery Ticket", "Gumball Machine", "Ice Cream Truck"
+          "Postage", "Newspaper", "Lottery Ticket", "Gumball Machine", "Sorveteria"
         ]
         create_transaction!(@chase_checking, amount, merchants.sample, @misc_cat, date)
       end
@@ -1107,11 +1119,11 @@ class Demo::Generator
         category = pick([ @groceries_cat, @utilities_cat, @gas_cat, @restaurants_cat, @shopping_cat ])
 
         merchant = case category
-        when @groceries_cat then pick(%w[Walmart Kroger Safeway]) + " Market"
-        when @utilities_cat then pick([ "Local Electric", "City Water", "Gas Co." ])
+        when @groceries_cat then pick(%w[Carrefour Assaí Extra])
+        when @utilities_cat then pick([ "Enel", "Sabesp", "Comgás" ])
         when @gas_cat then pick(%w[Shell Exxon BP])
-        when @restaurants_cat then pick([ "Diner", "Burger Grill", "Pizza Place" ])
-        else pick([ "General Store", "Department Shop", "Outlet" ])
+        when @restaurants_cat then pick([ "Lanchonete", "Hamburgueria", "Pizzaria" ])
+        else pick([ "Loja de conveniência", "Department Shop", "Outlet" ])
         end
 
         create_transaction!(account, amount, merchant, category, date)
@@ -1131,9 +1143,9 @@ class Demo::Generator
         category = pick([ @groceries_cat, @gas_cat, @restaurants_cat ])
 
         merchant = case category
-        when @groceries_cat then pick(%w[Walmart Kroger]) + " Market"
-        when @gas_cat then pick(%w[Shell Exxon])
-        else pick([ "Old Diner", "Local Restaurant" ])
+        when @groceries_cat then pick(%w[Carrefour Assaí])
+        when @gas_cat then pick(%w[Shell Ipiranga])
+        else pick([ "Lanchonete antiga", "Restaurante do bairro" ])
         end
 
         create_transaction!(account, amount, "#{merchant} (#{years_ago}y ago)", category, date)
@@ -1149,7 +1161,7 @@ class Demo::Generator
         account = [ @chase_checking, @ally_checking ].sample
         category = pick([ @groceries_cat, @gas_cat, @utilities_cat ])
 
-        merchant = "Legacy #{pick(%w[Store Gas Electric])}"
+        merchant = "#{pick(%w[Loja Posto Luz])}"
         create_transaction!(account, amount, merchant, category, date)
       end
     end
@@ -1160,7 +1172,7 @@ class Demo::Generator
     def generate_crypto_and_misc_assets!
       # One-time USDC deposit 18 months ago
       deposit_date = 18.months.ago.to_date
-      create_transaction!(@coinbase_usdc, -3_500, "Initial USDC Deposit", nil, deposit_date)
+      create_transaction!(@coinbase_usdc, -3_500, "Depósito inicial USDC", nil, deposit_date)
     end
 
     # ---------------------------------------------------------------------------
@@ -1212,6 +1224,6 @@ class Demo::Generator
         date: 120.days.ago.to_date
       )
 
-      puts "   ✅ Set property and vehicle valuations"
+      puts "   Set property and vehicle valuations"
     end
 end
