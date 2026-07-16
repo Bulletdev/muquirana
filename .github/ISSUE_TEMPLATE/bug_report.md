@@ -1,61 +1,43 @@
 ---
-name: Bug report
-about: Open a bug report when you experience broken functionality within the latest
-  version of the Maybe app
-title: 'Bug: [Add descriptive title here]'
-labels: ''
+name: Relatar um bug
+about: Abra um relato quando algo do Muquirana quebrar ou se comportar de forma inesperada
+title: 'Bug: [título curto e descritivo aqui]'
+labels: bug
 assignees: ''
 
 ---
 
-## Before you start (required)
+## Antes de começar
 
-### General checklist
+- [ ] Removi dados pessoais e sensíveis das capturas de tela e dos logs
+- [ ] Procurei nas [issues existentes](https://github.com/Bulletdev/muquirana/issues?q=is%3Aissue) e nas [discussions](https://github.com/Bulletdev/muquirana/discussions) para não abrir um relato duplicado
 
-- [ ] I have removed personal / sensitive data from screenshots and logs
-- [ ] I have searched [existing issues](https://github.com/maybe-finance/maybe/issues?q=is:issue) and [discussions](https://github.com/maybe-finance/maybe/discussions) to ensure this is not a duplicate issue
-    
-### How are you using Maybe?
+## Sua instalação
 
-- [ ] I am a paying Maybe customer (hosted version)
-  - Paying Maybe users can also open requests in Intercom (if there is sensitive info involved)
-- [ ] I am a self-hosted user
-
-### Self hoster checklist
-
-_Paying, hosted users should delete this entire section._
-
-If you are a self-hosted user, please complete all of the information below.  Issues with incomplete information will be marked as `Needs Info` to help our small team prioritize bug fixes.
-
-- Self hosted app commit SHA (find in user menu): [enter commit sha here]
-  - [ ] I have confirmed that my app's commit is the latest version of Maybe
-- Where are you hosting?
-  - [ ] Render
+- Versão do Muquirana (ou o commit SHA, no menu do usuário): [preencha aqui]
+- Como você está hospedando?
   - [ ] Docker Compose
-  - [ ] Umbrel
-  - [ ] Other (please specify)
+  - [ ] Outro (qual?)
 
----
+## Descrição do bug
 
-## Bug description
+Descreva de forma clara e objetiva o que está acontecendo.
 
-A clear and concise description of what the bug is.
+### Como reproduzir
 
-### To Reproduce
+Seja o mais específico possível, para que dê para reproduzir o problema rápido.
 
-Be as specific as possible so Maybe maintainers can quickly reproduce the bug you're experiencing.
+1. Vá em '...'
+2. Clique em '...'
+3. Role até '...'
+4. Veja o erro
 
-Steps to reproduce the behavior:
+### Comportamento esperado
 
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+O que você esperava que acontecesse?
 
-### Expected behavior
+### Capturas de tela, gravações e logs
 
-What is the intended behavior that you would expect?
-
-### Screenshots and/or recordings
-
-We highly recommend providing additional context with screenshots and/or screen recordings.  This will _significantly_ improve the chances of the bug being addressed and fixed quickly.
+Anexe o que ajudar a entender o problema. Para erros, o **log do container**
+(`docker logs`) costuma dizer mais do que o print da tela. Lembre de tirar dados
+sensíveis antes.

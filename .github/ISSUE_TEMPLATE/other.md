@@ -1,39 +1,34 @@
 ---
-name: Other
-about: All other issues
+name: Outro
+about: Qualquer coisa que não seja um bug
 title: ''
 labels: ''
 assignees: ''
 
 ---
 
-## Before you start (required)
+## Antes de começar
 
-### Is this a bug?
+### É um bug?
 
-A bug is _broken functionality_ of the app (i.e. it prevents you from using the app).  For bugs, please use the ["Bug Report" template](https://github.com/maybe-finance/maybe/issues) instead.
+Bug é **funcionalidade quebrada** (algo que impede você de usar o app). Nesse
+caso, use o modelo de [Relatar um bug](https://github.com/Bulletdev/muquirana/issues/new?template=bug_report.md).
 
-### Is this a bug with _sensitive info_?
+### É uma sugestão de funcionalidade?
 
-If you are a _paying_ Maybe user, you can open a support request in Intercom.
+Abra em [Discussions > Sugestões](https://github.com/Bulletdev/muquirana/discussions/categories/ideas).
+Antes, procure nas discussions existentes para não duplicar.
 
-### Is this a feature request?
+### É dúvida de Docker ou de hospedagem?
 
-A feature request is functionality that you would like that is not already on our [Roadmap](https://github.com/maybe-finance/maybe/wiki/Roadmap).
-
-All feature requests should be opened in a [Feature request Discussion](https://github.com/maybe-finance/maybe/discussions/categories/feature-requests).
-
-Be sure to search existing discussions prior to opening a new feature request.
-
-### Is this related to Docker and/or hosting for self hosting?
-
-If you are having a Docker configuration issue, please do not open a Github issue unless you've identified a bug in our Dockerfile.  To get help with self hosting, there are several options:
-
-- **First**: Read our [Docker hosting guide](https://github.com/maybe-finance/maybe/tree/main/docs/hosting/docker.md) and follow it step-by-step
-- Open a [Docker Discussion](https://github.com/maybe-finance/maybe/discussions/categories/docker-compose-hosting)
+Comece pelo [guia de deploy no README](https://github.com/Bulletdev/muquirana#readme).
+Se ainda tiver dúvida, abra uma [discussion de ajuda](https://github.com/Bulletdev/muquirana/discussions)
+com o `docker logs` do container. Abra uma issue só se identificar um bug no
+Dockerfile ou no compose.
 
 ---
 
-## Issue description
+## Descrição
 
-If your issue does not fall into the categories above, please provide a **descriptive and complete** overview of your issue.
+Se o seu caso não se encaixa em nenhum dos anteriores, descreva de forma
+**clara e completa** o que está acontecendo.

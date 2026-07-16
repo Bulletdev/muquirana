@@ -1,22 +1,22 @@
-title: Feature Request
+title: Sugestão de funcionalidade
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for your interest in Maybe!  Please follow the template below to submit your feature request.  You can visit our [roadmap](https://github.com/orgs/maybe-finance/projects/13) to see what's currently planned.
+        Obrigado pelo interesse no Muquirana! Preencha o modelo abaixo para propor uma funcionalidade. Antes, dê uma olhada nas [sugestões já abertas](https://github.com/Bulletdev/muquirana/discussions/categories/ideas) para ver se alguém já propôs algo parecido.
   - type: textarea
     attributes:
-      label: Describe the feature
-      description: Provide a clear and concise description of the feature you would like.
+      label: Descreva a funcionalidade
+      description: Explique de forma clara e objetiva o que você gostaria que o app fizesse.
     validations:
       required: true
   - type: textarea
     attributes:
-      label: Why is this feature important?
-      description: Tell us what specific problem(s) this feature solves for you or other users.
+      label: Por que ela é importante?
+      description: Conte que problema específico isso resolve para você ou para outras pessoas.
     validations:
       required: true
   - type: textarea
     attributes:
-      label: Additional context, screenshots, and relevant links
-      description: Provide additional info to help us evaluate whether this feature is a good fit for the product.
+      label: Contexto, capturas de tela e links relevantes
+      description: Qualquer informação a mais que ajude a avaliar se a funcionalidade faz sentido para o projeto.
