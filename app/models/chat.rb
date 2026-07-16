@@ -47,6 +47,26 @@ class Chat < ApplicationRecord
     broadcast_append target: "messages", partial: "chats/error", locals: { chat: self }
   end
 
+  # A mensagem legivel do erro, para a tela.
+  #
+  # O `error` e jsonb, mas `add_error` grava `e.to_json` -- uma STRING JSON
+  # dentro do jsonb. Entao o que volta daqui e String, nao Hash. O metodo
+  # aceita os dois para nao depender desse detalhe.
+  #
+  # So a `message` sai daqui. O `details` pode trazer o corpo inteiro da
+  # resposta da API e fica atras do AI_DEBUG_MODE.
+  def error_message
+    return nil if error.blank?
+
+    dados = error.is_a?(String) ? JSON.parse(error) : error
+    dados["message"].presence
+  rescue JSON::ParserError, TypeError
+    # Erro gravado num formato que nao reconhecemos nao pode derrubar a tela do
+    # chat: a pessoa perde o motivo, mas ve o aviso generico e o "tentar de
+    # novo", que e o que tinha antes.
+    nil
+  end
+
   def clear_error
     update! error: nil
     broadcast_remove target: "chat-error"

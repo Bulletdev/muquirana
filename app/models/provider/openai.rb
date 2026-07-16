@@ -74,6 +74,21 @@ class Provider::Openai < Provider
       # for the "response chunk" in the stream and return it (it is already parsed)
       if stream_proxy.present?
         response_chunk = collected_chunks.find { |chunk| chunk.type == "response" }
+
+        # Cinto de seguranca. O ChatStreamParser ja levanta erro com a mensagem
+        # real quando a OpenAI manda um evento de erro; se mesmo assim o stream
+        # terminar sem "response", falha com algo legivel em vez de
+        # NoMethodError.
+        #
+        # Era literalmente `response_chunk.data` aqui: com a chave sem credito,
+        # o stream nao produzia "response", isso virava
+        # "undefined method 'data' for nil" e era esse texto que chegava ao
+        # usuario como "Nao foi possivel gerar a resposta".
+        if response_chunk.nil?
+          raise Error, "A OpenAI encerrou o stream sem devolver resposta. " \
+                       "Verifique a chave, a cota e o acesso ao modelo #{model}."
+        end
+
         response_chunk.data
       else
         ChatParser.new(raw_response).parsed
