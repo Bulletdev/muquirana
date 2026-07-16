@@ -1,0 +1,13 @@
+# Sem este arquivo, o GitHub oferece a "issue em branco" ao lado dos templates,
+# e ela vira o caminho padrao de quem nao quer preencher formulario -- foi o que
+# aconteceu. Desligada, quem abre issue escolhe Bug ou Outro; quem so tem duvida
+# ou ideia e levado para Discussions pelos links abaixo.
+blank_issues_enabled: false
+
+contact_links:
+  - name: Sugestão de funcionalidade
+    url: https://github.com/Bulletdev/muquirana/discussions/new?category=feature-requests
+    about: Ideias de melhoria vão para Discussions, onde podem ser conversadas antes de virar trabalho.
+  - name: Dúvida ou ajuda para hospedar
+    url: https://github.com/Bulletdev/muquirana/discussions
+    about: Precisa de ajuda para instalar ou configurar? Abra uma discussion com o log do container.
