@@ -15,10 +15,12 @@ class Account::MarketDataImporterTest < ActiveSupport::TestCase
     Security.delete_all
     Entry.delete_all
 
+    # Qualquer provider (nao so :synth): cambio agora vem do :frankfurter, e
+    # ExchangeRate.provider chama get_provider(:frankfurter) primeiro. Securities
+    # continua no :synth. O mock responde pelos dois conceitos.
     @provider = mock("provider")
     Provider::Registry.any_instance
                       .stubs(:get_provider)
-                      .with(:synth)
                       .returns(@provider)
   end
 
