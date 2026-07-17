@@ -28,7 +28,16 @@ en:
       edit_title: Edit chat title
       start_new_chat: Start new chat
     error:
-      failed: Failed to generate response.  Please try again.
+      failed: Failed to generate a response.
+      reasons:
+        invalid_key: The OpenAI key looks invalid. Review OPENAI_ACCESS_TOKEN in the
+          instance settings.
+        model: The configured AI model isn't available on your OpenAI account. Pick
+          another one.
+        network: Couldn't reach OpenAI right now. Check the connection and try again.
+        quota: Your OpenAI quota has run out. Check your plan and billing on your OpenAI
+          account to use the assistant again.
+        rate_limit: Too many requests in a short time. Wait a few seconds and try again.
       retry: Retry
     index:
       new_chat: New chat

@@ -59,7 +59,10 @@ class Chat < ApplicationRecord
     return nil if error.blank?
 
     dados = error.is_a?(String) ? JSON.parse(error) : error
-    dados["message"].presence
+    # Erro conhecido vira frase limpa em pt-BR (ver friendly_ai_error). Se nao
+    # reconhecer, cai na mensagem crua do provedor -- melhor mostrar algo do
+    # que nada. O corpo completo continua atras do modo debug.
+    friendly_ai_error(dados) || dados["message"].presence
   rescue JSON::ParserError, TypeError
     # Erro gravado num formato que nao reconhecemos nao pode derrubar a tela do
     # chat: a pessoa perde o motivo, mas ve o aviso generico e o "tentar de
@@ -92,4 +95,33 @@ class Chat < ApplicationRecord
       messages.where(type: [ "UserMessage", "AssistantMessage" ])
     end
   end
+
+  private
+    # Traduz os erros conhecidos do provedor de IA para uma frase limpa, em
+    # pt-BR e com o que fazer. O texto cru da OpenAI (ingles, com URL e codigo
+    # do tipo "(insufficient_quota)") continua no modo debug -- aqui ele so
+    # atrapalharia quem usa.
+    #
+    # Casa por CODIGO quando o corpo da resposta veio em `details`, e por texto
+    # quando so sobrou a mensagem do Faraday. `insufficient_quota` e um 429,
+    # entao vem ANTES do rate limit generico, senao a cota esgotada viraria
+    # "espere alguns segundos" (conselho errado: esperar nao devolve a cota).
+    def friendly_ai_error(dados)
+      sinal = "#{dados["message"]} #{dados["details"]}".downcase
+
+      chave =
+        if sinal.include?("insufficient_quota") || sinal.include?("exceeded your current quota")
+          "quota"
+        elsif sinal.include?("invalid_api_key") || sinal.include?("incorrect api key") || sinal.include?("invalid authentication")
+          "invalid_key"
+        elsif sinal.include?("rate limit") || sinal.include?("rate_limit")
+          "rate_limit"
+        elsif sinal.include?("does not exist") || sinal.include?("model_not_found")
+          "model"
+        elsif sinal.include?("timeout") || sinal.include?("timed out") || sinal.include?("failed to open tcp") || sinal.include?("connection")
+          "network"
+        end
+
+      chave && I18n.t("chats.error.reasons.#{chave}")
+    end
 end
