@@ -29,7 +29,18 @@ pt-BR:
       edit_title: Editar título da conversa
       start_new_chat: Nova conversa
     error:
-      failed: Não foi possível gerar a resposta.  Tente de novo.
+      failed: Não foi possível gerar a resposta.
+      reasons:
+        invalid_key: A chave da OpenAI parece inválida. Revise a OPENAI_ACCESS_TOKEN
+          nas configurações da instância.
+        model: O modelo de IA configurado não está disponível na sua conta da OpenAI.
+          Escolha outro modelo.
+        network: Não foi possível falar com a OpenAI agora. Verifique a conexão e
+          tente de novo.
+        quota: Sua cota da OpenAI acabou. Confira o plano e o faturamento na sua conta
+          da OpenAI para voltar a usar o assistente.
+        rate_limit: Muitas requisições em pouco tempo. Espere alguns segundos e tente
+          de novo.
       retry: Tentar de novo
     index:
       new_chat: Nova conversa
