@@ -3,7 +3,7 @@ class DS::Dialog < DesignSystemComponent
     content_tag(:header, class: "px-4 flex flex-col gap-2", **opts) do
       title_div = content_tag(:div, class: "flex items-center justify-between gap-2") do
         title = content_tag(:h2, title, class: class_names("font-medium text-primary", drawer? ? "text-lg" : "")) if title
-        close_icon = render DS::Button.new(variant: "icon", class: "ml-auto", icon: "x", tabindex: "-1", data: { action: "DS--dialog#close" }) unless hide_close_icon
+        close_icon = render DS::Button.new(variant: "icon", type: "button", class: "ml-auto", icon: "x", tabindex: "-1", data: { action: "DS--dialog#close" }) unless hide_close_icon
         safe_join([ title, close_icon ].compact)
       end
 

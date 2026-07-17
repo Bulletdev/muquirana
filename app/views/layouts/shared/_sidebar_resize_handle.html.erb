@@ -1,16 +1,21 @@
-<%# locals: (side:) %>
+<%# locals: (side:, collapsed: false) %>
 <%#
   Draggable divider for a resizable sidebar.
   `side` is "left" (accounts) or "right" (assistant). Drives sidebar_resize_controller.
+  `collapsed` hides the handle when the sidebar is folded to w-0, so the divider
+  does not linger as a stray sliver over the (dark) content area. The `lg:block`
+  visibility is also toggled live by app_layout_controller when the panel is
+  collapsed/expanded from the UI.
 %>
 <% suffix = side.capitalize %>
 <% edge = side == "left" ? "right-0 translate-x-1/2" : "left-0 -translate-x-1/2" %>
 <%= tag.div(
-  class: class_names("group absolute inset-y-0 z-20 hidden w-2 cursor-col-resize lg:block", edge),
+  class: class_names("group absolute inset-y-0 z-20 w-2 cursor-col-resize", edge, collapsed ? "hidden" : "hidden lg:block"),
   role: "separator",
   tabindex: "0",
   aria: { orientation: "vertical", label: t("layouts.application.resize_#{side}_sidebar") },
   data: {
+    app_layout_target: "#{side}ResizeHandle",
     action: "pointerdown->sidebar-resize#start#{suffix} keydown->sidebar-resize#key#{suffix} dblclick->sidebar-resize#reset#{suffix}"
   }
 ) do %>
