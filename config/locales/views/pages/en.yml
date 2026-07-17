@@ -108,6 +108,19 @@ en:
         No plans, no trial that turns into a charge, no feature locked behind an upgrade.
         The code is open and you host it wherever you like - the only bill is your own infrastructure.
       price_period: per month, forever
+      showcase_budget_alt: Muquirana budgets screen showing spending by category in reais,
+        with how much is already spent and how much is left
+      showcase_budget_body: Set a cap per category and track how much is already spent.
+        Over budget shows in red, what's left stays clear. No spreadsheet.
+      showcase_budget_title: Budget by category
+      showcase_cashflow_alt: Muquirana cash flow diagram with salary and income coming in
+        and spending by category going out, in reais
+      showcase_cashflow_body: Everything coming in and where it goes out, in a single
+        diagram. Salary and income on one side, each spending category on the other, and
+        what's left at the end of the month.
+      showcase_cashflow_title: Cash flow
+      showcase_title: Where the money goes
+      showcase_title_accent: and how much you can still spend
       subhead: |-
         So host your own.
         Track net worth, accounts, transactions and budgets, with the code in your hands.

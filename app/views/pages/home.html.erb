@@ -200,7 +200,10 @@
 
       <%# Cada feature vira um card com icone, em vez de texto solto. O icone e
           lucide inline (SVG), entao funciona no layout minimo da landing. %>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <%# 2 por linha ja no mobile (antes caia para coluna unica abaixo de sm).
+          Padding e gap menores em tela estreita para dois cards lado a lado
+          nao espremerem o texto; voltam ao normal a partir do sm. %>
+      <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         <%
           features = {
             "patrimonio" => "trending-up",
@@ -212,8 +215,8 @@
           }
         %>
         <% features.each do |k, ikon| %>
-          <div class="rounded-2xl border border-[#242424] bg-[#0F0F0F] p-6 hover:border-[#363636] transition-colors">
-            <div class="w-11 h-11 rounded-xl bg-[#1A1A1A] flex items-center justify-center mb-5 text-[#9E9E9E]">
+          <div class="rounded-2xl border border-[#242424] bg-[#0F0F0F] p-4 sm:p-6 hover:border-[#363636] transition-colors">
+            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#1A1A1A] flex items-center justify-center mb-4 sm:mb-5 text-[#9E9E9E]">
               <%= icon(ikon, size: "md", color: "current") %>
             </div>
             <h3 class="font-medium text-[#FAFAFA] mb-2">
@@ -224,6 +227,63 @@
             </p>
           </div>
         <% end %>
+      </div>
+    </section>
+
+    <%# --------------------------------------------------- as telas de verdade
+        Duas telas REAIS do app, alternando imagem e texto. E o mesmo argumento
+        do hero -- produto, nao promessa -- levado adiante: o numero grande
+        (R$ 0,00) e os cards descrevem o que ele faz; aqui se ve.
+
+        As imagens ja chegam "molduradas" (o Sankey e um painel proprio, o
+        Orcamento e um mockup de tela), entao aqui so entra o brilho difuso
+        atras -- sem borda por cima, para nao emoldurar duas vezes. %>
+    <section class="py-16 md:py-28 border-t border-[#242424]">
+      <h2 class="text-3xl md:text-5xl font-medium tracking-tight leading-[1.1] mb-12 md:mb-20">
+        <%= t("pages.home.showcase_title") %><br>
+        <span class="text-[#5C5C5C]"><%= t("pages.home.showcase_title_accent") %></span>
+      </h2>
+
+      <%# Linha 1: imagem a esquerda, texto a direita. Empilha no mobile. %>
+      <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+        <div class="relative">
+          <div aria-hidden="true" class="absolute -inset-6 bg-[#2D5BFF]/10 blur-3xl rounded-full"></div>
+          <%= image_tag "fluxo-caixa-preview.webp",
+                alt: t("pages.home.showcase_cashflow_alt"),
+                width: 1600, height: 811,
+                class: "relative w-full block rounded-xl shadow-2xl shadow-black/50",
+                loading: "lazy", decoding: "async" %>
+        </div>
+        <div>
+          <h3 class="text-xl md:text-2xl font-medium tracking-tight text-[#FAFAFA] mb-3">
+            <%= t("pages.home.showcase_cashflow_title") %>
+          </h3>
+          <p class="text-[#9E9E9E] leading-relaxed max-w-md">
+            <%= t("pages.home.showcase_cashflow_body") %>
+          </p>
+        </div>
+      </div>
+
+      <%# Linha 2: no desktop o texto vai para a esquerda e a imagem para a
+          direita (md:order); no mobile a imagem cai DEPOIS do texto, igual a
+          linha 1 -- ritmo consistente em tela estreita. %>
+      <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-center mt-16 md:mt-28">
+        <div class="md:order-2 relative">
+          <div aria-hidden="true" class="absolute -inset-6 bg-[#2D5BFF]/10 blur-3xl rounded-full"></div>
+          <%= image_tag "orcamentos-preview.webp",
+                alt: t("pages.home.showcase_budget_alt"),
+                width: 1800, height: 1100,
+                class: "relative w-full block",
+                loading: "lazy", decoding: "async" %>
+        </div>
+        <div class="md:order-1">
+          <h3 class="text-xl md:text-2xl font-medium tracking-tight text-[#FAFAFA] mb-3">
+            <%= t("pages.home.showcase_budget_title") %>
+          </h3>
+          <p class="text-[#9E9E9E] leading-relaxed max-w-md">
+            <%= t("pages.home.showcase_budget_body") %>
+          </p>
+        </div>
       </div>
     </section>
 

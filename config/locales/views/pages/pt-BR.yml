@@ -110,6 +110,18 @@ pt-BR:
         Não tem plano, não tem teste grátis que vira cobrança, não tem recurso escondido atrás de upgrade.
         O código é aberto e você hospeda onde quiser - a conta que sobra é a da sua própria infraestrutura.
       price_period: por mês, para sempre
+      showcase_budget_alt: Tela de orçamentos do Muquirana mostrando o gasto por categoria
+        em reais, com o quanto já foi e o quanto ainda resta
+      showcase_budget_body: Defina um teto por categoria e acompanhe quanto já foi. O que
+        estourou fica em vermelho, o que ainda sobra fica claro. Sem planilha.
+      showcase_budget_title: Orçamento por categoria
+      showcase_cashflow_alt: Diagrama de fluxo de caixa do Muquirana com salário e renda
+        entrando e os gastos por categoria saindo, em reais
+      showcase_cashflow_body: Tudo que entra e por onde sai, num diagrama só. Salário e
+        renda de um lado, cada categoria de gasto do outro, e a sobra no fim do mês.
+      showcase_cashflow_title: Fluxo de caixa
+      showcase_title: Para onde o dinheiro vai
+      showcase_title_accent: e quanto ainda dá pra gastar
       subhead: |-
         Então hospede o seu.
         Acompanhe patrimônio, contas, transações e orçamento em reais, com o código na sua mão.
