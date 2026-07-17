@@ -13,6 +13,7 @@ class Account < ApplicationRecord
   has_many :trades, through: :entries, source: :entryable, source_type: "Trade"
   has_many :holdings, dependent: :destroy
   has_many :balances, dependent: :destroy
+  has_many :account_providers, dependent: :destroy
 
   monetize :balance, :cash_balance
 
@@ -22,7 +23,11 @@ class Account < ApplicationRecord
   scope :assets, -> { where(classification: "asset") }
   scope :liabilities, -> { where(classification: "liability") }
   scope :alphabetically, -> { order(:name) }
-  scope :manual, -> { where(plaid_account_id: nil) }
+  # "Manual" = conta sem NENHUM provider ligado. Durante a transicao para o join
+  # polimorfico mantemos tambem a checagem legada da FK direta (plaid_account_id),
+  # de modo que a definicao ja e generica (novos providers contam) sem depender de
+  # backfill de account_providers no ambiente de teste.
+  scope :manual, -> { where(plaid_account_id: nil).where.missing(:account_providers) }
 
   has_one_attached :logo
 

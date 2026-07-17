@@ -25,7 +25,25 @@ class Family::Syncer
   end
 
   private
+    # Coleta todos os itens de provider sincronizaveis por reflexao, de modo que
+    # novas integracoes `*_items` participem do sync noturno da familia assim que
+    # incluirem Syncable e expuserem um scope `syncable` -- sem hardcodar o Plaid.
     def child_syncables
-      family.plaid_items + family.accounts.manual
+      provider_items = syncable_item_associations.flat_map do |association|
+        family.public_send(association).syncable
+      end
+
+      provider_items + family.accounts.manual
+    end
+
+    def syncable_item_associations
+      Family.reflect_on_all_associations(:has_many).filter_map do |association|
+        next unless association.name.to_s.end_with?("_items")
+        next unless association.klass.included_modules.include?(Syncable)
+
+        association.name
+      rescue NameError
+        nil
+      end
     end
 end

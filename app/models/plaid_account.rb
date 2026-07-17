@@ -3,6 +3,11 @@ class PlaidAccount < ApplicationRecord
 
   has_one :account, dependent: :destroy
 
+  # Join polimorfico da fundacao generica de providers. O Plaid vira "so mais um
+  # provider": a Account passa a alcancar seu PlaidAccount via AccountProvider,
+  # sem hardcode. A FK direta (has_one :account) e mantida durante a transicao.
+  has_one :account_provider, as: :provider, dependent: :destroy
+
   validates :name, :plaid_type, :currency, presence: true
   validate :has_balance
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_07_16_030147) do
+ActiveRecord::Schema[7.2].define(version: 2026_07_17_000003) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -18,6 +18,17 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_16_030147) do
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "account_status", ["ok", "syncing", "error"]
+
+  create_table "account_providers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.string "provider_type", null: false
+    t.uuid "provider_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "provider_type"], name: "index_account_providers_on_account_id_and_provider_type", unique: true
+    t.index ["account_id"], name: "index_account_providers_on_account_id"
+    t.index ["provider_type", "provider_id"], name: "index_account_providers_on_provider_type_and_provider_id", unique: true
+  end
 
   create_table "accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "subtype"
@@ -233,8 +244,11 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_16_030147) do
     t.boolean "excluded", default: false
     t.string "plaid_id"
     t.jsonb "locked_attributes", default: {}
+    t.string "source"
+    t.string "external_id"
     t.index "lower((name)::text)", name: "index_entries_on_lower_name"
     t.index ["account_id", "date"], name: "index_entries_on_account_id_and_date"
+    t.index ["account_id", "external_id", "source"], name: "index_entries_on_account_id_and_external_id_and_source"
     t.index ["account_id"], name: "index_entries_on_account_id"
     t.index ["date"], name: "index_entries_on_date"
     t.index ["entryable_type"], name: "index_entries_on_entryable_type"

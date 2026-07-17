@@ -52,6 +52,15 @@ class PlaidAccount::Processor
 
         account.save!
 
+        # Fundacao generica de providers: garante o join polimorfico
+        # (AccountProvider) alem da FK legada, para que a Account alcance seu
+        # PlaidAccount sem hardcode e o Plaid seja tratado como um provider.
+        AccountProvider.find_or_create_by!(
+          account: account,
+          provider_type: "PlaidAccount",
+          provider_id: plaid_account.id
+        )
+
         # Create or update the current balance anchor valuation for event-sourced ledger
         # Note: This is a partial implementation. In the future, we'll introduce HoldingValuation
         # to properly track the holdings vs. cash breakdown, but for now we're only tracking

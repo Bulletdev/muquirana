@@ -60,8 +60,11 @@ class PlaidEntry::ProcessorTest < ActiveSupport::TestCase
 
     @category_matcher.expects(:match).with("Food").returns(categories(:food_and_drink))
 
-    # Create an existing entry
+    # Create an existing entry. Post-fundacao o Plaid escreve pela chave generica
+    # (external_id + source); `plaid_id` segue populado por compatibilidade.
     @plaid_account.account.entries.create!(
+      external_id: existing_plaid_id,
+      source: "plaid",
       plaid_id: existing_plaid_id,
       amount: 100,
       currency: "USD",

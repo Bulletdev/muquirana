@@ -8,49 +8,43 @@ class PlaidEntry::Processor
 
   def process
     PlaidAccount.transaction do
-      entry = account.entries.find_or_initialize_by(plaid_id: plaid_id) do |e|
-        e.entryable = Transaction.new
-      end
-
-      entry.assign_attributes(
+      # O Plaid agora e "so mais um provider": a escrita passa pela fundacao
+      # generica (Account::ProviderImportAdapter), ganhando a dedup cross-source.
+      entry = import_adapter.import_transaction(
+        external_id: plaid_id,
+        source: "plaid",
         amount: amount,
         currency: currency,
-        date: date
+        date: date,
+        name: name,
+        category_id: matched_category_id,
+        merchant: merchant
       )
 
-      entry.enrich_attribute(
-        :name,
-        name,
-        source: "plaid"
-      )
+      # Mantem a coluna legada `plaid_id` populada para os caminhos que ainda a
+      # usam (webhook, investments/liabilities, delete de transacao removida e
+      # Entry#linked?).
+      entry.update_column(:plaid_id, plaid_id) if entry.plaid_id != plaid_id
 
-      if detailed_category
-        matched_category = category_matcher.match(detailed_category)
-
-        if matched_category
-          entry.transaction.enrich_attribute(
-            :category_id,
-            matched_category.id,
-            source: "plaid"
-          )
-        end
-      end
-
-      if merchant
-        entry.transaction.enrich_attribute(
-          :merchant_id,
-          merchant.id,
-          source: "plaid"
-        )
-      end
+      entry
     end
   end
 
   private
     attr_reader :plaid_transaction, :plaid_account, :category_matcher
 
+    def import_adapter
+      @import_adapter ||= Account::ProviderImportAdapter.new(account)
+    end
+
     def account
       plaid_account.account
+    end
+
+    def matched_category_id
+      return nil unless detailed_category
+
+      category_matcher.match(detailed_category)&.id
     end
 
     def plaid_id

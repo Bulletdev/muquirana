@@ -5,9 +5,11 @@ module Account::Linkable
     belongs_to :plaid_account, optional: true
   end
 
-  # A "linked" account gets transaction and balance data from a third party like Plaid
+  # A "linked" account gets transaction and balance data from a third party like Plaid.
+  # Considera tanto o join polimorfico (AccountProvider) quanto a FK legada do Plaid
+  # (plaid_account_id) durante a transicao para a fundacao generica de providers.
   def linked?
-    plaid_account_id.present?
+    plaid_account_id.present? || account_providers.exists?
   end
 
   # An "offline" or "unlinked" account is one where the user tracks values and

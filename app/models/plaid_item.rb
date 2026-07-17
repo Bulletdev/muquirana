@@ -29,6 +29,9 @@ class PlaidItem < ApplicationRecord
   has_many :accounts, through: :plaid_accounts
 
   scope :active, -> { where(scheduled_for_deletion: false) }
+  # Contrato consumido pelo Family::Syncer reflexivo: todo item-integration
+  # sincronizavel expoe `syncable`. Para o Plaid, sincronizavel = ativo.
+  scope :syncable, -> { active }
   scope :ordered, -> { order(created_at: :desc) }
   scope :needs_update, -> { where(status: :requires_update) }
 
