@@ -332,8 +332,27 @@ class Demo::Generator
         end
       end
 
-      # Update aggregate budgeted_spending to sum of categories
-      budget.update!(budgeted_spending: budget.budget_categories.sum(:budgeted_spending))
+      # O orcamento de uma categoria-pai e o envelope do grupo: a linha do pai
+      # compara o gasto acumulado (proprio + subcategorias) contra o proprio
+      # budgeted_spending. Como acima cada categoria foi orcada so pelo gasto
+      # DIRETO dela, o pai ficaria menor que a soma das subs e apareceria com um
+      # estouro fantasma. Entao embutimos os orcamentos das subs no envelope do
+      # pai (mesmo invariante que a UI real garante via max_allocation).
+      budget_categories = budget.budget_categories.includes(:category).to_a
+      budget_categories.reject { |bc| bc.category.parent_id.present? }.each do |parent_bc|
+        children_budget = budget_categories
+          .select { |bc| bc.category.parent_id == parent_bc.category_id }
+          .sum { |bc| bc.budgeted_spending || 0 }
+        next if children_budget.zero?
+
+        parent_bc.update!(budgeted_spending: (parent_bc.budgeted_spending || 0) + children_budget)
+      end
+
+      # Total orcado do mes = soma dos envelopes de topo (allocated_spending); as
+      # subcategorias ja estao contidas nos pais, nao entram de novo.
+      budget.update!(
+        budgeted_spending: budget_categories.reject(&:subcategory?).sum { |bc| bc.budgeted_spending || 0 }
+      )
     end
 
     # Helper method to get weighted random date (favoring recent years)

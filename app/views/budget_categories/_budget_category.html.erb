@@ -1,14 +1,14 @@
 <%# locals: (budget_category:) %>
 
-<%= turbo_frame_tag dom_id(budget_category), class: "w-full" do %>
+<%= turbo_frame_tag dom_id(budget_category), class: "w-full min-w-0" do %>
   <%= link_to budget_budget_category_path(budget_category.budget, budget_category), class: "group w-full p-4 flex items-center gap-3 bg-container", data: { turbo_frame: "drawer" } do %>
 
     <% if budget_category.initialized? %>
-      <div class="w-10 h-10 group-hover:scale-105 transition-all duration-300">
+      <div class="w-10 h-10 shrink-0 group-hover:scale-105 transition-all duration-300">
         <%= render "budget_categories/budget_category_donut", budget_category: budget_category %>
       </div>
     <% else %>
-      <div class="w-8 h-8 group-hover:scale-105 transition-all duration-300 rounded-full flex justify-center items-center" style="color: <%= budget_category.category.color %>">
+      <div class="w-8 h-8 shrink-0 group-hover:scale-105 transition-all duration-300 rounded-full flex justify-center items-center" style="color: <%= budget_category.category.color %>">
         <% if budget_category.category.lucide_icon %>
           <%= icon(budget_category.category.lucide_icon, color: "current") %>
         <% else %>
@@ -23,8 +23,8 @@
       </div>
     <% end %>
 
-    <div>
-      <p class="text-sm font-medium text-primary"><%= budget_category.category.name %></p>
+    <div class="min-w-0">
+      <p class="text-sm font-medium text-primary break-words"><%= budget_category.category.name %></p>
 
       <% if budget_category.initialized? %>
         <% if budget_category.available_to_spend.negative? %>
@@ -43,7 +43,7 @@
       <% end %>
     </div>
 
-    <div class="ml-auto text-right">
+    <div class="ml-auto text-right shrink-0">
       <p class="text-sm font-medium text-primary"><%= format_money(budget_category.actual_spending_money) %></p>
 
       <% if budget_category.initialized? %>
