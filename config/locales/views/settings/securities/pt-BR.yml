@@ -7,6 +7,21 @@ pt-BR:
         disable_mfa_confirm: Tem certeza que quer desativar a verificação em duas
           etapas? Sua conta vai ficar menos protegida.
         enable_mfa: Ativar verificação em duas etapas
+        encryption_warning:
+          generate: "Gere um conjunto com: bin/rails db:encryption:init"
+          intro: "Seus dados continuam criptografados, mas as chaves de criptografia
+            estão sendo derivadas do SECRET_KEY_BASE. Se você girar o SECRET_KEY_BASE
+            sem antes definir chaves de criptografia explícitas, todos os dados
+            criptografados (chaves de API, tokens de bancos e provedores, segredos
+            de verificação em duas etapas e dados pessoais) ficarão ilegíveis de
+            forma permanente. Fixe as chaves definindo-as nas credentials do Rails
+            ou nas variáveis de ambiente:"
+          keys:
+            - ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY
+            - ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
+            - ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT
+          title: As chaves de criptografia do Active Record não estão definidas
+            explicitamente
         mfa_description: Adicione uma camada extra de proteção exigindo um código
           do seu aplicativo autenticador toda vez que você entrar
         mfa_disabled_description: Ative a verificação em duas etapas para adicionar

@@ -100,6 +100,46 @@
             <%= render "shared/ruler" %>
           </li>
         <% end %>
+
+        <% if Current.family.accounts.any? && (params[:type].nil? || params[:type] == "YnabImport" || params[:type] == "TransactionImport") %>
+          <li>
+            <%= button_to imports_path(import: { type: "YnabImport" }), class: "flex items-center justify-between p-4 group w-full", data: { turbo: false } do %>
+              <div class="flex items-center gap-2">
+                <div class="bg-blue-500/5 rounded-md w-8 h-8 flex items-center justify-center">
+                  <span class="text-blue-500">
+                    <%= icon("wallet", color: "current") %>
+                  </span>
+                </div>
+                <span class="text-sm text-primary group-hover:text-secondary">
+                  <%= t(".import_ynab") %>
+                </span>
+              </div>
+              <%= icon("chevron-right") %>
+            <% end %>
+
+            <%= render "shared/ruler" %>
+          </li>
+        <% end %>
+
+        <% if Current.family.accounts.any? && (params[:type].nil? || params[:type] == "ActualImport" || params[:type] == "TransactionImport") %>
+          <li>
+            <%= button_to imports_path(import: { type: "ActualImport" }), class: "flex items-center justify-between p-4 group w-full", data: { turbo: false } do %>
+              <div class="flex items-center gap-2">
+                <div class="bg-purple-500/5 rounded-md w-8 h-8 flex items-center justify-center">
+                  <span class="text-purple-500">
+                    <%= icon("piggy-bank", color: "current") %>
+                  </span>
+                </div>
+                <span class="text-sm text-primary group-hover:text-secondary">
+                  <%= t(".import_actual") %>
+                </span>
+              </div>
+              <%= icon("chevron-right") %>
+            <% end %>
+
+            <%= render "shared/ruler" %>
+          </li>
+        <% end %>
       </ul>
     </div>
   <% end %>

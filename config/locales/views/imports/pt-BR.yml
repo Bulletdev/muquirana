@@ -23,6 +23,23 @@ pt-BR:
         leave_empty: Deixar em branco
         name_label: Nome
         submit: Aplicar configuração
+      actual_import:
+        account_label: Conta (opcional)
+        amount_label: Valor
+        category_label: Categoria (opcional)
+        date_format_label: Formato de data
+        date_label: Data
+        format_label: Formato
+        leave_empty: Deixar em branco
+        name_label: Nome (opcional)
+        notes_label: Observações (opcional)
+        preconfigured_notice: Já pré-configuramos a sua importação do Actual Budget.
+          Siga para a próxima etapa.
+        select_format_prompt: Selecione o formato
+        signage_convention_label: Convenção de sinal
+        signage_incomes_negative: Receitas são negativas
+        signage_incomes_positive: Receitas são positivas
+        submit: Aplicar configuração
       mint_import:
         account_label: Conta (opcional)
         amount_label: Valor
@@ -100,6 +117,21 @@ pt-BR:
         signage_incomes_positive: Receitas são positivas
         submit: Aplicar configuração
         tags_label: Etiquetas
+      ynab_import:
+        account_label: Conta (opcional)
+        amount_note: O valor da transação é calculado automaticamente a partir das
+          colunas Outflow e Inflow do seu export do YNAB.
+        category_label: Categoria (opcional)
+        date_format_label: Formato de data
+        date_label: Data
+        format_label: Formato
+        leave_empty: Deixar em branco
+        name_label: Nome (opcional)
+        notes_label: Observações (opcional)
+        preconfigured_notice: Já pré-configuramos a sua importação do YNAB. Siga para
+          a próxima etapa.
+        select_format_prompt: Selecione o formato
+        submit: Aplicar configuração
     confirms:
       mappings:
         create_account: Criar conta
@@ -205,9 +237,11 @@ pt-BR:
       description: Você pode importar vários tipos de dados manualmente via CSV ou
         usar um dos nossos modelos de importação, como o do Mint.
       import_accounts: Importar contas
+      import_actual: Importar do Actual Budget
       import_mint: Importar do Mint
       import_portfolio: Importar investimentos
       import_transactions: Importar transações
+      import_ynab: Importar do YNAB
       mint_logo_alt: Logo do Mint
       resume: Retomar %{type}
       sources: Fontes

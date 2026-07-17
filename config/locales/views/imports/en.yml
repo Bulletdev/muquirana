@@ -22,6 +22,23 @@ en:
         leave_empty: Leave empty
         name_label: Name
         submit: Apply configuration
+      actual_import:
+        account_label: Account (optional)
+        amount_label: Amount
+        category_label: Category (optional)
+        date_format_label: Date format
+        date_label: Date
+        format_label: Format
+        leave_empty: Leave empty
+        name_label: Name (optional)
+        notes_label: Notes (optional)
+        preconfigured_notice: We have pre-configured your Actual Budget import for
+          you. Please proceed to the next step.
+        select_format_prompt: Select format
+        signage_convention_label: Signage convention
+        signage_incomes_negative: Incomes are negative
+        signage_incomes_positive: Incomes are positive
+        submit: Apply configuration
       mint_import:
         account_label: Account (optional)
         amount_label: Amount
@@ -99,6 +116,21 @@ en:
         signage_incomes_positive: Incomes are positive
         submit: Apply configuration
         tags_label: Tags
+      ynab_import:
+        account_label: Account (optional)
+        amount_note: The transaction amount is calculated automatically from the
+          Outflow and Inflow columns of your YNAB export.
+        category_label: Category (optional)
+        date_format_label: Date format
+        date_label: Date
+        format_label: Format
+        leave_empty: Leave empty
+        name_label: Name (optional)
+        notes_label: Notes (optional)
+        preconfigured_notice: We have pre-configured your YNAB import for you. Please
+          proceed to the next step.
+        select_format_prompt: Select format
+        submit: Apply configuration
     confirms:
       mappings:
         create_account: Create account
@@ -201,9 +233,11 @@ en:
       description: You can manually import various types of data via CSV or use one
         of our import templates like Mint.
       import_accounts: Import accounts
+      import_actual: Import from Actual Budget
       import_mint: Import from Mint
       import_portfolio: Import investments
       import_transactions: Import transactions
+      import_ynab: Import from YNAB
       mint_logo_alt: Mint logo
       resume: Resume %{type}
       sources: Sources

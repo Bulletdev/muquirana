@@ -7,6 +7,19 @@ en:
         disable_mfa_confirm: Are you sure you want to disable two-factor authentication?
           This will make your account less secure.
         enable_mfa: Enable 2FA
+        encryption_warning:
+          generate: "Generate a set with: bin/rails db:encryption:init"
+          intro: "Your data is still encrypted, but the encryption keys are being
+            derived from SECRET_KEY_BASE. If you rotate SECRET_KEY_BASE without first
+            setting explicit encryption keys, all encrypted data (API keys, bank and
+            provider tokens, MFA secrets, and PII) will become permanently unreadable.
+            Pin the keys by setting them in your Rails credentials or environment
+            variables:"
+          keys:
+            - ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY
+            - ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY
+            - ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT
+          title: Active Record encryption keys are not explicitly set
         mfa_description: Add an extra layer of security to your account by requiring
           a code from your authenticator app when signing in
         mfa_disabled_description: Enable 2FA to add an extra layer of security to

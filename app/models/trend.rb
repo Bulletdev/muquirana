@@ -52,11 +52,15 @@ class Trend
 
   def percent
     return 0.0 if previous.zero? && current.zero?
-    return Float::INFINITY if previous.zero?
+    return current.negative? ? -Float::INFINITY : Float::INFINITY if previous.zero?
 
     change = (current - previous).to_f
 
-    (change / previous.to_f * 100).round(1)
+    # Divide pela MAGNITUDE da base para que o sinal do percentual sempre siga a
+    # direcao real da mudanca (e concorde com #direction). Dividir por uma base
+    # negativa com sinal inverteria o resultado (ex: patrimonio -100 -> -50 daria
+    # +50% com seta pra cima, mas o valor caiu).
+    (change / previous.to_f.abs * 100).round(1)
   end
 
   def percent_formatted
