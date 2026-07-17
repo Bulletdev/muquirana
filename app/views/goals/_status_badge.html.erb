@@ -1,0 +1,12 @@
+<%# locals: (status:) %>
+
+<%
+  classes = {
+    reached: "bg-green-50 text-green-700",
+    on_track: "bg-blue-50 text-blue-700",
+    behind: "bg-amber-50 text-amber-700"
+  }.fetch(status, "bg-gray-50 text-gray-700")
+%>
+<span class="shrink-0 inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium <%= classes %>">
+  <%= t("goals.status.#{status}") %>
+</span>

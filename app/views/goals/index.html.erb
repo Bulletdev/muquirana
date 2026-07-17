@@ -1,0 +1,41 @@
+<div class="space-y-6 pb-12">
+  <header class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold text-primary"><%= t(".title") %></h1>
+      <p class="text-sm text-secondary mt-1"><%= t(".subtitle") %></p>
+    </div>
+
+    <% if @linkable_accounts.any? %>
+      <%= render DS::Link.new(
+        text: t(".new_goal"),
+        variant: "primary",
+        href: new_goal_path,
+        icon: "plus",
+        frame: :modal
+      ) %>
+    <% end %>
+  </header>
+
+  <% if @goals.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <% @goals.each do |goal| %>
+        <%= render "goal", goal: goal %>
+      <% end %>
+    </div>
+  <% elsif @linkable_accounts.empty? %>
+    <div class="bg-container rounded-xl shadow-border-xs py-12 text-center">
+      <p class="text-sm text-secondary"><%= t(".empty_no_accounts") %></p>
+    </div>
+  <% else %>
+    <div class="bg-container rounded-xl shadow-border-xs py-12 text-center space-y-3">
+      <p class="text-sm text-secondary"><%= t(".empty") %></p>
+      <%= render DS::Link.new(
+        text: t(".new_goal"),
+        variant: "primary",
+        href: new_goal_path,
+        icon: "plus",
+        frame: :modal
+      ) %>
+    </div>
+  <% end %>
+</div>

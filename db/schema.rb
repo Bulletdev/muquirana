@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_07_17_000012) do
+ActiveRecord::Schema[7.2].define(version: 2026_07_17_000100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -338,6 +338,25 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000012) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["family_id"], name: "index_family_exports_on_family_id"
+  end
+
+  create_table "goals", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "family_id", null: false
+    t.uuid "account_id", null: false
+    t.string "name", null: false
+    t.decimal "target_amount", precision: 19, scale: 4, null: false
+    t.string "currency", null: false
+    t.date "target_date"
+    t.string "color"
+    t.string "icon"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_goals_on_account_id"
+    t.index ["family_id", "account_id"], name: "index_goals_on_family_id_and_account_id"
+    t.index ["family_id"], name: "index_goals_on_family_id"
+    t.check_constraint "char_length(name::text) <= 255", name: "chk_goals_name_length"
+    t.check_constraint "target_amount > 0::numeric", name: "chk_goals_target_amount_positive"
   end
 
   create_table "holdings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -985,6 +1004,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000012) do
   add_foreign_key "entries", "accounts"
   add_foreign_key "entries", "imports"
   add_foreign_key "family_exports", "families"
+  add_foreign_key "goals", "accounts", on_delete: :cascade
+  add_foreign_key "goals", "families", on_delete: :cascade
   add_foreign_key "holdings", "accounts"
   add_foreign_key "holdings", "securities"
   add_foreign_key "impersonation_session_logs", "impersonation_sessions"

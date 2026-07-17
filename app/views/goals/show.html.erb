@@ -1,0 +1,90 @@
+<div class="max-w-2xl mx-auto space-y-6 pb-12">
+  <header class="flex items-start justify-between gap-3">
+    <div class="flex items-center gap-3 min-w-0">
+      <%= render partial: "shared/color_avatar", locals: { name: @goal.name, color: @goal.color } %>
+      <div class="min-w-0">
+        <h1 class="text-xl font-semibold text-primary truncate"><%= @goal.name %></h1>
+        <p class="text-sm text-secondary truncate"><%= @goal.account.name %></p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 shrink-0">
+      <%= render DS::Link.new(
+        text: t(".edit"),
+        variant: "outline",
+        href: edit_goal_path(@goal),
+        icon: "pencil",
+        frame: :modal
+      ) %>
+      <%= render DS::Button.new(
+        text: t(".delete"),
+        variant: "outline-destructive",
+        href: goal_path(@goal),
+        method: :delete,
+        confirm: CustomConfirm.for_resource_deletion("goal"),
+        frame: "_top"
+      ) %>
+    </div>
+  </header>
+
+  <section class="bg-container rounded-xl shadow-border-xs p-6 space-y-4">
+    <div class="flex items-center justify-between">
+      <%= render "goals/status_badge", status: @goal.status %>
+      <span class="text-sm text-secondary tabular-nums"><%= @goal.progress_percent %>%</span>
+    </div>
+
+    <div class="h-3 w-full rounded-full bg-container-inset overflow-hidden">
+      <div class="h-full rounded-full" style="width: <%= @goal.progress_percent %>%; background-color: <%= @goal.color.presence || "#6471eb" %>"></div>
+    </div>
+
+    <div class="flex items-center justify-between text-sm tabular-nums">
+      <div>
+        <p class="text-xs text-secondary"><%= t(".saved") %></p>
+        <p class="text-lg font-medium text-primary privacy-sensitive"><%= @goal.current_amount_money.format %></p>
+      </div>
+      <div class="text-right">
+        <p class="text-xs text-secondary"><%= t(".target") %></p>
+        <p class="text-lg font-medium text-primary privacy-sensitive"><%= @goal.target_amount_money.format %></p>
+      </div>
+    </div>
+
+    <% unless @goal.reached? %>
+      <p class="text-sm text-secondary privacy-sensitive">
+        <%= t(".remaining", amount: @goal.remaining_amount_money.format) %>
+      </p>
+    <% end %>
+  </section>
+
+  <section class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="bg-container rounded-xl shadow-border-xs p-5">
+      <p class="text-xs font-medium uppercase tracking-wide text-secondary"><%= t(".target_date") %></p>
+      <% if @goal.target_date %>
+        <p class="text-base font-medium text-primary mt-1.5"><%= I18n.l(@goal.target_date, format: :long) %></p>
+        <% if @goal.monthly_target_amount %>
+          <p class="text-xs text-secondary mt-1 privacy-sensitive">
+            <%= t(".monthly_needed", amount: @goal.monthly_target_amount_money.format) %>
+          </p>
+        <% end %>
+      <% else %>
+        <p class="text-base font-medium text-primary mt-1.5"><%= t(".no_target_date") %></p>
+      <% end %>
+    </div>
+
+    <div class="bg-container rounded-xl shadow-border-xs p-5">
+      <p class="text-xs font-medium uppercase tracking-wide text-secondary"><%= t(".projection") %></p>
+      <% if @goal.target_date %>
+        <p class="text-base font-medium text-primary mt-1.5 privacy-sensitive"><%= @goal.projected_amount_money.format %></p>
+        <p class="text-xs text-secondary mt-1"><%= t(".projection_hint") %></p>
+      <% else %>
+        <p class="text-base font-medium text-primary mt-1.5"><%= t(".projection_no_date") %></p>
+      <% end %>
+    </div>
+  </section>
+
+  <% if @goal.notes.present? %>
+    <section class="bg-container rounded-xl shadow-border-xs p-5">
+      <p class="text-xs font-medium uppercase tracking-wide text-secondary mb-2"><%= t(".notes") %></p>
+      <p class="text-sm text-primary whitespace-pre-line"><%= @goal.notes %></p>
+    </section>
+  <% end %>
+</div>

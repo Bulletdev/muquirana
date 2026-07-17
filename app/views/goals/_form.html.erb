@@ -1,0 +1,68 @@
+<%# locals: (goal:, linkable_accounts:) %>
+
+<div data-controller="color-avatar">
+  <%= styled_form_with model: goal,
+                       class: "space-y-5",
+                       data: { turbo_frame: :_top } do |f| %>
+    <% if goal.errors.any? %>
+      <div class="rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-sm text-red-700">
+        <ul class="list-disc list-inside space-y-0.5">
+          <% goal.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="flex flex-col items-center gap-3">
+      <div class="w-fit">
+        <%= render partial: "shared/color_avatar", locals: { name: goal.name, color: goal.color } %>
+      </div>
+      <div class="flex gap-2 items-center justify-center flex-wrap">
+        <% Goal::COLORS.each do |color| %>
+          <label class="relative">
+            <%= f.radio_button :color, color, class: "sr-only peer", data: { action: "change->color-avatar#handleColorChange" } %>
+            <div class="w-6 h-6 rounded-full cursor-pointer peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-blue-500" style="background-color: <%= color %>"></div>
+          </label>
+        <% end %>
+      </div>
+    </div>
+
+    <%= f.text_field :name,
+                     placeholder: t("goals.form.name_placeholder"),
+                     autofocus: true,
+                     required: true,
+                     label: t("goals.form.name"),
+                     data: { color_avatar_target: "name" } %>
+
+    <% if goal.persisted? %>
+      <div class="text-sm text-secondary">
+        <%= t("goals.form.account") %>: <span class="font-medium text-primary"><%= goal.account.name %></span>
+      </div>
+    <% else %>
+      <%= f.collection_select :account_id,
+                              linkable_accounts,
+                              :id,
+                              :name,
+                              { label: t("goals.form.account"), include_blank: t("goals.form.account_prompt") },
+                              { required: true } %>
+    <% end %>
+
+    <div class="grid grid-cols-2 gap-3 items-start">
+      <%= f.money_field :target_amount,
+                        label: t("goals.form.target_amount"),
+                        hide_currency: true,
+                        required: true %>
+      <%= f.date_field :target_date, label: t("goals.form.target_date") %>
+    </div>
+
+    <%= f.text_area :notes,
+                    label: t("goals.form.notes"),
+                    rows: 2,
+                    placeholder: t("goals.form.notes_placeholder") %>
+
+    <div class="flex justify-end pt-2">
+      <%= f.submit goal.persisted? ? t("goals.form.save") : t("goals.form.create") %>
+    </div>
+  <% end %>
+</div>

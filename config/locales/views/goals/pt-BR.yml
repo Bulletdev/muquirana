@@ -1,0 +1,48 @@
+---
+pt-BR:
+  goals:
+    target_by: "Meta para %{date}"
+    status:
+      reached: Atingida
+      on_track: No ritmo
+      behind: Atrasada
+    form:
+      name: Nome
+      name_placeholder: "ex.: Reserva de emergencia"
+      account: Conta
+      account_prompt: Selecione uma conta
+      target_amount: Valor-alvo
+      target_date: Data-alvo
+      notes: Observacoes
+      notes_placeholder: Opcional
+      create: Criar meta
+      save: Salvar
+    index:
+      title: Metas
+      subtitle: Metas de poupanca ligadas a uma conta
+      new_goal: Nova meta
+      empty: Voce ainda nao tem metas.
+      empty_no_accounts: Adicione uma conta bancaria ou de investimento antes de criar uma meta.
+    new:
+      title: Nova meta
+    edit:
+      title: Editar meta
+    show:
+      edit: Editar
+      delete: Excluir
+      saved: Guardado
+      target: Alvo
+      remaining: "Faltam %{amount}"
+      target_date: Data-alvo
+      no_target_date: Sem data-alvo
+      monthly_needed: "Precisa de %{amount} / mes"
+      projection: Projecao
+      projection_hint: Estimado pelo seu ritmo atual
+      projection_no_date: Defina uma data-alvo para ver a projecao
+      notes: Observacoes
+    create:
+      success: Meta criada.
+    update:
+      success: Meta atualizada.
+    destroy:
+      success: Meta excluida.

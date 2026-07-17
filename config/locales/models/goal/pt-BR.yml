@@ -1,0 +1,22 @@
+---
+pt-BR:
+  activerecord:
+    attributes:
+      goal:
+        account: Conta
+        account_id: Conta
+        color: Cor
+        currency: Moeda
+        icon: Icone
+        name: Nome
+        notes: Observacoes
+        target_amount: Valor-alvo
+        target_date: Data-alvo
+    models:
+      goal: Meta
+    errors:
+      models:
+        goal:
+          attributes:
+            target_date:
+              in_past: nao pode estar no passado

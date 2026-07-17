@@ -95,6 +95,8 @@ Rails.application.routes.draw do
     resources :budget_categories, only: %i[index show update]
   end
 
+  resources :goals
+
   resources :family_merchants, only: %i[index new create edit update destroy]
 
   resources :recurring_transactions, only: %i[index create destroy] do

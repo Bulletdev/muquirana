@@ -1,0 +1,29 @@
+<%# locals: (goal:) %>
+
+<%= link_to goal_path(goal), class: "block bg-container rounded-xl shadow-border-xs p-5 hover:shadow-border-sm transition-shadow" do %>
+  <div class="flex items-start justify-between gap-3">
+    <div class="flex items-center gap-3 min-w-0">
+      <%= render partial: "shared/color_avatar", locals: { name: goal.name, color: goal.color } %>
+      <div class="min-w-0">
+        <p class="text-sm font-medium text-primary truncate"><%= goal.name %></p>
+        <p class="text-xs text-secondary truncate"><%= goal.account.name %></p>
+      </div>
+    </div>
+    <%= render "goals/status_badge", status: goal.status %>
+  </div>
+
+  <div class="mt-4">
+    <div class="h-2.5 w-full rounded-full bg-container-inset overflow-hidden">
+      <div class="h-full rounded-full" style="width: <%= goal.progress_percent %>%; background-color: <%= goal.color.presence || "#6471eb" %>"></div>
+    </div>
+    <div class="mt-2 flex items-center justify-between text-xs tabular-nums">
+      <span class="text-primary font-medium privacy-sensitive"><%= goal.current_amount_money.format %></span>
+      <span class="text-secondary"><%= goal.progress_percent %>%</span>
+      <span class="text-secondary privacy-sensitive"><%= goal.target_amount_money.format %></span>
+    </div>
+  </div>
+
+  <% if goal.target_date %>
+    <p class="mt-3 text-xs text-secondary"><%= t("goals.target_by", date: I18n.l(goal.target_date, format: :long)) %></p>
+  <% end %>
+<% end %>

@@ -1,0 +1,16 @@
+emergency_fund:
+  family: dylan_family
+  account: depository
+  name: Emergency fund
+  target_amount: 10000
+  currency: USD
+  color: "#6471eb"
+
+vacation:
+  family: dylan_family
+  account: depository
+  name: Vacation in Italy
+  target_amount: 20000
+  currency: USD
+  target_date: <%= 6.months.from_now.to_date %>
+  color: "#4da568"

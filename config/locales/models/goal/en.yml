@@ -1,0 +1,22 @@
+---
+en:
+  activerecord:
+    attributes:
+      goal:
+        account: Account
+        account_id: Account
+        color: Color
+        currency: Currency
+        icon: Icon
+        name: Name
+        notes: Notes
+        target_amount: Target amount
+        target_date: Target date
+    models:
+      goal: Goal
+    errors:
+      models:
+        goal:
+          attributes:
+            target_date:
+              in_past: cannot be in the past

@@ -1,0 +1,48 @@
+---
+en:
+  goals:
+    target_by: "Target by %{date}"
+    status:
+      reached: Reached
+      on_track: On track
+      behind: Behind
+    form:
+      name: Name
+      name_placeholder: e.g. Emergency fund
+      account: Account
+      account_prompt: Select an account
+      target_amount: Target amount
+      target_date: Target date
+      notes: Notes
+      notes_placeholder: Optional
+      create: Create goal
+      save: Save
+    index:
+      title: Goals
+      subtitle: Savings goals linked to an account
+      new_goal: New goal
+      empty: You do not have any goals yet.
+      empty_no_accounts: Add a bank or investment account first to create a goal.
+    new:
+      title: New goal
+    edit:
+      title: Edit goal
+    show:
+      edit: Edit
+      delete: Delete
+      saved: Saved
+      target: Target
+      remaining: "%{amount} to go"
+      target_date: Target date
+      no_target_date: No target date
+      monthly_needed: "%{amount} / month needed"
+      projection: Projection
+      projection_hint: Estimated by your current pace
+      projection_no_date: Set a target date to see a projection
+      notes: Notes
+    create:
+      success: Goal created.
+    update:
+      success: Goal updated.
+    destroy:
+      success: Goal deleted.
