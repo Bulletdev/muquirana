@@ -1,0 +1,27 @@
+---
+en:
+  activerecord:
+    attributes:
+      binance_item:
+        api_key: API key
+        api_secret: API secret
+        name: Name
+    models:
+      binance_item: Binance connection
+      binance_account: Binance wallet
+  binance_item:
+    syncer:
+      errors:
+        credentials_missing: Binance credentials are missing. Edit the connection
+          and paste your API key and secret.
+        authentication: Binance rejected your API key or secret. Generate a new key
+          in API Management and paste both values again. Make sure "Enable Reading"
+          is turned on.
+        permission: Binance refused the key due to IP or permissions. In API Management,
+          enable "Enable Reading" and, if you restricted by IP, allow the server IP,
+          then sync again.
+        geo_restricted: Binance blocked access for your region/regulation. Use a key
+          and host eligible for your account (adjust the Spot API base URL in Settings
+          if needed) and try again.
+        rate_limited: Binance temporarily rate-limited requests. Wait a few minutes
+          and sync again.

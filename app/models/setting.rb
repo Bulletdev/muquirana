@@ -7,4 +7,11 @@ class Setting < RailsSettings::Base
 
   field :require_invite_for_signup, type: :boolean, default: false
   field :require_email_confirmation, type: :boolean, default: ENV.fetch("REQUIRE_EMAIL_CONFIRMATION", "true") == "true"
+
+  # Host da API Spot da Binance. A Binance opera no BR com historico regulatorio
+  # instavel; a key do usuario pode apontar para um host/escopo diferente do
+  # api.binance.com global. Lido tambem por Provider::Configurable (Setting ->
+  # ENV BINANCE_SPOT_BASE_URL -> default). Default nil aqui para que a cadeia de
+  # fallback do Provider::Configurable seja a fonte da verdade.
+  field :binance_spot_base_url, type: :string, default: nil
 end

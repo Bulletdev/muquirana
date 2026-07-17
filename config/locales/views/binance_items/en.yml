@@ -1,0 +1,23 @@
+---
+en:
+  binance_items:
+    create:
+      success: Binance connection created. Wallet sync is in progress.
+    destroy:
+      success: Connection scheduled for deletion.
+    new:
+      title: Connect Binance wallet
+      description: Paste the key and secret of an API key from your own Binance account.
+        Credentials are encrypted and used only to read balances.
+      name_label: Connection name
+      name_placeholder: Binance
+      api_key_label: API key
+      api_key_placeholder: Paste the API key
+      api_key_help: Found under API Management in your Binance account.
+      api_secret_label: API secret
+      api_secret_placeholder: Paste the API secret
+      api_secret_help: Binance shows it only once when you create the key. Keep it safe.
+      regulatory_note: We recommend creating the key with read-only permission ("Enable
+        Reading"). Never enable withdrawals. If Binance blocks by region, adjust the
+        Spot API base URL in settings.
+      submit: Connect

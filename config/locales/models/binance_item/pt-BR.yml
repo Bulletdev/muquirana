@@ -1,0 +1,27 @@
+---
+pt-BR:
+  activerecord:
+    attributes:
+      binance_item:
+        api_key: Chave da API
+        api_secret: Segredo da API
+        name: Nome
+    models:
+      binance_item: Conexão Binance
+      binance_account: Carteira Binance
+  binance_item:
+    syncer:
+      errors:
+        credentials_missing: As credenciais da Binance não foram informadas. Edite
+          a conexão e cole a Chave e o Segredo da API.
+        authentication: A Chave ou o Segredo da API foram rejeitados pela Binance.
+          Gere uma nova chave em API Management e cole os dois valores de novo. Confirme
+          que a permissão "Enable Reading" está ligada.
+        permission: A Binance recusou a chave por IP ou permissão. No painel da Binance,
+          em API Management, ligue "Enable Reading" e, se você restringiu por IP,
+          libere o IP do servidor - depois sincronize de novo.
+        geo_restricted: A Binance bloqueou o acesso por região/regulação. No BR, use
+          uma chave e um host elegíveis para a sua conta (ajuste a URL base da API
+          Spot em Configurações, se necessário) e tente de novo.
+        rate_limited: A Binance limitou temporariamente as requisições. Aguarde alguns
+          minutos e sincronize novamente.

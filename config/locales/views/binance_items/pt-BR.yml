@@ -1,0 +1,23 @@
+---
+pt-BR:
+  binance_items:
+    create:
+      success: Conexão Binance criada. Aguarde a sincronização das carteiras.
+    destroy:
+      success: Conexão agendada para exclusão.
+    new:
+      title: Conectar carteira Binance
+      description: Cole a Chave e o Segredo de uma API-KEY da sua própria conta Binance.
+        As credenciais são criptografadas e usadas somente para leitura de saldos.
+      name_label: Nome da conexão
+      name_placeholder: Binance
+      api_key_label: Chave da API
+      api_key_placeholder: Cole a API Key
+      api_key_help: Encontrada em API Management na sua conta Binance.
+      api_secret_label: Segredo da API
+      api_secret_placeholder: Cole o API Secret
+      api_secret_help: Só aparece uma vez na Binance ao gerar a chave. Guarde bem.
+      regulatory_note: Recomendado criar a chave apenas com permissão de leitura ("Enable
+        Reading"). Nunca habilite saques. Se a Binance bloquear por região, ajuste
+        a URL base da API Spot nas configurações.
+      submit: Conectar

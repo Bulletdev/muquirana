@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_07_17_000003) do
+ActiveRecord::Schema[7.2].define(version: 2026_07_17_000004) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -143,6 +143,38 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000003) do
     t.index ["account_id", "date", "currency"], name: "index_account_balances_on_account_id_date_currency_unique", unique: true
     t.index ["account_id", "date"], name: "index_balances_on_account_id_and_date", order: { date: :desc }
     t.index ["account_id"], name: "index_balances_on_account_id"
+  end
+
+  create_table "binance_accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "binance_item_id", null: false
+    t.string "name", null: false
+    t.string "currency", default: "USD", null: false
+    t.string "account_type"
+    t.decimal "current_balance", precision: 19, scale: 4
+    t.jsonb "institution_metadata", default: {}
+    t.jsonb "extra", default: {}
+    t.jsonb "raw_payload", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["binance_item_id"], name: "index_binance_accounts_on_binance_item_id"
+  end
+
+  create_table "binance_items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "family_id", null: false
+    t.string "name", null: false
+    t.string "api_key"
+    t.string "api_secret"
+    t.string "status", default: "good", null: false
+    t.string "last_error"
+    t.boolean "scheduled_for_deletion", default: false, null: false
+    t.string "institution_name"
+    t.string "institution_domain"
+    t.string "institution_url"
+    t.string "institution_color"
+    t.jsonb "raw_payload", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["family_id"], name: "index_binance_items_on_family_id"
   end
 
   create_table "budget_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -851,6 +883,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000003) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "api_keys", "users"
   add_foreign_key "balances", "accounts", on_delete: :cascade
+  add_foreign_key "binance_accounts", "binance_items"
+  add_foreign_key "binance_items", "families"
   add_foreign_key "budget_categories", "budgets"
   add_foreign_key "budget_categories", "categories"
   add_foreign_key "budgets", "families"

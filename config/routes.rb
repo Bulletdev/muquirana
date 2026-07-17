@@ -251,6 +251,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :binance_items, only: %i[new create destroy] do
+    member do
+      post :sync
+    end
+  end
+
   namespace :webhooks do
     post "plaid"
     post "plaid_eu"

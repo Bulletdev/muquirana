@@ -51,6 +51,7 @@ pt-BR:
         select: Selecionar
       import_accounts: Importar contas
       method_selector:
+        binance_entry: Conectar carteira Binance
         connected_entry: Conectar conta
         connected_entry_eu: Conectar conta europeia
         manual_entry: Informar saldo da conta
