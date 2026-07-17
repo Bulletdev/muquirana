@@ -18,3 +18,9 @@ run_security_health_checks:
   class: "SecurityHealthCheckJob"
   queue: "scheduled"
   description: "Runs security health checks to detect issues with security data"
+
+generate_insights:
+  cron: "0 6 * * *" # diariamente as 6:00 UTC, depois dos jobs de limpeza noturnos
+  class: "GenerateInsightsJob"
+  queue: "scheduled"
+  description: "Gera insights financeiros proativos para todas as familias"

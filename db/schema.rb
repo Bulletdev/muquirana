@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_07_17_000011) do
+ActiveRecord::Schema[7.2].define(version: 2026_07_17_000012) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -448,6 +448,31 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000011) do
     t.uuid "account_statement_id"
     t.index ["account_statement_id"], name: "index_imports_on_account_statement_id"
     t.index ["family_id"], name: "index_imports_on_family_id"
+  end
+
+  create_table "insights", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "family_id", null: false
+    t.string "insight_type", null: false
+    t.string "priority", default: "medium", null: false
+    t.string "status", default: "active", null: false
+    t.string "title", null: false
+    t.text "body", null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.jsonb "facts", default: {}, null: false
+    t.string "currency", default: "BRL", null: false
+    t.date "period_start"
+    t.date "period_end"
+    t.datetime "generated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "read_at"
+    t.datetime "dismissed_at"
+    t.string "dedup_key", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["family_id", "dedup_key"], name: "index_insights_on_family_id_and_dedup_key", unique: true
+    t.index ["family_id", "generated_at"], name: "index_insights_on_family_id_and_generated_at"
+    t.index ["family_id", "status"], name: "index_insights_on_family_id_and_status"
+    t.check_constraint "priority::text = ANY (ARRAY['high'::character varying, 'medium'::character varying, 'low'::character varying]::text[])", name: "chk_insights_priority"
+    t.check_constraint "status::text = ANY (ARRAY['active'::character varying, 'read'::character varying, 'dismissed'::character varying, 'expired'::character varying]::text[])", name: "chk_insights_status"
   end
 
   create_table "investments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -968,6 +993,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000011) do
   add_foreign_key "import_rows", "imports"
   add_foreign_key "imports", "account_statements"
   add_foreign_key "imports", "families"
+  add_foreign_key "insights", "families"
   add_foreign_key "invitations", "families"
   add_foreign_key "invitations", "users", column: "inviter_id"
   add_foreign_key "llm_usages", "families"

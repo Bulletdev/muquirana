@@ -107,6 +107,17 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :insights, only: %i[index] do
+    collection do
+      post :refresh
+    end
+
+    member do
+      patch :dismiss
+      patch :undismiss
+    end
+  end
+
   resources :transfers, only: %i[new create destroy show update]
 
   resources :imports, only: %i[index new show create destroy] do

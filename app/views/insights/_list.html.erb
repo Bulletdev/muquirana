@@ -1,0 +1,17 @@
+<%# locals: (insights:, unread_ids:) %>
+
+<div id="insights-list" class="space-y-3">
+  <% if insights.any? %>
+    <% insights.each do |insight| %>
+      <%= render "insights/insight_card", insight: insight, unread: unread_ids.include?(insight.id) %>
+    <% end %>
+  <% else %>
+    <div class="flex flex-col items-center justify-center py-24 text-center">
+      <div class="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 theme-dark:bg-gray-700">
+        <%= icon("lightbulb", color: "default") %>
+      </div>
+      <p class="text-secondary mb-1 font-medium"><%= t("insights.index.empty.title") %></p>
+      <p class="text-subdued max-w-xs text-sm"><%= t("insights.index.empty.description") %></p>
+    </div>
+  <% end %>
+</div>
