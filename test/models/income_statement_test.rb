@@ -27,6 +27,44 @@ class IncomeStatementTest < ActiveSupport::TestCase
     assert_equal 4, income_statement.totals.transactions_count
   end
 
+  test "excludes transactions from accounts with exclude_from_reports set" do
+    excluded_account = @family.accounts.create!(
+      name: "Excluded Checking",
+      currency: @family.currency,
+      balance: 3000,
+      accountable: Depository.new,
+      exclude_from_reports: true
+    )
+
+    create_transaction(account: excluded_account, amount: 500, category: @groceries_category)
+    create_transaction(account: excluded_account, amount: -300, category: @income_category)
+
+    income_statement = IncomeStatement.new(@family)
+    totals = income_statement.totals
+
+    # The excluded account's 500 expense and 300 income must not move the base totals
+    assert_equal 4, totals.transactions_count
+    assert_equal Money.new(1000, @family.currency), totals.income_money
+    assert_equal Money.new(200 + 300 + 400, @family.currency), totals.expense_money
+  end
+
+  test "excludes excluded accounts from period expense totals" do
+    excluded_account = @family.accounts.create!(
+      name: "Excluded Checking",
+      currency: @family.currency,
+      balance: 3000,
+      accountable: Depository.new,
+      exclude_from_reports: true
+    )
+
+    create_transaction(account: excluded_account, amount: 999, category: @groceries_category)
+
+    income_statement = IncomeStatement.new(@family)
+    expense_totals = income_statement.expense_totals(period: Period.last_30_days)
+
+    assert_equal 200 + 300 + 400, expense_totals.total
+  end
+
   test "calculates expenses for a period" do
     income_statement = IncomeStatement.new(@family)
     expense_totals = income_statement.expense_totals(period: Period.last_30_days)

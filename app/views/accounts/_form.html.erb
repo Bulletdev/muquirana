@@ -16,6 +16,11 @@
     <% end %>
 
     <%= yield form %>
+
+    <div class="flex items-center justify-between gap-2 pt-2">
+      <span class="text-sm text-primary"><%= t(".exclude_from_reports") %></span>
+      <%= form.toggle :exclude_from_reports %>
+    </div>
   </div>
 
   <%= form.submit %>

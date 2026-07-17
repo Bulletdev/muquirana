@@ -15,8 +15,9 @@ class BalanceSheet::AccountTotals
   private
     attr_reader :family, :sync_status_monitor
 
-    AccountRow = Data.define(:account, :converted_balance, :is_syncing) do
+    AccountRow = Data.define(:account, :converted_balance, :is_syncing, :exclude_from_reports) do
       def syncing? = is_syncing
+      def exclude_from_reports? = exclude_from_reports
 
       # Allows Rails path helpers to generate URLs from the wrapper
       def to_param = account.to_param
@@ -32,7 +33,8 @@ class BalanceSheet::AccountTotals
         AccountRow.new(
           account: account_row,
           converted_balance: account_row.converted_balance,
-          is_syncing: sync_status_monitor.account_syncing?(account_row)
+          is_syncing: sync_status_monitor.account_syncing?(account_row),
+          exclude_from_reports: account_row.exclude_from_reports?
         )
       end
     end

@@ -70,7 +70,11 @@ class Sync < ApplicationRecord
       begin
         syncable.perform_sync(self)
       rescue => e
-        fail!
+        # Re-check state under a row lock (with_lock reloads): the sync may
+        # have been terminalized externally (marked stale by Sync.clean while
+        # this job was still running). An unguarded fail! on the in-memory
+        # record would silently overwrite that terminal status.
+        with_lock { fail! if may_fail? }
         update(error: e.message)
         report_error(e)
       ensure
@@ -95,8 +99,11 @@ class Sync < ApplicationRecord
         end
       end
 
-      # If we make it here, the sync is finalized.  Run post-sync, regardless of failure/success.
-      perform_post_sync
+      # If we make it here, the sync is finalized.  Run post-sync, regardless of failure/success -
+      # unless the sync was terminalized externally (marked stale by Sync.clean while its job was
+      # still running). A stale sync's job has been written off: re-running transfer matching,
+      # rules, and broadcasts for it would apply side effects for work the system already abandoned.
+      perform_post_sync unless stale?
     end
 
     # If this sync has a parent, try to finalize it so the child status propagates up the chain.

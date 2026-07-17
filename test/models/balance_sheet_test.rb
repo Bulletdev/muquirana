@@ -77,6 +77,30 @@ class BalanceSheetTest < ActiveSupport::TestCase
     assert_equal 3000 + 5000, liability_groups.find { |ag| ag.name == OtherLiability.display_name }.total
   end
 
+  test "excluded accounts do not affect totals" do
+    create_account(balance: 1000, accountable: CreditCard.new)
+    create_account(balance: 10000, accountable: Depository.new)
+
+    excluded_asset = create_account(balance: 5000, accountable: Depository.new)
+    excluded_asset.update!(exclude_from_reports: true)
+
+    assert_equal 10000 - 1000, BalanceSheet.new(@family).net_worth
+    assert_equal 10000, BalanceSheet.new(@family).assets.total
+    assert_equal 1000, BalanceSheet.new(@family).liabilities.total
+  end
+
+  test "excluded accounts still have their own balance in account groups" do
+    create_account(balance: 1000, accountable: Depository.new)
+    excluded_asset = create_account(balance: 5000, accountable: Depository.new)
+    excluded_asset.update!(exclude_from_reports: true)
+
+    asset_groups = BalanceSheet.new(@family).assets.account_groups
+    depository_group = asset_groups.find { |ag| ag.name == Depository.display_name }
+
+    assert_equal 1000, depository_group.total
+    assert depository_group.accounts.any?(&:exclude_from_reports?)
+  end
+
   private
     def create_account(attributes = {})
       account = @family.accounts.create! name: "Test", currency: "USD", **attributes

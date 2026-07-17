@@ -161,6 +161,7 @@ Rails.application.routes.draw do
       post :sync
       get :sparkline
       patch :toggle_active
+      patch :toggle_exclude_from_reports
     end
 
     collection do

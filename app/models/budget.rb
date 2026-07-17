@@ -91,7 +91,7 @@ class Budget < ApplicationRecord
   end
 
   def transactions
-    family.transactions.visible.in_period(period)
+    family.transactions.visible.in_period(period).where(accounts: { exclude_from_reports: false })
   end
 
   def name

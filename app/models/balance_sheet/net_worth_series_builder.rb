@@ -20,7 +20,7 @@ class BalanceSheet::NetWorthSeriesBuilder
     attr_reader :family
 
     def visible_account_ids
-      @visible_account_ids ||= family.accounts.visible.with_attached_logo.pluck(:id)
+      @visible_account_ids ||= family.accounts.visible.included_in_reports.with_attached_logo.pluck(:id)
     end
 
     def cache_key(period)

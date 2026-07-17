@@ -14,6 +14,16 @@ class AccountTest < ActiveSupport::TestCase
     end
   end
 
+  test "included_in_reports scope excludes accounts marked as exclude_from_reports" do
+    included = @family.accounts.create! name: "Included", balance: 100, currency: "USD", accountable: Depository.new
+    excluded = @family.accounts.create! name: "Excluded", balance: 200, currency: "USD", accountable: Depository.new, exclude_from_reports: true
+
+    results = @family.accounts.included_in_reports
+    assert_includes results, included
+    assert_not_includes results, excluded
+    assert_includes @family.accounts.excluded_from_reports, excluded
+  end
+
   test "gets short/long subtype label" do
     account = @family.accounts.create!(
       name: "Test Investment",

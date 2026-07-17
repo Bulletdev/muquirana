@@ -4,6 +4,7 @@ en:
     account:
       complete_setup: Complete setup
       deletion_in_progress: "(deletion in progress...)"
+      excluded_from_reports_indicator: Excluded from reports
       troubleshoot: Troubleshoot
     account_sidebar_tabs:
       all: All
@@ -33,6 +34,7 @@ en:
       no_accounts: No accounts yet
     form:
       balance: Current balance
+      exclude_from_reports: Exclude from all reports
       name_label: Account name
       name_placeholder: Example account name
     index:
@@ -84,7 +86,9 @@ en:
         confirm_title: Delete account?
         delete_account: Delete account
         edit: Edit
+        exclude_from_reports: Exclude from all reports
         import: Import transactions
+        include_in_reports: Include in reports
         manage: Manage accounts
     update:
       success: "%{type} account updated"

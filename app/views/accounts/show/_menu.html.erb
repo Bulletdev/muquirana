@@ -13,6 +13,12 @@
     ) %>
   <% end %>
 
+  <% if account.exclude_from_reports? %>
+    <% menu.with_item(variant: "button", text: t(".include_in_reports"), href: toggle_exclude_from_reports_account_path(account), method: :patch, icon: "eye", data: { turbo_frame: :_top }) %>
+  <% else %>
+    <% menu.with_item(variant: "button", text: t(".exclude_from_reports"), href: toggle_exclude_from_reports_account_path(account), method: :patch, icon: "eye-off", data: { turbo_frame: :_top }) %>
+  <% end %>
+
   <% unless account.linked? %>
     <% menu.with_item(
       variant: "button",

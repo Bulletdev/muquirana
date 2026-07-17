@@ -4,6 +4,7 @@ pt-BR:
     account:
       complete_setup: Concluir cadastro
       deletion_in_progress: "(exclusão em andamento...)"
+      excluded_from_reports_indicator: Fora dos relatórios
       troubleshoot: Resolver problemas
     account_sidebar_tabs:
       all: Todas
@@ -34,6 +35,7 @@ pt-BR:
       no_accounts: Nenhuma conta ainda
     form:
       balance: Saldo atual
+      exclude_from_reports: Excluir de todos os relatórios
       name_label: Nome da conta
       name_placeholder: Exemplo de nome da conta
     index:
@@ -85,7 +87,9 @@ pt-BR:
         confirm_title: Excluir conta?
         delete_account: Excluir conta
         edit: Editar
+        exclude_from_reports: Excluir dos relatórios
         import: Importar transações
+        include_in_reports: Incluir nos relatórios
         manage: Gerenciar contas
     update:
       success: Conta de %{type} atualizada
