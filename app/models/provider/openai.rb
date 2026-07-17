@@ -6,12 +6,42 @@ class Provider::Openai < Provider
 
   MODELS = %w[gpt-4.1]
 
+  # Modelo usado para ler PDFs (classificacao + extracao de lancamentos).
+  PDF_MODEL = "gpt-4.1"
+
   def initialize(access_token)
     @client = ::OpenAI::Client.new(access_token: access_token)
   end
 
   def supports_model?(model)
     MODELS.include?(model)
+  end
+
+  def supports_pdf_processing?
+    true
+  end
+
+  # Classifica o PDF (tipo de documento + resumo) a partir do texto extraido.
+  def process_pdf(pdf_content:, family: nil)
+    with_provider_response do
+      PdfProcessor.new(
+        client,
+        model: PDF_MODEL,
+        pdf_content: pdf_content,
+        family: family
+      ).process
+    end
+  end
+
+  # Extrai os lancamentos de um extrato/fatura em PDF.
+  def extract_bank_statement(pdf_content:, family: nil)
+    with_provider_response do
+      BankStatementExtractor.new(
+        client: client,
+        pdf_content: pdf_content,
+        model: PDF_MODEL
+      ).extract
+    end
   end
 
   def auto_categorize(transactions: [], user_categories: [])

@@ -21,4 +21,21 @@ module Provider::LlmConcept
   def chat_response(prompt, model:, instructions: nil, functions: [], function_results: [], streamer: nil, previous_response_id: nil)
     raise NotImplementedError, "Subclasses must implement #chat_response"
   end
+
+  # Resultado da classificacao de um documento PDF (importacao por IA).
+  PdfProcessingResult = Data.define(:summary, :document_type, :extracted_data)
+
+  # Se o provider sabe ler PDFs. Por padrao nao - override no provider que
+  # implementa (ex.: Provider::Openai).
+  def supports_pdf_processing?
+    false
+  end
+
+  def process_pdf(pdf_content:, family: nil)
+    raise NotImplementedError, "Subclasses must implement #process_pdf"
+  end
+
+  def extract_bank_statement(pdf_content:, family: nil)
+    raise NotImplementedError, "Subclasses must implement #extract_bank_statement"
+  end
 end

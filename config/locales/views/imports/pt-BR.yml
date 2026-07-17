@@ -189,12 +189,20 @@ pt-BR:
         instructions_4: As colunas marcadas com asterisco (*) são obrigatórias.
         instructions_5: Sem vírgulas, sem símbolos de moeda e sem parênteses nos números.
         paste_placeholder: Cole aqui o conteúdo do seu arquivo CSV
+        pdf_account_required: Selecione uma conta para a importação do PDF
+        pdf_browse_prompt_html: "%{browse} para adicionar seu arquivo PDF aqui"
+        pdf_description: Envie um extrato bancário ou fatura de cartão em PDF. A IA vai
+          ler o documento e extrair os lançamentos para você revisar.
+        pdf_file_required: Escolha um arquivo PDF para enviar
+        pdf_invalid_file: Precisa ser um PDF válido (no máximo 25 MB)
+        pdf_processing_started: PDF enviado. Processando com IA em segundo plano.
         sample_csv_hint_html: "%{link} para ver o formato de CSV exigido"
         sample_csv_link: Baixe um CSV de exemplo
         separator_comma: Vírgula (,)
         separator_semicolon: Ponto e vírgula (;)
         submit: Enviar CSV
         submit_file: Enviar %{format}
+        submit_pdf: Enviar PDF
         tab_paste: Copiar e colar
         tab_upload: Enviar CSV
         title: Importe seus dados
@@ -240,6 +248,9 @@ pt-BR:
       step_map: Vincular
       step_of: Etapa %{number} de %{total}
       step_upload: Enviar
+    pdf_import:
+      processing_failed_generic: Não foi possível processar o PDF (%{error}).
+      processing_failed_with_message: Não foi possível processar o PDF - %{message}
     new:
       description: Você pode importar vários tipos de dados manualmente via CSV ou
         usar um dos nossos modelos de importação, como o do Mint.
@@ -247,6 +258,7 @@ pt-BR:
       import_actual: Importar do Actual Budget
       import_mint: Importar do Mint
       import_ofx: Importar extrato OFX
+      import_pdf: Importar extrato PDF (IA)
       import_portfolio: Importar investimentos
       import_qif: Importar arquivo QIF
       import_transactions: Importar transações

@@ -80,6 +80,9 @@ gem "after_commit_everywhere", "~> 1.0"
 # AI
 gem "ruby-openai"
 
+# Leitura de texto de PDF (importacao de extratos/faturas via IA)
+gem "pdf-reader"
+
 group :development, :test do
   gem "debug", platforms: %i[mri windows]
   gem "brakeman", require: false

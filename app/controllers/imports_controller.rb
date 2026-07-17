@@ -31,6 +31,12 @@ class ImportsController < ApplicationController
   end
 
   def show
+    # Importacao por PDF ainda processando (ou que falhou) na IA: a propria view
+    # de show ja tem os parciais de "em progresso"/"falhou". Sem este atalho, o
+    # fluxo generico redirecionaria para a etapa de limpeza/configuracao (CSV),
+    # que nao se aplica ao PDF enquanto as linhas nao foram geradas.
+    return if @import.is_a?(PdfImport) && (@import.importing? || @import.failed?)
+
     if !@import.uploaded?
       redirect_to import_upload_path(@import), alert: "Please finalize your file upload."
     elsif !@import.publishable?

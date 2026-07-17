@@ -1,7 +1,10 @@
 class Import < ApplicationRecord
   MaxRowCountExceededError = Class.new(StandardError)
 
-  TYPES = %w[TransactionImport TradeImport AccountImport MintImport YnabImport ActualImport QifImport OfxImport].freeze
+  TYPES = %w[TransactionImport TradeImport AccountImport MintImport YnabImport ActualImport QifImport OfxImport PdfImport].freeze
+
+  # Tipos de documento que a IA sabe classificar (importacao por PDF).
+  DOCUMENT_TYPES = %w[bank_statement credit_card_statement investment_statement financial_document contract other].freeze
   SIGNAGE_CONVENTIONS = %w[inflows_positive inflows_negative]
   SEPARATORS = [ [ "Comma (,)", "," ], [ "Semicolon (;)", ";" ] ].freeze
 

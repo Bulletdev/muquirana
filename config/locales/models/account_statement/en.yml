@@ -1,0 +1,9 @@
+---
+en:
+  activerecord:
+    errors:
+      models:
+        account_statement:
+          attributes:
+            content_sha256:
+              duplicate_statement_file: has already been uploaded

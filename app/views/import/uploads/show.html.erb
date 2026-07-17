@@ -6,16 +6,45 @@
 
 <% separator_labels = { "," => t(".separator_comma"), ";" => t(".separator_semicolon") } %>
 <% separator_options = Import::SEPARATORS.map { |_label, value| [ separator_labels.fetch(value, value), value ] } %>
+<% pdf_format = @import.type == "PdfImport" %>
 <% dedicated_format = %w[QifImport OfxImport].include?(@import.type) %>
 <% dedicated_label = @import.type == "QifImport" ? "QIF" : "OFX" %>
+<% requires_account = dedicated_format || pdf_format %>
 
 <div class="space-y-4">
   <div class="space-y-4 mx-auto max-w-md">
     <div class="text-center space-y-2">
       <h1 class="text-3xl text-primary font-medium"><%= t(".title") %></h1>
-      <p class="text-secondary text-sm"><%= dedicated_format ? t(".dedicated_description", format: dedicated_label) : t(".description") %></p>
+      <p class="text-secondary text-sm"><%= pdf_format ? t(".pdf_description") : (dedicated_format ? t(".dedicated_description", format: dedicated_label) : t(".description")) %></p>
     </div>
 
+    <% if pdf_format %>
+      <%= styled_form_with model: @import, scope: :import, url: import_upload_path(@import), multipart: true, class: "space-y-2" do |form| %>
+        <%= form.select :account_id, @import.family.accounts.visible.pluck(:name, :id), { label: t(".account_required_label"), include_blank: t(".account_select_prompt"), selected: @import.account_id, required: true } %>
+
+        <div class="flex flex-col items-center justify-center w-full h-64 border border-secondary border-dashed rounded-xl cursor-pointer" data-controller="file-upload" data-action="click->file-upload#triggerFileInput" data-file-upload-target="uploadArea">
+          <div class="flex flex-col items-center justify-center pt-5 pb-6">
+            <div data-file-upload-target="uploadText" class="flex flex-col items-center">
+              <%= icon("file-text", size: "lg", class: "mb-4 mx-auto") %>
+              <p class="mb-2 text-md text-gray text-center">
+                <%= t(".pdf_browse_prompt_html", browse: tag.span(t(".browse"), class: "font-medium text-primary")) %>
+              </p>
+            </div>
+
+            <div class="flex flex-col gap-4 items-center hidden mb-2" data-file-upload-target="fileName">
+              <span class="text-primary">
+                <%= icon("file-text", size: "lg", color: "current") %>
+              </span>
+              <p class="text-md font-medium text-primary"></p>
+            </div>
+
+            <%= form.file_field :pdf_file, accept: "application/pdf,.pdf", class: "hidden", "data-file-upload-target": "input" %>
+          </div>
+        </div>
+
+        <%= form.submit t(".submit_pdf"), disabled: @import.complete? %>
+      <% end %>
+    <% else %>
     <%= render DS::Tabs.new(active_tab: params[:tab] || "csv-upload", url_param_key: "tab", testid: "import-tabs") do |tabs| %>
       <% tabs.with_nav do |nav| %>
         <% nav.with_btn(id: "csv-upload", label: t(".tab_upload")) %>
@@ -80,9 +109,10 @@
         <% end %>
       <% end %>
     <% end %>
+    <% end %>
   </div>
 
-  <% unless dedicated_format %>
+  <% unless requires_account %>
     <div class="flex justify-center">
       <span class="text-secondary text-sm">
         <%= t(".sample_csv_hint_html", link: link_to(t(".sample_csv_link"), "/imports/#{@import.id}/upload/sample_csv", class: "text-primary underline", data: { turbo: false })) %>

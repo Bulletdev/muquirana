@@ -14,7 +14,9 @@ class Import::UploadsController < ApplicationController
   end
 
   def update
-    if @import.is_a?(QifImport)
+    if @import.is_a?(PdfImport)
+      handle_pdf_upload
+    elsif @import.is_a?(QifImport)
       handle_dedicated_upload(QifParser, "QIF")
     elsif @import.is_a?(OfxImport)
       handle_dedicated_upload(OfxParser, "OFX")
@@ -32,6 +34,43 @@ class Import::UploadsController < ApplicationController
   end
 
   private
+    # Importacao por PDF: exige a conta de destino, guarda o arquivo num
+    # AccountStatement (deduplicado por hash) e dispara o processamento por IA em
+    # background. As linhas so ficam prontas quando o ProcessPdfJob termina.
+    def handle_pdf_upload
+      file = upload_params[:pdf_file] || upload_params[:csv_file]
+      unless file.present?
+        flash.now[:alert] = t(".pdf_file_required")
+        render :show, status: :unprocessable_entity and return
+      end
+
+      account = Current.family.accounts.find_by(id: params.dig(:import, :account_id))
+      unless account.present?
+        flash.now[:alert] = t(".pdf_account_required")
+        render :show, status: :unprocessable_entity and return
+      end
+
+      statement = build_statement_for(file)
+      unless statement
+        flash.now[:alert] = t(".pdf_invalid_file")
+        render :show, status: :unprocessable_entity and return
+      end
+
+      @import.update!(account: account, account_statement: statement, status: :pending)
+      @import.process_with_ai_later
+
+      redirect_to import_path(@import), notice: t(".pdf_processing_started")
+    end
+
+    def build_statement_for(file)
+      prepared = AccountStatement.prepare_upload!(file)
+      AccountStatement.create_from_prepared_upload!(family: Current.family, prepared_upload: prepared)
+    rescue AccountStatement::DuplicateUploadError => e
+      e.statement
+    rescue AccountStatement::InvalidUploadError
+      nil
+    end
+
     # QIF e OFX tem formato fixo: em vez de mapear colunas, validamos com o parser
     # dedicado, exigimos a conta de destino e ja geramos as linhas, pulando direto
     # para a etapa de limpeza.
@@ -78,6 +117,6 @@ class Import::UploadsController < ApplicationController
     end
 
     def upload_params
-      params.require(:import).permit(:raw_file_str, :csv_file, :col_sep)
+      params.require(:import).permit(:raw_file_str, :csv_file, :pdf_file, :col_sep)
     end
 end

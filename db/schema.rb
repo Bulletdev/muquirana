@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_07_17_000006) do
+ActiveRecord::Schema[7.2].define(version: 2026_07_17_000007) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -28,6 +28,20 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000006) do
     t.index ["account_id", "provider_type"], name: "index_account_providers_on_account_id_and_provider_type", unique: true
     t.index ["account_id"], name: "index_account_providers_on_account_id"
     t.index ["provider_type", "provider_id"], name: "index_account_providers_on_provider_type_and_provider_id", unique: true
+  end
+
+  create_table "account_statements", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "family_id", null: false
+    t.uuid "account_id"
+    t.string "filename", null: false
+    t.string "content_type", null: false
+    t.bigint "byte_size", null: false
+    t.string "content_sha256"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_statements_on_account_id"
+    t.index ["family_id", "content_sha256"], name: "index_account_statements_on_family_and_sha", unique: true
+    t.index ["family_id"], name: "index_account_statements_on_family_id"
   end
 
   create_table "accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -428,6 +442,11 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000006) do
     t.string "exchange_operating_mic_col_label"
     t.string "amount_type_strategy", default: "signed_amount"
     t.string "amount_type_inflow_value"
+    t.text "ai_summary"
+    t.string "document_type"
+    t.jsonb "extracted_data", default: {}, null: false
+    t.uuid "account_statement_id"
+    t.index ["account_statement_id"], name: "index_imports_on_account_statement_id"
     t.index ["family_id"], name: "index_imports_on_family_id"
   end
 
@@ -879,6 +898,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000006) do
     t.jsonb "locked_attributes", default: {}
   end
 
+  add_foreign_key "account_statements", "accounts"
+  add_foreign_key "account_statements", "families"
   add_foreign_key "accounts", "families"
   add_foreign_key "accounts", "imports"
   add_foreign_key "accounts", "plaid_accounts"
@@ -902,6 +923,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000006) do
   add_foreign_key "impersonation_sessions", "users", column: "impersonated_id"
   add_foreign_key "impersonation_sessions", "users", column: "impersonator_id"
   add_foreign_key "import_rows", "imports"
+  add_foreign_key "imports", "account_statements"
   add_foreign_key "imports", "families"
   add_foreign_key "invitations", "families"
   add_foreign_key "invitations", "users", column: "inviter_id"

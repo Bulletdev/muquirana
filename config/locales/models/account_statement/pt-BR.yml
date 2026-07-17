@@ -1,0 +1,9 @@
+---
+pt-BR:
+  activerecord:
+    errors:
+      models:
+        account_statement:
+          attributes:
+            content_sha256:
+              duplicate_statement_file: já foi enviado

@@ -184,12 +184,20 @@ en:
         instructions_4: Columns marked with an asterisk (*) are required data.
         instructions_5: No commas, no currency symbols, and no parentheses in numbers.
         paste_placeholder: Paste your CSV file contents here
+        pdf_account_required: Please select an account for the PDF import
+        pdf_browse_prompt_html: "%{browse} to add your PDF file here"
+        pdf_description: Upload a bank statement or credit card bill in PDF. The AI will
+          read it and extract the transactions for you to review.
+        pdf_file_required: Please choose a PDF file to upload
+        pdf_invalid_file: Must be a valid PDF file (max 25 MB)
+        pdf_processing_started: PDF uploaded. Processing with AI in the background.
         sample_csv_hint_html: "%{link} to see the required CSV format"
         sample_csv_link: Download a sample CSV
         separator_comma: Comma (,)
         separator_semicolon: Semicolon (;)
         submit: Upload CSV
         submit_file: Upload %{format}
+        submit_pdf: Upload PDF
         tab_paste: Copy & Paste
         tab_upload: Upload CSV
         title: Import your data
@@ -235,6 +243,9 @@ en:
       step_map: Map
       step_of: Step %{number} of %{total}
       step_upload: Upload
+    pdf_import:
+      processing_failed_generic: Could not process the PDF (%{error}).
+      processing_failed_with_message: Could not process the PDF - %{message}
     new:
       description: You can manually import various types of data via CSV or use one
         of our import templates like Mint.
@@ -242,6 +253,7 @@ en:
       import_actual: Import from Actual Budget
       import_mint: Import from Mint
       import_ofx: Import OFX statement
+      import_pdf: Import PDF statement (AI)
       import_portfolio: Import investments
       import_qif: Import QIF file
       import_transactions: Import transactions
