@@ -1,7 +1,9 @@
 <%# locals: (family:, active_tab:, mobile: false) %>
 
 <div id="account-sidebar-tabs">
-  <% if family.missing_data_provider? %>
+  <%# Na demo o aviso e ruido curado: o visitante nao configura provedor de
+      preco. Ver Family#demo?. Self-hoster de verdade continua vendo. %>
+  <% if family.missing_data_provider? && !family.demo? %>
     <details class="group bg-yellow-tint-10 rounded-lg p-2 text-yellow-600 mb-3 text-xs">
       <summary class="flex items-center justify-between gap-2">
         <div class="flex items-center gap-2">

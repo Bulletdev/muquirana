@@ -92,6 +92,15 @@ class Family < ApplicationRecord
     trades.any? && Provider::Registry.for_concept(:securities).get_provider(:synth).nil?
   end
 
+  # Familia de demonstracao: criada pelo Demo::Generator, cujos usuarios usam o
+  # dominio reservado @muquirana.local (nao roteavel, so a demo usa -- ver
+  # Demo::Session). Serve para a UI nao mostrar avisos que so fazem sentido para
+  # quem hospeda de verdade, como o de "precos de ativos indisponiveis": numa
+  # demo curada ele e ruido, e o visitante nao tem como configurar o provedor.
+  def demo?
+    users.exists?([ "email LIKE ?", "%@muquirana.local" ])
+  end
+
   def oldest_entry_date
     entries.order(:date).first&.date || Date.current
   end
