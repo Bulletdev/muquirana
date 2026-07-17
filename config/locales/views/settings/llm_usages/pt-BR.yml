@@ -1,0 +1,36 @@
+---
+pt-BR:
+  llm_usages:
+    operations:
+      auto_categorize: Categorização automática
+      auto_detect_merchants: Detecção de estabelecimento
+      chat: Chat do assistente
+  settings:
+    llm_usages:
+      show:
+        avg_cost_per_request: Custo médio / requisição
+        based_on_requests: Com base em %{with_cost} de %{total} requisições com preço
+        col_cost: Custo
+        col_date: Data
+        col_model: Modelo
+        col_operation: Operação
+        col_tokens: Tokens
+        completion: resposta
+        cost_by_model: Custo por modelo
+        cost_by_operation: Custo por operação
+        cost_estimates_description: Os custos são estimativas com base na tabela pública
+          de preços da OpenAI por token. A fatura real da OpenAI é a fonte da verdade.
+        end_date: Data final
+        failed: Falhou
+        filter: Filtrar
+        no_usage_data: Nenhum uso de IA registrado neste período.
+        not_available: N/D
+        page_title: Uso de IA
+        prompt: entrada
+        recent_usage: Uso recente
+        start_date: Data inicial
+        subtitle: Acompanhe quanto o assistente e a categorização automática custam
+          usando a sua chave da OpenAI.
+        total_cost: Custo total
+        total_requests: Total de requisições
+        total_tokens: Total de tokens

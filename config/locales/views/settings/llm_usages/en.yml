@@ -1,0 +1,36 @@
+---
+en:
+  llm_usages:
+    operations:
+      auto_categorize: Auto-categorization
+      auto_detect_merchants: Merchant detection
+      chat: Assistant chat
+  settings:
+    llm_usages:
+      show:
+        avg_cost_per_request: Avg cost / request
+        based_on_requests: Based on %{with_cost} of %{total} requests with pricing
+        col_cost: Cost
+        col_date: Date
+        col_model: Model
+        col_operation: Operation
+        col_tokens: Tokens
+        completion: completion
+        cost_by_model: Cost by model
+        cost_by_operation: Cost by operation
+        cost_estimates_description: Costs are estimates based on public OpenAI pricing
+          per token. Your real invoice from OpenAI is the source of truth.
+        end_date: End date
+        failed: Failed
+        filter: Filter
+        no_usage_data: No AI usage recorded in this period.
+        not_available: N/A
+        page_title: AI usage
+        prompt: prompt
+        recent_usage: Recent usage
+        start_date: Start date
+        subtitle: Track how much the assistant and auto-categorization cost using your
+          OpenAI key.
+        total_cost: Total cost
+        total_requests: Total requests
+        total_tokens: Total tokens

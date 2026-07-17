@@ -1,0 +1,47 @@
+---
+en:
+  recurring_transactions:
+    amount_range: Between %{min} and %{max}
+    badges:
+      manual: Manual
+    cleaned_up:
+      one: 1 recurring transaction marked inactive
+      other: "%{count} recurring transactions marked inactive"
+      zero: No stale recurring transactions found
+    cleanup_stale: Clean up stale
+    confirm_delete: Are you sure you want to delete this recurring transaction?
+    created: Recurring transaction created
+    day_of_month: Day %{day}
+    deleted: Recurring transaction deleted
+    empty:
+      description: No recurring patterns yet. Run detection or mark a transaction as
+        recurring to get started.
+      title: No recurring transactions
+    identified:
+      one: 1 recurring pattern identified
+      other: "%{count} recurring patterns identified"
+      zero: No new recurring patterns found
+    identify_patterns: Detect patterns
+    info:
+      description: The app scans your history and flags anything that repeats every
+        month, such as
+      title: How recurring transactions work
+      triggers:
+        - Subscriptions (streaming, apps)
+        - Salary and fixed income
+        - Rent, condo fees and utility bills
+        - Recurring boletos
+    marked_active: Recurring transaction reactivated
+    marked_inactive: Recurring transaction marked inactive
+    status:
+      active: Active
+      inactive: Inactive
+    table:
+      actions: Actions
+      amount: Amount
+      expected_day: Expected day
+      last_occurrence: Last occurrence
+      merchant: Merchant
+      next_date: Next date
+      status: Status
+    title: Recurring transactions

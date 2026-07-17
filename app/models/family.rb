@@ -20,6 +20,8 @@ class Family < ApplicationRecord
   has_many :imports, dependent: :destroy
   has_many :account_statements, dependent: :destroy
   has_many :family_exports, dependent: :destroy
+  has_many :llm_usages, dependent: :destroy
+  has_many :recurring_transactions, dependent: :destroy
 
   has_many :entries, through: :accounts
   has_many :transactions, through: :accounts

@@ -1,0 +1,159 @@
+<%= content_for :page_title, t(".page_title") %>
+
+<div class="bg-container rounded-xl shadow-border-xs p-4">
+  <div class="mb-6">
+    <p class="text-sm text-secondary"><%= t(".subtitle") %></p>
+  </div>
+
+  <!-- Filtro de intervalo de datas -->
+  <div class="mb-6">
+    <%= form_with url: settings_llm_usage_path, method: :get, class: "flex gap-4 items-end flex-wrap" do |f| %>
+      <div class="w-full md:w-auto">
+        <%= f.label :start_date, t(".start_date"), class: "block text-sm font-medium text-primary mb-1" %>
+        <%= f.date_field :start_date, value: @start_date, class: "rounded-lg border border-primary px-3 py-2 text-sm bg-container-inset text-primary w-full" %>
+      </div>
+      <div class="w-full md:w-auto">
+        <%= f.label :end_date, t(".end_date"), class: "block text-sm font-medium text-primary mb-1" %>
+        <%= f.date_field :end_date, value: @end_date, class: "rounded-lg border border-primary px-3 py-2 text-sm bg-container-inset text-primary w-full" %>
+      </div>
+      <%= render DS::Button.new(variant: :primary, size: :md, type: "submit", text: t(".filter"), class: "md:w-auto w-full justify-center") %>
+    <% end %>
+  </div>
+
+  <!-- Resumo -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <div class="bg-container-inset rounded-lg p-4">
+      <div class="flex items-center gap-2 mb-2">
+        <%= icon "activity", class: "w-5 h-5 text-secondary" %>
+        <p class="text-xs font-medium text-secondary uppercase"><%= t(".total_requests") %></p>
+      </div>
+      <p class="text-2xl font-semibold text-primary"><%= number_with_delimiter(@statistics[:total_requests]) %></p>
+    </div>
+
+    <div class="bg-container-inset rounded-lg p-4">
+      <div class="flex items-center gap-2 mb-2">
+        <%= icon "hash", class: "w-5 h-5 text-secondary" %>
+        <p class="text-xs font-medium text-secondary uppercase"><%= t(".total_tokens") %></p>
+      </div>
+      <p class="text-2xl font-semibold text-primary"><%= number_with_delimiter(@statistics[:total_tokens]) %></p>
+      <p class="text-xs text-secondary mt-1">
+        <%= number_with_delimiter(@statistics[:total_prompt_tokens]) %> <%= t(".prompt") %> /
+        <%= number_with_delimiter(@statistics[:total_completion_tokens]) %> <%= t(".completion") %>
+      </p>
+    </div>
+
+    <div class="bg-container-inset rounded-lg p-4">
+      <div class="flex items-center gap-2 mb-2">
+        <%= icon "wallet", class: "w-5 h-5 text-secondary" %>
+        <p class="text-xs font-medium text-secondary uppercase"><%= t(".total_cost") %></p>
+      </div>
+      <p class="text-2xl font-semibold text-primary"><%= format_money(Money.new(@statistics[:total_cost], @family.currency)) %></p>
+    </div>
+
+    <div class="bg-container-inset rounded-lg p-4">
+      <div class="flex items-center gap-2 mb-2">
+        <%= icon "trending-up", class: "w-5 h-5 text-secondary" %>
+        <p class="text-xs font-medium text-secondary uppercase"><%= t(".avg_cost_per_request") %></p>
+      </div>
+      <p class="text-2xl font-semibold text-primary"><%= format_money(Money.new(@statistics[:avg_cost], @family.currency)) %></p>
+      <% if @statistics[:requests_with_cost] < @statistics[:total_requests] %>
+        <p class="text-xs text-secondary mt-1">
+          <%= t(".based_on_requests", with_cost: number_with_delimiter(@statistics[:requests_with_cost]), total: number_with_delimiter(@statistics[:total_requests])) %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Custo por operacao -->
+  <% if @statistics[:by_operation].any? %>
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold text-primary mb-3"><%= t(".cost_by_operation") %></h2>
+      <div class="bg-container-inset rounded-lg p-4">
+        <div class="space-y-2">
+          <% @statistics[:by_operation].each do |operation, cost| %>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-primary"><%= t("llm_usages.operations.#{operation}", default: operation.humanize) %></span>
+              <span class="text-sm font-medium text-primary"><%= format_money(Money.new(cost, @family.currency)) %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Custo por modelo -->
+  <% if @statistics[:by_model].any? %>
+    <div class="mb-6">
+      <h2 class="text-lg font-semibold text-primary mb-3"><%= t(".cost_by_model") %></h2>
+      <div class="bg-container-inset rounded-lg p-4">
+        <div class="space-y-2">
+          <% @statistics[:by_model].each do |model, cost| %>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-primary font-mono"><%= model %></span>
+              <span class="text-sm font-medium text-primary"><%= format_money(Money.new(cost, @family.currency)) %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Uso recente -->
+  <div>
+    <h2 class="text-lg font-semibold text-primary mb-3"><%= t(".recent_usage") %></h2>
+    <div class="overflow-x-auto rounded-lg" tabindex="0" role="region" aria-label="<%= t(".recent_usage") %>">
+      <% if @llm_usages.any? %>
+        <table class="w-full">
+          <thead class="bg-surface border-b border-primary">
+            <tr>
+              <th class="px-4 py-3 text-left text-xs font-medium text-secondary uppercase"><%= t(".col_date") %></th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-secondary uppercase"><%= t(".col_operation") %></th>
+              <th class="px-4 py-3 text-left text-xs font-medium text-secondary uppercase"><%= t(".col_model") %></th>
+              <th class="px-4 py-3 text-right text-xs font-medium text-secondary uppercase"><%= t(".col_tokens") %></th>
+              <th class="px-4 py-3 text-right text-xs font-medium text-secondary uppercase"><%= t(".col_cost") %></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-alpha-black-200 theme-dark:divide-alpha-white-200">
+            <% @llm_usages.each do |usage| %>
+              <tr class="<%= "bg-red-tint-5 theme-dark:bg-red-tint-10" if usage.failed? %>">
+                <td class="px-4 py-3 text-sm text-primary whitespace-nowrap">
+                  <%= usage.created_at.strftime("%d/%m/%Y %H:%M") %>
+                </td>
+                <td class="px-4 py-3 text-sm text-primary">
+                  <%= t("llm_usages.operations.#{usage.operation}", default: usage.operation.humanize) %>
+                </td>
+                <td class="px-4 py-3 text-sm text-primary font-mono">
+                  <%= usage.model %>
+                </td>
+                <td class="px-4 py-3 text-sm text-primary text-right whitespace-nowrap">
+                  <% if usage.failed? %>
+                    <span class="inline-flex items-center gap-1 text-destructive font-medium">
+                      <%= icon "circle-alert", size: "sm", color: "destructive" %>
+                      <%= t(".failed") %>
+                    </span>
+                  <% else %>
+                    <%= number_with_delimiter(usage.total_tokens) %>
+                    <span class="text-xs text-secondary">
+                      (<%= number_with_delimiter(usage.prompt_tokens) %>/<%= number_with_delimiter(usage.completion_tokens) %>)
+                    </span>
+                  <% end %>
+                </td>
+                <td class="px-4 py-3 text-sm font-medium text-primary text-right whitespace-nowrap">
+                  <%= usage.formatted_cost || t(".not_available") %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <div class="p-8 text-center">
+          <p class="text-secondary"><%= t(".no_usage_data") %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mt-6">
+    <%= render DS::Alert.new(message: t(".cost_estimates_description"), variant: :info) %>
+  </div>
+</div>

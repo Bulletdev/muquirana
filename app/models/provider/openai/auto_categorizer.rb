@@ -1,13 +1,19 @@
 class Provider::Openai::AutoCategorizer
+  MODEL = "gpt-4.1-mini".freeze
+
+  # Uso (tokens) da ultima chamada, para o provider registrar o custo.
+  attr_reader :usage
+
   def initialize(client, transactions: [], user_categories: [])
     @client = client
     @transactions = transactions
     @user_categories = user_categories
+    @usage = nil
   end
 
   def auto_categorize
     response = client.responses.create(parameters: {
-      model: "gpt-4.1-mini",
+      model: MODEL,
       input: [ { role: "developer", content: developer_message } ],
       text: {
         format: {
@@ -20,7 +26,9 @@ class Provider::Openai::AutoCategorizer
       instructions: instructions
     })
 
-    Rails.logger.info("Tokens used to auto-categorize transactions: #{response.dig("usage").dig("total_tokens")}")
+    @usage = response.dig("usage")
+
+    Rails.logger.info("Tokens used to auto-categorize transactions: #{@usage&.dig("total_tokens")}")
 
     build_response(extract_categorizations(response))
   end

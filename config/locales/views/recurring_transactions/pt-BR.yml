@@ -1,0 +1,46 @@
+---
+pt-BR:
+  recurring_transactions:
+    amount_range: Entre %{min} e %{max}
+    badges:
+      manual: Manual
+    cleaned_up:
+      one: 1 transação recorrente marcada como inativa
+      other: "%{count} transações recorrentes marcadas como inativas"
+      zero: Nenhuma recorrência obsoleta encontrada
+    cleanup_stale: Limpar obsoletas
+    confirm_delete: Tem certeza que quer excluir esta transação recorrente?
+    created: Transação recorrente criada
+    day_of_month: Dia %{day}
+    deleted: Transação recorrente excluída
+    empty:
+      description: Nenhum padrão recorrente ainda. Rode a detecção ou marque uma transação
+        como recorrente para começar.
+      title: Nenhuma transação recorrente
+    identified:
+      one: 1 padrão recorrente identificado
+      other: "%{count} padrões recorrentes identificados"
+      zero: Nenhum novo padrão recorrente encontrado
+    identify_patterns: Detectar padrões
+    info:
+      description: O app analisa seu histórico e destaca o que se repete todo mês, como
+      title: Como funcionam as transações recorrentes
+      triggers:
+        - Assinaturas (streaming, apps)
+        - Salário e renda fixa
+        - Aluguel, condomínio e contas de consumo
+        - Boletos recorrentes
+    marked_active: Transação recorrente reativada
+    marked_inactive: Transação recorrente marcada como inativa
+    status:
+      active: Ativa
+      inactive: Inativa
+    table:
+      actions: Ações
+      amount: Valor
+      expected_day: Dia previsto
+      last_occurrence: Última ocorrência
+      merchant: Estabelecimento
+      next_date: Próxima data
+      status: Status
+    title: Transações recorrentes

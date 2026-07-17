@@ -1,5 +1,6 @@
 class Provider::Openai < Provider
   include LlmConcept
+  include Concerns::UsageRecorder
 
   # Subclass so errors caught in this provider are raised as Provider::Openai::Error
   Error = Class.new(Provider::Error)
@@ -44,15 +45,28 @@ class Provider::Openai < Provider
     end
   end
 
-  def auto_categorize(transactions: [], user_categories: [])
+  def auto_categorize(transactions: [], user_categories: [], family: nil)
     with_provider_response do
       raise Error, "Too many transactions to auto-categorize. Max is 25 per request." if transactions.size > 25
 
-      AutoCategorizer.new(
+      categorizer = AutoCategorizer.new(
         client,
         transactions: transactions,
         user_categories: user_categories
-      ).auto_categorize
+      )
+
+      result = categorizer.auto_categorize
+
+      # Side-effect: registra o custo do auto-categorize (modelo fixo no
+      # AutoCategorizer). Nunca bloqueia -- record_usage engole qualquer erro.
+      record_usage(
+        family: family,
+        model: AutoCategorizer::MODEL,
+        operation: "auto_categorize",
+        usage: categorizer.usage
+      )
+
+      result
     end
   end
 
@@ -68,7 +82,7 @@ class Provider::Openai < Provider
     end
   end
 
-  def chat_response(prompt, model:, instructions: nil, functions: [], function_results: [], streamer: nil, previous_response_id: nil)
+  def chat_response(prompt, model:, instructions: nil, functions: [], function_results: [], streamer: nil, previous_response_id: nil, family: nil)
     with_provider_response do
       chat_config = ChatConfig.new(
         functions: functions,
@@ -119,9 +133,14 @@ class Provider::Openai < Provider
                        "Verifique a chave, a cota e o acesso ao modelo #{model}."
         end
 
+        # Side-effect: registra o uso do chat. Nunca bloqueia a resposta.
+        record_usage(family: family, model: model, operation: "chat", usage: response_chunk.usage)
+
         response_chunk.data
       else
-        ChatParser.new(raw_response).parsed
+        parsed = ChatParser.new(raw_response).parsed
+        record_usage(family: family, model: model, operation: "chat", usage: raw_response["usage"])
+        parsed
       end
     end
   end

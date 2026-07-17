@@ -63,6 +63,7 @@ Rails.application.routes.draw do
     resource :billing, only: :show
     resource :security, only: :show
     resource :api_key, only: [ :show, :new, :create, :destroy ]
+    resource :llm_usage, only: :show
   end
 
   resource :subscription, only: %i[new show create] do
@@ -95,6 +96,16 @@ Rails.application.routes.draw do
   end
 
   resources :family_merchants, only: %i[index new create edit update destroy]
+
+  resources :recurring_transactions, only: %i[index create destroy] do
+    collection do
+      post :identify
+      post :cleanup
+    end
+    member do
+      post :toggle_status
+    end
+  end
 
   resources :transfers, only: %i[new create destroy show update]
 

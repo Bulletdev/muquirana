@@ -117,11 +117,13 @@ pt-BR:
       feedback_label: Feedback
       general_section_title: Geral
       imports_label: Importações
+      llm_usage_label: Uso de IA
       logout: Sair
       merchants_label: Estabelecimentos
       other_section_title: Mais
       preferences_label: Preferências
       profile_label: Conta
+      recurring_transactions_label: Recorrentes
       rules_label: Regras
       security_label: Segurança
       self_hosting_label: Hospedagem própria

@@ -10,10 +10,10 @@ class Provider::Openai::ChatStreamParser
 
     case type
     when "response.output_text.delta", "response.refusal.delta"
-      Chunk.new(type: "output_text", data: object.dig("delta"))
+      Chunk.new(type: "output_text", data: object.dig("delta"), usage: nil)
     when "response.completed"
       raw_response = object.dig("response")
-      Chunk.new(type: "response", data: parse_response(raw_response))
+      Chunk.new(type: "response", data: parse_response(raw_response), usage: raw_response&.dig("usage"))
     when "error"
       # A Responses API manda o erro como um evento do proprio stream. Antes,
       # `type: "error"` nao casava com nada aqui, `parsed` devolvia nil e o

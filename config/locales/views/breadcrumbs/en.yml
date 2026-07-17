@@ -14,6 +14,7 @@ en:
     home: Home
     hostings: Self-hosting
     imports: Imports
+    llm_usage: AI usage
     merchants: Merchants
     preferences: Preferences
     profiles: Account

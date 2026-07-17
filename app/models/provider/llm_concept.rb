@@ -14,11 +14,13 @@ module Provider::LlmConcept
   end
 
   ChatMessage = Data.define(:id, :output_text)
-  ChatStreamChunk = Data.define(:type, :data)
+  # usage carrega os tokens consumidos quando o chunk e do tipo "response"
+  # (evento response.completed); nos demais chunks fica nil.
+  ChatStreamChunk = Data.define(:type, :data, :usage)
   ChatResponse = Data.define(:id, :model, :messages, :function_requests)
   ChatFunctionRequest = Data.define(:id, :call_id, :function_name, :function_args)
 
-  def chat_response(prompt, model:, instructions: nil, functions: [], function_results: [], streamer: nil, previous_response_id: nil)
+  def chat_response(prompt, model:, instructions: nil, functions: [], function_results: [], streamer: nil, previous_response_id: nil, family: nil)
     raise NotImplementedError, "Subclasses must implement #chat_response"
   end
 

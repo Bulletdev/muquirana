@@ -17,6 +17,11 @@ class Transaction < ApplicationRecord
     one_time: "one_time" # A one-time expense/income, excluded from budget analytics
   }
 
+  # Kinds that represent one half of a Transfer pair. Recurring-pattern
+  # detection skips these: grouping a single side under its account would
+  # produce incoherent "patterns" that don't reflect the account-pair flow.
+  TRANSFER_KINDS = %w[funds_movement cc_payment loan_payment].freeze
+
   # Overarching grouping method for all transfer-type transactions
   def transfer?
     funds_movement? || cc_payment? || loan_payment?
