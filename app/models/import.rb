@@ -1,7 +1,7 @@
 class Import < ApplicationRecord
   MaxRowCountExceededError = Class.new(StandardError)
 
-  TYPES = %w[TransactionImport TradeImport AccountImport MintImport YnabImport ActualImport].freeze
+  TYPES = %w[TransactionImport TradeImport AccountImport MintImport YnabImport ActualImport QifImport OfxImport].freeze
   SIGNAGE_CONVENTIONS = %w[inflows_positive inflows_negative]
   SEPARATORS = [ [ "Comma (,)", "," ], [ "Semicolon (;)", ";" ] ].freeze
 
@@ -51,6 +51,55 @@ class Import < ApplicationRecord
         liberal_parsing: true
       )
     end
+
+    # Faixa de datas considerada "plausivel" para um extrato financeiro. Usada
+    # para desempatar a deteccao automatica de formato de data (US x pt-BR etc.).
+    def reasonable_date_range
+      Date.new(1970, 1, 1)..Date.today.next_year(5)
+    end
+
+    # Detecta o formato de data (strptime) que melhor explica uma amostra de
+    # strings de data. Pontua cada candidato pelo numero de amostras que parseia
+    # e, como desempate, quantas caem numa faixa plausivel. Retorna +fallback+
+    # quando nada parseia. Necessario para os importadores de formato dedicado
+    # (QIF/OFX) que nao passam pela tela de configuracao de coluna.
+    def detect_date_format(samples, candidates: Family::DATE_FORMATS.map(&:last), fallback: "%Y-%m-%d")
+      cleaned = Array(samples).map(&:to_s).reject(&:blank?).uniq.first(50)
+      return fallback if cleaned.empty?
+
+      range = reasonable_date_range
+
+      scored = candidates.map do |fmt|
+        parsed = 0
+        reasonable = 0
+
+        cleaned.each do |s|
+          date = begin
+            Date.strptime(s, fmt)
+          rescue Date::Error, ArgumentError
+            nil
+          end
+          next unless date
+
+          parsed += 1
+          reasonable += 1 if range.cover?(date)
+        end
+
+        { format: fmt, parsed: parsed, reasonable: reasonable }
+      end
+
+      viable = scored.select { |s| s[:parsed] > 0 }
+      return fallback if viable.empty?
+
+      viable.max_by { |s| [ s[:parsed], s[:reasonable] ] }[:format]
+    end
+  end
+
+  # A maioria dos importadores segue o fluxo CSV (upload -> configuracao de
+  # colunas -> limpeza -> mapeamento). Formatos dedicados (QIF/OFX) tem estrutura
+  # fixa e sobrescrevem isto para pular a etapa de configuracao de coluna.
+  def requires_csv_workflow?
+    true
   end
 
   def publish_later

@@ -170,9 +170,15 @@ pt-BR:
       show:
         account_include_blank: Importação com várias contas
         account_label: Conta (opcional)
+        account_required_label: Conta
+        account_select_prompt: Selecione uma conta
         browse: Procurar
         browse_prompt_html: "%{browse} para adicionar seu arquivo CSV aqui"
         col_sep_label: Separador de colunas
+        dedicated_browse_prompt_html: "%{browse} para adicionar seu arquivo %{format}
+          aqui"
+        dedicated_description: Envie seu arquivo %{format} abaixo e escolha a conta
+          para onde importar.
         description: Cole ou envie seu arquivo CSV abaixo.  Leia as instruções na
           tabela abaixo antes de começar.
         instructions_1: Abaixo está um exemplo de CSV com as colunas disponíveis para
@@ -188,6 +194,7 @@ pt-BR:
         separator_comma: Vírgula (,)
         separator_semicolon: Ponto e vírgula (;)
         submit: Enviar CSV
+        submit_file: Enviar %{format}
         tab_paste: Copiar e colar
         tab_upload: Enviar CSV
         title: Importe seus dados
@@ -239,7 +246,9 @@ pt-BR:
       import_accounts: Importar contas
       import_actual: Importar do Actual Budget
       import_mint: Importar do Mint
+      import_ofx: Importar extrato OFX
       import_portfolio: Importar investimentos
+      import_qif: Importar arquivo QIF
       import_transactions: Importar transações
       import_ynab: Importar do YNAB
       mint_logo_alt: Logo do Mint

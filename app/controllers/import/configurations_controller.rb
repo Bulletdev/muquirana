@@ -4,6 +4,8 @@ class Import::ConfigurationsController < ApplicationController
   before_action :set_import
 
   def show
+    # Formatos dedicados (QIF/OFX) nao tem etapa de configuracao de coluna.
+    redirect_to import_clean_path(@import) unless @import.requires_csv_workflow?
   end
 
   def update

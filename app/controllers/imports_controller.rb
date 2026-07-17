@@ -34,7 +34,8 @@ class ImportsController < ApplicationController
     if !@import.uploaded?
       redirect_to import_upload_path(@import), alert: "Please finalize your file upload."
     elsif !@import.publishable?
-      redirect_to import_confirm_path(@import), alert: "Please finalize your mappings before proceeding."
+      next_path = @import.mapping_steps.empty? ? import_clean_path(@import) : import_confirm_path(@import)
+      redirect_to next_path, alert: "Please finalize your mappings before proceeding."
     end
   end
 

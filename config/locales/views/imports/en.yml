@@ -167,9 +167,14 @@ en:
       show:
         account_include_blank: Multi-account import
         account_label: Account (optional)
+        account_required_label: Account
+        account_select_prompt: Select an account
         browse: Browse
         browse_prompt_html: "%{browse} to add your CSV file here"
         col_sep_label: Col sep
+        dedicated_browse_prompt_html: "%{browse} to add your %{format} file here"
+        dedicated_description: Upload your %{format} file below and choose the account
+          to import it into.
         description: Paste or upload your CSV file below.  Please review the instructions
           in the table below before beginning.
         instructions_1: Below is an example CSV with columns available for import.
@@ -184,6 +189,7 @@ en:
         separator_comma: Comma (,)
         separator_semicolon: Semicolon (;)
         submit: Upload CSV
+        submit_file: Upload %{format}
         tab_paste: Copy & Paste
         tab_upload: Upload CSV
         title: Import your data
@@ -235,7 +241,9 @@ en:
       import_accounts: Import accounts
       import_actual: Import from Actual Budget
       import_mint: Import from Mint
+      import_ofx: Import OFX statement
       import_portfolio: Import investments
+      import_qif: Import QIF file
       import_transactions: Import transactions
       import_ynab: Import from YNAB
       mint_logo_alt: Mint logo

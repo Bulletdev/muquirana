@@ -1,0 +1,30 @@
+!Type:Bank
+D01/02/2024
+T2500.00
+POpening Balance
+L[Checking]
+^
+D01/03/2024
+T-1500.00
+PLandlord
+MJanuary rent
+LHousing/Recurring
+^
+D01/05/2024
+T-42.50
+PCoffee Shop
+MMorning coffee
+LFood & Dining
+^
+D01/10/2024
+T3200.00
+PEmployer
+MMonthly salary
+LIncome:Salary
+^
+D01/15/2024
+T-88.90
+PSupermarket
+MGroceries
+LFood & Dining/Recurring
+^

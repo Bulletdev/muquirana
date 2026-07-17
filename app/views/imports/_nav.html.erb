@@ -6,7 +6,8 @@
   { key: "clean", name: t(".step_clean"), path: import_clean_path(import), is_complete: import.cleaned?, step_number: 3 },
   { key: "map", name: t(".step_map"), path: import_confirm_path(import), is_complete: import.publishable?, step_number: 4 },
   { key: "confirm", name: t(".step_confirm"), path: import_path(import), is_complete: import.complete?, step_number: 5 }
-].reject { |step| step[:key] == "map" && import.mapping_steps.empty? } %>
+].reject { |step| step[:key] == "map" && import.mapping_steps.empty? }
+   .reject { |step| step[:key] == "configure" && !import.requires_csv_workflow? } %>
 
 <% content_for :mobile_import_progress do %>
   <% active_step = steps.detect { |s| request.path.eql?(s[:path]) } %>
