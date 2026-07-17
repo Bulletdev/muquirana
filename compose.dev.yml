@@ -1,0 +1,57 @@
+# Servicos de apoio para DESENVOLVIMENTO local: Postgres + Redis.
+#
+# Este NAO e o compose de producao -- esse e o compose.example.yml. Aqui rodam
+# so os backing services; a aplicacao (Rails, Sidekiq, Tailwind) roda na sua
+# maquina via `bin/dev`.
+#
+# Uso normal (o `bin/dev` ja faz isto por voce):
+#   docker compose -f compose.dev.yml up -d
+#
+# Ja tem Postgres/Redis proprio? Suba so o que falta, ex.:
+#   docker compose -f compose.dev.yml up -d db
+#
+# Portas dedicadas (5434 / 6380) de proposito, para NAO colidir com um Postgres
+# (5432) ou Redis (6379) de outro projeto na mesma maquina. Batem com o
+# .env.local.example. Para trocar, ajuste DB_PORT/REDIS_PORT no ambiente.
+name: muquirana-dev
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: muquirana-pg
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "${DB_PORT:-5434}:5432"
+    volumes:
+      - muquirana-pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  redis:
+    image: redis:7-alpine
+    container_name: muquirana-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6380}:6379"
+    volumes:
+      - muquirana-redis-data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+volumes:
+  # `name:` fixa o nome real do volume (sem prefixo do projeto), para o compose
+  # reaproveitar dados de um container criado antes na mao, em vez de comecar do
+  # zero. Para um contribuidor novo, e criado normalmente na primeira subida.
+  muquirana-pg-data:
+    name: muquirana-pg-data
+  muquirana-redis-data:
+    name: muquirana-redis-data

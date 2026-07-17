@@ -3,7 +3,7 @@
 if ! gem list foreman -i --silent; then
   echo "Installing foreman..."
   gem install foreman
-  
+
   # Add rehash for rbenv users
   if command -v rbenv > /dev/null; then
     echo "Running rbenv rehash..."
@@ -18,5 +18,31 @@ export PORT="${PORT:-3000}"
 # but avoid loading until `debugger` is called
 export RUBY_DEBUG_OPEN="true"
 export RUBY_DEBUG_LAZY="true"
+
+# --- Servicos de apoio: Postgres + Redis -----------------------------------
+# Em producao o compose.example.yml cuida disso. No dev, subimos os mesmos
+# servicos via compose.dev.yml para que `bin/dev` deixe o ambiente pronto sem
+# passo manual. Quem prefere rodar Postgres/Redis proprio pode apagar este
+# bloco (e ajustar DB_*/REDIS_URL no .env.local).
+if [ -f compose.dev.yml ]; then
+  if command -v docker > /dev/null 2>&1 && docker compose version > /dev/null 2>&1; then
+    echo "== Subindo Postgres + Redis (compose.dev.yml) =="
+    docker compose -f compose.dev.yml up -d --wait \
+      || echo "!! Nao consegui subir os servicos de apoio. Veja: docker compose -f compose.dev.yml logs"
+  else
+    echo "!! Docker nao encontrado. Suba Postgres e Redis manualmente (veja README > Quick Start)."
+  fi
+fi
+
+# --- Banco: cria, migra e (so na 1a vez) popula dados de teste --------------
+echo "== Preparando banco =="
+bin/rails db:prepare
+
+# Roda demo_data apenas quando o banco esta vazio, para nao regravar os
+# lancamentos de demonstracao a cada boot. Login: user@muquirana.local / password
+if bin/rails runner 'exit(User.exists? ? 1 : 0)' 2> /dev/null; then
+  echo "== Banco vazio: populando dados de demonstracao (uma vez) =="
+  bin/rails demo_data:default
+fi
 
 exec bundle exec foreman start -f Procfile.dev "$@"

@@ -79,18 +79,31 @@
 
 ## 01 · Quick Start
 
-Requisitos: Ruby (ver `.ruby-version`), PostgreSQL e Redis.
+Requisitos: Ruby (ver `.ruby-version`) e Docker (para subir Postgres + Redis).
+Prefere rodar Postgres/Redis próprio? Veja "Sem Docker" abaixo.
 
 ```sh
 cp .env.local.example .env.local
-bin/setup
-bin/dev
-
-# opcional: dados de demonstração
-bin/rails demo_data:default
+bin/setup   # instala gems, sobe Postgres+Redis, prepara o banco e popula a demo
+bin/dev     # sobe os serviços (se preciso) e a aplicação
 ```
 
-http://localhost:3000 - o seed cria `user@muquirana.local` / `password`.
+Pronto: **http://localhost:3000**. Na primeira vez o `bin/dev` popula dados de
+demonstração automaticamente — entre com **`user@muquirana.local` / `password`**,
+ou use **http://localhost:3000/demo** (login sem senha).
+
+O `bin/dev` cuida de tudo: sobe o Postgres e o Redis (`compose.dev.yml`, portas
+dedicadas 5434/6380 para não colidir com outros projetos), roda as migrations e,
+só na primeira vez (banco vazio), gera os dados de demonstração.
+
+**Sem Docker** — suba Postgres e Redis por conta própria e ajuste `DB_HOST`,
+`DB_PORT` e `REDIS_URL` no `.env.local`; o `bin/dev` detecta a ausência do Docker
+e segue direto para a aplicação.
+
+**Porta ocupada** (`connection refused` / `port is already allocated`) — algum
+outro Postgres/Redis está na mesma porta. Troque `DB_PORT`/`REDIS_URL` no
+`.env.local` e o mapeamento em `compose.dev.yml`, depois
+`docker compose -f compose.dev.yml up -d`.
 
 ---
 
