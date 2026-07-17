@@ -89,6 +89,7 @@ class UsersController < ApplicationController
       params.require(:user).permit(
         :first_name, :last_name, :email, :profile_image, :redirect_to, :delete_profile_image, :onboarded_at,
         :show_sidebar, :default_period, :show_ai_sidebar, :ai_enabled, :theme, :set_onboarding_preferences_at, :set_onboarding_goals_at,
+        :disable_modal_click_outside,
         family_attributes: [ :name, :currency, :country, :locale, :date_format, :timezone, :id ],
         goals: []
       )

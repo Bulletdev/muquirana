@@ -90,6 +90,10 @@ class User < ApplicationRecord
     show_ai_sidebar
   end
 
+  def disable_modal_click_outside?
+    disable_modal_click_outside
+  end
+
   def ai_available?
     !Rails.application.config.app_mode.self_hosted? || ENV["OPENAI_ACCESS_TOKEN"].present?
   end

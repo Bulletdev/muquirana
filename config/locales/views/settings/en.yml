@@ -37,10 +37,15 @@ en:
         country: Country
         currency: Currency
         date_format: Date format
+        disable_modal_click_outside_label: Keep modals open when clicking outside
+        disable_modal_click_outside_subtitle: Prevents modals from closing when you
+          click outside them, so you don't lose unsaved form data by accident.
         general_subtitle: Configure your preferences
         general_title: General
         default_period: Default Period
         language: Language
+        modals_subtitle: Choose how modal windows behave
+        modals_title: Modals
         page_title: Preferences
         theme_dark: Dark
         theme_light: Light

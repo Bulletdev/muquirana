@@ -33,7 +33,7 @@ class DS::Dialog < DesignSystemComponent
     end
   end
 
-  attr_reader :variant, :auto_open, :reload_on_close, :width, :disable_frame, :opts
+  attr_reader :variant, :auto_open, :reload_on_close, :width, :disable_frame, :disable_click_outside, :opts
 
   VARIANTS = %w[modal drawer].freeze
   WIDTHS = {
@@ -43,13 +43,21 @@ class DS::Dialog < DesignSystemComponent
     full: "lg:max-w-full"
   }.freeze
 
-  def initialize(variant: "modal", auto_open: true, reload_on_close: false, width: "md", frame: nil, disable_frame: false, **opts)
+  # Optional lambda that supplies component-wide defaults (e.g. the current
+  # user's "keep modals open on outside click" preference). Wired up in
+  # config/initializers/dialog_defaults.rb.
+  class_attribute :defaults_provider, default: nil
+
+  def initialize(variant: "modal", auto_open: true, reload_on_close: false, width: "md", frame: nil, disable_frame: false, disable_click_outside: nil, **opts)
+    defaults = self.class.defaults_provider&.call || {}
+
     @variant = variant.to_sym
     @auto_open = auto_open
     @reload_on_close = reload_on_close
     @width = width.to_sym
     @frame = frame
     @disable_frame = disable_frame
+    @disable_click_outside = disable_click_outside.nil? ? defaults.fetch(:disable_click_outside, false) : disable_click_outside
     @opts = opts
   end
 
@@ -102,6 +110,7 @@ class DS::Dialog < DesignSystemComponent
     data[:controller] = [ "DS--dialog", "hotkey", data[:controller] ].compact.join(" ")
     data[:DS__dialog_auto_open_value] = auto_open
     data[:DS__dialog_reload_on_close_value] = reload_on_close
+    data[:DS__dialog_disable_click_outside_value] = disable_click_outside
     data[:action] = [ "mousedown->DS--dialog#clickOutside", data[:action] ].compact.join(" ")
     data[:hotkey] = "esc:DS--dialog#close"
     merged_opts[:data] = data

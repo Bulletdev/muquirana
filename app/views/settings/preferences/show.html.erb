@@ -48,6 +48,21 @@
   </div>
 <% end %>
 
+<%= settings_section title: t(".modals_title"), subtitle: t(".modals_subtitle") do %>
+  <%= styled_form_with model: @user, class: "space-y-4", data: { controller: "auto-submit-form" } do |form| %>
+    <%= form.hidden_field :redirect_to, value: "preferences" %>
+
+    <div class="flex items-center justify-between gap-4">
+      <div class="space-y-1">
+        <p class="text-sm font-medium text-primary"><%= t(".disable_modal_click_outside_label") %></p>
+        <p class="text-sm text-secondary"><%= t(".disable_modal_click_outside_subtitle") %></p>
+      </div>
+
+      <%= form.toggle :disable_modal_click_outside, { data: { auto_submit_form_target: "auto" } } %>
+    </div>
+  <% end %>
+<% end %>
+
 <%= settings_section title: t(".theme_title"), subtitle: t(".theme_subtitle") do %>
   <div data-controller="theme" data-theme-user-preference-value="<%= @user.theme %>">
     <%= form_with model: @user, class: "flex flex-col md:flex-row justify-between items-center gap-4", id: "theme_form",

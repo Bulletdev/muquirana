@@ -8,6 +8,9 @@ pt-BR:
       nav_budgets: Orçamentos
       nav_home: Início
       nav_transactions: Transações
+      privacy_mode: Alternar modo de privacidade
+      resize_left_sidebar: Redimensionar a barra lateral de contas
+      resize_right_sidebar: Redimensionar a barra lateral do assistente
       upgrade: Assinar
     auth:
       existing_account: Já tem uma conta?

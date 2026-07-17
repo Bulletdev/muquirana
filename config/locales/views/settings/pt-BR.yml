@@ -38,9 +38,14 @@ pt-BR:
         currency: Moeda
         date_format: Formato de data
         default_period: Período padrão
+        disable_modal_click_outside_label: Manter modais abertos ao clicar fora
+        disable_modal_click_outside_subtitle: Impede que os modais fechem quando você
+          clica fora deles, para não perder dados de formulário sem querer.
         general_subtitle: Configure suas preferências
         general_title: Geral
         language: Idioma
+        modals_subtitle: Escolha como as janelas modais se comportam
+        modals_title: Modais
         page_title: Preferências
         theme_dark: Escuro
         theme_light: Claro
