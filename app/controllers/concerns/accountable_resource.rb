@@ -37,7 +37,7 @@ module AccountableResource
     @account = Current.family.accounts.create_and_sync(account_params.except(:return_to))
     @account.lock_saved_attributes!
 
-    redirect_to account_params[:return_to].presence || @account, notice: t("accounts.create.success", type: accountable_type.name.underscore.humanize)
+    redirect_to safe_return_to_path || @account, notice: t("accounts.create.success", type: accountable_type.name.underscore.humanize)
   end
 
   def update
@@ -72,6 +72,19 @@ module AccountableResource
 
     def accountable_type
       controller_name.classify.constantize
+    end
+
+    # Only honor `return_to` when it is a same-site relative path. Left
+    # unchecked, the user-controllable parameter is an open-redirect vector
+    # (e.g. `https://evil.com`, `//evil.com`, or a `javascript:` URI). Anything
+    # that is not a plain relative path is ignored, falling back to the account.
+    def safe_return_to_path
+      return_to = account_params[:return_to].to_s
+      return if return_to.blank?
+      return unless return_to.start_with?("/")
+      return if return_to.start_with?("//", "/\\")
+
+      return_to
     end
 
     def set_account

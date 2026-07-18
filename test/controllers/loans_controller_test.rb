@@ -45,6 +45,39 @@ class LoansControllerTest < ActionDispatch::IntegrationTest
     assert_enqueued_with(job: SyncJob)
   end
 
+  test "honors a same-site relative return_to after create" do
+    post loans_path, params: {
+      account: {
+        name: "Return To Loan",
+        balance: 1000,
+        currency: "USD",
+        accountable_type: "Loan",
+        return_to: "/accounts",
+        accountable_attributes: { rate_type: "fixed" }
+      }
+    }
+
+    assert_redirected_to "/accounts"
+  end
+
+  test "ignores an off-site return_to and falls back to the account" do
+    [ "https://evil.com", "//evil.com", "/\\evil.com", "javascript:alert(1)" ].each do |malicious|
+      post loans_path, params: {
+        account: {
+          name: "Malicious Return Loan",
+          balance: 1000,
+          currency: "USD",
+          accountable_type: "Loan",
+          return_to: malicious,
+          accountable_attributes: { rate_type: "fixed" }
+        }
+      }
+
+      created_account = Account.order(:created_at).last
+      assert_redirected_to created_account, "expected fallback redirect for return_to=#{malicious.inspect}"
+    end
+  end
+
   test "updates with loan details" do
     assert_no_difference [ "Account.count", "Loan.count" ] do
       patch loan_path(@account), params: {
