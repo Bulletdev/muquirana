@@ -98,6 +98,9 @@ class TransactionImportTest < ActiveSupport::TestCase
       @import.publish
     end
 
-    assert_equal [ -100, 200, -300 ], @import.entries.map(&:amount)
+    # Ordena por data: `import.entries` nao tem ordem garantida (has_many sem
+    # scope), entao o Postgres pode devolver as linhas em ordem fisica diferente
+    # (passava local, quebrava no CI). As 3 datas sao distintas e ascendentes.
+    assert_equal [ -100, 200, -300 ], @import.entries.order(:date).map(&:amount)
   end
 end
