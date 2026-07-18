@@ -1,0 +1,12 @@
+---
+pt-BR:
+  transaction_attachments:
+    attachment_deleted: Anexo removido.
+    cannot_exceed: Você não pode anexar mais que %{count} arquivos.
+    delete_failed: Não foi possível remover o anexo. Tente novamente.
+    failed_upload: "Falha no envio: %{error}"
+    no_files_selected: Nenhum arquivo selecionado.
+    not_authorized: Apenas o dono da família pode gerenciar anexos.
+    upload_failed: Não foi possível enviar o anexo. Tente novamente.
+    uploaded_many: "%{count} arquivos anexados."
+    uploaded_one: Arquivo anexado.

@@ -21,6 +21,8 @@ class Import < ApplicationRecord
   belongs_to :account, optional: true
 
   before_validation :set_default_number_format
+  before_validation :ensure_utf8_encoding
+  before_save :ensure_utf8_encoding
 
   scope :ordered, -> { order(created_at: :desc) }
 
@@ -345,5 +347,79 @@ class Import < ApplicationRecord
     # identificadores persistidos.
     def set_default_number_format
       self.number_format ||= "1.234,56"
+    end
+
+    # Encodings testados quando a deteccao automatica falha ou fica sob o limiar
+    # de confianca. ISO-8859-1/Windows-1252 vem primeiro porque extratos de banco
+    # brasileiro tipicamente sao exportados em Latin-1.
+    COMMON_ENCODINGS = [ "ISO-8859-1", "Windows-1252", "Windows-1250", "ISO-8859-2" ].freeze
+
+    # rchardet e excelente para separar UTF-8 de single-byte, mas em textos
+    # curtos com acentuacao latina ele as vezes "ve" um alfabeto exotico (ex:
+    # hebraico windows-1255) com altissima confianca. Como a Muquirana e pt-BR,
+    # so confiamos na deteccao quando ela aponta um encoding plausivel para o
+    # nosso publico; do contrario caimos no fallback que assume Latin-1/Win-1252.
+    PLAUSIBLE_DETECTED_ENCODINGS = [
+      "utf-8", "ascii", "us-ascii", "iso-8859-1", "iso-8859-15", "windows-1252"
+    ].freeze
+
+    # Extratos CSV de bancos BR frequentemente vem em Latin-1 (ISO-8859-1) e os
+    # acentos quebram no parse ("Ã§" no lugar de "ç"). Detectamos o encoding com
+    # rchardet e transcodificamos para UTF-8 ANTES do CSV.parse. Arquivos que ja
+    # sao UTF-8 valido passam intactos.
+    def ensure_utf8_encoding
+      # Ignora nil/vazio antes de qualquer checagem de mudanca
+      return if raw_file_str.nil? || raw_file_str.bytesize == 0
+
+      # So processa quando o conteudo do arquivo mudou
+      return unless will_save_change_to_raw_file_str?
+
+      # Ja e UTF-8 valido: nada a fazer
+      begin
+        return if raw_file_str.encoding == Encoding::UTF_8 && raw_file_str.valid_encoding?
+      rescue ArgumentError
+        # encoding invalido no proprio objeto -- segue para deteccao
+      end
+
+      begin
+        require "rchardet"
+        detection = CharDet.detect(raw_file_str)
+        detected_encoding = detection["encoding"]
+        confidence = detection["confidence"]
+
+        plausible = detected_encoding &&
+                    PLAUSIBLE_DETECTED_ENCODINGS.include?(detected_encoding.downcase)
+
+        if plausible && confidence && confidence > 0.75
+          self.raw_file_str = raw_file_str
+            .force_encoding(detected_encoding)
+            .encode("UTF-8", invalid: :replace, undef: :replace)
+        else
+          # Deteccao fraca ou implausivel para o publico BR: tenta os comuns
+          try_common_encodings
+        end
+      rescue LoadError
+        # rchardet indisponivel: fallback seguro
+        try_common_encodings
+      rescue ArgumentError, Encoding::CompatibilityError
+        try_common_encodings
+      end
+    end
+
+    def try_common_encodings
+      COMMON_ENCODINGS.each do |encoding|
+        begin
+          candidate = raw_file_str.dup.force_encoding(encoding)
+          if candidate.valid_encoding?
+            self.raw_file_str = candidate.encode("UTF-8", invalid: :replace, undef: :replace)
+            return
+          end
+        rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
+          next
+        end
+      end
+
+      # Ultimo recurso: forca UTF-8 e substitui bytes invalidos
+      self.raw_file_str = raw_file_str.force_encoding("UTF-8").scrub("?")
     end
 end

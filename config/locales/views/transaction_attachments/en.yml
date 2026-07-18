@@ -1,0 +1,12 @@
+---
+en:
+  transaction_attachments:
+    attachment_deleted: Attachment removed.
+    cannot_exceed: You cannot attach more than %{count} files.
+    delete_failed: Could not remove the attachment. Please try again.
+    failed_upload: "Upload failed: %{error}"
+    no_files_selected: No file selected.
+    not_authorized: Only the family owner can manage attachments.
+    upload_failed: Could not upload the attachment. Please try again.
+    uploaded_many: "%{count} files attached."
+    uploaded_one: File attached.

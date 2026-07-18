@@ -11,7 +11,7 @@ class Family::Syncer
 
     Rails.logger.info("Applying rules for family #{family.id}")
     family.rules.each do |rule|
-      rule.apply_later
+      rule.apply_later(execution_type: "scheduled")
     end
 
     # Schedule child syncs

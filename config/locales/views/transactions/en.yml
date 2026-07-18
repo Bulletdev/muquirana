@@ -1,6 +1,15 @@
 ---
 en:
   transactions:
+    attachments:
+      browse_to_add: Click to add a file
+      files:
+        one: "%{count} file"
+        other: "%{count} files"
+      max_reached: You reached the limit of %{max} attachments (%{count} used).
+      no_attachments: No attachments yet.
+      select_up_to: Up to %{count} files, %{size} MB each (%{used} used).
+      upload: Send
     bulk_updates:
       new:
         cancel: Cancel
@@ -46,6 +55,7 @@ en:
       edit_prefix: Edit
       edit_rules: Edit rules
       edit_tags: Edit tags
+      export_csv: Export CSV
       import: Import
       new_rule: New rule
       new_transaction: New transaction
@@ -107,6 +117,7 @@ en:
     show:
       account_label: Account
       amount: Amount
+      attachments: Attachments
       category_label: Category
       date_label: Date
       delete: Delete

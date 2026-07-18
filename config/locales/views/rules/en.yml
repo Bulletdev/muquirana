@@ -1,6 +1,24 @@
 ---
 en:
   rules:
+    action_executors:
+      exclude_transaction:
+        label: Exclude from budgeting and reports
+      set_as_transfer_or_payment:
+        label: Set as transfer or payment
+    condition_filters:
+      transaction_account:
+        label: Account
+      transaction_category:
+        label: Category
+      transaction_notes:
+        label: Notes
+      transaction_type:
+        equal_to: Equal to
+        expense: Expense
+        income: Income
+        label: Type
+        transfer: Transfer
     category_rule_cta:
       create_rule: Create rule
       description: You can create a rule to automatically categorize transactions like

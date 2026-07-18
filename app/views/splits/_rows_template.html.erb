@@ -1,0 +1,12 @@
+<%# locals: (categories:) %>
+<%# Modelo clonado pelo controller Stimulus ao adicionar uma nova linha.
+    O placeholder __INDEX__ e substituido por um indice incremental. %>
+<template data-split-transaction-target="template">
+  <%= render "splits/row",
+             index: "__INDEX__",
+             categories: categories,
+             name_value: nil,
+             amount_value: nil,
+             selected_id: nil,
+             removable: true %>
+</template>

@@ -4,6 +4,7 @@ class Rule < ApplicationRecord
   belongs_to :family
   has_many :conditions, dependent: :destroy
   has_many :actions, dependent: :destroy
+  has_many :rule_runs, dependent: :destroy
 
   accepts_nested_attributes_for :conditions, allow_destroy: true
   accepts_nested_attributes_for :actions, allow_destroy: true
@@ -39,14 +40,16 @@ class Rule < ApplicationRecord
     matching_resources_scope.count
   end
 
+  # Applies every action of the rule to the matching resources and returns the
+  # total number of resources that were modified across all actions.
   def apply(ignore_attribute_locks: false)
-    actions.each do |action|
+    actions.sum do |action|
       action.apply(matching_resources_scope, ignore_attribute_locks: ignore_attribute_locks)
     end
   end
 
-  def apply_later(ignore_attribute_locks: false)
-    RuleJob.perform_later(self, ignore_attribute_locks: ignore_attribute_locks)
+  def apply_later(ignore_attribute_locks: false, execution_type: "manual")
+    RuleJob.perform_later(self, ignore_attribute_locks: ignore_attribute_locks, execution_type: execution_type)
   end
 
   def primary_condition_title

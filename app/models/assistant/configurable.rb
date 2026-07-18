@@ -19,7 +19,18 @@ module Assistant::Configurable
           Assistant::Function::GetTransactions,
           Assistant::Function::GetAccounts,
           Assistant::Function::GetBalanceSheet,
-          Assistant::Function::GetIncomeStatement
+          Assistant::Function::GetIncomeStatement,
+          # US-06: leitura ampliada
+          Assistant::Function::GetBudget,
+          Assistant::Function::GetCategories,
+          Assistant::Function::GetHoldings,
+          Assistant::Function::GetTags,
+          # US-06: escrita (com guard-rail de confirmacao)
+          Assistant::Function::CreateCategory,
+          Assistant::Function::UpdateCategory,
+          Assistant::Function::CreateTag,
+          Assistant::Function::UpdateTag,
+          Assistant::Function::CreateGoal
         ]
       end
 

@@ -9,6 +9,7 @@ class Rule::ActionExecutor::SetTransactionCategory < Rule::ActionExecutor
 
   def execute(transaction_scope, value: nil, ignore_attribute_locks: false)
     category = family.categories.find_by_id(value)
+    return 0 unless category
 
     scope = transaction_scope
 
@@ -16,7 +17,7 @@ class Rule::ActionExecutor::SetTransactionCategory < Rule::ActionExecutor
       scope = scope.enrichable(:category_id)
     end
 
-    scope.each do |txn|
+    count_modified_resources(scope) do |txn|
       txn.enrich_attribute(
         :category_id,
         category.id,

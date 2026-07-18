@@ -1,6 +1,24 @@
 ---
 pt-BR:
   rules:
+    action_executors:
+      exclude_transaction:
+        label: Excluir de orçamentos e relatórios
+      set_as_transfer_or_payment:
+        label: Definir como transferência ou pagamento
+    condition_filters:
+      transaction_account:
+        label: Conta
+      transaction_category:
+        label: Categoria
+      transaction_notes:
+        label: Notas
+      transaction_type:
+        equal_to: Igual a
+        expense: Despesa
+        income: Receita
+        label: Tipo
+        transfer: Transferência
     category_rule_cta:
       create_rule: Criar regra
       description: Você pode criar uma regra para categorizar automaticamente transações

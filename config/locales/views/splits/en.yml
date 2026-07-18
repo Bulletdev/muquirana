@@ -1,0 +1,32 @@
+---
+en:
+  splits:
+    new:
+      original_amount: Original amount
+      name_label: Description
+      name_placeholder: Split name
+      amount_label: Amount
+      category_label: Category
+      uncategorized: Uncategorized
+      add_row: Add split
+      remove_row: Remove split
+      remaining: Remaining
+      amounts_must_match: The split amounts must sum to the original amount
+      cancel: Cancel
+      submit: Split transaction
+    edit:
+      submit: Save splits
+      not_split: This transaction is not split
+    create:
+      not_splittable: This transaction cannot be split
+      success: Transaction split
+    update:
+      success: Splits updated
+    destroy:
+      success: Split removed
+    section:
+      title: Split transaction
+      subtitle: Break this transaction into parts with their own categories and amounts.
+      action: Split
+      edit_action: Edit split
+      remove_action: Remove split

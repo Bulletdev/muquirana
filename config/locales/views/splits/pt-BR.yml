@@ -1,0 +1,32 @@
+---
+pt-BR:
+  splits:
+    new:
+      original_amount: Valor original
+      name_label: Descricao
+      name_placeholder: Nome da parte
+      amount_label: Valor
+      category_label: Categoria
+      uncategorized: Sem categoria
+      add_row: Adicionar parte
+      remove_row: Remover parte
+      remaining: Restante
+      amounts_must_match: As partes precisam somar o valor original
+      cancel: Cancelar
+      submit: Dividir transacao
+    edit:
+      submit: Salvar partes
+      not_split: Esta transacao nao esta dividida
+    create:
+      not_splittable: Esta transacao nao pode ser dividida
+      success: Transacao dividida
+    update:
+      success: Partes atualizadas
+    destroy:
+      success: Divisao removida
+    section:
+      title: Dividir transacao
+      subtitle: Quebre esta transacao em partes com categorias e valores proprios.
+      action: Dividir
+      edit_action: Editar divisao
+      remove_action: Remover divisao

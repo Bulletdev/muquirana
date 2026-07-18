@@ -1,6 +1,15 @@
 ---
 pt-BR:
   transactions:
+    attachments:
+      browse_to_add: Clique para adicionar um arquivo
+      files:
+        one: "%{count} arquivo"
+        other: "%{count} arquivos"
+      max_reached: Você atingiu o limite de %{max} anexos (%{count} em uso).
+      no_attachments: Nenhum anexo ainda.
+      select_up_to: Até %{count} arquivos, %{size} MB cada (%{used} em uso).
+      upload: Enviar
     bulk_updates:
       new:
         cancel: Cancelar
@@ -46,6 +55,7 @@ pt-BR:
       edit_prefix: Editar
       edit_rules: Editar regras
       edit_tags: Editar etiquetas
+      export_csv: Exportar CSV
       import: Importar
       new_rule: Nova regra
       new_transaction: Nova transação
@@ -107,6 +117,7 @@ pt-BR:
     show:
       account_label: Conta
       amount: Valor
+      attachments: Anexos
       category_label: Categoria
       date_label: Data
       delete: Excluir

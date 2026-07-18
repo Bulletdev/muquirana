@@ -1,0 +1,11 @@
+<%# locals: (name:, categories:, selected_id: nil) %>
+<%# HTML nativo: seguimos a convencao do app de preferir <select> a um dropdown JS. %>
+<div class="flex-1 md:flex-none md:w-44">
+  <label class="text-xs font-medium text-secondary uppercase tracking-wide block mb-1"><%= t("splits.new.category_label") %></label>
+  <%= select_tag name,
+        options_for_select(
+          [ [ t("splits.new.uncategorized"), "" ] ] + categories.map { |c| [ c.name, c.id ] },
+          selected_id
+        ),
+        class: "form-field__input w-full border border-secondary rounded-md pl-2.5 pr-7 py-1.5 text-sm text-primary bg-container" %>
+</div>

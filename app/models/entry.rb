@@ -1,11 +1,21 @@
 class Entry < ApplicationRecord
   include Monetizable, Enrichable
 
+  TRUTHY_VALUES = [ true, "true", "1", 1 ].freeze
+  private_constant :TRUTHY_VALUES
+
+  # Sinalizador transiente: liberado apenas pelo unsplit! para permitir que o
+  # before_destroy destrua uma entry filha (que normalmente e protegida).
+  attr_accessor :unsplitting
+
   monetize :amount
 
   belongs_to :account
   belongs_to :transfer, optional: true
   belongs_to :import, optional: true
+  belongs_to :parent_entry, class_name: "Entry", optional: true
+
+  has_many :child_entries, class_name: "Entry", foreign_key: :parent_entry_id, dependent: :destroy
 
   delegated_type :entryable, types: Entryable::TYPES, dependent: :destroy
   accepts_nested_attributes_for :entryable
@@ -14,6 +24,21 @@ class Entry < ApplicationRecord
   validates :date, uniqueness: { scope: [ :account_id, :entryable_type ] }, if: -> { valuation? }
   validates :date, comparison: { greater_than: -> { min_supported_date } }
   validate :entryable_associations_belong_to_family
+  validate :cannot_unexclude_split_parent
+  validate :split_child_date_matches_parent
+
+  before_destroy :prevent_individual_child_deletion, if: :split_child?
+
+  # Um pai de split e um container: seu valor total ja esta representado pelos
+  # filhos. Incluir os dois em saldo/relatorios/orcamento contaria em dobro,
+  # entao o pai e sempre excluido dessas somas.
+  scope :excluding_split_parents, -> {
+    where(<<~SQL.squish)
+      NOT EXISTS (
+        SELECT 1 FROM entries ce WHERE ce.parent_entry_id = entries.id
+      )
+    SQL
+  }
 
   scope :visible, -> {
     joins(:account).where(accounts: { status: [ "draft", "active" ] })
@@ -59,6 +84,64 @@ class Entry < ApplicationRecord
 
   def linked?
     plaid_id.present?
+  end
+
+  def split_parent?
+    child_entries.exists?
+  end
+
+  def split_child?
+    parent_entry_id.present?
+  end
+
+  # Quebra esta entry em varias filhas e marca o pai como excluido (container).
+  #
+  # A convencao de sinal segue o app: despesa e armazenada positiva, receita
+  # negativa. As filhas herdam o mesmo sinal do pai e devem somar exatamente o
+  # valor do pai -- caso contrario a operacao e abortada.
+  #
+  # @param splits [Array<Hash>] lista de { name:, amount:, category_id:, excluded: }
+  # @return [Array<Entry>] as entries filhas criadas
+  def split!(splits)
+    total = splits.sum { |s| s[:amount].to_d }
+    unless total == amount
+      raise ActiveRecord::RecordInvalid.new(self), "Split amounts must sum to parent amount (expected #{amount}, got #{total})"
+    end
+
+    self.class.transaction do
+      children = splits.map do |split_attrs|
+        child_transaction = Transaction.new(
+          category_id: split_attrs[:category_id],
+          merchant_id: entryable.try(:merchant_id),
+          kind: entryable.try(:kind)
+        )
+
+        child_entries.create!(
+          account: account,
+          date: date,
+          name: split_attrs[:name],
+          amount: split_attrs[:amount],
+          currency: currency,
+          excluded: TRUTHY_VALUES.include?(split_attrs[:excluded]),
+          entryable: child_transaction
+        )
+      end
+
+      update!(excluded: true)
+
+      children
+    end
+  end
+
+  # Remove as filhas e restaura o pai (deixa de ser container).
+  def unsplit!
+    self.class.transaction do
+      child_entries.each do |child|
+        child.unsplitting = true
+        child.destroy!
+      end
+      update!(excluded: false)
+    end
   end
 
   class << self
@@ -145,5 +228,25 @@ class Entry < ApplicationRecord
       if tag_ids.any? && Tag.where(id: tag_ids).where.not(family_id: family_id).exists?
         errors.add(:base, "Tags must belong to the same family as the account")
       end
+    end
+
+    def cannot_unexclude_split_parent
+      return unless excluded_changed?(from: true, to: false) && split_parent?
+
+      errors.add(:excluded, "cannot be toggled off for a split transaction")
+    end
+
+    def split_child_date_matches_parent
+      return unless split_child? && date_changed?
+      return unless parent_entry.present?
+      return if date == parent_entry.date
+
+      errors.add(:date, "must match the parent transaction date for split children")
+    end
+
+    def prevent_individual_child_deletion
+      return if destroyed_by_association || unsplitting
+
+      throw :abort
     end
 end
