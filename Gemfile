@@ -22,7 +22,7 @@ gem "lucide-rails", github: "maybe-finance/lucide-rails"
 # Hotwire + UI
 gem "stimulus-rails"
 gem "turbo-rails"
-gem "view_component", "~> 3.25"
+gem "view_component", "~> 4.9"
 
 # https://github.com/lookbook-hq/lookbook/issues/712
 # TODO: Remove max version constraint when fixed
