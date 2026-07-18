@@ -113,3 +113,4 @@ scripts/
 # na raiz vaza POSTGRES_DB=muquirana_production para o ambiente de teste e
 # quebra `bin/rails test`. O .example ao lado continua versionado.
 /docker/.env.production
+.claude/worktrees/

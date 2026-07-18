@@ -1,0 +1,23 @@
+---
+# Configuracao do Codacy. Silencia ruido de falso-positivo confirmado (triagem
+# em docs/codacy-prd.md), mantendo as regras ligadas onde tem valor.
+#
+# Nota: desligar um PADRAO especifico (ex.: "Avoid Unscoped find with
+# User-Controllable Input", que nao entende o receiver Current.family e por isso
+# e FP nesta base) e feito no painel do Codacy / Coding Standards, nao aqui -
+# `.codacy.yml` so exclui caminhos e liga/desliga engines inteiras.
+exclude_paths:
+  # Traducoes vendorizadas do rails-i18n: os "unicode invisiveis" apontados
+  # (ZWNJ U+200C, ZWJ U+200D) sao ortografia obrigatoria de persa/malaiala/khmer,
+  # nao codigo malicioso escondido - FALSO POSITIVO.
+  - 'config/locales/defaults/**'
+  # Arquivos gerados - nao ha o que revisar.
+  - 'db/schema.rb'
+  - 'db/migrate/**'
+  # Dependencias de terceiros / build.
+  - 'vendor/**'
+  - 'node_modules/**'
+  - 'public/**'
+  - 'app/assets/builds/**'
+  # CSS de terceiros minificado (@simonwep/pickr).
+  - 'app/assets/tailwind/simonweb_pickr.css'
