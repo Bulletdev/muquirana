@@ -14,4 +14,10 @@ class Setting < RailsSettings::Base
   # ENV BINANCE_SPOT_BASE_URL -> default). Default nil aqui para que a cadeia de
   # fallback do Provider::Configurable seja a fonte da verdade.
   field :binance_spot_base_url, type: :string, default: nil
+
+  # Host da API do Mercado Bitcoin (exchange brasileira). Lido por
+  # Provider::Configurable (Setting -> ENV MERCADO_BITCOIN_BASE_URL -> default).
+  # Default nil aqui para que a cadeia de fallback do Provider::Configurable seja
+  # a fonte da verdade.
+  field :mercado_bitcoin_base_url, type: :string, default: nil
 end

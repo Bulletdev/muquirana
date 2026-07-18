@@ -1,0 +1,23 @@
+pt-BR:
+  activerecord:
+    attributes:
+      mercado_bitcoin_item:
+        api_key: Chave da API
+        api_secret: Segredo da API
+        name: Nome
+    models:
+      mercado_bitcoin_item: Conexão Mercado Bitcoin
+      mercado_bitcoin_account: Conta Mercado Bitcoin
+  mercado_bitcoin_item:
+    syncer:
+      errors:
+        credentials_missing: As credenciais do Mercado Bitcoin não foram informadas.
+          Edite a conexão e cole a Chave e o Segredo da API (TAPI).
+        authentication: A Chave ou o Segredo da API foram rejeitados pelo Mercado
+          Bitcoin. Gere uma nova chave nas configurações de API da sua conta e cole
+          os dois valores de novo.
+        permission: O Mercado Bitcoin recusou a chave por falta de permissão. Nas
+          configurações de API da sua conta, habilite a permissão de leitura da conta
+          e sincronize de novo.
+        rate_limited: O Mercado Bitcoin limitou temporariamente as requisições. Aguarde
+          alguns minutos e sincronize novamente.

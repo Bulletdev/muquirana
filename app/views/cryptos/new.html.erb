@@ -4,6 +4,7 @@
              show_us_link: @show_us_link,
              show_eu_link: @show_eu_link,
              show_binance_link: Current.family.can_connect_binance?,
+             show_mercado_bitcoin_link: Current.family.can_connect_mercado_bitcoin?,
              accountable_type: "Crypto" %>
 <% else %>
   <%= render DS::Dialog.new do |dialog| %>

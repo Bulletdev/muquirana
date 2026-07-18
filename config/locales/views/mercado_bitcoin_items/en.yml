@@ -1,0 +1,22 @@
+en:
+  mercado_bitcoin_items:
+    create:
+      success: Mercado Bitcoin connection created. Account sync is in progress.
+    destroy:
+      success: Connection scheduled for deletion.
+    new:
+      title: Connect Mercado Bitcoin account
+      description: Paste the key and secret of an API key (TAPI) from your own Mercado
+        Bitcoin account. Credentials are encrypted and used only to read balances.
+      name_label: Connection name
+      name_placeholder: Mercado Bitcoin
+      api_key_label: API key
+      api_key_placeholder: Paste the API key
+      api_key_help: Found under API settings in your Mercado Bitcoin account.
+      api_secret_label: API secret
+      api_secret_placeholder: Paste the API secret
+      api_secret_help: Mercado Bitcoin shows it only once when you create the key.
+        Keep it safe.
+      regulatory_note: We recommend creating the key with read-only permission. Never
+        enable withdrawals. Mercado Bitcoin operates in BRL, so balances come in reais.
+      submit: Connect

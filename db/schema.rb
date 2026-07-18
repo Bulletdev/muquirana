@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_07_17_000100) do
+ActiveRecord::Schema[7.2].define(version: 2026_07_17_000200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -555,6 +555,38 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000100) do
     t.jsonb "locked_attributes", default: {}
   end
 
+  create_table "mercado_bitcoin_accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "mercado_bitcoin_item_id", null: false
+    t.string "name", null: false
+    t.string "currency", default: "BRL", null: false
+    t.string "account_type"
+    t.decimal "current_balance", precision: 19, scale: 4
+    t.jsonb "institution_metadata", default: {}
+    t.jsonb "extra", default: {}
+    t.jsonb "raw_payload", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["mercado_bitcoin_item_id"], name: "index_mercado_bitcoin_accounts_on_mercado_bitcoin_item_id"
+  end
+
+  create_table "mercado_bitcoin_items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "family_id", null: false
+    t.string "name", null: false
+    t.string "api_key"
+    t.string "api_secret"
+    t.string "status", default: "good", null: false
+    t.string "last_error"
+    t.boolean "scheduled_for_deletion", default: false, null: false
+    t.string "institution_name"
+    t.string "institution_domain"
+    t.string "institution_url"
+    t.string "institution_color"
+    t.jsonb "raw_payload", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["family_id"], name: "index_mercado_bitcoin_items_on_family_id"
+  end
+
   create_table "merchants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.string "color"
@@ -1018,6 +1050,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000100) do
   add_foreign_key "invitations", "families"
   add_foreign_key "invitations", "users", column: "inviter_id"
   add_foreign_key "llm_usages", "families"
+  add_foreign_key "mercado_bitcoin_accounts", "mercado_bitcoin_items"
+  add_foreign_key "mercado_bitcoin_items", "families"
   add_foreign_key "merchants", "families"
   add_foreign_key "messages", "chats"
   add_foreign_key "mobile_devices", "users"

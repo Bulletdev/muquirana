@@ -1,0 +1,24 @@
+pt-BR:
+  mercado_bitcoin_items:
+    create:
+      success: Conexão Mercado Bitcoin criada. Aguarde a sincronização das contas.
+    destroy:
+      success: Conexão agendada para exclusão.
+    new:
+      title: Conectar conta Mercado Bitcoin
+      description: Cole a Chave e o Segredo de uma API-KEY (TAPI) da sua própria conta
+        Mercado Bitcoin. As credenciais são criptografadas e usadas somente para leitura
+        de saldos.
+      name_label: Nome da conexão
+      name_placeholder: Mercado Bitcoin
+      api_key_label: Chave da API
+      api_key_placeholder: Cole a API Key
+      api_key_help: Encontrada nas configurações de API da sua conta Mercado Bitcoin.
+      api_secret_label: Segredo da API
+      api_secret_placeholder: Cole o API Secret
+      api_secret_help: Só aparece uma vez no Mercado Bitcoin ao gerar a chave. Guarde
+        bem.
+      regulatory_note: Recomendado criar a chave apenas com permissão de leitura.
+        Nunca habilite saques. O Mercado Bitcoin opera em BRL, então o saldo já entra
+        em reais.
+      submit: Conectar

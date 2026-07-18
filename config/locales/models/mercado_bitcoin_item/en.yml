@@ -1,0 +1,21 @@
+en:
+  activerecord:
+    attributes:
+      mercado_bitcoin_item:
+        api_key: API key
+        api_secret: API secret
+        name: Name
+    models:
+      mercado_bitcoin_item: Mercado Bitcoin connection
+      mercado_bitcoin_account: Mercado Bitcoin account
+  mercado_bitcoin_item:
+    syncer:
+      errors:
+        credentials_missing: Mercado Bitcoin credentials are missing. Edit the connection
+          and paste your API key and secret (TAPI).
+        authentication: Mercado Bitcoin rejected your API key or secret. Generate a
+          new key in your account API settings and paste both values again.
+        permission: Mercado Bitcoin refused the key due to missing permissions. In
+          your account API settings, enable account read permission and sync again.
+        rate_limited: Mercado Bitcoin temporarily rate-limited requests. Wait a few
+          minutes and sync again.
