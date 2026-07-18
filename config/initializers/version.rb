@@ -14,10 +14,12 @@ module Muquirana
 
     private
       # 0.6.0 era a ultima versao publicada pelo maybe-finance/maybe, de onde
-      # este fork saiu. A partir daqui o versionamento e proprio: 0.7.0 marca o
-      # rebranding para Muquirana e a traducao para pt-BR.
+      # este fork saiu. A partir daqui o versionamento e proprio: 0.7.0 marcou o
+      # rebranding para Muquirana e a traducao para pt-BR; 0.7.1 acumula os
+      # provedores de conta (Coinbase/IBKR/CoinStats), a IA multi-provedor, o
+      # dashboard de relatorios e os ajustes de UI.
       def semver
-        "0.7.0"
+        "0.7.1"
       end
   end
 end
