@@ -51,11 +51,11 @@ namespace :demo_data do
     puts "Txn categorization:        #{coverage}% (>=75% ✅)"
 
     unless total_entries.between?(8_000, 12_000)
-      puts "Total entries #{total_entries} outside 8k–12k range"
+      puts "Total entries #{total_entries} outside 8k-12k range"
     end
 
     unless trade_entries.between?(500, 1000)
-      puts "Trade entries #{trade_entries} outside 500–1 000 range"
+      puts "Trade entries #{trade_entries} outside 500-1 000 range"
     end
 
     unless coverage >= 75

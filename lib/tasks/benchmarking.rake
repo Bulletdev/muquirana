@@ -55,7 +55,7 @@ namespace :benchmarking do
     end
 
     # ---------------------------------------------------------------------------
-    # Tunable parameters – override with environment variables if needed
+    # Tunable parameters - override with environment variables if needed
     # ---------------------------------------------------------------------------
     cold_warmup     = Integer(ENV.fetch("COLD_WARMUP", 0))  # seconds to warm up before *cold* timing (0 == true cold)
     cold_iterations = Integer(ENV.fetch("COLD_ITERATIONS", 1)) # requests to measure for the cold run

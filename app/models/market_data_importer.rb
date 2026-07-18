@@ -64,11 +64,11 @@ class MarketDataImporter
     # Builds a unique list of currency pairs with the earliest date we need
     # exchange rates for.
     #
-    # Returns: Array of Hashes – [{ source:, target:, start_date: }, ...]
+    # Returns: Array of Hashes - [{ source:, target:, start_date: }, ...]
     def required_exchange_rate_pairs
       pair_dates = {} # { [source, target] => earliest_date }
 
-      # 1. ENTRY-BASED PAIRS – we need rates from the first entry date
+      # 1. ENTRY-BASED PAIRS - we need rates from the first entry date
       Entry.joins(:account)
            .where.not("entries.currency = accounts.currency")
            .group("entries.currency", "accounts.currency")
@@ -78,7 +78,7 @@ class MarketDataImporter
         pair_dates[key] = [ pair_dates[key], date ].compact.min
       end
 
-      # 2. ACCOUNT-BASED PAIRS – use the account's oldest entry date
+      # 2. ACCOUNT-BASED PAIRS - use the account's oldest entry date
       account_first_entry_dates = Entry.group(:account_id).minimum(:date)
 
       Account.joins(:family)

@@ -6,11 +6,11 @@
 # letter field code followed immediately by the value.
 #
 # Sections handled:
-#   !Type:Tag      – tag definitions (N=name, D=description)
-#   !Type:Cat      – category definitions (N=name, D=description, I=income, E=expense)
-#   !Type:Security – security definitions (N=name, S=ticker, T=type)
-#   !Type:CCard / !Type:Bank / !Type:Cash / !Type:Oth L  – transactions
-#   !Type:Invst    – investment transactions
+#   !Type:Tag      - tag definitions (N=name, D=description)
+#   !Type:Cat      - category definitions (N=name, D=description, I=income, E=expense)
+#   !Type:Security - security definitions (N=name, S=ticker, T=type)
+#   !Type:CCard / !Type:Bank / !Type:Cash / !Type:Oth L  - transactions
+#   !Type:Invst    - investment transactions
 #
 # Transaction field codes:
 #   D  date        M/ D'YY  or  MM/DD'YYYY
@@ -19,7 +19,7 @@
 #   P  payee
 #   M  memo
 #   L  category    plain name or [TransferAccount]; /Tag suffix is supported
-#   N  check/ref   (not a tag – the check number or reference)
+#   N  check/ref   (not a tag - the check number or reference)
 #   C  cleared     X = cleared, * = reconciled
 #   ^  end of record
 #
@@ -63,8 +63,8 @@ module QifParser
 
   # Transcodes raw file bytes to UTF-8.
   # Quicken on Windows writes QIF files in a Windows code page that varies by region:
-  #   Windows-1252 – North America, Western Europe
-  #   Windows-1250 – Central/Eastern Europe (Poland, Czech Republic, Hungary, …)
+  #   Windows-1252 - North America, Western Europe
+  #   Windows-1250 - Central/Eastern Europe (Poland, Czech Republic, Hungary, …)
   #
   # We try each encoding with undef: :raise so we only accept an encoding when
   # every byte in the file is defined in that code page.  Windows-1252 has five
@@ -131,7 +131,7 @@ module QifParser
   # Returns the opening balance entry from the QIF file, if present.
   # In Quicken's QIF format, the first transaction of a bank/cash account is often
   # an "Opening Balance" record with payee "Opening Balance".  This entry is NOT a
-  # real transaction – it is the account's starting balance.
+  # real transaction - it is the account's starting balance.
   #
   # Returns a hash { date: Date, amount: BigDecimal } or nil.
   def self.parse_opening_balance(content, date_format: "%m/%d/%Y")
@@ -293,7 +293,7 @@ module QifParser
   private_class_method :parse_records
 
   def self.build_transaction(record, date_format: "%m/%d/%Y")
-    # "Opening Balance" is a Quicken convention for the account's starting balance –
+    # "Opening Balance" is a Quicken convention for the account's starting balance -
     # it is not a real transaction and must not be imported as one.
     return nil if record["P"]&.strip == "Opening Balance"
 
@@ -324,7 +324,7 @@ module QifParser
   private_class_method :build_transaction
 
   # Separates the category name from any tag(s) appended with a "/" delimiter.
-  # Transfer accounts are wrapped in brackets – treated as no category.
+  # Transfer accounts are wrapped in brackets - treated as no category.
   #
   # Examples:
   #   "Food & Dining"              → ["Food & Dining", []]

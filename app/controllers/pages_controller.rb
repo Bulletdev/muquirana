@@ -111,7 +111,7 @@ class PagesController < ApplicationController
 
       # --- Process Income Side (Top-level categories only) ---
       income_totals.category_totals.each do |ct|
-        # Skip subcategories – only include root income categories
+        # Skip subcategories - only include root income categories
         next if ct.category.parent_id.present?
 
         val = ct.total.to_f.round(2)
@@ -141,7 +141,7 @@ class PagesController < ApplicationController
 
       # --- Process Expense Side (Top-level categories only) ---
       expense_totals.category_totals.each do |ct|
-        # Skip subcategories – only include root expense categories to keep Sankey shallow
+        # Skip subcategories - only include root expense categories to keep Sankey shallow
         next if ct.category.parent_id.present?
 
         val = ct.total.to_f.round(2)

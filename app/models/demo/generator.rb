@@ -5,8 +5,8 @@ class Demo::Generator
   # Initialising an explicit PRNG gives us repeatable demo datasets while still
   #   allowing truly random data when the caller does not care about
   #   determinism.  The global `Kernel.rand` and helpers like `Array#sample`
-  #   will also be seeded so that *all* random behaviour inside this object –
-  #   including library helpers that rely on Ruby's global RNG – follow the
+  #   will also be seeded so that *all* random behaviour inside this object -
+  #   including library helpers that rely on Ruby's global RNG - follow the
   #   same deterministic sequence.
   def initialize(seed: ENV.fetch("DEMO_DATA_SEED", nil))
     # Convert the seed to an Integer if one was provided, otherwise fall back
@@ -14,7 +14,7 @@ class Demo::Generator
     # back to callers when needed (e.g. for debugging a specific run).
     @seed = seed.present? ? seed.to_i : Random.new_seed
 
-    # Internal PRNG instance – use this instead of the global RNG wherever we
+    # Internal PRNG instance - use this instead of the global RNG wherever we
     # explicitly call `rand` inside the class.  We override `rand` below so
     # existing method bodies automatically delegate here without requiring
     # widespread refactors.
@@ -1005,7 +1005,7 @@ class Demo::Generator
           memo: "Parcela do FIES"
         )
 
-        # Car loan – assume 300 principal / 130 interest
+        # Car loan - assume 300 principal / 130 interest
         make_loan_payment!(
           principal_account: @car_loan,
           principal_amount: 300,
@@ -1020,10 +1020,10 @@ class Demo::Generator
     end
 
     def make_loan_payment!(principal_account:, principal_amount:, interest_amount:, interest_category:, date:, memo:)
-      # Principal portion – transfer from checking to loan account
+      # Principal portion - transfer from checking to loan account
       create_transfer!(@chase_checking, principal_account, principal_amount, memo, date)
 
-      # Interest portion – expense from checking
+      # Interest portion - expense from checking
       create_transaction!(@chase_checking, interest_amount, "Juros #{memo}", interest_category, date)
     end
 

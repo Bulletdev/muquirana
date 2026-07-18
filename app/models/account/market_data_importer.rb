@@ -16,7 +16,7 @@ class Account::MarketDataImporter
 
     pair_dates = {}
 
-    # 1. ENTRY-BASED PAIRS – currencies that differ from the account currency
+    # 1. ENTRY-BASED PAIRS - currencies that differ from the account currency
     account.entries
            .where.not(currency: account.currency)
            .group(:currency)
@@ -26,7 +26,7 @@ class Account::MarketDataImporter
       pair_dates[key] = [ pair_dates[key], date ].compact.min
     end
 
-    # 2. ACCOUNT-BASED PAIR – convert the account currency to the family currency (if different)
+    # 2. ACCOUNT-BASED PAIR - convert the account currency to the family currency (if different)
     if foreign_account?
       key = [ account.currency, account.family.currency ]
       pair_dates[key] = [ pair_dates[key], account.start_date ].compact.min

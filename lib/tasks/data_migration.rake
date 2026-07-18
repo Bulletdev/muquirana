@@ -88,7 +88,7 @@ namespace :data_migration do
           end
 
           # --------------------------------------------------------------
-          # TRADES — no uniqueness constraints -> bulk update is fine
+          # TRADES - no uniqueness constraints -> bulk update is fine
           # --------------------------------------------------------------
           trades_moved = Trade.where(security_id: dup_ids).update_all(security_id: keeper.id)
 
