@@ -1,0 +1,26 @@
+---
+pt-BR:
+  activerecord:
+    attributes:
+      ibkr_item:
+        query_id: Query ID
+        token: Token
+        name: Nome
+    models:
+      ibkr_item: Conexão Interactive Brokers
+      ibkr_account: Conta Interactive Brokers
+  ibkr_item:
+    syncer:
+      errors:
+        credentials_missing: As credenciais da Interactive Brokers não foram informadas.
+          Edite a conexão e cole o Query ID e o Token da sua Flex Query.
+        authentication: A Interactive Brokers recusou o Query ID ou o Token. No Client
+          Portal, em Reports > Settings > Flex Web Service, gere um novo Token e confira
+          o Query ID em Flex Queries, depois cole os dois de novo.
+        invalid_query: A Flex Query informada é inválida ou está mal configurada. No
+          Client Portal, revise a definição da Flex Query (inclua Open Positions e
+          Trades) e tente de novo.
+        statement_not_ready: O extrato ainda estava sendo gerado pela Interactive Brokers.
+          Isso é temporário - aguarde alguns instantes e sincronize de novo.
+        rate_limited: A Interactive Brokers limitou temporariamente as requisições.
+          Aguarde alguns minutos e sincronize novamente.

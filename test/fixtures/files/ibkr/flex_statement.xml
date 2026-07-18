@@ -1,0 +1,22 @@
+<FlexQueryResponse queryName="Muquirana US-12" type="AF">
+  <FlexStatements count="1">
+    <FlexStatement accountId="U1234567" fromDate="2026-06-01" toDate="2026-06-30" period="MonthToDate" whenGenerated="2026-06-30;09:00:00">
+      <AccountInformation accountId="U1234567" currency="USD" name="Test Brokerage" />
+      <OpenPositions>
+        <OpenPosition accountId="U1234567" currency="USD" assetCategory="STK" symbol="AAPL" conid="265598" listingExchange="NASDAQ" side="Long" position="10" markPrice="190.00" positionValue="1900.00" costBasisPrice="150.00" costBasisMoney="1500.00" fxRateToBase="1" reportDate="2026-06-30" />
+        <OpenPosition accountId="U1234567" currency="GBP" assetCategory="STK" symbol="VOD" conid="114584777" listingExchange="LSE" side="Long" position="100" markPrice="0.80" positionValue="80.00" costBasisPrice="0.75" costBasisMoney="75.00" fxRateToBase="1.27" reportDate="2026-06-30" />
+      </OpenPositions>
+      <Trades>
+        <Trade accountId="U1234567" currency="USD" assetCategory="STK" symbol="AAPL" conid="265598" tradeID="1001" transactionID="9001" buySell="BUY" quantity="10" tradePrice="150.00" tradeDate="2026-06-10" ibCommission="-1.00" ibCommissionCurrency="USD" fxRateToBase="1" />
+        <Trade accountId="U1234567" currency="GBP" assetCategory="STK" symbol="VOD" conid="114584777" tradeID="1002" transactionID="9002" buySell="BUY" quantity="100" tradePrice="0.75" tradeDate="2026-06-12" ibCommission="-0.50" ibCommissionCurrency="GBP" fxRateToBase="1.27" />
+      </Trades>
+      <CashReport>
+        <CashReportCurrency accountId="U1234567" currency="BASE_SUMMARY" endingCash="500.00" />
+        <CashReportCurrency accountId="U1234567" currency="USD" endingCash="500.00" />
+      </CashReport>
+      <EquitySummaryInBase>
+        <EquitySummaryByReportDateInBase accountId="U1234567" currency="USD" reportDate="2026-06-30" cash="500.00" stock="2001.60" total="2501.60" />
+      </EquitySummaryInBase>
+    </FlexStatement>
+  </FlexStatements>
+</FlexQueryResponse>

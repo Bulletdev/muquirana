@@ -1,0 +1,25 @@
+---
+pt-BR:
+  coinbase_items:
+    create:
+      success: Conexão Coinbase criada. Aguarde a sincronização das carteiras.
+    destroy:
+      success: Conexão agendada para exclusão.
+    new:
+      title: Conectar carteira Coinbase
+      description: Cole o nome e a chave privada de uma chave CDP (Coinbase Developer
+        Platform) da sua própria conta Coinbase. As credenciais são criptografadas
+        e usadas somente para leitura de saldos.
+      name_label: Nome da conexão
+      name_placeholder: Coinbase
+      api_key_label: Nome da chave da API
+      api_key_placeholder: organizations/xxxx/apiKeys/yyyy
+      api_key_help: O nome da chave CDP que você criou (o campo "name" do JSON baixado).
+      api_secret_label: Chave privada
+      api_secret_placeholder: "-----BEGIN EC PRIVATE KEY-----"
+      api_secret_help: A chave privada EC da chave CDP (o campo "privateKey"). A Coinbase
+        mostra só uma vez. Guarde bem.
+      permission_note: Recomendado criar a chave CDP apenas com permissão de leitura
+        ("view"). Nunca habilite escopos de negociação ou transferência. As credenciais
+        são criptografadas em repouso.
+      submit: Conectar

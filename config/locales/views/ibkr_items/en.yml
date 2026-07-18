@@ -1,0 +1,26 @@
+---
+en:
+  ibkr_items:
+    create:
+      success: Interactive Brokers connection created. Flex statement sync is in progress.
+    destroy:
+      success: Connection scheduled for deletion.
+    new:
+      title: Connect Interactive Brokers
+      description: Paste the Query ID and Token of a Flex Query from your own Interactive
+        Brokers account. Credentials are encrypted and used only to download your
+        positions and trades statement.
+      name_label: Connection name
+      name_placeholder: Interactive Brokers
+      query_id_label: Query ID
+      query_id_placeholder: Paste the Query ID
+      query_id_help: The Flex Query identifier, under Performance & Reports > Flex
+        Queries in the IBKR Client Portal.
+      token_label: Token
+      token_placeholder: Paste the Token
+      token_help: Generated under Reports > Settings > Flex Web Service. It expires
+        after a while; generate a new one if it does.
+      flex_note: Create an Activity Flex Query including Open Positions and Trades,
+        and enable the Flex Web Service to get the Token. Syncing downloads the statement
+        and converts multi-currency positions to Brazilian reais (BRL).
+      submit: Connect

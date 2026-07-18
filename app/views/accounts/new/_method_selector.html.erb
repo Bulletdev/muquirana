@@ -1,4 +1,4 @@
-<%# locals: (path:, accountable_type:, show_us_link: true, show_eu_link: true, show_binance_link: false, show_mercado_bitcoin_link: false) %>
+<%# locals: (path:, accountable_type:, show_us_link: true, show_eu_link: true, show_binance_link: false, show_mercado_bitcoin_link: false, show_coinbase_link: false, show_ibkr_link: false, show_coinstats_link: false) %>
 
 <%#
   Lookup ABSOLUTO nas chaves abaixo, nao lazy.
@@ -57,6 +57,42 @@
           <%= icon("link-2") %>
         </span>
         <%= t("accounts.new.method_selector.mercado_bitcoin_entry") %>
+      <% end %>
+    <% end %>
+
+    <%# Coinbase (cripto) - credencial por chave CDP do usuario %>
+    <% if local_assigns.fetch(:show_coinbase_link, false) %>
+      <%= link_to new_coinbase_item_path,
+                  class: "text-primary flex items-center gap-4 w-full text-center focus:outline-hidden focus:bg-gray-50 border border-transparent focus:border focus:border-gray-200 px-2 hover:bg-gray-50 rounded-lg p-2",
+                  data: { turbo_frame: "modal" } do %>
+        <span class="flex w-8 h-8 shrink-0 grow-0 items-center justify-center rounded-lg bg-alpha-black-50 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.02)]">
+          <%= icon("link-2") %>
+        </span>
+        <%= t("accounts.new.method_selector.coinbase_entry") %>
+      <% end %>
+    <% end %>
+
+    <%# Interactive Brokers (investimento) - Flex Query (query_id + token) %>
+    <% if local_assigns.fetch(:show_ibkr_link, false) %>
+      <%= link_to new_ibkr_item_path,
+                  class: "text-primary flex items-center gap-4 w-full text-center focus:outline-hidden focus:bg-gray-50 border border-transparent focus:border focus:border-gray-200 px-2 hover:bg-gray-50 rounded-lg p-2",
+                  data: { turbo_frame: "modal" } do %>
+        <span class="flex w-8 h-8 shrink-0 grow-0 items-center justify-center rounded-lg bg-alpha-black-50 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.02)]">
+          <%= icon("link-2") %>
+        </span>
+        <%= t("accounts.new.method_selector.ibkr_entry") %>
+      <% end %>
+    <% end %>
+
+    <%# CoinStats (carteira on-chain por endereco publico) - chave OpenAPI do usuario %>
+    <% if local_assigns.fetch(:show_coinstats_link, false) %>
+      <%= link_to new_coinstats_item_path,
+                  class: "text-primary flex items-center gap-4 w-full text-center focus:outline-hidden focus:bg-gray-50 border border-transparent focus:border focus:border-gray-200 px-2 hover:bg-gray-50 rounded-lg p-2",
+                  data: { turbo_frame: "modal" } do %>
+        <span class="flex w-8 h-8 shrink-0 grow-0 items-center justify-center rounded-lg bg-alpha-black-50 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.02)]">
+          <%= icon("link-2") %>
+        </span>
+        <%= t("accounts.new.method_selector.coinstats_entry") %>
       <% end %>
     <% end %>
 

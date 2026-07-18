@@ -1,0 +1,67 @@
+<%= render DS::Dialog.new do |dialog| %>
+  <% dialog.with_header(title: t(".title")) %>
+  <% dialog.with_body do %>
+    <p class="text-sm text-secondary mb-4"><%= t(".description") %></p>
+
+    <% if flash.now[:alert].present? %>
+      <div class="bg-warning-50 border border-warning-200 rounded-xl p-4 text-sm text-warning-800 mb-4">
+        <%= flash.now[:alert] %>
+      </div>
+    <% end %>
+
+    <%# Nenhum saldo encontrado: oferece importar mesmo assim (sincroniza depois). %>
+    <% if @import_empty_chains.present? %>
+      <div class="bg-warning-50 border border-warning-200 rounded-xl p-4 mb-4 space-y-3">
+        <div class="text-sm text-warning-800 space-y-1">
+          <p class="font-medium"><%= t(".no_balance_title", chains: @import_empty_chains.map(&:capitalize).to_sentence) %></p>
+          <p><%= t(".no_balance_body") %></p>
+        </div>
+
+        <%= form_with url: link_wallet_coinstats_item_path(@coinstats_item), method: :post, class: "flex justify-end" do %>
+          <%= hidden_field_tag "coinstats_item[address]", @submitted_address %>
+          <% @submitted_blockchains.each do |chain| %>
+            <%= hidden_field_tag "coinstats_item[blockchain][]", chain %>
+          <% end %>
+          <%= hidden_field_tag "coinstats_item[import_empty]", "1" %>
+          <%= render DS::Button.new(
+            text: t(".import_anyway"),
+            variant: "secondary",
+            type: "submit"
+          ) %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= styled_form_with model: @coinstats_item, url: link_wallet_coinstats_item_path(@coinstats_item), method: :post, class: "space-y-4" do |form| %>
+      <%= form.text_field :address,
+            label: t(".address_label"),
+            placeholder: t(".address_placeholder"),
+            help_text: t(".address_help"),
+            value: @submitted_address %>
+
+      <fieldset class="space-y-2">
+        <legend class="text-sm font-medium text-primary"><%= t(".blockchain_label") %></legend>
+        <p class="text-xs text-secondary"><%= t(".blockchain_help") %></p>
+
+        <div class="grid grid-cols-2 gap-2 max-h-56 overflow-y-auto">
+          <% @blockchain_options.each do |label, value| %>
+            <label class="flex items-center gap-2 p-2 rounded-lg border border-primary hover:bg-surface-hover cursor-pointer text-sm text-primary">
+              <%= check_box_tag "coinstats_item[blockchain][]", value, @submitted_blockchains.include?(value),
+                    id: "coinstats_chain_#{value}",
+                    class: "checkbox checkbox--light shrink-0" %>
+              <span class="truncate"><%= label %></span>
+            </label>
+          <% end %>
+        </div>
+      </fieldset>
+
+      <div class="flex justify-end gap-3 pt-4 border-t border-primary">
+        <%= render DS::Button.new(
+          text: t(".submit"),
+          variant: "primary",
+          type: "submit"
+        ) %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

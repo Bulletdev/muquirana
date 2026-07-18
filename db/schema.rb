@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_07_17_000200) do
+ActiveRecord::Schema[7.2].define(version: 2026_07_18_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -241,6 +241,72 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000200) do
     t.index ["user_id"], name: "index_chats_on_user_id"
   end
 
+  create_table "coinbase_accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "coinbase_item_id", null: false
+    t.string "name", null: false
+    t.string "currency", default: "USD", null: false
+    t.string "account_type"
+    t.decimal "current_balance", precision: 19, scale: 4
+    t.jsonb "institution_metadata", default: {}
+    t.jsonb "extra", default: {}
+    t.jsonb "raw_payload", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coinbase_item_id"], name: "index_coinbase_accounts_on_coinbase_item_id"
+  end
+
+  create_table "coinbase_items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "family_id", null: false
+    t.string "name", null: false
+    t.string "api_key"
+    t.string "api_secret"
+    t.string "status", default: "good", null: false
+    t.string "last_error"
+    t.boolean "scheduled_for_deletion", default: false, null: false
+    t.string "institution_name"
+    t.string "institution_domain"
+    t.string "institution_url"
+    t.string "institution_color"
+    t.jsonb "raw_payload", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["family_id"], name: "index_coinbase_items_on_family_id"
+  end
+
+  create_table "coinstats_accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "coinstats_item_id", null: false
+    t.string "name", null: false
+    t.string "currency", default: "USD", null: false
+    t.string "account_id"
+    t.string "wallet_address"
+    t.string "blockchain"
+    t.decimal "current_balance", precision: 19, scale: 4
+    t.jsonb "institution_metadata", default: {}
+    t.jsonb "extra", default: {}
+    t.jsonb "raw_payload", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coinstats_item_id", "account_id", "wallet_address"], name: "index_coinstats_accounts_on_item_account_wallet", unique: true
+    t.index ["coinstats_item_id"], name: "index_coinstats_accounts_on_coinstats_item_id"
+  end
+
+  create_table "coinstats_items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "family_id", null: false
+    t.string "name", null: false
+    t.string "api_key"
+    t.string "status", default: "good", null: false
+    t.string "last_error"
+    t.boolean "scheduled_for_deletion", default: false, null: false
+    t.string "institution_name"
+    t.string "institution_domain"
+    t.string "institution_url"
+    t.string "institution_color"
+    t.jsonb "raw_payload", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["family_id"], name: "index_coinstats_items_on_family_id"
+  end
+
   create_table "credit_cards", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -294,6 +360,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000200) do
     t.jsonb "locked_attributes", default: {}
     t.string "source"
     t.string "external_id"
+    t.uuid "parent_entry_id"
     t.index "lower((name)::text)", name: "index_entries_on_lower_name"
     t.index ["account_id", "date"], name: "index_entries_on_account_id_and_date"
     t.index ["account_id", "external_id", "source"], name: "index_entries_on_account_id_and_external_id_and_source"
@@ -301,6 +368,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000200) do
     t.index ["date"], name: "index_entries_on_date"
     t.index ["entryable_type"], name: "index_entries_on_entryable_type"
     t.index ["import_id"], name: "index_entries_on_import_id"
+    t.index ["parent_entry_id"], name: "index_entries_on_parent_entry_id"
   end
 
   create_table "exchange_rates", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -372,6 +440,43 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000200) do
     t.index ["account_id", "security_id", "date", "currency"], name: "idx_on_account_id_security_id_date_currency_5323e39f8b", unique: true
     t.index ["account_id"], name: "index_holdings_on_account_id"
     t.index ["security_id"], name: "index_holdings_on_security_id"
+  end
+
+  create_table "ibkr_accounts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "ibkr_item_id", null: false
+    t.string "ibkr_account_id"
+    t.string "name", null: false
+    t.string "currency", default: "USD", null: false
+    t.decimal "current_balance", precision: 19, scale: 4
+    t.decimal "cash_balance", precision: 19, scale: 4
+    t.date "report_date"
+    t.jsonb "institution_metadata", default: {}
+    t.jsonb "extra", default: {}
+    t.jsonb "raw_holdings_payload", default: []
+    t.jsonb "raw_activities_payload", default: {}
+    t.jsonb "raw_payload", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ibkr_item_id", "ibkr_account_id"], name: "index_ibkr_accounts_on_ibkr_item_id_and_ibkr_account_id", unique: true
+    t.index ["ibkr_item_id"], name: "index_ibkr_accounts_on_ibkr_item_id"
+  end
+
+  create_table "ibkr_items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "family_id", null: false
+    t.string "name", null: false
+    t.string "query_id"
+    t.string "token"
+    t.string "status", default: "good", null: false
+    t.string "last_error"
+    t.boolean "scheduled_for_deletion", default: false, null: false
+    t.string "institution_name"
+    t.string "institution_domain"
+    t.string "institution_url"
+    t.string "institution_color"
+    t.jsonb "raw_payload", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["family_id"], name: "index_ibkr_items_on_family_id"
   end
 
   create_table "impersonation_session_logs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -490,8 +595,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000200) do
     t.index ["family_id", "dedup_key"], name: "index_insights_on_family_id_and_dedup_key", unique: true
     t.index ["family_id", "generated_at"], name: "index_insights_on_family_id_and_generated_at"
     t.index ["family_id", "status"], name: "index_insights_on_family_id_and_status"
-    t.check_constraint "priority::text = ANY (ARRAY['high'::character varying, 'medium'::character varying, 'low'::character varying]::text[])", name: "chk_insights_priority"
-    t.check_constraint "status::text = ANY (ARRAY['active'::character varying, 'read'::character varying, 'dismissed'::character varying, 'expired'::character varying]::text[])", name: "chk_insights_status"
+    t.check_constraint "priority::text = ANY (ARRAY['high'::character varying::text, 'medium'::character varying::text, 'low'::character varying::text])", name: "chk_insights_priority"
+    t.check_constraint "status::text = ANY (ARRAY['active'::character varying::text, 'read'::character varying::text, 'dismissed'::character varying::text, 'expired'::character varying::text])", name: "chk_insights_status"
   end
 
   create_table "investments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -799,6 +904,24 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000200) do
     t.index ["rule_id"], name: "index_rule_conditions_on_rule_id"
   end
 
+  create_table "rule_runs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "rule_id", null: false
+    t.string "rule_name"
+    t.string "execution_type", null: false
+    t.string "status", null: false
+    t.integer "transactions_queued", default: 0, null: false
+    t.integer "transactions_processed", default: 0, null: false
+    t.integer "transactions_modified", default: 0, null: false
+    t.integer "pending_jobs_count", default: 0, null: false
+    t.datetime "executed_at", null: false
+    t.text "error_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["executed_at"], name: "index_rule_runs_on_executed_at"
+    t.index ["rule_id", "executed_at"], name: "index_rule_runs_on_rule_id_and_executed_at"
+    t.index ["rule_id"], name: "index_rule_runs_on_rule_id"
+  end
+
   create_table "rules", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "family_id", null: false
     t.string "resource_type", null: false
@@ -992,6 +1115,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000200) do
     t.datetime "set_onboarding_goals_at"
     t.uuid "invite_code_id"
     t.boolean "disable_modal_click_outside", default: false, null: false
+    t.jsonb "preferences", default: {}, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["family_id"], name: "index_users_on_family_id"
     t.index ["invite_code_id"], name: "index_users_on_invite_code_id"
@@ -1033,13 +1157,20 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000200) do
   add_foreign_key "budgets", "families"
   add_foreign_key "categories", "families"
   add_foreign_key "chats", "users"
+  add_foreign_key "coinbase_accounts", "coinbase_items"
+  add_foreign_key "coinbase_items", "families"
+  add_foreign_key "coinstats_accounts", "coinstats_items"
+  add_foreign_key "coinstats_items", "families"
   add_foreign_key "entries", "accounts"
+  add_foreign_key "entries", "entries", column: "parent_entry_id"
   add_foreign_key "entries", "imports"
   add_foreign_key "family_exports", "families"
   add_foreign_key "goals", "accounts", on_delete: :cascade
   add_foreign_key "goals", "families", on_delete: :cascade
   add_foreign_key "holdings", "accounts"
   add_foreign_key "holdings", "securities"
+  add_foreign_key "ibkr_accounts", "ibkr_items"
+  add_foreign_key "ibkr_items", "families"
   add_foreign_key "impersonation_session_logs", "impersonation_sessions"
   add_foreign_key "impersonation_sessions", "users", column: "impersonated_id"
   add_foreign_key "impersonation_sessions", "users", column: "impersonator_id"
@@ -1067,6 +1198,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_17_000200) do
   add_foreign_key "rule_actions", "rules"
   add_foreign_key "rule_conditions", "rule_conditions", column: "parent_id"
   add_foreign_key "rule_conditions", "rules"
+  add_foreign_key "rule_runs", "rules"
   add_foreign_key "rules", "families"
   add_foreign_key "security_prices", "securities"
   add_foreign_key "sessions", "impersonation_sessions", column: "active_impersonator_session_id"

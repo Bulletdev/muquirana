@@ -1,0 +1,25 @@
+---
+en:
+  coinbase_items:
+    create:
+      success: Coinbase connection created. Wallet sync is in progress.
+    destroy:
+      success: Connection scheduled for deletion.
+    new:
+      title: Connect Coinbase wallet
+      description: Paste the name and private key of a CDP (Coinbase Developer Platform)
+        API key from your own Coinbase account. Credentials are encrypted and used
+        only to read balances.
+      name_label: Connection name
+      name_placeholder: Coinbase
+      api_key_label: API key name
+      api_key_placeholder: organizations/xxxx/apiKeys/yyyy
+      api_key_help: The key name from the CDP key you created (the "name" field of
+        the downloaded JSON).
+      api_secret_label: Private key
+      api_secret_placeholder: "-----BEGIN EC PRIVATE KEY-----"
+      api_secret_help: The EC private key from the CDP key (the "privateKey" field).
+        Coinbase shows it only once. Keep it safe.
+      permission_note: We recommend creating the CDP key with read-only ("view") permission.
+        Never enable trade or transfer scopes. Credentials are encrypted at rest.
+      submit: Connect

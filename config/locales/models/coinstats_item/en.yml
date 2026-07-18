@@ -1,0 +1,24 @@
+---
+en:
+  activerecord:
+    attributes:
+      coinstats_item:
+        api_key: API key
+        name: Name
+    models:
+      coinstats_item: CoinStats connection
+      coinstats_account: On-chain wallet
+  coinstats_item:
+    syncer:
+      errors:
+        credentials_missing: The CoinStats API key is missing. Edit the connection
+          and paste your OpenAPI key again.
+        credits_exhausted: Your CoinStats credits ran out. The free plan has a limited
+          budget and each wallet sync spends credits. Wait for your plan to renew or
+          upgrade in the CoinStats dashboard, then sync again.
+        rate_limited: CoinStats temporarily rate-limited requests. Wait a few minutes
+          and sync again.
+        authentication: CoinStats rejected your API key. Generate a new OpenAPI key
+          in your CoinStats account and paste it again.
+        api_error: CoinStats could not be reached right now. Try syncing again in a
+          few minutes.

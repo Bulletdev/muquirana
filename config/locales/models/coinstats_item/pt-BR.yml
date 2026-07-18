@@ -1,0 +1,25 @@
+---
+pt-BR:
+  activerecord:
+    attributes:
+      coinstats_item:
+        api_key: Chave da API
+        name: Nome
+    models:
+      coinstats_item: Conexão CoinStats
+      coinstats_account: Carteira on-chain
+  coinstats_item:
+    syncer:
+      errors:
+        credentials_missing: A chave da API do CoinStats não foi informada. Edite a
+          conexão e cole a sua chave OpenAPI de novo.
+        credits_exhausted: Os seus créditos do CoinStats acabaram. O plano gratuito
+          tem um limite e cada sincronização de carteira consome créditos. Aguarde a
+          renovação do plano ou faça upgrade no painel do CoinStats e sincronize de
+          novo.
+        rate_limited: O CoinStats limitou temporariamente as requisições. Aguarde alguns
+          minutos e sincronize novamente.
+        authentication: O CoinStats recusou a sua chave da API. Gere uma nova chave
+          OpenAPI na sua conta do CoinStats e cole de novo.
+        api_error: Não foi possível contatar o CoinStats agora. Tente sincronizar de
+          novo em alguns minutos.

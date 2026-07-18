@@ -1,0 +1,43 @@
+---
+pt-BR:
+  coinstats_items:
+    create:
+      success: Conexão CoinStats criada. Agora adicione um endereço de carteira.
+    destroy:
+      success: Conexão agendada para exclusão.
+    new:
+      title: Conectar CoinStats
+      description: Cole a sua própria chave OpenAPI do CoinStats. Ela é criptografada
+        e usada somente para ler saldos de carteiras públicas e posições DeFi. Nada
+        fica sob custódia.
+      name_label: Nome da conexão
+      name_placeholder: CoinStats
+      api_key_label: Chave da API do CoinStats
+      api_key_placeholder: Cole a sua chave OpenAPI
+      api_key_help: Encontrada nas configurações da conta no painel OpenAPI do CoinStats.
+      credits_note: O plano gratuito do CoinStats tem um limite de créditos. Cada sincronização
+        de carteira consome créditos. Se os créditos acabarem, você recebe uma mensagem
+        clara e pode aguardar a renovação ou fazer upgrade do plano.
+      submit: Continuar
+    link_wallet:
+      success:
+        one: Carteira adicionada. Aguarde a sincronização do saldo.
+        other: "%{count} carteiras adicionadas. Aguarde a sincronização do saldo."
+      skipped_empty: "Sem saldo em: %{chains} (nenhuma conta criada para essas)."
+      no_balance_title: "Não encontramos saldo em: %{chains}."
+      no_balance_body: Pode ser uma carteira nova ou fundos que o CoinStats ainda não
+        indexou. Deseja importar mesmo assim? Você pode sincronizar as contas depois.
+      import_anyway: Importar mesmo sem saldo
+      title: Adicionar carteira on-chain
+      description: Cole um endereço público de carteira (por exemplo, o seu endereço
+        da MetaMask) e escolha uma ou mais blockchains. Lemos os saldos de tokens e as
+        posições DeFi e convertemos o total para a sua moeda.
+      address_label: Endereço da carteira
+      address_placeholder: 0x... ou bc1q...
+      address_help: Somente um endereço público. Nunca cole a frase-semente nem a chave
+        privada.
+      blockchain_label: Blockchains
+      blockchain_help: Um endereço EVM (0x...) funciona em Ethereum, Polygon, Arbitrum
+        e outras. Marque todas as chains que você usa - criamos uma conta por chain com
+        saldo e ignoramos as vazias.
+      submit: Adicionar carteira

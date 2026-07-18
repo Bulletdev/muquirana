@@ -1,0 +1,24 @@
+---
+en:
+  activerecord:
+    attributes:
+      coinbase_item:
+        api_key: API key name
+        api_secret: Private key
+        name: Name
+    models:
+      coinbase_item: Coinbase connection
+      coinbase_account: Coinbase wallet
+  coinbase_item:
+    syncer:
+      errors:
+        credentials_missing: Coinbase credentials are missing. Edit the connection
+          and paste your CDP API key name and private key.
+        authentication: Coinbase rejected your API key or private key. Create a new
+          CDP key in the Coinbase Developer Platform and paste both the key name and
+          the private key again. Make sure the key has the read ("view") permission.
+        permission: Coinbase refused the key due to missing permissions. In the Coinbase
+          Developer Platform, enable the read ("view") permission for this key and
+          sync again.
+        rate_limited: Coinbase temporarily rate-limited requests. Wait a few minutes
+          and sync again.

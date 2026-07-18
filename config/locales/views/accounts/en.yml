@@ -53,8 +53,11 @@ en:
       import_accounts: Import accounts
       method_selector:
         binance_entry: Connect Binance wallet
+        coinbase_entry: Connect Coinbase wallet
+        coinstats_entry: Connect on-chain wallet (CoinStats)
         connected_entry: Link account
         connected_entry_eu: Link EU account
+        ibkr_entry: Connect Interactive Brokers
         manual_entry: Enter account balance
         mercado_bitcoin_entry: Connect Mercado Bitcoin
         title: How would you like to add it?

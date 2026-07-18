@@ -1,0 +1,24 @@
+---
+pt-BR:
+  activerecord:
+    attributes:
+      coinbase_item:
+        api_key: Nome da chave da API
+        api_secret: Chave privada
+        name: Nome
+    models:
+      coinbase_item: Conexão Coinbase
+      coinbase_account: Carteira Coinbase
+  coinbase_item:
+    syncer:
+      errors:
+        credentials_missing: As credenciais da Coinbase não foram informadas. Edite
+          a conexão e cole o nome da chave CDP e a chave privada.
+        authentication: O nome da chave ou a chave privada foram rejeitados pela Coinbase.
+          Crie uma nova chave CDP no Coinbase Developer Platform e cole os dois valores
+          de novo. Confirme que a chave tem a permissão de leitura ("view").
+        permission: A Coinbase recusou a chave por falta de permissão. No Coinbase
+          Developer Platform, habilite a permissão de leitura ("view") desta chave
+          e sincronize de novo.
+        rate_limited: A Coinbase limitou temporariamente as requisições. Aguarde alguns
+          minutos e sincronize novamente.

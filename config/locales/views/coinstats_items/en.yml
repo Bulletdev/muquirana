@@ -1,0 +1,41 @@
+---
+en:
+  coinstats_items:
+    create:
+      success: CoinStats connection created. Now add a wallet address.
+    destroy:
+      success: Connection scheduled for deletion.
+    new:
+      title: Connect CoinStats
+      description: Paste your own CoinStats OpenAPI key. It is encrypted and used only
+        to read public wallet balances and DeFi positions. Nothing is custodial.
+      name_label: Connection name
+      name_placeholder: CoinStats
+      api_key_label: CoinStats API key
+      api_key_placeholder: Paste your OpenAPI key
+      api_key_help: Found under Account settings in the CoinStats OpenAPI dashboard.
+      credits_note: The CoinStats free plan has a limited credit budget. Each wallet
+        sync spends credits. If credits run out you will get a clear message and can
+        wait for renewal or upgrade your plan.
+      submit: Continue
+    link_wallet:
+      success:
+        one: Wallet added. Balance sync is in progress.
+        other: "%{count} wallets added. Balance sync is in progress."
+      skipped_empty: "No balance found on: %{chains} (no account created for those)."
+      no_balance_title: "No balance found on: %{chains}."
+      no_balance_body: This may be a new wallet or funds CoinStats hasn't indexed yet.
+        Import it anyway? You can sync the accounts later.
+      import_anyway: Import without balance
+      title: Add on-chain wallet
+      description: Paste a public wallet address (e.g. your MetaMask address) and pick
+        one or more blockchains. We read token balances and DeFi positions and convert
+        the total to your currency.
+      address_label: Wallet address
+      address_placeholder: 0x... or bc1q...
+      address_help: A public address only. Never paste a seed phrase or private key.
+      blockchain_label: Blockchains
+      blockchain_help: An EVM address (0x...) works across Ethereum, Polygon, Arbitrum,
+        and others. Pick every chain you use - we create one account per chain with a
+        balance and skip the empty ones.
+      submit: Add wallet

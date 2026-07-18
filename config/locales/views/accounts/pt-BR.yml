@@ -54,8 +54,11 @@ pt-BR:
       import_accounts: Importar contas
       method_selector:
         binance_entry: Conectar carteira Binance
+        coinbase_entry: Conectar carteira Coinbase
+        coinstats_entry: Conectar carteira on-chain (CoinStats)
         connected_entry: Conectar conta
         connected_entry_eu: Conectar conta europeia
+        ibkr_entry: Conectar Interactive Brokers
         manual_entry: Informar saldo da conta
         mercado_bitcoin_entry: Conectar Mercado Bitcoin
         title: Como você quer adicionar?

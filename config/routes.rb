@@ -120,6 +120,13 @@ Rails.application.routes.draw do
     end
   end
 
+  # Dashboard de relatorios reordenavel (US-10). Rotas explicitas (sem :id: a
+  # pagina sempre reflete a familia/usuario atual). O caminho de
+  # update_preferences casa com o fetch dos controllers Stimulus.
+  get   "reports",                    to: "reports#index",              as: :reports
+  get   "reports/print",              to: "reports#print",              as: :print_reports
+  patch "reports/update_preferences", to: "reports#update_preferences", as: :update_preferences_reports
+
   resources :transfers, only: %i[new create destroy show update]
 
   resources :imports, only: %i[index new show create destroy] do
@@ -152,12 +159,19 @@ Rails.application.routes.draw do
 
   resources :transactions, only: %i[index new create show update destroy] do
     resource :transfer_match, only: %i[new create]
+    resource :duplicate_merge, only: %i[new create] do # US-03: merge manual de duplicatas de reimportacao
+      post :dismiss, on: :member
+    end
     resource :category, only: :update, controller: :transaction_categories
+    resource :split, only: %i[new create edit update destroy]
+    resources :attachments, only: %i[show create destroy], controller: :transaction_attachments
 
     collection do
       delete :clear_filter
     end
   end
+
+  get "reports/export_transactions", to: "reports#export_transactions", as: :export_transactions_report, defaults: { format: :csv }
 
   resources :accountable_sparklines, only: :show, param: :accountable_type
 
@@ -285,6 +299,26 @@ Rails.application.routes.draw do
   resources :mercado_bitcoin_items, only: %i[new create destroy] do
     member do
       post :sync
+    end
+  end
+
+  resources :coinbase_items, only: %i[new create destroy] do
+    member do
+      post :sync
+    end
+  end
+
+  resources :ibkr_items, only: %i[new create destroy] do
+    member do
+      post :sync
+    end
+  end
+
+  resources :coinstats_items, only: %i[new create destroy] do
+    member do
+      post :sync
+      get :link_wallet
+      post :link_wallet
     end
   end
 

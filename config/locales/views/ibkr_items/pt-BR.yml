@@ -1,0 +1,27 @@
+---
+pt-BR:
+  ibkr_items:
+    create:
+      success: Conexão Interactive Brokers criada. Aguarde a sincronização do extrato
+        Flex.
+    destroy:
+      success: Conexão agendada para exclusão.
+    new:
+      title: Conectar Interactive Brokers
+      description: Cole o Query ID e o Token de uma Flex Query da sua própria conta
+        Interactive Brokers. As credenciais são criptografadas e usadas somente para
+        baixar o extrato de posições e trades.
+      name_label: Nome da conexão
+      name_placeholder: Interactive Brokers
+      query_id_label: Query ID
+      query_id_placeholder: Cole o Query ID
+      query_id_help: O identificador da Flex Query, em Performance & Reports > Flex
+        Queries no Client Portal da IBKR.
+      token_label: Token
+      token_placeholder: Cole o Token
+      token_help: Gerado em Reports > Settings > Flex Web Service. Válido por tempo
+        limitado; gere de novo se expirar.
+      flex_note: Crie uma Flex Query de Activity incluindo Open Positions e Trades,
+        e ative o Flex Web Service para obter o Token. A sincronização baixa o extrato
+        e converte posições em várias moedas para reais (BRL).
+      submit: Conectar

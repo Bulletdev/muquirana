@@ -1,5 +1,5 @@
 class Family < ApplicationRecord
-  include PlaidConnectable, BinanceConnectable, MercadoBitcoinConnectable, Syncable, AutoTransferMatchable, Subscribeable
+  include PlaidConnectable, BinanceConnectable, MercadoBitcoinConnectable, CoinbaseConnectable, IbkrConnectable, CoinstatsConnectable, Syncable, AutoTransferMatchable, Subscribeable
 
   DATE_FORMATS = [
     [ "MM-DD-YYYY", "%m-%d-%Y" ],
