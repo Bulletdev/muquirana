@@ -30,7 +30,7 @@ class AccountsController < ApplicationController
       @account.sync_later
     end
 
-    redirect_to account_path(@account)
+    redirect_to account_path(@account), notice: t("accounts.show.header.syncing")
   end
 
   def sparkline

@@ -62,6 +62,20 @@ module ApplicationHelper
     end
   end
 
+  # Caminho de DELETE do "item" do provider de cripto que alimenta esta conta
+  # (Binance / Mercado Bitcoin), ou nil quando a conta nao tem uma conexao de
+  # cripto desconectavel. Usado pelo menu da conta para oferecer "Desconectar".
+  def account_connection_delete_path(account)
+    provider = account.account_providers.find { |ap|
+      ap.provider_type.in?(%w[BinanceAccount MercadoBitcoinAccount])
+    }&.provider
+
+    case provider
+    when BinanceAccount then binance_item_path(provider.binance_item)
+    when MercadoBitcoinAccount then mercado_bitcoin_item_path(provider.mercado_bitcoin_item)
+    end
+  end
+
   def format_money(number_or_money, options = {})
     return nil unless number_or_money
 

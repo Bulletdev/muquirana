@@ -30,4 +30,24 @@
       data: { turbo_frame: :_top }
     ) %>
   <% end %>
+
+  <% if account.linked? %>
+    <% disconnect_path = account_connection_delete_path(account) %>
+    <% if disconnect_path %>
+      <% menu.with_item(
+        variant: "button",
+        text: t(".disconnect"),
+        href: disconnect_path,
+        method: :delete,
+        icon: "unplug",
+        confirm: CustomConfirm.new(
+          title: t(".disconnect_confirm_title"),
+          body: t(".disconnect_confirm_body"),
+          btn_text: t(".disconnect_confirm_accept"),
+          destructive: true
+        ),
+        data: { turbo_frame: :_top }
+      ) %>
+    <% end %>
+  <% end %>
 <% end %>

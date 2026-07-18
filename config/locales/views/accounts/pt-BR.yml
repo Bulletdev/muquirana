@@ -78,6 +78,7 @@ pt-BR:
         owed: Valor devido
       header:
         complete_setup: Concluir cadastro
+        syncing: Sincronizando conta...
       menu:
         confirm_accept: Excluir "%{name}"
         confirm_body_html: "<p>Ao excluir esta conta, você apaga todo o histórico
@@ -87,6 +88,11 @@ pt-BR:
           - você vai precisar adicioná-la de novo do zero.</p>"
         confirm_title: Excluir conta?
         delete_account: Excluir conta
+        disconnect: Desconectar
+        disconnect_confirm_accept: Desconectar
+        disconnect_confirm_body: A conta e o histórico de saldos continuam aqui, mas
+          param de sincronizar e a conta vira manual. Você pode reconectar depois.
+        disconnect_confirm_title: Desconectar esta conexão?
         edit: Editar
         exclude_from_reports: Excluir dos relatórios
         import: Importar transações

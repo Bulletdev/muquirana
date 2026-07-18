@@ -57,4 +57,5 @@ pt-BR:
       note_placeholder: Escreva outros detalhes sobre este lançamento
       overview: Visão geral
       settings: Configurações
+      synced_notice: Este valor é sincronizado automaticamente do provedor conectado. Para alterá-lo, sincronize a conta em vez de editar na mão.
       update_value: Atualizar valor

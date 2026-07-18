@@ -77,6 +77,7 @@ en:
         owed: Amount owed
       header:
         complete_setup: Complete setup
+        syncing: Syncing account...
       menu:
         confirm_accept: Delete "%{name}"
         confirm_body_html: "<p>By deleting this account, you will erase its value
@@ -86,6 +87,11 @@ en:
           the account information because you'll need to add it as a new account.</p>"
         confirm_title: Delete account?
         delete_account: Delete account
+        disconnect: Disconnect
+        disconnect_confirm_accept: Disconnect
+        disconnect_confirm_body: The account and its balance history stay here, but it
+          stops syncing and becomes a manual account. You can reconnect later.
+        disconnect_confirm_title: Disconnect this connection?
         edit: Edit
         exclude_from_reports: Exclude from all reports
         import: Import transactions

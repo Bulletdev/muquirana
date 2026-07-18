@@ -1,6 +1,11 @@
 class ValuationsController < ApplicationController
   include EntryableResource, StreamExtensions
 
+  # Conta de provider (linkada) tem saldo vindo da API: edicao manual de valor
+  # seria sobrescrita no proximo sync. Bloqueamos a reconciliacao no servidor,
+  # nao so na UI. `update` cuida do seu caso a parte (notas continuam livres).
+  before_action :reject_reconciliation_on_linked_account, only: %i[confirm_create confirm_update create]
+
   def confirm_create
     @account = Current.family.accounts.find(params.dig(:entry, :account_id))
     @entry = @account.entries.build(entry_params.merge(currency: @account.currency))
@@ -52,7 +57,7 @@ class ValuationsController < ApplicationController
     # Notes updating is independent of reconciliation, just a simple CRUD operation
     @entry.update!(notes: entry_params[:notes]) if entry_params[:notes].present?
 
-    if entry_params[:date].present? && entry_params[:amount].present?
+    if entry_params[:date].present? && entry_params[:amount].present? && @entry.account.manual?
       result = @entry.account.update_reconciliation(
         @entry,
         balance: entry_params[:amount],
@@ -85,5 +90,17 @@ class ValuationsController < ApplicationController
   private
     def entry_params
       params.require(:entry).permit(:date, :amount, :notes)
+    end
+
+    def reject_reconciliation_on_linked_account
+      account = if params[:id].present?
+        Current.family.entries.find(params[:id]).account
+      else
+        Current.family.accounts.find(params.dig(:entry, :account_id))
+      end
+
+      return if account.manual?
+
+      redirect_back_or_to account_path(account), alert: t("valuations.show.synced_notice")
     end
 end

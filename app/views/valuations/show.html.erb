@@ -14,25 +14,43 @@
 
     <% dialog.with_section(title: t(".overview"), open: true) do %>
       <div class="pb-4">
-        <%= styled_form_with model: entry,
-              url: confirm_update_valuation_path(entry),
-              method: :post,
-              data: { turbo_frame: :modal },
-              class: "space-y-4" do |f| %>
-          <%= f.date_field :date,
-                label: t(".date_label"),
-                max: Date.current %>
+        <% if account.manual? %>
+          <%= styled_form_with model: entry,
+                url: confirm_update_valuation_path(entry),
+                method: :post,
+                data: { turbo_frame: :modal },
+                class: "space-y-4" do |f| %>
+            <%= f.date_field :date,
+                  label: t(".date_label"),
+                  max: Date.current %>
 
-          <%= f.money_field :amount,
-                label: t(".account_value_label"),
-                disable_currency: true %>
+            <%= f.money_field :amount,
+                  label: t(".account_value_label"),
+                  disable_currency: true %>
 
-          <div class="flex justify-end">
-            <%= render DS::Button.new(
-              text: t(".update_value"),
-              variant: :primary,
-              type: "submit"
-            ) %>
+            <div class="flex justify-end">
+              <%= render DS::Button.new(
+                text: t(".update_value"),
+                variant: :primary,
+                type: "submit"
+              ) %>
+            </div>
+          <% end %>
+        <% else %>
+          <%# Conta de provider: o saldo vem da API e e sincronizado. Editar na mao
+              seria sobrescrito no proximo sync, entao mostramos so leitura. %>
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-secondary"><%= t(".date_label") %></span>
+              <span class="text-sm font-medium text-primary"><%= l(entry.date) %></span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-secondary"><%= t(".account_value_label") %></span>
+              <span class="text-sm font-medium text-primary"><%= format_money(entry.amount_money) %></span>
+            </div>
+            <div class="rounded-lg bg-surface p-3 text-sm text-secondary">
+              <%= t(".synced_notice") %>
+            </div>
           </div>
         <% end %>
       </div>
@@ -54,7 +72,8 @@
       </div>
     <% end %>
 
-    <% dialog.with_section(title: t(".settings")) do %>
+    <% if account.manual? %>
+      <% dialog.with_section(title: t(".settings")) do %>
       <div class="pb-4">
         <!-- Delete Valuation Form -->
         <div class="flex items-center justify-between gap-2 p-3">
@@ -70,6 +89,7 @@
                 data: { turbo_confirm: CustomConfirm.for_resource_deletion("value update").to_data_attribute, turbo_frame: "_top" } %>
         </div>
       </div>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>

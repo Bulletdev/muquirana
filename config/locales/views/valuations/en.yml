@@ -56,4 +56,5 @@ en:
       note_placeholder: Add any additional details about this entry
       overview: Overview
       settings: Settings
+      synced_notice: This value is synced automatically from the connected provider. To change it, sync the account instead of editing by hand.
       update_value: Update value

@@ -28,14 +28,19 @@
 
     <div class="flex items-center gap-1 ml-auto">
       <% if Rails.env.development? || self_hosted? %>
-        <%= icon(
-            "refresh-cw",
-            as_button: true,
-            size: "sm",
-            href: account.linked? ? sync_plaid_item_path(account.plaid_account.plaid_item) : sync_account_path(account),
-            disabled: account.syncing?,
-            frame: :_top
-          ) %>
+        <% if account.syncing? %>
+          <span class="flex items-center justify-center w-8 h-8 text-secondary" title="<%= t(".syncing") %>">
+            <%= icon("loader-circle", size: "sm", class: "animate-spin") %>
+          </span>
+        <% else %>
+          <%= icon(
+              "refresh-cw",
+              as_button: true,
+              size: "sm",
+              href: account.plaid_account&.plaid_item ? sync_plaid_item_path(account.plaid_account.plaid_item) : sync_account_path(account),
+              frame: :_top
+            ) %>
+        <% end %>
       <% end %>
 
       <%= render "accounts/show/menu", account: account %>
