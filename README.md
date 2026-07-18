@@ -11,7 +11,7 @@
 <div align="center">
 
 [![Security Audit](https://github.com/Bulletdev/muquirana/actions/workflows/security.yml/badge.svg)](https://github.com/Bulletdev/muquirana/actions/workflows/security.yml)
-[![Version](https://img.shields.io/badge/version-0.7.0-B91C1C)](https://github.com/Bulletdev/muquirana/releases/tag/v0.7.0)
+[![Version](https://img.shields.io/badge/version-0.7.1-B91C1C)](https://github.com/Bulletdev/muquirana/releases/tag/v0.7.1)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/9ff898d73e5048f681dc483bf3ae0edf)](https://app.codacy.com/gh/Bulletdev/muquirana/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 [![Ruby Version](https://img.shields.io/badge/ruby-3.4.8-CC342D?logo=ruby)](https://www.ruby-lang.org/)
@@ -42,18 +42,30 @@
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│  [■] Contas               - Corrente, poupança, cartão, investimento, cripto│
-│  [■] Patrimônio           - Série histórica de saldos e evolução no tempo   │
-│  [■] Transações           - Categorias, etiquetas, estabelecimentos e regras│
-│  [■] Orçamento            - Metas por categoria e acompanhamento mensal     │
-│  [■] Investimentos        - Posições, negociações e cotação de ativos       │
-│  [■] Importação CSV       - Mapeamento de colunas por arquivo               │
-│  [■] Multi-família        - Contas compartilhadas com escopo por família    │
-│  [■] Multi-moeda          - Conversão com taxas históricas                  │
-│  [■] Sincronização Plaid  - Bancos US/EU (opcional; não atende banco BR)    │
-│  [■] Assistente de IA     - Conversa sobre as finanças (chave OpenAI sua)   │
-│  [■] PWA                  - Instalável na tela inicial, sem loja de apps    │
-│  [■] API v1               - OAuth2 (Doorkeeper) + API keys com escopo       │
+│  [■] Contas              - Corrente, poupança, cartão, investimento, cripto │
+│  [■] Patrimônio          - Série histórica de saldos e evolução no tempo    │
+│  [■] Transações          - Categorias, etiquetas, estabelecimentos e regras │
+│  [■] Split               - Divide um lançamento em várias categorias        │
+│  [■] Anexos              - Recibos e comprovantes por transação             │
+│  [■] Duplicatas          - Detecta e mescla lançamentos repetidos           │
+│  [■] Orçamento           - Metas por categoria e acompanhamento mensal      │
+│  [■] Metas               - Reserva, viagem - progresso e data-alvo          │
+│  [■] Investimentos       - Posições, negociações e cotação de ativos        │
+│  [■] Cripto (exchange)   - Binance, Mercado Bitcoin e Coinbase por API-key  │
+│  [■] Cripto (on-chain)   - Carteiras por endereço público via CoinStats     │
+│  [■] Corretora (IBKR)    - Interactive Brokers via Flex Query (XML)         │
+│  [■] Recorrentes         - Detecta assinatura, salário, aluguel, boleto     │
+│  [■] Insights            - Feed proativo de observações financeiras         │
+│  [■] Relatórios          - Painel reordenável + export CSV (Google Sheets)  │
+│  [■] Importação          - CSV, YNAB, Actual, QIF, OFX e PDF (via IA)       │
+│  [■] Assistente IA       - OpenAI, Anthropic (Claude) ou LLM local/externo  │
+│  [■] Custo de IA         - Ledger de tokens e custo por operação            │
+│  [■] Privacidade         - Botão que borra os valores em R$ na tela         │
+│  [■] Multi-família       - Contas compartilhadas com escopo por família     │
+│  [■] Multi-moeda         - Conversão com taxas históricas                   │
+│  [■] Plaid (opcional)    - Bancos US/EU - não atende banco BR               │
+│  [■] PWA                 - Instalável na tela inicial, sem loja de apps     │
+│  [■] API v1              - OAuth2 (Doorkeeper) + API keys com escopo        │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -89,18 +101,18 @@ bin/dev     # sobe os serviços (se preciso) e a aplicação
 ```
 
 Pronto: **http://localhost:3000**. Na primeira vez o `bin/dev` popula dados de
-demonstração automaticamente — entre com **`user@muquirana.local` / `password`**,
+demonstração automaticamente - entre com **`user@muquirana.local` / `password`**,
 ou use **http://localhost:3000/demo** (login sem senha).
 
 O `bin/dev` cuida de tudo: sobe o Postgres e o Redis (`compose.dev.yml`, portas
 dedicadas 5434/6380 para não colidir com outros projetos), roda as migrations e,
 só na primeira vez (banco vazio), gera os dados de demonstração.
 
-**Sem Docker** — suba Postgres e Redis por conta própria e ajuste `DB_HOST`,
+**Sem Docker** - suba Postgres e Redis por conta própria e ajuste `DB_HOST`,
 `DB_PORT` e `REDIS_URL` no `.env.local`; o `bin/dev` detecta a ausência do Docker
 e segue direto para a aplicação.
 
-**Porta ocupada** (`connection refused` / `port is already allocated`) — algum
+**Porta ocupada** (`connection refused` / `port is already allocated`) - algum
 outro Postgres/Redis está na mesma porta. Troque `DB_PORT`/`REDIS_URL` no
 `.env.local` e o mapeamento em `compose.dev.yml`, depois
 `docker compose -f compose.dev.yml up -d`.
@@ -208,6 +220,42 @@ Use só num deploy dedicado, com banco próprio. Na instância pessoal, deixe a
 variável vazia e aponte `DEMO_URL` para a URL `/demo` da outra instância - a
 landing só mostra o botão da demo quando `DEMO_URL` existe.
 
+### 04.3 · Conexões de cripto e investimento
+
+Todas conectam **pela interface, não por variável de ambiente**: em "Adicionar
+conta" cada pessoa cola a própria **credencial read-only** (criptografada no
+banco). Os saldos entram convertidos para **BRL** e dá para desconectar pelo menu
+da conta (o histórico vira conta manual).
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  [■] Binance (exchange)    - Carteiras Spot + Funding + Earn, por API-key   │
+│  [■] Mercado Bitcoin       - Exchange BR, API v4, por API-key               │
+│  [■] Coinbase (exchange)   - Chave CDP (JWT ES256), carteiras da conta      │
+│  [■] CoinStats (on-chain)  - Carteira por endereço público + posições DeFi  │
+│  [■] Interactive Brokers   - Investimento via Flex Query (query_id + token) │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+Cripto (Binance/Mercado Bitcoin/Coinbase) fica em "Adicionar conta → Cripto";
+CoinStats cria **uma conta por carteira** (agrega os tokens + DeFi daquele
+endereço); a IBKR fica em "Adicionar conta → Investimento". Para apontar a um
+host/escopo diferente - a Binance opera no BR com histórico regulatório instável
+- há os Settings opcionais `BINANCE_SPOT_BASE_URL` e `MERCADO_BITCOIN_BASE_URL`.
+
+### 04.4 · Assistente de IA (OpenAI, Anthropic ou LLM local)
+
+O assistente é **opcional** e usa a **sua** chave (gera custo na sua conta -
+configure limite antes). Três caminhos, configuráveis em Configurações →
+Hospedagem própria (a variável de ambiente tem prioridade):
+
+- **OpenAI** - `OPENAI_ACCESS_TOKEN`.
+- **Anthropic (Claude)** - `ANTHROPIC_ACCESS_TOKEN` (+ `ANTHROPIC_MODEL` opcional).
+- **LLM local/externo** - `EXTERNAL_ASSISTANT_URL` apontando para um endpoint
+  compatível com OpenAI (Ollama, LM Studio ou agente próprio). Assim os dados
+  **não saem da sua máquina**. Use a porta OpenAI-compat (`/v1/chat/completions`);
+  o `/api/chat` nativo do Ollama não é suportado.
+
 ---
 
 ## 05 · Deploy
@@ -281,6 +329,16 @@ estáticos, incluindo o que é falso positivo e por quê.
 > os tokens de acesso bancário e as chaves de API.
 
 > [!IMPORTANT]
+> **Fixe as chaves de criptografia do Active Record antes de pôr dados reais.**
+> Sem elas o app funciona (deriva do `SECRET_KEY_BASE`), mas a tela
+> Configurações → Segurança exibe um aviso: girar o `SECRET_KEY_BASE` sem antes
+> ter chaves explícitas torna **permanentemente ilegíveis** todos os campos
+> cifrados (chaves de API, tokens dos providers de cripto, segredo do 2FA). Gere
+> um conjunto com `bin/rails db:encryption:init` e defina no ambiente:
+> `ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY`, `ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY`
+> e `ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT` (ver `.env.example`).
+
+> [!IMPORTANT]
 > **O suporte ao Rails 7.2 termina em 09/08/2026.** A partir dessa data, uma CVE
 > no framework não recebe correção oficial - e o projeto original, arquivado, não
 > vai fazer esse upgrade. Subir para o Rails 8 é trabalho deste repositório e
@@ -324,7 +382,7 @@ Dois cuidados que já custaram bug aqui:
 
 ---
 
-**Última atualização**: 2026-07-15 · **Versão**: 0.7.0
+**Última atualização**: 2026-07-17 · **Versão**: 0.7.1 (Correnteza)
 **Ruby**: 3.4.8 · **Rails**: 7.2.3.1
 **Locale padrão**: pt-BR · **Moeda**: BRL · **Fallback**: en
 
