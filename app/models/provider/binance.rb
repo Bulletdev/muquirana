@@ -41,6 +41,22 @@ class Provider::Binance
     signed_get("/api/v3/account")
   end
 
+  # Carteira Funding (usada em P2P/Pay). Endpoint assinado (POST). Retorna um array
+  # de { "asset", "free", "locked", "freeze", "withdrawing" }.
+  def get_funding_wallet
+    signed_request(:post, "/sapi/v1/asset/get-funding-asset")
+  end
+
+  # Posicoes de Simple Earn flexivel. Retorna { "rows" => [{ "asset", "totalAmount" }], ... }.
+  def get_flexible_earn_positions
+    signed_get("/sapi/v1/simple-earn/flexible/position", extra_params: { "size" => "100" })
+  end
+
+  # Posicoes de Simple Earn com bloqueio (locked). Retorna { "rows" => [{ "asset", "amount" }], ... }.
+  def get_locked_earn_positions
+    signed_get("/sapi/v1/simple-earn/locked/position", extra_params: { "size" => "100" })
+  end
+
   # Preco spot de um par (endpoint publico), ex.: "BTCUSDT". Retorna string ou nil.
   def get_spot_price(symbol)
     data = public_get("/api/v3/ticker/price", symbol: symbol)
@@ -60,11 +76,18 @@ class Provider::Binance
     end
 
     def signed_get(path, extra_params: {})
+      signed_request(:get, path, extra_params: extra_params)
+    end
+
+    # Request assinado (HMAC-SHA256) da Binance. Serve GET e POST -- os endpoints
+    # /sapi (funding/earn) aceitam os parametros assinados na query string tambem
+    # em POST.
+    def signed_request(method, path, extra_params: {})
       params = timestamp_params.merge(extra_params)
       query_string = URI.encode_www_form(params.sort)
       signature = sign(query_string)
 
-      response = client.get(path) do |req|
+      response = client.public_send(method, path) do |req|
         req.headers["X-MBX-APIKEY"] = api_key
         # A assinatura precisa cobrir exatamente a query enviada; montamos a
         # string manualmente para nao depender da reordenacao do Faraday.

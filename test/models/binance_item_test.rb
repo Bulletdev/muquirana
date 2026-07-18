@@ -11,6 +11,11 @@ class BinanceItemTest < ActiveSupport::TestCase
     )
     # Taxa USD -> moeda da familia (BRL) semeada para nao tocar a rede.
     ExchangeRate.create!(from_currency: "USD", to_currency: @family.currency, date: Date.current, rate: 5)
+
+    # Carteiras adicionais vazias por padrao; testes especificos sobrescrevem.
+    stub_funding([])
+    stub_earn_flexible([])
+    stub_earn_locked([])
   end
 
   test "credentials are encrypted at rest" do
@@ -33,6 +38,21 @@ class BinanceItemTest < ActiveSupport::TestCase
   def stub_spot_account(balances)
     stub_request(:get, /binance\.com\/api\/v3\/account/)
       .to_return(status: 200, body: { "balances" => balances }.to_json)
+  end
+
+  def stub_funding(assets)
+    stub_request(:post, %r{binance\.com/sapi/v1/asset/get-funding-asset})
+      .to_return(status: 200, body: assets.to_json, headers: { "Content-Type" => "application/json" })
+  end
+
+  def stub_earn_flexible(rows)
+    stub_request(:get, %r{binance\.com/sapi/v1/simple-earn/flexible/position})
+      .to_return(status: 200, body: { "rows" => rows, "total" => rows.size }.to_json)
+  end
+
+  def stub_earn_locked(rows)
+    stub_request(:get, %r{binance\.com/sapi/v1/simple-earn/locked/position})
+      .to_return(status: 200, body: { "rows" => rows, "total" => rows.size }.to_json)
   end
 
   def stub_price(symbol, price)
@@ -72,6 +92,29 @@ class BinanceItemTest < ActiveSupport::TestCase
 
     # 0.5 BTC * 60000 + 100 USDT = 30100 USD
     assert_equal 30100, @item.binance_accounts.sole.current_balance
+  end
+
+  test "aggregates spot, funding and earn balances of the same asset" do
+    stub_spot_account([ { "asset" => "USDT", "free" => "10.0", "locked" => "0.0" } ])
+    stub_funding([ { "asset" => "USDT", "free" => "5.0", "locked" => "0.0", "freeze" => "0.0", "withdrawing" => "0.0" } ])
+    stub_earn_flexible([ { "asset" => "USDT", "totalAmount" => "3.0" } ])
+    stub_earn_locked([ { "asset" => "USDT", "amount" => "2.0" } ])
+
+    @item.import_latest_binance_data
+
+    # 10 (spot) + 5 (funding) + 3 (earn flex) + 2 (earn locked) = 20 USDT
+    assert_equal 20, @item.binance_accounts.sole.current_balance
+  end
+
+  test "a wallet without permission is skipped without breaking the spot sync" do
+    stub_spot_account([ { "asset" => "USDT", "free" => "10.0", "locked" => "0.0" } ])
+    stub_request(:post, %r{binance\.com/sapi/v1/asset/get-funding-asset})
+      .to_return(status: 401, body: { "code" => -2015, "msg" => "no permission" }.to_json)
+
+    @item.import_latest_binance_data
+
+    # Funding foi ignorado (best-effort); o saldo Spot segue valido.
+    assert_equal 10, @item.binance_accounts.sole.current_balance
   end
 
   test "geo restriction surfaces an actionable pt-BR error and leaves item recoverable" do
