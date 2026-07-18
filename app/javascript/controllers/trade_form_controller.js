@@ -6,6 +6,6 @@ export default class extends Controller {
   async changeType(event) {
     const url = new URL(event.params.url, window.location.origin);
     url.searchParams.set(event.params.key, event.target.value);
-    Turbo.visit(url, { frame: "modal" });
+    window.Turbo.visit(url, { frame: "modal" });
   }
 }

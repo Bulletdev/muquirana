@@ -9,6 +9,7 @@ All chat endpoints require authentication via OAuth2 or API keys. The chat endpo
 ## Endpoints
 
 ### List Chats
+
 ```
 GET /api/v1/chats
 ```
@@ -16,6 +17,7 @@ GET /api/v1/chats
 **Required Scope:** `read`
 
 **Response:**
+
 ```json
 {
   "chats": [
@@ -39,6 +41,7 @@ GET /api/v1/chats
 ```
 
 ### Get Chat
+
 ```
 GET /api/v1/chats/:id
 ```
@@ -46,6 +49,7 @@ GET /api/v1/chats/:id
 **Required Scope:** `read`
 
 **Response:**
+
 ```json
 {
   "id": "uuid",
@@ -83,6 +87,7 @@ GET /api/v1/chats/:id
 ```
 
 ### Create Chat
+
 ```
 POST /api/v1/chats
 ```
@@ -90,6 +95,7 @@ POST /api/v1/chats
 **Required Scope:** `write`
 
 **Request Body:**
+
 ```json
 {
   "title": "Optional chat title",
@@ -101,6 +107,7 @@ POST /api/v1/chats
 **Response:** Same as Get Chat endpoint
 
 ### Update Chat
+
 ```
 PATCH /api/v1/chats/:id
 ```
@@ -108,6 +115,7 @@ PATCH /api/v1/chats/:id
 **Required Scope:** `write`
 
 **Request Body:**
+
 ```json
 {
   "title": "New chat title"
@@ -117,6 +125,7 @@ PATCH /api/v1/chats/:id
 **Response:** Same as Get Chat endpoint
 
 ### Delete Chat
+
 ```
 DELETE /api/v1/chats/:id
 ```
@@ -126,6 +135,7 @@ DELETE /api/v1/chats/:id
 **Response:** 204 No Content
 
 ### Create Message
+
 ```
 POST /api/v1/chats/:chat_id/messages
 ```
@@ -133,6 +143,7 @@ POST /api/v1/chats/:chat_id/messages
 **Required Scope:** `write`
 
 **Request Body:**
+
 ```json
 {
   "content": "User message",
@@ -141,6 +152,7 @@ POST /api/v1/chats/:chat_id/messages
 ```
 
 **Response:**
+
 ```json
 {
   "id": "uuid",
@@ -156,6 +168,7 @@ POST /api/v1/chats/:chat_id/messages
 ```
 
 ### Retry Last Message
+
 ```
 POST /api/v1/chats/:chat_id/messages/retry
 ```
@@ -165,6 +178,7 @@ POST /api/v1/chats/:chat_id/messages/retry
 Retries the last assistant message in the chat.
 
 **Response:**
+
 ```json
 {
   "message": "Retry initiated",
@@ -217,6 +231,7 @@ All endpoints return standard error responses:
 ```
 
 Common error codes:
+
 - `unauthorized` - Invalid or missing authentication
 - `forbidden` - Insufficient permissions or AI not enabled
 - `not_found` - Resource not found

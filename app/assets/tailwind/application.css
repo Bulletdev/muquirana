@@ -68,10 +68,10 @@
     }
   }
 
-  --hw-border-color: rgba(0, 0, 0, 0.2);
+  --hw-border-color: rgb(0 0 0 / 20%);
   --hw-handle-width: 20px;
   --hw-handle-height: 20px;
-  --hw-handle-offset-right: 0px;
+  --hw-handle-offset-right: 0;
 }
 
 /* Typography */
@@ -129,7 +129,7 @@
   }
 
   scrollbar-width: thin;
-  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+  scrollbar-color: rgb(156 163 175 / 50%) transparent;
 
   ::-webkit-scrollbar {
     width: 6px;
@@ -140,7 +140,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: rgba(156, 163, 175, 0.5);
+    background-color: rgb(156 163 175 / 50%);
     border-radius: 3px; 
   }
 }

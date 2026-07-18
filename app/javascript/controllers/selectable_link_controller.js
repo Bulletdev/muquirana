@@ -15,6 +15,6 @@ export default class extends Controller {
     const currentUrl = new URL(window.location.href);
     currentUrl.searchParams.set(paramName, event.target.value);
 
-    Turbo.visit(currentUrl.toString());
+    window.Turbo.visit(currentUrl.toString());
   }
 }

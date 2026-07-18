@@ -14,7 +14,7 @@ export default class extends Controller {
   }
 
   open() {
-    const handler = Plaid.create({
+    const handler = window.Plaid.create({
       token: this.linkTokenValue,
       onSuccess: this.handleSuccess,
       onLoad: this.handleLoad,
@@ -70,7 +70,7 @@ export default class extends Controller {
     }
   };
 
-  handleEvent = (eventName, metadata) => {
+  handleEvent = (_eventName, _metadata) => {
     // no-op
   };
 

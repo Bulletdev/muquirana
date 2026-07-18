@@ -11,7 +11,7 @@ export default class extends Controller {
     uninstall(this.element);
   }
 
-  navigateBack(event) {
+  navigateBack() {
     window.history.back();
   }
 }

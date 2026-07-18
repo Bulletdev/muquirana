@@ -6,7 +6,7 @@ const application = Application.start();
 application.debug = false;
 window.Stimulus = application;
 
-Turbo.config.forms.confirm = (data) => {
+window.Turbo.config.forms.confirm = (data) => {
   const confirmDialogController =
     application.getControllerForElementAndIdentifier(
       document.getElementById("confirm-dialog"),

@@ -2,6 +2,6 @@
 import "@hotwired/turbo-rails";
 import "controllers";
 
-Turbo.StreamActions.redirect = function () {
-  Turbo.visit(this.target);
+window.Turbo.StreamActions.redirect = function () {
+  window.Turbo.visit(this.target);
 };
