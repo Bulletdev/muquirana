@@ -2,6 +2,7 @@
 en:
   properties:
     address:
+      back: Back
       country: Country
       country_placeholder: USA
       line1: Address Line 1
@@ -15,12 +16,14 @@ en:
       save: Save
       title: Enter property manually
     balances:
+      back: Back
       balance: Estimated market value
       balance_tooltip: The estimated market value of your property. This number can
         often be found on real estate listing sites, and is never an exact number.
       next: Next
       save: Save
       title: Enter property manually
+      value_required: Enter a value greater than zero.
     edit:
       next: Next
       save: Save
@@ -45,6 +48,8 @@ en:
       subtype_prompt: Select property type
       year_built: Year built
       year_built_placeholder: '2000'
+    form_tab:
+      locked_hint: Fill in the basics first
     form_tabs:
       address: Address
       overview: Overview

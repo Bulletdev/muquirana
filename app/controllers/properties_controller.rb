@@ -37,7 +37,14 @@ class PropertiesController < ApplicationController
   end
 
   def update_balances
-    result = @account.set_current_balance(balance_params[:balance].to_d)
+    balance = balance_params[:balance].to_d
+
+    if balance <= 0
+      @error_message = t(".value_required")
+      return render :balances, status: :unprocessable_entity
+    end
+
+    result = @account.set_current_balance(balance)
 
     if result.success?
       @success_message = "Balance updated successfully."

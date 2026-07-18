@@ -1,7 +1,7 @@
 <%= render DS::Dialog.new do |dialog| %>
   <% dialog.with_header(title: t(".title")) %>
   <% dialog.with_body do %>
-    <div class="flex gap-4">
+    <div class="flex flex-col lg:flex-row gap-4">
       <!-- Left sidebar with tabs -->
       <%= render "properties/form_tabs", account: @account, active_tab: "address" %>
 
@@ -36,8 +36,14 @@
             <% end %>
           </div>
 
-          <!-- Save button -->
-          <div class="flex justify-end mt-4">
+          <!-- Back / Save buttons -->
+          <div class="flex items-center justify-between mt-4">
+            <%= render DS::Link.new(
+              text: t(".back"),
+              href: balances_property_path(@account),
+              variant: "outline",
+              frame: :modal,
+            ) %>
             <%= render DS::Button.new(
               text: t(".save"),
               variant: "primary",

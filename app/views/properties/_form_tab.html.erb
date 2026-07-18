@@ -10,7 +10,14 @@
     <%= label %>
   <% end %>
 <% else %>
-  <%= tag.span class: classes do %>
+  <%# Sem href = passo ainda bloqueado (a conta so existe depois de salvar o
+      primeiro passo). O passo atual mantem o destaque; os demais aparecem
+      travados com cadeado e uma dica do porque. %>
+  <%= tag.span class: class_names(classes, active ? "" : "cursor-not-allowed opacity-60"),
+        title: (active ? nil : t("properties.form_tab.locked_hint")) do %>
     <%= label %>
+    <% unless active %>
+      <%= icon("lock", size: "xs", class: "ml-1.5") %>
+    <% end %>
   <% end %>
 <% end %>

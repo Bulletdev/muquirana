@@ -1,7 +1,7 @@
 <%= render DS::Dialog.new do |dialog| %>
   <% dialog.with_header(title: t(".title")) %>
   <% dialog.with_body do %>
-    <div class="flex gap-4">
+    <div class="flex flex-col lg:flex-row gap-4">
       <%= render "properties/form_tabs", account: @account, active_tab: "value" %>
 
       <!-- Right content area with form -->
@@ -16,8 +16,14 @@
                 placeholder: "0" %>
           </div>
 
-          <!-- Next button -->
-          <div class="flex justify-end mt-4">
+          <!-- Back / Next buttons -->
+          <div class="flex items-center justify-between mt-4">
+            <%= render DS::Link.new(
+              text: t(".back"),
+              href: edit_property_path(@account),
+              variant: "outline",
+              frame: :modal,
+            ) %>
             <%= render DS::Button.new(
               text: @account.active? ? t(".save") : t(".next"),
               variant: "primary",

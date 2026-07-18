@@ -2,6 +2,7 @@
 pt-BR:
   properties:
     address:
+      back: Voltar
       country: País
       country_placeholder: Brasil
       line1: Endereço
@@ -15,12 +16,14 @@ pt-BR:
       save: Salvar
       title: Informe o imóvel manualmente
     balances:
+      back: Voltar
       balance: Valor de mercado estimado
       balance_tooltip: O valor de mercado estimado do seu imóvel. Esse número costuma
         ser encontrado em sites de anúncios de imóveis e nunca é um valor exato.
       next: Continuar
       save: Salvar
       title: Informe o imóvel manualmente
+      value_required: Informe um valor maior que zero.
     edit:
       next: Continuar
       save: Salvar
@@ -45,6 +48,8 @@ pt-BR:
       subtype_prompt: Selecione o tipo de imóvel
       year_built: Ano de construção
       year_built_placeholder: '2000'
+    form_tab:
+      locked_hint: Preencha os dados básicos primeiro
     form_tabs:
       address: Endereço
       overview: Visão geral
