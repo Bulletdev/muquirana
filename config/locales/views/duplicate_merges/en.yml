@@ -1,0 +1,28 @@
+---
+en:
+  duplicate_merges:
+    create:
+      failure: We couldn't merge the transactions. Please try again.
+      invalid: Select a valid duplicate transaction to merge.
+      success: Transactions merged successfully.
+    dismiss:
+      success: Duplicate suggestion dismissed. Both transactions were kept.
+    errors:
+      not_a_transaction: This entry cannot be merged.
+    entry:
+      open: Find duplicates
+      subtitle: Suggests similar transactions from the same account to merge after re-importing.
+      title: Merge duplicates
+    new:
+      current_transaction: Current transaction
+      dismiss_button: Not duplicates, keep both
+      next: Next
+      no_candidates: No similar transactions found in this account.
+      previous: Previous
+      select_duplicate: Select the duplicate transaction
+      showing_range: Showing %{start}-%{end}
+      submit_button: Merge into current transaction
+      title: Merge duplicate transactions
+      warning_description: Merging removes the duplicate transaction and keeps this one,
+        preserving category, merchant, notes and tags. This action cannot be undone.
+      warning_title: Review before merging

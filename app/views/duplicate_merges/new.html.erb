@@ -1,0 +1,100 @@
+<%= render DS::Dialog.new do |dialog| %>
+  <% dialog.with_header(title: t(".title")) %>
+  <% dialog.with_body do %>
+    <div class="space-y-6">
+      <div class="bg-warning/10 border border-warning/20 rounded-lg p-4">
+        <div class="flex items-start gap-3">
+          <%= icon "alert-triangle", size: "md", class: "text-warning shrink-0 mt-0.5" %>
+          <div class="text-sm space-y-2">
+            <p class="text-primary font-medium"><%= t(".warning_title") %></p>
+            <p class="text-secondary"><%= t(".warning_description") %></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lancamento atual -->
+      <section class="space-y-3">
+        <h2 class="inline-flex items-center gap-1 text-sm font-medium text-primary">
+          <%= icon "file-text", size: "sm" %> <%= t(".current_transaction") %>
+        </h2>
+        <div class="bg-surface-inset border border-secondary rounded-lg p-4">
+          <p class="text-primary font-medium"><%= @entry.name %></p>
+          <p class="text-xs text-secondary">
+            <%= @entry.account.name %>
+            • <%= l(@entry.date, format: :long) %>
+            • <%= format_money(@entry.amount_money) %>
+          </p>
+        </div>
+      </section>
+
+      <div class="flex justify-center">
+        <%= icon "arrow-down", class: "text-secondary" %>
+      </div>
+
+      <!-- Selecionar duplicata -->
+      <section class="space-y-3">
+        <h2 class="text-sm font-medium text-primary"><%= t(".select_duplicate") %></h2>
+
+        <%= turbo_frame_tag "duplicate_candidates" do %>
+          <% if @candidates.any? %>
+            <%= styled_form_with(
+                  url: transaction_duplicate_merge_path(@entry),
+                  scope: :duplicate_merge,
+                  class: "space-y-4",
+                  data: { turbo_frame: :_top }
+                ) do |f| %>
+              <div class="space-y-2 max-h-96 overflow-y-auto">
+                <% @candidates.each do |candidate| %>
+                  <label class="flex items-center gap-3 p-3 border border-secondary rounded-lg cursor-pointer hover:bg-surface-inset transition-colors">
+                    <%= f.radio_button :duplicate_entry_id, candidate.id, class: "form-radio" %>
+                    <div class="flex-1 text-sm">
+                      <div class="font-medium text-primary"><%= candidate.name %></div>
+                      <div class="text-xs text-secondary">
+                        <%= candidate.date ? l(candidate.date, format: :short) : "?" %> •
+                        <%= format_money(candidate.amount_money) %>
+                      </div>
+                    </div>
+                  </label>
+                <% end %>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <p class="text-xs text-secondary">
+                  <%= t(".showing_range", start: @range_start, end: @range_end) %>
+                </p>
+                <div class="flex gap-2">
+                  <% if @offset.positive? %>
+                    <%= link_to t(".previous"),
+                                new_transaction_duplicate_merge_path(@entry, offset: [ @offset - @limit, 0 ].max),
+                                class: "text-xs text-link hover:underline",
+                                data: { turbo_frame: "duplicate_candidates" } %>
+                  <% end %>
+                  <% if @has_more %>
+                    <%= link_to t(".next"),
+                                new_transaction_duplicate_merge_path(@entry, offset: @offset + @limit),
+                                class: "text-xs text-link hover:underline",
+                                data: { turbo_frame: "duplicate_candidates" } %>
+                  <% end %>
+                </div>
+              </div>
+
+              <%= f.submit t(".submit_button"), class: "w-full" %>
+            <% end %>
+
+            <%= render DS::Button.new(
+                  text: t(".dismiss_button"),
+                  variant: "outline",
+                  href: dismiss_transaction_duplicate_merge_path(@entry),
+                  full_width: true,
+                  frame: "_top"
+                ) %>
+          <% else %>
+            <div class="bg-surface-inset border border-secondary rounded-lg p-4 text-center">
+              <p class="text-secondary"><%= t(".no_candidates") %></p>
+            </div>
+          <% end %>
+        <% end %>
+      </section>
+    </div>
+  <% end %>
+<% end %>

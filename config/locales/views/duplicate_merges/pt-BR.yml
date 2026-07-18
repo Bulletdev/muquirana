@@ -1,0 +1,29 @@
+---
+pt-BR:
+  duplicate_merges:
+    create:
+      failure: Não foi possível mesclar os lançamentos. Tente novamente.
+      invalid: Selecione um lançamento duplicado válido para mesclar.
+      success: Lançamentos mesclados com sucesso.
+    dismiss:
+      success: Sugestão de duplicata dispensada. Os dois lançamentos foram mantidos.
+    errors:
+      not_a_transaction: Este lançamento não pode ser mesclado.
+    entry:
+      open: Procurar duplicatas
+      subtitle: Sugere lançamentos parecidos da mesma conta para mesclar após reimportar.
+      title: Mesclar duplicatas
+    new:
+      current_transaction: Lançamento atual
+      dismiss_button: Não são duplicatas, manter os dois
+      next: Próximos
+      no_candidates: Nenhum lançamento parecido encontrado nesta conta.
+      previous: Anteriores
+      select_duplicate: Selecione o lançamento duplicado
+      showing_range: Mostrando %{start}-%{end}
+      submit_button: Mesclar no lançamento atual
+      title: Mesclar transações duplicadas
+      warning_description: A mesclagem remove o lançamento duplicado e mantém este,
+        preservando categoria, estabelecimento, observações e etiquetas. A ação não
+        pode ser desfeita.
+      warning_title: Revise antes de mesclar
