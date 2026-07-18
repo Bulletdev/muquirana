@@ -47,9 +47,10 @@ class Family::AutoCategorizer
   private
     attr_reader :family, :transaction_ids
 
-    # For now, OpenAI only, but this should work with any LLM concept provider
+    # US-07: qualquer provider LLM configurado serve. Prefere OpenAI (default do
+    # app); cai para Anthropic (Claude) quando so a chave Anthropic esta setada.
     def llm_provider
-      Provider::Registry.get_provider(:openai)
+      Provider::Registry.get_provider(:openai) || Provider::Registry.get_provider(:anthropic)
     end
 
     def user_categories_input

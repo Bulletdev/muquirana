@@ -65,6 +65,7 @@ gem "pagy"
 gem "rails-settings-cached"
 gem "tzinfo-data", platforms: %i[windows jruby]
 gem "csv"
+gem "rchardet" # Deteccao de charset no import CSV (extratos BR costumam vir em Latin-1)
 gem "redcarpet"
 gem "stripe"
 gem "plaid"
@@ -79,6 +80,7 @@ gem "after_commit_everywhere", "~> 1.0"
 
 # AI
 gem "ruby-openai"
+gem "anthropic", "~> 1.0"
 
 # Leitura de texto de PDF (importacao de extratos/faturas via IA)
 gem "pdf-reader"

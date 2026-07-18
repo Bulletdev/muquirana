@@ -31,6 +31,25 @@ class Settings::HostingsController < ApplicationController
       Setting.synth_api_key = hosting_params[:synth_api_key]
     end
 
+    # US-08: assistente externo self-hosted. So gravamos o campo que veio no
+    # POST (o form de cada secao envia so os seus), e nunca sobrescrevemos um
+    # valor definido por ENV -- ai o campo vai desabilitado na tela.
+    if hosting_params.key?(:external_assistant_url) && ENV["EXTERNAL_ASSISTANT_URL"].blank?
+      Setting.external_assistant_url = hosting_params[:external_assistant_url]
+    end
+
+    if hosting_params.key?(:external_assistant_token) && ENV["EXTERNAL_ASSISTANT_TOKEN"].blank?
+      Setting.external_assistant_token = hosting_params[:external_assistant_token]
+    end
+
+    if hosting_params.key?(:external_assistant_model) && ENV["EXTERNAL_ASSISTANT_MODEL"].blank?
+      Setting.external_assistant_model = hosting_params[:external_assistant_model]
+    end
+
+    if hosting_params.key?(:external_assistant_agent_id) && ENV["EXTERNAL_ASSISTANT_AGENT_ID"].blank?
+      Setting.external_assistant_agent_id = hosting_params[:external_assistant_agent_id]
+    end
+
     redirect_to settings_hosting_path, notice: t(".success")
   rescue ActiveRecord::RecordInvalid => error
     flash.now[:alert] = t(".failure")
@@ -44,7 +63,15 @@ class Settings::HostingsController < ApplicationController
 
   private
     def hosting_params
-      params.require(:setting).permit(:require_invite_for_signup, :require_email_confirmation, :synth_api_key)
+      params.require(:setting).permit(
+        :require_invite_for_signup,
+        :require_email_confirmation,
+        :synth_api_key,
+        :external_assistant_url,
+        :external_assistant_token,
+        :external_assistant_model,
+        :external_assistant_agent_id
+      )
     end
 
     def ensure_admin

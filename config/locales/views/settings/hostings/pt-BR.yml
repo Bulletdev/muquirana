@@ -15,6 +15,27 @@ pt-BR:
         generated_tokens: Códigos gerados
         max_uses_label: Para quantas pessoas
         title: Exigir código de convite no cadastro
+      external_assistant_settings:
+        title: Assistente de IA externo
+        description: Aponte o assistente de IA para um endpoint LLM local seu, para
+          que seus dados financeiros nunca saiam da sua máquina.
+        env_var_configured: O assistente externo está configurado pela variável de
+          ambiente EXTERNAL_ASSISTANT_URL.
+        privacy_title: Seus dados ficam na sua máquina
+        privacy_body: Com um endpoint definido, as conversas vão para o seu próprio
+          servidor (Ollama, LM Studio ou um agente proprio) em vez da OpenAI. Deixe
+          a URL em branco para voltar ao assistente padrão.
+        protocol_note: "Protocolo: /v1/chat/completions compatível com OpenAI, com
+          streaming via SSE. O endpoint nativo do Ollama (/api/chat) não é suportado
+          -- use a porta compatível com OpenAI (ex.: http://localhost:11434)."
+        url_label: URL do endpoint
+        url_placeholder: http://localhost:11434
+        model_label: Modelo
+        model_placeholder: "ex.: llama3.2"
+        token_label: Token de API (opcional)
+        token_placeholder: Deixe em branco para um endpoint local sem autenticação
+        agent_id_label: ID do agente (opcional)
+        agent_id_placeholder: Para um agente próprio; ignorado por Ollama / LM Studio
       not_authorized: Você não tem permissão para fazer isso
       show:
         clear_cache: Limpar cache de dados
@@ -27,6 +48,7 @@ pt-BR:
             Não dá para desfazer.
           title: Limpar cache de dados?
         danger_zone: Zona de perigo
+        external_assistant: Assistente de IA externo
         general: Configurações gerais
         invites: Códigos de convite
         title: Hospedagem própria

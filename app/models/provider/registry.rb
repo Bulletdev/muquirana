@@ -72,6 +72,19 @@ class Provider::Registry
 
         Provider::Openai.new(access_token)
       end
+
+      # US-07: provider Anthropic (Claude) com chave propria do usuario. Aceita
+      # ANTHROPIC_ACCESS_TOKEN ou ANTHROPIC_API_KEY (ENV) ou Setting.
+      def anthropic
+        access_token = ENV["ANTHROPIC_ACCESS_TOKEN"].presence ||
+                       ENV["ANTHROPIC_API_KEY"].presence ||
+                       Setting.anthropic_access_token
+
+        return nil unless access_token.present?
+
+        model = ENV["ANTHROPIC_MODEL"].presence || Setting.anthropic_model
+        Provider::Anthropic.new(access_token, model: model)
+      end
   end
 
   def initialize(concept)
@@ -103,7 +116,7 @@ class Provider::Registry
       when :securities
         %i[synth]
       when :llm
-        %i[openai]
+        %i[openai anthropic]
       else
         %i[synth plaid_us plaid_eu github openai]
       end

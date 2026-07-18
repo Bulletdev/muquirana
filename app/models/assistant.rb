@@ -1,10 +1,19 @@
 class Assistant
   include Provided, Configurable, Broadcastable
 
+  # Erro de dominio das tools do assistente (ex.: input invalido em get_budget).
+  # O FunctionToolCaller captura e embrulha em FunctionExecutionError.
+  Error = Class.new(StandardError)
+
   attr_reader :chat, :instructions
 
   class << self
     def for_chat(chat)
+      # US-08: quando ha um endpoint LLM externo configurado (Ollama, LM Studio,
+      # agente proprio), o assistente fala com ele em vez da OpenAI, para que os
+      # dados nao saiam da maquina. Sem endpoint, cai no fluxo normal abaixo.
+      return Assistant::External.for_chat(chat) if Assistant::External.configured?
+
       config = config_for(chat)
       new(chat, instructions: config[:instructions], functions: config[:functions])
     end

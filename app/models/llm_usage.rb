@@ -10,12 +10,13 @@ class LlmUsage < ApplicationRecord
   scope :recent, -> { order(created_at: :desc) }
   scope :for_date_range, ->(start_date, end_date) { where(created_at: start_date..end_date) }
 
-  # Precos da OpenAI por 1M de tokens (USD).
-  # O Muquirana so chama a OpenAI, entao o mapa fica enxuto: apenas os modelos
-  # que o app realmente usa (familia gpt-4.1 nas chamadas de chat / PDF /
-  # auto-categorize) mais os gpt-4o como fallback comum. As linhas de Anthropic,
-  # Google e os modelos ficticios gpt-5.x do fork foram removidos.
-  # Fonte: https://platform.openai.com/docs/pricing
+  # Precos por 1M de tokens (USD). Mapa enxuto: apenas os modelos que o app
+  # realmente usa.
+  #   - openai: familia gpt-4.1 (chat / PDF / auto-categorize) + gpt-4o fallback.
+  #   - anthropic (US-07): familia Claude atual (opus 4.x, sonnet 5 / 4.6,
+  #     haiku 4.5). Sem modelos deprecados.
+  # Fontes: https://platform.openai.com/docs/pricing
+  #         https://www.anthropic.com/pricing
   PRICING = {
     "openai" => {
       "gpt-4.1" => { prompt: 2.00, completion: 8.00 },
@@ -23,13 +24,20 @@ class LlmUsage < ApplicationRecord
       "gpt-4.1-nano" => { prompt: 0.10, completion: 0.40 },
       "gpt-4o" => { prompt: 2.50, completion: 10.00 },
       "gpt-4o-mini" => { prompt: 0.15, completion: 0.60 }
+    },
+    "anthropic" => {
+      "claude-opus-4" => { prompt: 5.00, completion: 25.00 },
+      "claude-sonnet-4-6" => { prompt: 3.00, completion: 15.00 },
+      "claude-sonnet-5" => { prompt: 3.00, completion: 15.00 },
+      "claude-haiku-4-5" => { prompt: 1.00, completion: 5.00 }
     }
   }.freeze
 
   # Calcula o custo estimado para um modelo e um consumo de tokens.
+  # O provider e inferido pelo id do modelo (claude* -> anthropic, senao openai).
   # Retorna nil quando nao ha preco conhecido (modelo custom/self-hosted).
   def self.calculate_cost(model:, prompt_tokens:, completion_tokens:)
-    pricing = find_pricing("openai", model)
+    pricing = find_pricing(infer_provider(model), model)
 
     unless pricing
       Rails.logger.info("Sem preco para o modelo: #{model}")
@@ -59,9 +67,10 @@ class LlmUsage < ApplicationRecord
     nil
   end
 
-  # O Muquirana so integra a OpenAI, entao o provider e sempre "openai".
-  def self.infer_provider(_model)
-    "openai"
+  # Infere o provider pelo id do modelo. Modelos Claude (US-07) usam o prefixo
+  # "claude"; qualquer outro id cai no default OpenAI.
+  def self.infer_provider(model)
+    model.to_s.start_with?("claude") ? "anthropic" : "openai"
   end
 
   # Estatisticas agregadas para uma familia.

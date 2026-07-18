@@ -12,8 +12,30 @@ en:
         generated_tokens: Generated codes
         max_uses_label: How many people
         title: Require invite code for signup
+      external_assistant_settings:
+        title: External AI Assistant
+        description: Point the AI assistant at your own local LLM endpoint so your
+          financial data never leaves your machine.
+        env_var_configured: The external assistant is configured through the
+          EXTERNAL_ASSISTANT_URL environment variable.
+        privacy_title: Your data stays on your machine
+        privacy_body: When an endpoint is set, chats are sent to your own server
+          (Ollama, LM Studio, or a custom agent) instead of OpenAI. Leave the URL
+          blank to fall back to the default assistant.
+        protocol_note: "Protocol: OpenAI-compatible /v1/chat/completions with SSE
+          streaming. Ollama's native /api/chat endpoint is not supported -- use the
+          OpenAI-compatible port (e.g. http://localhost:11434)."
+        url_label: Endpoint URL
+        url_placeholder: http://localhost:11434
+        model_label: Model
+        model_placeholder: e.g. llama3.2
+        token_label: API token (optional)
+        token_placeholder: Leave blank for a local endpoint without auth
+        agent_id_label: Agent ID (optional)
+        agent_id_placeholder: For a custom agent; ignored by Ollama / LM Studio
       show:
         general: General Settings
+        external_assistant: External AI Assistant
         invites: Invite Codes
         title: Self-Hosting
         danger_zone: Danger Zone

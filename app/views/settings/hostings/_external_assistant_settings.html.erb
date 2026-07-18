@@ -1,0 +1,53 @@
+<div class="space-y-4">
+  <div>
+    <h2 class="font-medium mb-1"><%= t(".title") %></h2>
+    <% if ENV["EXTERNAL_ASSISTANT_URL"].present? %>
+      <p class="text-sm text-secondary"><%= t(".env_var_configured") %></p>
+    <% else %>
+      <p class="text-secondary text-sm"><%= t(".description") %></p>
+    <% end %>
+  </div>
+
+  <div class="rounded-lg bg-container-inset p-3 space-y-1">
+    <p class="text-sm text-primary"><%= t(".privacy_title") %></p>
+    <p class="text-sm text-secondary"><%= t(".privacy_body") %></p>
+    <p class="text-sm text-secondary"><%= t(".protocol_note") %></p>
+  </div>
+
+  <%= styled_form_with model: Setting.new,
+                       url: settings_hosting_path,
+                       method: :patch,
+                       data: {
+                         controller: "auto-submit-form",
+                         "auto-submit-form-trigger-event-value": "blur"
+                       } do |form| %>
+    <%= form.url_field :external_assistant_url,
+                       label: t(".url_label"),
+                       placeholder: t(".url_placeholder"),
+                       value: ENV.fetch("EXTERNAL_ASSISTANT_URL", Setting.external_assistant_url),
+                       disabled: ENV["EXTERNAL_ASSISTANT_URL"].present?,
+                       data: { "auto-submit-form-target": "auto" } %>
+
+    <%= form.text_field :external_assistant_model,
+                        label: t(".model_label"),
+                        placeholder: t(".model_placeholder"),
+                        value: ENV.fetch("EXTERNAL_ASSISTANT_MODEL", Setting.external_assistant_model),
+                        disabled: ENV["EXTERNAL_ASSISTANT_MODEL"].present?,
+                        data: { "auto-submit-form-target": "auto" } %>
+
+    <%= form.text_field :external_assistant_token,
+                        label: t(".token_label"),
+                        type: "password",
+                        placeholder: t(".token_placeholder"),
+                        value: ENV.fetch("EXTERNAL_ASSISTANT_TOKEN", Setting.external_assistant_token),
+                        disabled: ENV["EXTERNAL_ASSISTANT_TOKEN"].present?,
+                        data: { "auto-submit-form-target": "auto" } %>
+
+    <%= form.text_field :external_assistant_agent_id,
+                        label: t(".agent_id_label"),
+                        placeholder: t(".agent_id_placeholder"),
+                        value: ENV.fetch("EXTERNAL_ASSISTANT_AGENT_ID", Setting.external_assistant_agent_id),
+                        disabled: ENV["EXTERNAL_ASSISTANT_AGENT_ID"].present?,
+                        data: { "auto-submit-form-target": "auto" } %>
+  <% end %>
+</div>
