@@ -1,0 +1,24 @@
+<div class="space-y-8" data-controller="print-trigger">
+  <header class="flex items-start justify-between gap-4 pb-4 border-b border-tertiary">
+    <div class="space-y-1">
+      <h1 class="text-2xl font-semibold text-primary"><%= t("reports.index.title") %></h1>
+      <p class="text-sm text-secondary"><%= Current.family.name %> &middot; <%= @period.label %></p>
+      <p class="text-xs text-subdued"><%= t("reports.print.generated_at", datetime: I18n.l(Time.current, format: :long)) %></p>
+    </div>
+
+    <button type="button"
+            class="print:hidden font-medium inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm text-primary border border-secondary bg-container hover:bg-surface-hover"
+            data-action="print-trigger#print">
+      <%= icon("printer", size: "sm") %>
+      <span><%= t("reports.print.print_now") %></span>
+    </button>
+  </header>
+
+  <% @reports_sections.each do |section| %>
+    <% next unless section[:visible] %>
+    <section class="space-y-4">
+      <h2 class="text-lg font-medium text-primary"><%= section[:title] %></h2>
+      <%= render partial: section[:partial], locals: section[:locals] %>
+    </section>
+  <% end %>
+</div>

@@ -171,7 +171,52 @@ class User < ApplicationRecord
     !onboarded?
   end
 
+  # =============================================================================
+  # Preferencias do dashboard de relatorios (US-10)
+  #
+  # Persistidas na coluna JSON users.preferences para sobreviverem entre sessoes
+  # e dispositivos. Duas chaves:
+  #   - "reports_collapsed_sections" => { "net_worth" => true, ... }
+  #   - "reports_section_order"      => [ "budget_performance", "net_worth", ... ]
+  # =============================================================================
+  REPORTS_SECTIONS = %w[net_worth category_breakdown budget_performance].freeze
+
+  def reports_section_collapsed?(section_key)
+    preferences.dig("reports_collapsed_sections", section_key) == true
+  end
+
+  def reports_section_order
+    stored = preferences["reports_section_order"]
+    return default_reports_section_order unless stored.is_a?(Array)
+
+    # Mantem apenas chaves conhecidas (defende contra lixo salvo) e garante que
+    # secoes novas, adicionadas depois que o usuario salvou a ordem, aparecam no
+    # fim em vez de sumirem.
+    known = stored & REPORTS_SECTIONS
+    known + (REPORTS_SECTIONS - known)
+  end
+
+  def update_reports_preferences(prefs)
+    # Lock pessimista para um read-modify-write atomico: o merge de secoes
+    # colapsadas nao pode perder escritas concorrentes (toggle + reorder).
+    with_lock do
+      updated = preferences.deep_dup
+      prefs.each do |key, value|
+        if value.is_a?(Hash)
+          updated[key] = (updated[key] || {}).merge(value)
+        else
+          updated[key] = value
+        end
+      end
+      update!(preferences: updated)
+    end
+  end
+
   private
+    def default_reports_section_order
+      REPORTS_SECTIONS.dup
+    end
+
     def ensure_valid_profile_image
       return unless profile_image.attached?
 

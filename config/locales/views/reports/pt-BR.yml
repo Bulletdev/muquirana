@@ -1,0 +1,59 @@
+---
+pt-BR:
+  reports:
+    export:
+      columns:
+        account: Conta
+        amount: Valor
+        category: Categoria
+        currency: Moeda
+        date: Data
+        merchant: Estabelecimento
+        name: Descrição
+        notes: Observações
+        tags: Etiquetas
+        type: Tipo
+      types:
+        expense: Despesa
+        income: Receita
+    index:
+      drag_to_reorder: Arraste para reordenar
+      print: Imprimir
+      sections_aria: Seções do relatório
+      subtitle: Uma visão consolidada das suas finanças no período selecionado.
+      title: Relatórios
+      toggle_section: Recolher ou expandir seção
+    sections:
+      budget_performance: Desempenho do orçamento
+      category_breakdown: Gastos por categoria
+      net_worth: Patrimônio
+    net_worth:
+      current: Patrimônio atual
+      no_data: Dados insuficientes para este período.
+    category_breakdown:
+      empty: Sem receitas ou despesas neste período.
+      expense: Despesas
+      income: Receitas
+      table:
+        amount: Valor
+        category: Categoria
+        percentage: "%"
+    budget_performance:
+      budgeted: Orçado
+      empty: Nenhum orçamento definido para o mês atual.
+      manage: Gerenciar orçamento
+      over_by: Excedeu em
+      remaining: Restante
+      spent: Gasto
+      status:
+        good: No caminho
+        over: Estourou
+        warning: Perto do limite
+    empty_state:
+      add_account: Adicionar conta
+      add_transaction: Adicionar transação
+      description: Adicione uma conta ou uma transação para começar a ver seus relatórios.
+      title: Ainda não há dados para relatar
+    print:
+      generated_at: Gerado em %{datetime}
+      print_now: Imprimir

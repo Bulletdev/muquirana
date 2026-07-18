@@ -1,0 +1,30 @@
+<%# locals: (income_totals:, expense_totals:) %>
+<%# Detalhamento por categoria. income_totals/expense_totals sao PeriodTotal do
+    IncomeStatement; category_totals ja traz o total de cada categoria pai (com
+    filhas somadas). Filtramos subcategorias e zeros, ordenando pelo peso. %>
+<%
+  income_rows  = income_totals.category_totals.reject  { |ct| ct.category.subcategory? || ct.total.zero? }.sort_by(&:weight).reverse
+  expense_rows = expense_totals.category_totals.reject { |ct| ct.category.subcategory? || ct.total.zero? }.sort_by(&:weight).reverse
+%>
+
+<div class="space-y-8">
+  <% if income_rows.empty? && expense_rows.empty? %>
+    <div class="text-center py-8 text-subdued text-sm">
+      <%= t("reports.category_breakdown.empty") %>
+    </div>
+  <% end %>
+
+  <% if income_rows.any? %>
+    <%= render "reports/category_table",
+          rows: income_rows,
+          total: income_totals.total,
+          type: :income %>
+  <% end %>
+
+  <% if expense_rows.any? %>
+    <%= render "reports/category_table",
+          rows: expense_rows,
+          total: expense_totals.total,
+          type: :expense %>
+  <% end %>
+</div>

@@ -1,0 +1,59 @@
+---
+en:
+  reports:
+    export:
+      columns:
+        account: Account
+        amount: Amount
+        category: Category
+        currency: Currency
+        date: Date
+        merchant: Merchant
+        name: Description
+        notes: Notes
+        tags: Tags
+        type: Type
+      types:
+        expense: Expense
+        income: Income
+    index:
+      drag_to_reorder: Drag to reorder
+      print: Print
+      sections_aria: Report sections
+      subtitle: A consolidated view of your finances for the selected period.
+      title: Reports
+      toggle_section: Toggle section
+    sections:
+      budget_performance: Budget performance
+      category_breakdown: Spending by category
+      net_worth: Net worth
+    net_worth:
+      current: Current net worth
+      no_data: Not enough data for this period.
+    category_breakdown:
+      empty: No income or expenses in this period.
+      expense: Expenses
+      income: Income
+      table:
+        amount: Amount
+        category: Category
+        percentage: "%"
+    budget_performance:
+      budgeted: Budgeted
+      empty: No budget set for the current month.
+      manage: Manage budget
+      over_by: Over by
+      remaining: Remaining
+      spent: Spent
+      status:
+        good: On track
+        over: Over budget
+        warning: Close to limit
+    empty_state:
+      add_account: Add account
+      add_transaction: Add transaction
+      description: Add an account or a transaction to start seeing your reports.
+      title: No data to report yet
+    print:
+      generated_at: Generated on %{datetime}
+      print_now: Print

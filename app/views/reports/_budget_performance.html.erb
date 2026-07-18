@@ -1,0 +1,76 @@
+<%# locals: (budget:, budget_performance:) %>
+<%# budget_performance e um array pre-montado no controller, um item por
+    categoria pai com verba alocada. %>
+<% currency = Current.family.currency %>
+
+<div>
+  <div class="flex items-center justify-between mb-6">
+    <p class="text-sm text-subdued"><%= budget.name if budget %></p>
+    <%= link_to t("reports.budget_performance.manage"), budget_path(budget), class: "text-sm text-secondary hover:text-primary inline-flex items-center gap-1" if budget %>
+  </div>
+
+  <% if budget_performance.any? %>
+    <div class="space-y-4">
+      <% budget_performance.each do |item| %>
+        <% bar_width = [ item[:percent_used], 100 ].min %>
+        <% bar_color = case item[:status] when :over then "bg-destructive" when :warning then "bg-warning" else "bg-success" end %>
+        <div class="p-4 bg-surface-inset rounded-lg">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 rounded-full" style="background-color: <%= item[:category_color] %>"></div>
+              <h3 class="font-medium text-primary"><%= item[:category_name] %></h3>
+            </div>
+            <div class="flex items-center gap-3">
+              <% case item[:status] %>
+              <% when :over %>
+                <span class="inline-flex items-center gap-1 px-2 py-1 bg-destructive/10 text-destructive text-xs font-medium rounded-full">
+                  <%= icon("alert-circle", size: "xs") %><%= t("reports.budget_performance.status.over") %>
+                </span>
+              <% when :warning %>
+                <span class="inline-flex items-center gap-1 px-2 py-1 bg-warning/10 text-warning text-xs font-medium rounded-full">
+                  <%= icon("alert-triangle", size: "xs") %><%= t("reports.budget_performance.status.warning") %>
+                </span>
+              <% else %>
+                <span class="inline-flex items-center gap-1 px-2 py-1 bg-success/10 text-success text-xs font-medium rounded-full">
+                  <%= icon("check-circle", size: "xs") %><%= t("reports.budget_performance.status.good") %>
+                </span>
+              <% end %>
+              <span class="text-sm font-semibold text-primary"><%= number_to_percentage(item[:percent_used], precision: 0) %></span>
+            </div>
+          </div>
+
+          <div class="mb-3 h-3 bg-container rounded-full overflow-hidden">
+            <div class="h-full <%= bar_color %> rounded-full transition-all duration-500" style="width: <%= bar_width %>%"></div>
+          </div>
+
+          <div class="flex items-center justify-between text-sm">
+            <div class="flex items-center gap-4">
+              <div>
+                <span class="text-subdued"><%= t("reports.budget_performance.spent") %>:</span>
+                <span class="font-medium text-primary privacy-sensitive"><%= Money.new(item[:actual], currency).format %></span>
+              </div>
+              <div>
+                <span class="text-subdued"><%= t("reports.budget_performance.budgeted") %>:</span>
+                <span class="font-medium text-secondary privacy-sensitive"><%= Money.new(item[:budgeted], currency).format %></span>
+              </div>
+            </div>
+            <div>
+              <% if item[:remaining] >= 0 %>
+                <span class="text-subdued"><%= t("reports.budget_performance.remaining") %>:</span>
+                <span class="font-medium text-success privacy-sensitive"><%= Money.new(item[:remaining], currency).format %></span>
+              <% else %>
+                <span class="text-subdued"><%= t("reports.budget_performance.over_by") %>:</span>
+                <span class="font-medium text-destructive privacy-sensitive"><%= Money.new(item[:remaining].abs, currency).format %></span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-12">
+      <%= icon("gauge", size: "lg", class: "text-subdued mx-auto mb-4") %>
+      <p class="text-subdued"><%= t("reports.budget_performance.empty") %></p>
+    </div>
+  <% end %>
+</div>

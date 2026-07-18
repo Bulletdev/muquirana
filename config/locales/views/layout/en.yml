@@ -8,6 +8,7 @@ en:
       nav_budgets: Budgets
       nav_home: Home
       nav_insights: Insights
+      nav_reports: Reports
       nav_transactions: Transactions
       privacy_mode: Toggle privacy mode
       resize_left_sidebar: Resize the accounts sidebar

@@ -1,0 +1,90 @@
+<% content_for :page_header do %>
+  <div class="space-y-4 mb-6">
+    <header class="flex justify-between items-center gap-4">
+      <div class="space-y-1">
+        <h1 class="text-xl lg:text-3xl font-medium text-primary"><%= t(".title") %></h1>
+        <p class="text-sm lg:text-base text-secondary"><%= t(".subtitle") %></p>
+      </div>
+
+      <div class="flex items-center gap-2 shrink-0">
+        <%# Seletor de periodo: reaproveita Period.as_options do resto do app. %>
+        <%= form_with url: reports_path, method: :get, data: { controller: "auto-submit-form" } do |form| %>
+          <%= form.select :period,
+                Period.as_options,
+                { selected: @period.key },
+                data: { "auto-submit-form-target": "auto" },
+                class: "bg-container border border-secondary font-medium rounded-lg px-3 py-2 text-sm pr-7 cursor-pointer text-primary focus:outline-hidden focus:ring-0" %>
+        <% end %>
+
+        <%= link_to print_reports_path(period: @period.key),
+              target: "_blank",
+              rel: "noopener",
+              aria: { label: t(".print") },
+              class: "font-medium whitespace-nowrap inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm text-primary border border-secondary bg-container hover:bg-surface-hover" do %>
+          <%= icon("printer", size: "sm") %>
+          <span class="hidden sm:inline"><%= t(".print") %></span>
+        <% end %>
+      </div>
+    </header>
+  </div>
+<% end %>
+
+<div class="w-full space-y-6 lg:pb-6">
+  <% if @has_accounts || @has_transactions %>
+    <div
+      data-controller="reports-sortable"
+      data-action="dragover->reports-sortable#dragOver drop->reports-sortable#drop"
+      role="list"
+      aria-label="<%= t(".sections_aria") %>">
+      <% @reports_sections.each do |section| %>
+        <% next unless section[:visible] %>
+        <% collapsed = Current.user.reports_section_collapsed?(section[:key]) %>
+        <section
+          class="bg-container rounded-xl shadow-border-xs transition-all mb-6 group focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2"
+          data-reports-sortable-target="section"
+          data-section-key="<%= section[:key] %>"
+          data-controller="reports-section"
+          data-reports-section-section-key-value="<%= section[:key] %>"
+          data-reports-section-collapsed-value="<%= collapsed %>"
+          tabindex="0"
+          role="listitem"
+          aria-grabbed="false"
+          aria-label="<%= section[:title] %>"
+          data-action="
+            dragend->reports-sortable#dragEnd
+            touchmove->reports-sortable#touchMove
+            touchend->reports-sortable#touchEnd
+            keydown->reports-sortable#handleKeyDown">
+          <div class="px-4 py-3 flex items-center justify-between border-b border-tertiary group-has-[[data-reports-section-target=content].hidden]:border-b-0">
+            <div class="flex items-center gap-2">
+              <button
+                type="button"
+                class="text-secondary hover:text-primary transition-colors p-0.5"
+                data-action="click->reports-section#toggle keydown->reports-section#handleToggleKeydown"
+                data-reports-section-target="button"
+                aria-label="<%= t(".toggle_section") %>"
+                aria-expanded="<%= !collapsed %>">
+                <%= icon("chevron-down", size: "sm", class: "transition-transform", data: { reports_section_target: "chevron" }) %>
+              </button>
+              <h2 class="text-base font-medium text-primary"><%= section[:title] %></h2>
+            </div>
+            <button
+              type="button"
+              draggable="true"
+              class="cursor-grab active:cursor-grabbing text-secondary hover:text-primary transition-colors p-0.5 opacity-100 lg:opacity-0 lg:group-hover:opacity-100"
+              data-reports-sortable-target="handle"
+              data-action="dragstart->reports-sortable#dragStart touchstart->reports-sortable#touchStart"
+              aria-label="<%= t(".drag_to_reorder") %>">
+              <%= icon("grip-vertical", size: "sm") %>
+            </button>
+          </div>
+          <div class="p-4" data-reports-section-target="content">
+            <%= render partial: section[:partial], locals: section[:locals] %>
+          </div>
+        </section>
+      <% end %>
+    </div>
+  <% else %>
+    <%= render "reports/empty_state" %>
+  <% end %>
+</div>

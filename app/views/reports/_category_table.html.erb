@@ -1,0 +1,51 @@
+<%# locals: (rows:, total:, type:) -- type e :income ou :expense %>
+<%
+  color_class = type == :income ? "text-success" : "text-primary"
+  icon_name   = type == :income ? "trending-up" : "trending-down"
+  title       = type == :income ? t("reports.category_breakdown.income") : t("reports.category_breakdown.expense")
+  currency    = Current.family.currency
+%>
+
+<div>
+  <div class="mb-4 flex items-center gap-2 text-lg">
+    <%= icon(icon_name, size: "sm") %>
+    <span class="text-primary"><%= title %>:</span>
+    <span class="font-medium <%= color_class %> privacy-sensitive"><%= Money.new(total, currency).format %></span>
+  </div>
+
+  <div class="bg-container-inset rounded-xl p-1 overflow-x-auto">
+    <div class="rounded-lg shadow-border-xs bg-container overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-container-inset">
+          <tr class="uppercase text-xs font-medium text-secondary">
+            <th class="px-4 py-2 text-left font-medium"><%= t("reports.category_breakdown.table.category") %></th>
+            <th class="px-4 py-2 text-right font-medium"><%= t("reports.category_breakdown.table.amount") %></th>
+            <th class="px-4 py-2 text-right font-medium"><%= t("reports.category_breakdown.table.percentage") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% rows.each_with_index do |category_total, idx| %>
+            <% category = category_total.category %>
+            <tr class="text-secondary text-sm <%= "table-divider" if idx < rows.size - 1 %>">
+              <td class="py-3 px-4 lg:px-6">
+                <div class="flex items-center gap-2">
+                  <div class="h-7 w-7 flex-shrink-0 rounded-full flex justify-center items-center"
+                    style="background-color: color-mix(in oklab, <%= category.color %> 10%, transparent); color: <%= category.color %>;">
+                    <%= icon(category.lucide_icon, color: "current", size: "sm") %>
+                  </div>
+                  <span class="font-medium text-primary"><%= category.name %></span>
+                </div>
+              </td>
+              <td class="py-3 px-4 lg:px-6 text-right">
+                <span class="<%= color_class %> privacy-sensitive"><%= Money.new(category_total.total, currency).format %></span>
+              </td>
+              <td class="py-3 px-4 lg:px-6 text-right">
+                <span class="text-secondary"><%= number_to_percentage(category_total.weight, precision: 1) %></span>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

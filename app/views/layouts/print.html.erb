@@ -1,0 +1,18 @@
+<%# Layout de impressao dos relatorios (US-10): sem sidebar, sem nav, sem modais.
+    Apenas o conteudo, num container centralizado e amigavel a papel. %>
+<%= render "layouts/shared/htmldoc" do %>
+  <main class="min-h-screen bg-white text-primary px-6 py-8 max-w-4xl mx-auto print:px-0 print:py-0">
+    <%= yield %>
+  </main>
+
+  <% content_for :head do %>
+    <style>
+      @media print {
+        /* Esconde qualquer elemento marcado como nao-imprimivel (ex.: botao Imprimir). */
+        .print\:hidden { display: none !important; }
+        /* Evita cortar secoes no meio da pagina. */
+        section { break-inside: avoid; }
+      }
+    </style>
+  <% end %>
+<% end %>

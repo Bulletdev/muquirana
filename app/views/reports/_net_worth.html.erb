@@ -1,0 +1,33 @@
+<%# locals: (balance_sheet:, period:) %>
+<%# Secao patrimonio: reaproveita o grafico de serie temporal e o detalhamento
+    de ativos/passivos do dashboard, sem o seletor de periodo proprio do
+    dashboard (o periodo aqui e o global do relatorio). %>
+<div class="space-y-6">
+  <% series = balance_sheet.net_worth_series(period: period) %>
+
+  <div class="space-y-2 px-1">
+    <p class="text-sm text-secondary font-medium"><%= t("reports.net_worth.current") %></p>
+    <p class="privacy-sensitive text-primary text-3xl font-medium <%= "animate-pulse" if balance_sheet.syncing? %>">
+      <%= series.trend.current.format %>
+    </p>
+    <% if series.trend.nil? %>
+      <p class="text-sm text-secondary"><%= t("reports.net_worth.no_data") %></p>
+    <% else %>
+      <%= render partial: "shared/trend_change", locals: { trend: series.trend, comparison_label: period.comparison_label } %>
+    <% end %>
+  </div>
+
+  <% if series.any? %>
+    <div
+      id="reportsNetWorthChart"
+      class="w-full min-h-52"
+      data-controller="time-series-chart"
+      data-time-series-chart-data-value="<%= series.to_json %>"></div>
+  <% else %>
+    <div class="w-full py-10 flex items-center justify-center">
+      <p class="text-secondary text-sm"><%= t("reports.net_worth.no_data") %></p>
+    </div>
+  <% end %>
+
+  <%= render "pages/dashboard/balance_sheet", balance_sheet: balance_sheet %>
+</div>
