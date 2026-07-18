@@ -8,15 +8,15 @@
 <%= turbo_frame_tag dom_id(entry) do %>
   <%= turbo_frame_tag dom_id(valuation) do %>
     <div class="p-4 grid grid-cols-12 items-center text-primary text-sm font-medium">
-      <div class="col-span-8 flex items-center gap-4">
+      <div class="col-span-8 flex items-center gap-4 min-w-0">
         <%= check_box_tag dom_id(entry, "selection"),
-                        class: "checkbox checkbox--light",
+                        class: "checkbox checkbox--light shrink-0",
                         data: { id: entry.id, "bulk-select-target": "row", action: "bulk-select#toggleRowSelection" } %>
 
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 min-w-0">
           <%= render DS::FilledIcon.new(icon: icon, size: "sm", hex_color: color, rounded: true) %>
 
-          <div class="truncate text-primary">
+          <div class="truncate min-w-0 text-primary">
             <%= link_to entry.name,
                         entry_path(entry),
                         data: { turbo_frame: "drawer", turbo_prefetch: false },
@@ -26,7 +26,7 @@
       </div>
 
       <div class="col-span-4 justify-self-end">
-        <%= tag.p format_money(entry.amount_money), class: "font-bold text-sm text-primary" %>
+        <%= tag.p format_money(entry.amount_money), class: "font-bold text-sm text-primary whitespace-nowrap" %>
       </div>
     </div>
   <% end %>

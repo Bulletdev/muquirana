@@ -2,6 +2,7 @@
   { name: t("layouts.application.nav_home"), path: dashboard_path, icon: "pie-chart", icon_custom: false, active: page_active?(dashboard_path) },
   { name: t("layouts.application.nav_transactions"), path: transactions_path, icon: "credit-card", icon_custom: false, active: page_active?(transactions_path) },
   { name: t("layouts.application.nav_budgets"), path: budgets_path, icon: "map", icon_custom: false, active: page_active?(budgets_path) },
+  { name: t("layouts.application.nav_reports"), path: reports_path, icon: "chart-column", icon_custom: false, active: page_active?(reports_path) },
   { name: t("layouts.application.nav_insights"), path: insights_path, icon: "lightbulb", icon_custom: false, active: page_active?(insights_path) },
   { name: t("layouts.application.nav_assistant"), path: chats_path, icon: "icon-assistant", icon_custom: true, active: page_active?(chats_path), mobile_only: true }
 ] %>
@@ -33,14 +34,30 @@
     </div>
 
     <%# MOBILE - Top nav %>
-    <nav class="lg:hidden flex justify-between items-center p-3">
-      <%= icon("panel-left", as_button: true, data: { action: "app-layout#openMobileSidebar"}) %>
+    <nav class="lg:hidden flex items-center gap-2 p-3">
+      <div class="flex-1 flex justify-start">
+        <%= icon("panel-left", as_button: true, data: { action: "app-layout#openMobileSidebar"}) %>
+      </div>
 
-      <%= link_to dashboard_path, class: "block" do %>
+      <%= link_to dashboard_path, class: "block shrink-0" do %>
         <%= image_tag "logomark.png", class: "w-9 h-9 mx-auto dark:invert" %>
       <% end %>
 
-      <div class="flex items-center gap-1">
+      <div class="flex-1 flex justify-end items-center gap-1">
+        <%# Assistente: realocado da bottom nav para ca (mobile). %>
+        <% assistant_item = mobile_nav_items.find { |item| item[:mobile_only] } %>
+        <% if assistant_item %>
+          <%= link_to assistant_item[:path],
+                class: class_names(
+                  "inline-flex items-center justify-center w-9 h-9 pointer-coarse:w-11 pointer-coarse:h-11 rounded-lg transition-colors focus-ring",
+                  assistant_item[:active] ? "text-primary bg-container-inset-hover" : "text-secondary hover:text-primary hover:bg-container-inset-hover"
+                ),
+                title: assistant_item[:name],
+                "aria-label": assistant_item[:name] do %>
+            <%= icon(assistant_item[:icon], size: "sm", custom: assistant_item[:icon_custom]) %>
+          <% end %>
+        <% end %>
+
         <button type="button"
                 class="inline-flex items-center justify-center w-9 h-9 pointer-coarse:w-11 pointer-coarse:h-11 rounded-lg text-secondary hover:text-primary hover:bg-container-inset-hover transition-colors focus-ring"
                 data-action="click->privacy-mode#toggle"
@@ -191,9 +208,30 @@
       <% end %>
     <% end %>
 
-    <%# MOBILE - Bottom Nav %>
-    <%= tag.nav class: "lg:hidden bg-surface shrink-0 z-10 pb-[env(safe-area-inset-bottom)] border-t border-tertiary flex justify-around" do %>
-      <% mobile_nav_items.each do |nav_item| %>
+    <%# MOBILE - Bottom Nav
+        Inicio no centro, elevado e circular (destaque). Os demais itens ficam
+        simetricos, 2 de cada lado. O Assistente sai daqui e vira um botao no topo
+        (ver top nav mobile), evitando poluicao/corte de labels. %>
+    <% home_item = mobile_nav_items.find { |item| item[:path] == dashboard_path } %>
+    <% side_items = mobile_nav_items.reject { |item| item == home_item || item[:mobile_only] } %>
+    <% left_items = side_items.first(2) %>
+    <% right_items = side_items.last(2) %>
+    <%= tag.nav class: "lg:hidden bg-surface shrink-0 z-10 pb-[env(safe-area-inset-bottom)] border-t border-tertiary flex justify-around items-end px-1 pt-1" do %>
+      <% left_items.each do |nav_item| %>
+        <%= render "layouts/shared/nav_item", **nav_item %>
+      <% end %>
+
+      <%= link_to home_item[:path], class: "shrink-0 flex flex-col items-center justify-end pb-1", "aria-current": (home_item[:active] ? "page" : nil) do %>
+        <%= tag.span class: class_names(
+          "w-14 h-14 -mt-8 mb-1 rounded-full flex items-center justify-center shadow-lg border-4 border-surface transition-colors",
+          home_item[:active] ? "bg-inverse text-inverse" : "bg-container text-primary"
+        ) do %>
+          <%= icon(home_item[:icon], color: "current", custom: home_item[:icon_custom]) %>
+        <% end %>
+        <%= tag.p home_item[:name], class: class_names("font-medium text-[11px]", home_item[:active] ? "text-primary" : "text-secondary") %>
+      <% end %>
+
+      <% right_items.each do |nav_item| %>
         <%= render "layouts/shared/nav_item", **nav_item %>
       <% end %>
     <% end %>

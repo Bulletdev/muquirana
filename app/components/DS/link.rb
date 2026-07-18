@@ -18,6 +18,13 @@ class DS::Link < DS::Buttonish
       data = data.merge(turbo_frame: frame)
     end
 
+    # `link_to(..., method: :post)` era do rails-ujs e hoje e inerte (o Turbo nao
+    # o interpreta), fazendo o link cair num GET -> 404 em rotas POST/DELETE.
+    # Traduz para data-turbo-method, que o Turbo honra.
+    if (turbo_method = merged_opts.delete(:method))
+      data = data.merge(turbo_method: turbo_method)
+    end
+
     merged_opts.merge(
       class: class_names(container_classes, extra_classes),
       data: data

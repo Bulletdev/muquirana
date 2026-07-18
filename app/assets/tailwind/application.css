@@ -145,6 +145,33 @@
   }
 }
 
+/* Scrollbar global: fino e neutro. Antes os containers de scroll principais (o
+   <main> do app e o das paginas de settings) nao tinham estilo e caiam no
+   scrollbar default do navegador -- que no dark mode aparece gordo e branco. Um
+   cinza translucido (gray-400) funciona em light e dark sem chamar atencao. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(156 163 175 / 45%) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(156 163 175 / 45%);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(156 163 175 / 70%);
+}
+
 /* Custom scrollbar implementation for Windows browsers */
 .windows {
   ::-webkit-scrollbar {
@@ -152,13 +179,13 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #d6d6d6;
+    background: rgb(156 163 175 / 45%);
     border-radius: 10px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #a6a6a6;
-  }  
+    background: rgb(156 163 175 / 70%);
+  }
 }
 
 .scrollbar {
@@ -167,11 +194,11 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #d6d6d6;
+    background: rgb(156 163 175 / 45%);
     border-radius: 10px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: #a6a6a6;
+    background: rgb(156 163 175 / 70%);
   }
 }

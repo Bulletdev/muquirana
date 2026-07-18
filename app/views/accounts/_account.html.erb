@@ -2,10 +2,10 @@
 
 <%= turbo_frame_tag dom_id(account) do %>
   <div class="p-4 flex items-center justify-between gap-3 group/account">
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-3 min-w-0">
       <%= render "accounts/logo", account: account, size: "md" %>
 
-      <div>
+      <div class="min-w-0">
         <% if account.pending_deletion? %>
           <p class="text-sm font-medium text-primary">
             <span>
@@ -16,8 +16,8 @@
             </span>
           </p>
         <% else %>
-          <span class="inline-flex items-center gap-1.5">
-            <%= link_to account.name, account, class: [(account.active? ? "text-primary" : "text-subdued"), "text-sm font-medium hover:underline"], data: { turbo_frame: "_top" } %>
+          <span class="inline-flex items-center gap-1.5 min-w-0 max-w-full">
+            <%= link_to account.name, account, class: [(account.active? ? "text-primary" : "text-subdued"), "text-sm font-medium hover:underline truncate"], data: { turbo_frame: "_top" } %>
             <% if account.exclude_from_reports? %>
               <%= icon("eye-off", size: "sm", color: "current", class: "text-secondary", title: t(".excluded_from_reports_indicator")) %>
             <% end %>
@@ -34,13 +34,13 @@
         <% end %>
       <% end %>
     </div>
-    <div class="flex items-center gap-8">
+    <div class="flex items-center gap-4 sm:gap-8 shrink-0">
       <% if account.draft? %>
         <!-- Balance hidden for draft accounts -->
       <% elsif account.syncing? %>
         <div class="w-16 h-6 bg-loader rounded-full animate-pulse"></div>
       <% else %>
-        <p class="privacy-sensitive text-sm font-medium <%= account.active? ? "text-primary" : "text-subdued" %>">
+        <p class="privacy-sensitive text-sm font-medium whitespace-nowrap <%= account.active? ? "text-primary" : "text-subdued" %>">
           <%= format_money account.balance_money %>
         </p>
       <% end %>

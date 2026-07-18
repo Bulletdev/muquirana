@@ -2,14 +2,16 @@
 
 <% if @encryption_unconfigured %>
   <% encryption_warning = capture do %>
-    <p class="font-medium"><%= t(".encryption_warning.title") %></p>
-    <p class="mt-1"><%= t(".encryption_warning.intro") %></p>
-    <ul class="list-disc pl-5 mt-1 space-y-0.5">
-      <% t(".encryption_warning.keys").each do |key| %>
-        <li><code><%= key %></code></li>
-      <% end %>
-    </ul>
-    <p class="mt-1"><%= t(".encryption_warning.generate") %></p>
+    <div class="min-w-0 break-words">
+      <p class="font-medium"><%= t(".encryption_warning.title") %></p>
+      <p class="mt-1"><%= t(".encryption_warning.intro") %></p>
+      <ul class="list-disc pl-5 mt-1 space-y-0.5">
+        <% t(".encryption_warning.keys").each do |key| %>
+          <li><code class="break-all"><%= key %></code></li>
+        <% end %>
+      </ul>
+      <p class="mt-1"><%= t(".encryption_warning.generate") %></p>
+    </div>
   <% end %>
 
   <div class="mb-4">
