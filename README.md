@@ -352,6 +352,16 @@ estáticos, incluindo o que é falso positivo e por quê.
 > um conjunto com `bin/rails db:encryption:init` e defina no ambiente:
 > `ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY`, `ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY`
 > e `ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT` (ver `.env.example`).
+>
+> ⚠️ **Só faça isso em instância NOVA (sem dados) ou já com essas chaves desde o
+> início.** Se a instância **já tem dados cifrados** (que foram gravados com as
+> chaves derivadas do `SECRET_KEY_BASE`), **adicionar chaves explícitas depois
+> quebra a descriptografia** (`Decryption error` -> 500 nas telas que leem esses
+> campos). Se cair nisso, **remova as 3 variáveis** e faça redeploy: sem elas o
+> app volta a derivar do `SECRET_KEY_BASE` (mesmas chaves de antes) e os dados
+> voltam a abrir - **desde que você não tenha mudado o `SECRET_KEY_BASE`**.
+> Migrar de derivadas para explícitas com dados existentes exige configurar a
+> chave antiga como *previous* e re-encriptar os registros.
 
 > [!IMPORTANT]
 > **O suporte ao Rails 7.2 termina em 09/08/2026.** A partir dessa data, uma CVE
