@@ -37,7 +37,7 @@
     <div class="flex justify-center items-center py-20">
       <div class="text-center flex flex-col items-center max-w-[500px]">
         <p class="text-sm text-secondary mb-4"><%= t(".empty") %></p>
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center justify-center gap-2">
           <%= render DS::Button.new(
             text: t(".bootstrap"),
             href: bootstrap_categories_path,
