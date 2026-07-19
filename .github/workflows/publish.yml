@@ -83,3 +83,34 @@ jobs:
           # https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#adding-a-description-to-multi-arch-images
           outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=A multi-arch Docker image for the Muquirana Rails app
           build-args: BUILD_COMMIT_SHA=${{ github.sha }}
+
+  # Dispara o deploy no Coolify SO depois de CI verde + imagem publicada. Assim o
+  # deploy nunca sai com o CI vermelho (ao contrario do auto-deploy-no-push).
+  #
+  # Requer dois secrets no repo (Settings > Secrets and variables > Actions):
+  #   COOLIFY_WEBHOOK  -> URL de deploy do recurso no Coolify
+  #                       (App > ... nao: use a API: https://<coolify>/api/v1/deploy?uuid=<uuid>&force=false)
+  #   COOLIFY_TOKEN    -> API token do Coolify (Keys & Tokens > API tokens)
+  # Sem os secrets, o job pula sem falhar -- forks/quem nao usa Coolify seguem ok.
+  deploy:
+    name: Trigger Coolify deploy
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    # Nunca em PR; so em publish real (push na main/tag ou workflow_dispatch).
+    if: github.event_name != 'pull_request'
+    steps:
+      - name: Trigger Coolify deployment
+        env:
+          COOLIFY_WEBHOOK: ${{ secrets.COOLIFY_WEBHOOK }}
+          COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
+        run: |
+          if [ -z "$COOLIFY_WEBHOOK" ] || [ -z "$COOLIFY_TOKEN" ]; then
+            echo "::notice::COOLIFY_WEBHOOK/COOLIFY_TOKEN nao configurados -- deploy pulado."
+            exit 0
+          fi
+          echo "CI + build verdes. Disparando deploy no Coolify..."
+          curl --fail-with-body --silent --show-error \
+            --request GET "$COOLIFY_WEBHOOK" \
+            --header "Authorization: Bearer $COOLIFY_TOKEN"
+          echo ""
+          echo "::notice::Deploy do Coolify disparado."
