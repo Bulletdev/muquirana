@@ -38,6 +38,7 @@ en:
         quota: Your OpenAI quota has run out. Check your plan and billing on your OpenAI
           account to use the assistant again.
         rate_limit: Too many requests in a short time. Wait a few seconds and try again.
+      use_own_key: Use my own key
       retry: Retry
     index:
       new_chat: New chat

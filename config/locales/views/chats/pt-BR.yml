@@ -41,6 +41,7 @@ pt-BR:
           da OpenAI para voltar a usar o assistente.
         rate_limit: Muitas requisições em pouco tempo. Espere alguns segundos e tente
           de novo.
+      use_own_key: Usar a minha própria chave
       retry: Tentar de novo
     index:
       new_chat: Nova conversa

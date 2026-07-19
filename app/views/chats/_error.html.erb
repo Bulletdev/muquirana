@@ -28,6 +28,12 @@
       <% if chat.error_message.present? %>
         <p class="text-xs text-red-500/80"><%= chat.error_message %></p>
       <% end %>
+
+      <%# Direciona pro BYOK: quando a chave da instancia falha (cota/credito/
+          chave invalida) ou o membro nao tem acesso, ele pode usar a propria. %>
+      <%= link_to t(".use_own_key"), settings_assistant_path,
+            class: "text-xs text-red-500 underline hover:no-underline inline-block mt-1",
+            data: { turbo_frame: "_top" } %>
     </div>
 
     <%= render DS::Button.new(
