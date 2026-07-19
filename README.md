@@ -256,6 +256,21 @@ Hospedagem própria (a variável de ambiente tem prioridade):
   **não saem da sua máquina**. Use a porta OpenAI-compat (`/v1/chat/completions`);
   o `/api/chat` nativo do Ollama não é suportado.
 
+A chave e o modelo da Anthropic têm campo próprio na tela de hospedagem, e o chat
+mostra um **seletor de modelo** quando há mais de um provedor configurado.
+
+### 04.5 · API v1 (acesso programático)
+
+O Muquirana expõe uma API REST em `/api/v1` para as **suas** ferramentas lerem e
+criarem dados (contas, transações, etc.) - é a saída dos seus dados, não uma
+conexão de banco (Open Finance). Autentique com uma **API key** (Configurações →
+Chave de API, header `X-Api-Key`) ou OAuth Bearer, com escopo `read` ou
+`read_write`.
+
+Documentação completa - endpoints, exemplos de request/response, erros e rate
+limit - em [`API.md`](API.md), e dentro do app em **`/api-docs`** (a mesma fonte,
+com os exemplos de `curl` já apontando para o seu host).
+
 ---
 
 ## 05 · Deploy

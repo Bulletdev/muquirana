@@ -1,0 +1,11 @@
+<% content_for :page_title, "API v1" %>
+
+<div class="max-w-3xl mx-auto w-full">
+  <% if @api_doc.present? %>
+    <div class="api-docs text-primary">
+      <%= markdown(@api_doc) %>
+    </div>
+  <% else %>
+    <p class="text-secondary text-sm">A documentação (API.md) não foi encontrada nesta instância.</p>
+  <% end %>
+</div>

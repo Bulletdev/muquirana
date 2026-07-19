@@ -202,3 +202,23 @@
     background: rgb(156 163 175 / 70%);
   }
 }
+/* Documentacao da API (/api-docs): estiliza o HTML gerado do API.md via markdown.
+   O reset do Tailwind zera headings/listas/tabelas, entao damos prose aqui. */
+.api-docs {
+  h1 { @apply text-2xl font-semibold text-primary mt-8 mb-4; }
+  h2 { @apply text-xl font-semibold text-primary mt-8 mb-3 pb-2 border-b border-primary; }
+  h3 { @apply text-base font-semibold text-primary mt-6 mb-2; }
+  p  { @apply text-sm text-secondary my-3 leading-relaxed; }
+  ul { @apply text-sm text-secondary my-3 pl-5 space-y-1 list-disc; }
+  ol { @apply text-sm text-secondary my-3 pl-5 space-y-1 list-decimal; }
+  a  { @apply text-link hover:underline; }
+  strong { @apply text-primary font-medium; }
+  code { @apply font-mono text-xs bg-container-inset text-primary px-1 py-0.5 rounded-sm break-all; }
+  pre  { @apply bg-container-inset rounded-lg p-3 my-3 overflow-x-auto; }
+  pre code { @apply bg-transparent p-0 text-sm whitespace-pre break-normal; }
+  blockquote { @apply border-l-4 border-primary pl-4 my-3 text-sm text-secondary; }
+  table { @apply w-full text-sm my-4 border-collapse; }
+  th { @apply text-left font-medium text-primary border-b border-primary px-3 py-2; }
+  td { @apply text-secondary border-b border-tertiary px-3 py-2 align-top; }
+  hr { @apply my-6 border-primary; }
+}

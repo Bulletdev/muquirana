@@ -123,6 +123,9 @@ Rails.application.routes.draw do
   # Dashboard de relatorios reordenavel (US-10). Rotas explicitas (sem :id: a
   # pagina sempre reflete a familia/usuario atual). O caminho de
   # update_preferences casa com o fetch dos controllers Stimulus.
+  # Documentacao da API v1 renderizada a partir do proprio API.md (fonte unica).
+  get   "api-docs",                   to: "api_docs#show",              as: :api_docs
+
   get   "reports",                    to: "reports#index",              as: :reports
   get   "reports/print",              to: "reports#print",              as: :print_reports
   patch "reports/update_preferences", to: "reports#update_preferences", as: :update_preferences_reports
