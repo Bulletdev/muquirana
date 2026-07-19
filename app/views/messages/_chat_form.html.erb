@@ -7,8 +7,7 @@
                 class: "flex lg:flex-col gap-2 bg-container px-2 py-1.5 rounded-full lg:rounded-lg shadow-border-xs",
                 data: { chat_target: "form" } do |f| %>
 
-    <%# In the future, this will be a dropdown with different AI models %>
-    <%= f.hidden_field :ai_model, value: "gpt-4.1" %>
+    <% ai_models = ai_model_options %>
 
     <%= f.text_area :content, placeholder: t(".placeholder"), value: message_hint,
                   class: "w-full border-0 focus:ring-0 text-sm resize-none px-1 bg-transparent",
@@ -16,11 +15,24 @@
                   rows: 1 %>
 
     <div class="flex items-center justify-between gap-1">
-      <div class="items-center gap-1 hidden lg:flex">
-        <%# These are disabled for now, but in the future, will all open specific menus with their own context and search %>
-        <% ["plus", "command", "at-sign", "mouse-pointer-click"].each do |icon| %>
-          <%= icon(icon, as_button: true, disabled: true, class: "cursor-not-allowed", title: t(".coming_soon")) %>
+      <div class="flex items-center gap-1">
+        <%# Seletor de modelo: aparece quando ha mais de um provider LLM
+            configurado (ex.: OpenAI + Anthropic). Com um so, vai como hidden. %>
+        <% if ai_models.size > 1 %>
+          <%= f.select :ai_model, ai_models, {},
+                class: "text-xs bg-transparent text-secondary border-0 focus:ring-0 rounded-sm px-1 py-0.5 cursor-pointer max-w-[10rem]",
+                title: t(".model_label"),
+                "aria-label": t(".model_label") %>
+        <% else %>
+          <%= f.hidden_field :ai_model, value: (ai_models.first&.last || Provider::Openai::MODELS.first) %>
         <% end %>
+
+        <div class="items-center gap-1 hidden lg:flex">
+          <%# These are disabled for now, but in the future, will all open specific menus with their own context and search %>
+          <% ["plus", "command", "at-sign", "mouse-pointer-click"].each do |icon| %>
+            <%= icon(icon, as_button: true, disabled: true, class: "cursor-not-allowed", title: t(".coming_soon")) %>
+          <% end %>
+        </div>
       </div>
 
       <%= icon("arrow-up", as_button: true, type: "submit") %>

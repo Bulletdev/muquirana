@@ -7,7 +7,13 @@ class Provider::Anthropic < Provider
 
   # Prefixo dos modelos Claude suportados.
   MODEL_PREFIX = "claude".freeze
-  DEFAULT_MODEL = "claude-sonnet-4-6".freeze
+  DEFAULT_MODEL = "claude-sonnet-5".freeze
+
+  # Modelos oferecidos no dropdown (Configuracoes > Hospedagem propria). Sao
+  # aliases -- resolvem para o snapshot mais recente de cada tier. Quem precisar
+  # de um id especifico/datado ainda pode setar ANTHROPIC_MODEL, e o valor atual
+  # e sempre incluido na lista.
+  MODELS = %w[claude-sonnet-5 claude-opus-4-8 claude-haiku-4-5].freeze
 
   def self.effective_model
     ENV["ANTHROPIC_MODEL"].presence || Setting.anthropic_model.presence || DEFAULT_MODEL
@@ -30,6 +36,12 @@ class Provider::Anthropic < Provider
   # O assistant roteia por supports_model?; qualquer id "claude*" e nosso.
   def supports_model?(model)
     model.to_s.start_with?(MODEL_PREFIX)
+  end
+
+  # Opcoes [label, id] para o seletor de modelo do chat. Usa o modelo efetivo
+  # (ENV/Setting/DEFAULT_MODEL) -- quem quiser outro Claude troca ANTHROPIC_MODEL.
+  def available_models
+    [ [ @default_model, @default_model ] ]
   end
 
   def supports_pdf_processing?

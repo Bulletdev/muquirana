@@ -18,6 +18,11 @@ class Provider::Openai < Provider
     MODELS.include?(model)
   end
 
+  # Opcoes [label, id] para o seletor de modelo do chat.
+  def available_models
+    MODELS.map { |m| [ m, m ] }
+  end
+
   def supports_pdf_processing?
     true
   end

@@ -134,4 +134,13 @@ module ApplicationHelper
       total = items.sum(&money_method)
       negate ? -total : total
     end
+
+    # Modelos de IA disponiveis para o seletor do chat: [label, id] de cada provider
+    # LLM CONFIGURADO (OpenAI e/ou Anthropic). Vazio se nenhum tem chave. Assim o
+    # chat so oferece o que de fato roteia -- e a Anthropic aparece quando ha chave.
+    def ai_model_options
+      Provider::Registry.for_concept(:llm).providers.compact.flat_map(&:available_models)
+    rescue StandardError
+      []
+    end
 end

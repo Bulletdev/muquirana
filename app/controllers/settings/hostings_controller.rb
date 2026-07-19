@@ -31,6 +31,16 @@ class Settings::HostingsController < ApplicationController
       Setting.synth_api_key = hosting_params[:synth_api_key]
     end
 
+    # US-07: chave/modelo Anthropic. Mesma regra do externo: so grava o que veio
+    # no POST e nunca sobrescreve um valor definido por ENV (campo desabilitado).
+    if hosting_params.key?(:anthropic_access_token) && ENV["ANTHROPIC_ACCESS_TOKEN"].blank? && ENV["ANTHROPIC_API_KEY"].blank?
+      Setting.anthropic_access_token = hosting_params[:anthropic_access_token]
+    end
+
+    if hosting_params.key?(:anthropic_model) && ENV["ANTHROPIC_MODEL"].blank?
+      Setting.anthropic_model = hosting_params[:anthropic_model]
+    end
+
     # US-08: assistente externo self-hosted. So gravamos o campo que veio no
     # POST (o form de cada secao envia so os seus), e nunca sobrescrevemos um
     # valor definido por ENV -- ai o campo vai desabilitado na tela.
@@ -67,6 +77,8 @@ class Settings::HostingsController < ApplicationController
         :require_invite_for_signup,
         :require_email_confirmation,
         :synth_api_key,
+        :anthropic_access_token,
+        :anthropic_model,
         :external_assistant_url,
         :external_assistant_token,
         :external_assistant_model,

@@ -3,5 +3,6 @@ en:
   messages:
     chat_form:
       coming_soon: Coming soon
+      model_label: AI model
       disclaimer: AI responses are informational only and are not financial advice.
       placeholder: Ask anything ...

@@ -12,6 +12,16 @@ en:
         generated_tokens: Generated codes
         max_uses_label: How many people
         title: Require invite code for signup
+      anthropic_settings:
+        title: Anthropic (Claude)
+        description: Use Anthropic (Claude) as your AI provider with your own key.
+          Once saved, the model selector shows up in the chat.
+        env_var_configured: The Anthropic key is set via the ANTHROPIC_ACCESS_TOKEN
+          environment variable.
+        access_token_label: Anthropic API key
+        access_token_placeholder: Paste your key (sk-ant-...)
+        model_label: Model
+        save: Save
       external_assistant_settings:
         title: External AI Assistant
         description: Point the AI assistant at your own local LLM endpoint so your
@@ -35,6 +45,7 @@ en:
         agent_id_placeholder: For a custom agent; ignored by Ollama / LM Studio
       show:
         general: General Settings
+        anthropic: Anthropic (Claude)
         external_assistant: External AI Assistant
         invites: Invite Codes
         title: Self-Hosting

@@ -6,6 +6,10 @@
   </div>
 <% end %>
 
+<%= settings_section title: t(".anthropic") do %>
+  <%= render "settings/hostings/anthropic_settings" %>
+<% end %>
+
 <%= settings_section title: t(".external_assistant") do %>
   <%= render "settings/hostings/external_assistant_settings" %>
 <% end %>
