@@ -59,6 +59,9 @@ class Chat < ApplicationRecord
     return nil if error.blank?
 
     dados = error.is_a?(String) ? JSON.parse(error) : error
+    # Erro levantado como mensagem simples (ex.: bloqueio de acesso do assistente,
+    # que grava `e.to_json` de uma String) -- mostra o texto direto.
+    return dados if dados.is_a?(String)
     # Erro conhecido vira frase limpa em pt-BR (ver friendly_ai_error). Se nao
     # reconhecer, cai na mensagem crua do provedor -- melhor mostrar algo do
     # que nada. O corpo completo continua atras do modo debug.

@@ -64,6 +64,8 @@ Rails.application.routes.draw do
     resource :security, only: :show
     resource :api_key, only: [ :show, :new, :create, :destroy ]
     resource :llm_usage, only: :show
+    # BYOK: cada usuario configura a PROPRIA chave de LLM do assistente.
+    resource :assistant, only: %i[show update]
   end
 
   resource :subscription, only: %i[new show create] do

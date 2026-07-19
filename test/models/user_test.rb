@@ -138,4 +138,44 @@ class UserTest < ActiveSupport::TestCase
     assert_match %r{secret=#{user.otp_secret}}, user.provisioning_uri
     assert_match %r{issuer=Muquirana}, user.provisioning_uri
   end
+
+  # ---- BYOK / quota da IA ----
+
+  test "admin sempre pode usar a IA da instancia" do
+    assert users(:family_admin).can_use_instance_ai?
+  end
+
+  test "membro nao usa a IA da instancia por padrao (toggle off)" do
+    Setting.family_members_can_use_ai = false
+    assert_not users(:family_member).can_use_instance_ai?
+  ensure
+    Setting.family_members_can_use_ai = false
+  end
+
+  test "membro usa a IA da instancia quando liberado e dentro da quota" do
+    Setting.family_members_can_use_ai = true
+    Setting.ai_member_monthly_cost_limit = 5.0
+    assert users(:family_member).can_use_instance_ai?
+  ensure
+    Setting.family_members_can_use_ai = false
+  end
+
+  test "membro bloqueado ao estourar o teto mensal de custo" do
+    member = users(:family_member)
+    Setting.family_members_can_use_ai = true
+    Setting.ai_member_monthly_cost_limit = 1.0
+    member.llm_usages.create!(family: member.family, provider: "openai", model: "gpt-4.1",
+      operation: "chat", prompt_tokens: 1, completion_tokens: 1, total_tokens: 2, estimated_cost: 1.5)
+
+    assert_not member.can_use_instance_ai?, "acima do teto deveria bloquear"
+  ensure
+    Setting.family_members_can_use_ai = false
+  end
+
+  test "own_ai_key_for retorna a chave propria por provider" do
+    user = users(:family_member)
+    user.update!(openai_access_token: "sk-a", anthropic_access_token: "sk-ant-b")
+    assert_equal "sk-a", user.own_ai_key_for(:openai)
+    assert_equal "sk-ant-b", user.own_ai_key_for(:anthropic)
+  end
 end

@@ -1,5 +1,8 @@
 class LlmUsage < ApplicationRecord
   belongs_to :family
+  # Opcional: linhas antigas (pre-BYOK) nao tem usuario; e o uso por chave da
+  # instancia registra o usuario para a quota por membro.
+  belongs_to :user, optional: true
 
   validates :provider, :model, :operation, presence: true
   validates :prompt_tokens, :completion_tokens, :total_tokens, presence: true, numericality: { greater_than_or_equal_to: 0 }

@@ -1,0 +1,47 @@
+<%= content_for :page_title, t(".title") %>
+
+<%= settings_section title: t(".title"), subtitle: t(".subtitle") do %>
+  <div class="space-y-4">
+    <%# Status de acesso do usuario atual. %>
+    <div class="rounded-lg bg-container-inset p-3 flex items-start gap-2">
+      <%= icon("info", class: "w-5 h-5 text-link mt-0.5 shrink-0") %>
+      <div class="text-sm space-y-1">
+        <% if @user.own_ai_key? %>
+          <p class="text-primary font-medium"><%= t(".status.own_key") %></p>
+          <p class="text-secondary"><%= t(".status.own_key_body") %></p>
+        <% elsif @user.admin? %>
+          <p class="text-primary font-medium"><%= t(".status.instance_admin") %></p>
+        <% elsif @user.can_use_instance_ai? %>
+          <p class="text-primary font-medium"><%= t(".status.instance_member") %></p>
+          <p class="text-secondary">
+            <%= t(".status.quota", used: number_to_currency(@user.ai_monthly_cost_used, unit: "US$ "),
+                                   limit: number_to_currency(Setting.ai_member_monthly_cost_limit, unit: "US$ ")) %>
+          </p>
+        <% else %>
+          <p class="text-primary font-medium"><%= t(".status.no_access") %></p>
+          <p class="text-secondary"><%= t(".status.no_access_body") %></p>
+        <% end %>
+      </div>
+    </div>
+
+    <%= styled_form_with model: @user, url: settings_assistant_path, method: :patch, class: "space-y-4" do |form| %>
+      <p class="text-sm text-secondary"><%= t(".byok_help") %></p>
+
+      <%= form.text_field :openai_access_token,
+                          label: t(".openai_label"),
+                          type: "password",
+                          placeholder: "sk-...",
+                          value: @user.openai_access_token %>
+
+      <%= form.text_field :anthropic_access_token,
+                          label: t(".anthropic_label"),
+                          type: "password",
+                          placeholder: "sk-ant-...",
+                          value: @user.anthropic_access_token %>
+
+      <div class="flex justify-end">
+        <%= render DS::Button.new(text: t(".save"), variant: "primary", type: "submit") %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

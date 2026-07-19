@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_07_18_130000) do
+ActiveRecord::Schema[7.2].define(version: 2026_07_19_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -645,9 +645,11 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_18_130000) do
     t.jsonb "metadata", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "user_id"
     t.index ["family_id", "created_at"], name: "index_llm_usages_on_family_id_and_created_at"
     t.index ["family_id", "operation"], name: "index_llm_usages_on_family_id_and_operation"
     t.index ["family_id"], name: "index_llm_usages_on_family_id"
+    t.index ["user_id", "created_at"], name: "index_llm_usages_on_user_id_and_created_at"
   end
 
   create_table "loans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -1116,6 +1118,8 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_18_130000) do
     t.uuid "invite_code_id"
     t.boolean "disable_modal_click_outside", default: false, null: false
     t.jsonb "preferences", default: {}, null: false
+    t.string "openai_access_token"
+    t.string "anthropic_access_token"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["family_id"], name: "index_users_on_family_id"
     t.index ["invite_code_id"], name: "index_users_on_invite_code_id"
@@ -1181,6 +1185,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_07_18_130000) do
   add_foreign_key "invitations", "families"
   add_foreign_key "invitations", "users", column: "inviter_id"
   add_foreign_key "llm_usages", "families"
+  add_foreign_key "llm_usages", "users", on_delete: :nullify
   add_foreign_key "mercado_bitcoin_accounts", "mercado_bitcoin_items"
   add_foreign_key "mercado_bitcoin_items", "families"
   add_foreign_key "merchants", "families"

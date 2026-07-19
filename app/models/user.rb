@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :chats, dependent: :destroy
   has_many :api_keys, dependent: :destroy
+  has_many :llm_usages, dependent: :nullify
   has_many :mobile_devices, dependent: :destroy
   has_many :invitations, foreign_key: :inviter_id, dependent: :destroy
   has_many :impersonator_support_sessions, class_name: "ImpersonationSession", foreign_key: :impersonator_id, dependent: :destroy
@@ -25,6 +26,11 @@ class User < ApplicationRecord
   normalizes :first_name, :last_name, with: ->(value) { value.strip.presence }
 
   enum :role, { member: "member", admin: "admin", super_admin: "super_admin" }, validate: true
+
+  # BYOK: chave de LLM propria do usuario (opcional). Quando presente, o
+  # assistente usa ela em vez da chave da instancia.
+  encrypts :openai_access_token
+  encrypts :anthropic_access_token
 
   has_one_attached :profile_image do |attachable|
     attachable.variant :thumbnail, resize_to_fill: [ 300, 300 ], convert: :webp, saver: { quality: 80 }
@@ -68,6 +74,38 @@ class User < ApplicationRecord
 
   def admin?
     super_admin? || role == "admin"
+  end
+
+  # ---- BYOK / quota da IA ----
+
+  # Chave propria do usuario para o provider dado (:openai / :anthropic), ou nil.
+  def own_ai_key_for(provider_name)
+    case provider_name.to_sym
+    when :openai then openai_access_token.presence
+    when :anthropic then anthropic_access_token.presence
+    end
+  end
+
+  def own_ai_key?
+    openai_access_token.present? || anthropic_access_token.present?
+  end
+
+  # Custo estimado (US$) de LLM gasto por ESTE usuario no mes corrente. Base da
+  # quota por membro (so conta quando ele usa a chave da INSTANCIA).
+  def ai_monthly_cost_used
+    llm_usages
+      .where(created_at: Time.current.beginning_of_month..)
+      .sum(:estimated_cost) || 0
+  end
+
+  # Este usuario pode usar a chave da INSTANCIA? Admin sempre; membro so se o
+  # admin liberou e ainda esta dentro do teto mensal de custo.
+  def can_use_instance_ai?
+    return true if admin?
+    return false unless Setting.family_members_can_use_ai
+
+    limit = Setting.ai_member_monthly_cost_limit.to_f
+    limit.positive? && ai_monthly_cost_used.to_f < limit
   end
 
   def display_name

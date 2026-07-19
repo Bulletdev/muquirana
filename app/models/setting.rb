@@ -11,6 +11,13 @@ class Setting < RailsSettings::Base
   field :anthropic_access_token, type: :string, default: ENV["ANTHROPIC_ACCESS_TOKEN"]
   field :anthropic_model, type: :string, default: nil
 
+  # BYOK / quota da IA (config do admin). Por padrao membros comuns NAO usam a
+  # chave da instancia: ou trazem a propria (BYOK), ou o admin libera aqui com um
+  # teto de custo mensal por membro (em US$). Admin sempre usa a chave da
+  # instancia, sem quota.
+  field :family_members_can_use_ai, type: :boolean, default: false
+  field :ai_member_monthly_cost_limit, type: :float, default: 2.0
+
   # US-08: Assistente externo self-hosted. Aponta o assistente de IA para um
   # endpoint LLM proprio do usuario (Ollama, LM Studio, agente proprio) para que
   # os dados financeiros nao saiam da maquina. Enquanto a URL estiver em branco,

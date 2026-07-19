@@ -1,0 +1,26 @@
+---
+en:
+  settings:
+    assistants:
+      show:
+        title: AI Assistant
+        subtitle: Use your own AI key in the assistant instead of the instance key.
+        byok_help: Paste your OpenAI and/or Anthropic key. While your key is set
+          here, the assistant uses it (you pay for usage). Leave blank to rely on
+          the instance key, if the admin allows it.
+        openai_label: OpenAI key (optional)
+        anthropic_label: Anthropic key (optional)
+        save: Save
+        status:
+          own_key: You are using your own key.
+          own_key_body: Assistant usage is billed to your provider account, not the
+            instance.
+          instance_admin: You use the instance key (admin, no quota).
+          instance_member: You use the instance key (enabled by the admin).
+          quota: "Used this month: %{used} of %{limit}."
+          no_access: The assistant is not available for you.
+          no_access_body: Set your own key above, or ask an admin to enable the
+            instance AI.
+      update:
+        success: Assistant settings saved.
+        failure: Could not save.

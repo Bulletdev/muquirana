@@ -41,6 +41,15 @@ class Settings::HostingsController < ApplicationController
       Setting.anthropic_model = hosting_params[:anthropic_model]
     end
 
+    # Acesso dos membros a IA da instancia + teto de custo mensal por membro.
+    if hosting_params.key?(:family_members_can_use_ai)
+      Setting.family_members_can_use_ai = hosting_params[:family_members_can_use_ai]
+    end
+
+    if hosting_params.key?(:ai_member_monthly_cost_limit)
+      Setting.ai_member_monthly_cost_limit = hosting_params[:ai_member_monthly_cost_limit]
+    end
+
     # US-08: assistente externo self-hosted. So gravamos o campo que veio no
     # POST (o form de cada secao envia so os seus), e nunca sobrescrevemos um
     # valor definido por ENV -- ai o campo vai desabilitado na tela.
@@ -79,6 +88,8 @@ class Settings::HostingsController < ApplicationController
         :synth_api_key,
         :anthropic_access_token,
         :anthropic_model,
+        :family_members_can_use_ai,
+        :ai_member_monthly_cost_limit,
         :external_assistant_url,
         :external_assistant_token,
         :external_assistant_model,

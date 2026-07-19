@@ -87,7 +87,7 @@ class Provider::Openai < Provider
     end
   end
 
-  def chat_response(prompt, model:, instructions: nil, functions: [], function_results: [], streamer: nil, previous_response_id: nil, family: nil)
+  def chat_response(prompt, model:, instructions: nil, functions: [], function_results: [], streamer: nil, previous_response_id: nil, family: nil, user: nil)
     with_provider_response do
       chat_config = ChatConfig.new(
         functions: functions,
@@ -139,12 +139,12 @@ class Provider::Openai < Provider
         end
 
         # Side-effect: registra o uso do chat. Nunca bloqueia a resposta.
-        record_usage(family: family, model: model, operation: "chat", usage: response_chunk.usage)
+        record_usage(family: family, user: user, model: model, operation: "chat", usage: response_chunk.usage)
 
         response_chunk.data
       else
         parsed = ChatParser.new(raw_response).parsed
-        record_usage(family: family, model: model, operation: "chat", usage: raw_response["usage"])
+        record_usage(family: family, user: user, model: model, operation: "chat", usage: raw_response["usage"])
         parsed
       end
     end

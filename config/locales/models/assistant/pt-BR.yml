@@ -1,0 +1,11 @@
+---
+pt-BR:
+  assistant:
+    access:
+      no_access: O assistente de IA não está disponível para você. Configure sua
+        própria chave em Configurações > Assistente de IA, ou peça ao admin para
+        liberar o uso da IA da instância.
+      quota_exceeded: Você atingiu a cota mensal de IA da instância. Configure sua
+        própria chave em Configurações > Assistente de IA, ou aguarde o próximo mês.
+      no_instance_key: A IA da instância está liberada, mas sem chave configurada.
+        Peça ao admin para configurar a chave em Hospedagem própria.

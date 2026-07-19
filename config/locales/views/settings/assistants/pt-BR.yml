@@ -1,0 +1,27 @@
+---
+pt-BR:
+  settings:
+    assistants:
+      show:
+        title: Assistente de IA
+        subtitle: Use a sua própria chave de IA no assistente, em vez da chave da
+          instância.
+        byok_help: Cole a sua chave da OpenAI e/ou Anthropic. Enquanto houver uma
+          chave sua aqui, o assistente usa ela (você paga o uso). Deixe em branco
+          para depender da chave da instância, se o admin liberar.
+        openai_label: Chave da OpenAI (opcional)
+        anthropic_label: Chave da Anthropic (opcional)
+        save: Salvar
+        status:
+          own_key: Você está usando a sua própria chave.
+          own_key_body: O uso do assistente é cobrado na sua conta do provedor, não
+            na instância.
+          instance_admin: Você usa a chave da instância (admin, sem cota).
+          instance_member: Você usa a chave da instância (liberado pelo admin).
+          quota: "Uso este mês: %{used} de %{limit}."
+          no_access: O assistente está indisponível para você.
+          no_access_body: Configure a sua própria chave acima, ou peça ao admin para
+            liberar o uso da IA da instância.
+      update:
+        success: Configurações do assistente salvas.
+        failure: Não foi possível salvar.

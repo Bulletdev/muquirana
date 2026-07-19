@@ -23,7 +23,15 @@ class Provider::AnthropicTest < ActiveSupport::TestCase
     registry.stubs(:providers).returns([ nil, @anthropic ])
     Provider::Registry.stubs(:for_concept).with(:llm).returns(registry)
 
-    includer = Class.new { include Assistant::Provided }.new
+    # A resolucao agora depende do usuario (BYOK/quota). Um admin sem chave
+    # propria cai no ramo da chave da INSTANCIA, que roteia claude -> anthropic.
+    chat = Chat.new(user: users(:family_admin))
+    includer = Class.new {
+      include Assistant::Provided
+      attr_reader :chat
+      def initialize(chat) = @chat = chat
+    }.new(chat)
+
     assert_equal @anthropic, includer.get_model_provider("claude-sonnet-4-6")
   end
 

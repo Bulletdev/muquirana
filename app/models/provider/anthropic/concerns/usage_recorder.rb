@@ -8,7 +8,7 @@ module Provider::Anthropic::Concerns::UsageRecorder
     # Recebe `usage` como Hash (input_tokens/output_tokens da Anthropic). O
     # provider ("anthropic") e inferido por LlmUsage.infer_provider a partir do
     # id do modelo (prefixo "claude"). Retorna nil sem familia ou sem uso.
-    def record_usage(family:, model:, operation:, usage:, metadata: {})
+    def record_usage(family:, model:, operation:, usage:, metadata: {}, user: nil)
       return unless family && usage
 
       usage = usage.to_h.stringify_keys
@@ -30,6 +30,7 @@ module Provider::Anthropic::Concerns::UsageRecorder
       cache_metadata["cache_read_input_tokens"] = usage["cache_read_input_tokens"] if usage["cache_read_input_tokens"]
 
       family.llm_usages.create!(
+        user: user,
         provider: LlmUsage.infer_provider(model),
         model: model,
         operation: operation,

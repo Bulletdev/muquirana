@@ -22,6 +22,15 @@ en:
         access_token_placeholder: Paste your key (sk-ant-...)
         model_label: Model
         save: Save
+      ai_access_settings:
+        title: Members' AI access
+        description: By default, only the admin uses the instance AI key. Here you let
+          family members use it, with a monthly cost cap per person. Each member can
+          also set their own key.
+        allow_label: Allow members to use the instance AI
+        limit_label: Monthly cap per member (US$)
+        limit_help: When a member hits the cap in a month, they're blocked until next
+          month (or until they set their own key).
       external_assistant_settings:
         title: External AI Assistant
         description: Point the AI assistant at your own local LLM endpoint so your
@@ -46,6 +55,7 @@ en:
       show:
         general: General Settings
         anthropic: Anthropic (Claude)
+        ai_access: Members' AI access
         external_assistant: External AI Assistant
         invites: Invite Codes
         title: Self-Hosting

@@ -1,0 +1,31 @@
+<div class="space-y-4">
+  <div>
+    <h2 class="font-medium mb-1"><%= t(".title") %></h2>
+    <p class="text-secondary text-sm"><%= t(".description") %></p>
+  </div>
+
+  <%= styled_form_with model: Setting.new,
+                       url: settings_hosting_path,
+                       method: :patch,
+                       data: { controller: "auto-submit-form", auto_submit_form_trigger_event_value: "change" } do |form| %>
+    <div class="flex items-center justify-between gap-4">
+      <span class="text-sm text-primary"><%= t(".allow_label") %></span>
+      <%= form.toggle :family_members_can_use_ai, { checked: Setting.family_members_can_use_ai, data: { auto_submit_form_target: "auto" } } %>
+    </div>
+  <% end %>
+
+  <% if Setting.family_members_can_use_ai %>
+    <%= styled_form_with model: Setting.new,
+                         url: settings_hosting_path,
+                         method: :patch,
+                         data: { controller: "auto-submit-form", auto_submit_form_trigger_event_value: "blur" } do |form| %>
+      <%= form.text_field :ai_member_monthly_cost_limit,
+                          label: t(".limit_label"),
+                          type: "number",
+                          value: Setting.ai_member_monthly_cost_limit,
+                          placeholder: "2.00",
+                          help_text: t(".limit_help"),
+                          data: { auto_submit_form_target: "auto" } %>
+    <% end %>
+  <% end %>
+</div>

@@ -72,7 +72,7 @@ class Provider::Anthropic < Provider
     end
   end
 
-  def chat_response(prompt, model:, instructions: nil, functions: [], function_results: [], streamer: nil, previous_response_id: nil, family: nil)
+  def chat_response(prompt, model:, instructions: nil, functions: [], function_results: [], streamer: nil, previous_response_id: nil, family: nil, user: nil)
     with_provider_response do
       chat_config = ChatConfig.new(
         prompt: prompt,
@@ -95,7 +95,7 @@ class Provider::Anthropic < Provider
       cache_tool_use(parsed)
 
       # Side-effect: registra o uso do chat. Nunca bloqueia a resposta.
-      record_usage(family: family, model: model, operation: "chat", usage: usage)
+      record_usage(family: family, user: user, model: model, operation: "chat", usage: usage)
 
       parsed
     end

@@ -1,0 +1,10 @@
+---
+en:
+  assistant:
+    access:
+      no_access: The AI assistant is not available for you. Set your own key in
+        Settings > AI Assistant, or ask an admin to enable the instance AI.
+      quota_exceeded: You reached the instance's monthly AI quota. Set your own key
+        in Settings > AI Assistant, or wait until next month.
+      no_instance_key: The instance AI is enabled but has no key configured. Ask an
+        admin to set the key in Self-Hosting.

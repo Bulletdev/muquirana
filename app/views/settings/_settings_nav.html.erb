@@ -5,6 +5,7 @@ nav_sections = [
     items: [
       { label: t(".profile_label"), path: settings_profile_path, icon: "circle-user" },
       { label: t(".preferences_label"), path: settings_preferences_path, icon: "bolt" },
+      { label: t(".assistant_label"), path: settings_assistant_path, icon: "sparkles" },
       { label: t(".security_label"), path: settings_security_path, icon: "shield-check" },
       { label: t(".api_key_label"), path: settings_api_key_path, icon: "key" },
       { label: t(".self_hosting_label"), path: settings_hosting_path, icon: "database", if: self_hosted? && Current.user.admin? },

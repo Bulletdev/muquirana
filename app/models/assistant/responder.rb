@@ -68,7 +68,8 @@ class Assistant::Responder
         function_results: function_results,
         streamer: streamer,
         previous_response_id: previous_response_id,
-        family: message.chat.user.family
+        family: message.chat.user.family,
+        user: message.chat.user
       )
 
       unless response.success?

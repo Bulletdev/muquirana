@@ -25,6 +25,15 @@ pt-BR:
         access_token_placeholder: Cole sua chave (sk-ant-...)
         model_label: Modelo
         save: Salvar
+      ai_access_settings:
+        title: Acesso dos membros à IA
+        description: Por padrão, só o admin usa a chave de IA da instância. Aqui você
+          libera os membros da família a usarem essa chave, com um teto de custo
+          mensal por pessoa. Cada membro também pode configurar a própria chave.
+        allow_label: Permitir que membros usem a IA da instância
+        limit_label: Teto mensal por membro (US$)
+        limit_help: Ao atingir o teto no mês, o membro é bloqueado até virar o mês
+          (ou configurar a própria chave).
       external_assistant_settings:
         title: Assistente de IA externo
         description: Aponte o assistente de IA para um endpoint LLM local seu, para
@@ -58,6 +67,7 @@ pt-BR:
             Não dá para desfazer.
           title: Limpar cache de dados?
         anthropic: Anthropic (Claude)
+        ai_access: Acesso dos membros à IA
         danger_zone: Zona de perigo
         external_assistant: Assistente de IA externo
         general: Configurações gerais
