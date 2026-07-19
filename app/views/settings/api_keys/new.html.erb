@@ -2,6 +2,14 @@
 
 <%= settings_section title: t(".create_new_key"), subtitle: t(".description") do %>
   <%= styled_form_with model: @api_key, url: settings_api_key_path, class: "space-y-4" do |form| %>
+    <div class="rounded-lg bg-container-inset p-3 flex items-start gap-2">
+      <%= icon("info", class: "w-5 h-5 text-link mt-0.5 shrink-0") %>
+      <div class="text-sm space-y-1">
+        <p class="text-primary font-medium"><%= t(".access_scope_title") %></p>
+        <p class="text-secondary"><%= t(".access_scope_body") %></p>
+      </div>
+    </div>
+
     <%= form.text_field :name,
         placeholder: t(".name_placeholder"),
         label: t(".name_label"),

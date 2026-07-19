@@ -87,6 +87,10 @@ class Settings::HostingsController < ApplicationController
     end
 
     def ensure_admin
-      redirect_to settings_hosting_path, alert: t("settings.hostings.not_authorized") unless Current.user.admin?
+      # Redireciona para uma pagina que o membro PODE acessar. Antes mandava para
+      # settings_hosting_path -- a mesma pagina guardada por este before_action --
+      # o que gerava loop infinito de redirect (ERR_TOO_MANY_REDIRECTS) em vez de
+      # um bounce limpo.
+      redirect_to settings_profile_path, alert: t("settings.hostings.not_authorized") unless Current.user.admin?
     end
 end

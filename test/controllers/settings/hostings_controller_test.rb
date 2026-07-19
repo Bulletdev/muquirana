@@ -76,7 +76,7 @@ class Settings::HostingsControllerTest < ActionDispatch::IntegrationTest
         delete clear_cache_settings_hosting_url
       end
 
-      assert_redirected_to settings_hosting_url
+      assert_redirected_to settings_profile_url
       assert_equal I18n.t("settings.hostings.not_authorized"), flash[:alert]
     end
   end
@@ -91,7 +91,7 @@ class Settings::HostingsControllerTest < ActionDispatch::IntegrationTest
 
       patch settings_hosting_url, params: { setting: { require_invite_for_signup: false } }
 
-      assert_redirected_to settings_hosting_url
+      assert_redirected_to settings_profile_url
       assert_equal I18n.t("settings.hostings.not_authorized"), flash[:alert]
       assert Setting.require_invite_for_signup, "um membro nao pode reabrir o cadastro da instancia"
     end
@@ -103,7 +103,7 @@ class Settings::HostingsControllerTest < ActionDispatch::IntegrationTest
 
       get settings_hosting_url
 
-      assert_redirected_to settings_hosting_url
+      assert_redirected_to settings_profile_url
       assert_equal I18n.t("settings.hostings.not_authorized"), flash[:alert]
     end
   end

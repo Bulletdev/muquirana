@@ -24,10 +24,16 @@ pt-BR:
         title: Chave de API criada
         usage_instructions: "Inclua a chave no cabeçalho X-Api-Key nas suas requisições:"
         usage_instructions_title: Como usar sua chave de API
+        view_docs: Ver documentação da API
         your_api_key: Sua chave de API
         your_api_key_description: Copie e guarde esta chave em local seguro. Você vai
           precisar dela para autenticar suas requisições à API.
       new:
+        access_scope_title: O que essa chave acessa
+        access_scope_body: A chave dá acesso via API apenas aos dados da SUA família
+          (contas, transações, etc.), com a permissão escolhida abaixo. É pessoal e
+          vinculada à sua conta - não dá acesso às configurações da instância nem aos
+          dados de outras famílias.
         cancel: Cancelar
         create_key: Criar chave de API
         create_new_key: Criar nova chave de API
@@ -71,19 +77,24 @@ pt-BR:
           title: Sua chave de API
         no_api_key:
           create_api_key: Criar chave de API
-          description: Gere uma chave de API para integrar com seus aplicativos e acessar
-            seus dados financeiros com segurança.
-          feature_1: Acessar suas contas e saldos
-          feature_2: Ver o histórico de transações
-          feature_3: Criar novas transações
-          feature_4: Integrar com aplicativos de terceiros
-          heading: Acesse os dados da sua conta por programação
-          subtitle: Acesse os dados do seu Muquirana por programação
+          description: Gere uma chave para que ferramentas suas - uma planilha, um
+            script, uma automação (n8n/Zapier) ou um app próprio - leiam e criem dados
+            no seu Muquirana por HTTP.
+          feature_1: "Ler suas contas e saldos (ex.: puxar numa planilha)"
+          feature_2: "Ler o histórico de transações (ex.: export pro Google Sheets)"
+          feature_3: Criar novas transações a partir de outra fonte
+          feature_4: Integrar com scripts, automações ou um app/dashboard próprio
+          heading: Acesse os seus dados por programação
+          subtitle: Deixe ferramentas suas acessarem os dados do seu Muquirana
           title: Crie sua chave de API
-          what_you_can_do: "O que dá para fazer com chaves de API:"
+          what_you_can_do: "O que dá para fazer com a chave de API:"
+          not_open_finance: "Não é conexão com banco (Open Finance): a chave dá acesso
+            de SAÍDA aos SEUS próprios dados, para as SUAS ferramentas. Para trazer
+            dados de banco/cripto PARA DENTRO do app, use Contas > Adicionar."
         title: Chave de API
         usage_instructions: "Inclua a chave no cabeçalho X-Api-Key nas suas requisições:"
         usage_instructions_title: Como usar sua chave de API
+        view_docs: Ver documentação da API
         your_api_key_description: Copie e guarde esta chave em local seguro. Você vai
           precisar dela para autenticar suas requisições à API.
         your_api_key_title: Sua chave de API

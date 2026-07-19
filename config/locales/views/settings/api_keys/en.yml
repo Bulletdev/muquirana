@@ -26,10 +26,16 @@ en:
         usage_instructions: "Include your API key in the X-Api-Key header when making
           requests:"
         usage_instructions_title: How to use your API key
+        view_docs: View the API docs
         your_api_key: Your API Key
         your_api_key_description: Copy and store this key securely. You'll need it
           to authenticate your API requests.
       new:
+        access_scope_title: What this key can access
+        access_scope_body: The key grants API access only to YOUR family's data
+          (accounts, transactions, etc.), with the permission you pick below. It's
+          personal and tied to your account - it does not grant access to instance
+          settings or other families' data.
         cancel: Cancel
         create_key: Create API Key
         create_new_key: Create New API Key
@@ -72,20 +78,25 @@ en:
           title: Your API Key
         no_api_key:
           create_api_key: Create API Key
-          description: Generate an API key to integrate with your applications and
-            access your financial data securely.
-          feature_1: Access your accounts and balances
-          feature_2: View transaction history
-          feature_3: Create new transactions
-          feature_4: Integrate with third-party applications
-          heading: Access your account data programmatically
-          subtitle: Get programmatic access to your Muquirana data
+          description: Generate a key so your own tools - a spreadsheet, a script, an
+            automation (n8n/Zapier), or a custom app - can read and create data in your
+            Muquirana over HTTP.
+          feature_1: Read your accounts and balances (e.g. pull into a spreadsheet)
+          feature_2: Read transaction history (e.g. export to Google Sheets)
+          feature_3: Create new transactions from another source
+          feature_4: Integrate with scripts, automations, or your own app/dashboard
+          heading: Access your data programmatically
+          subtitle: Let your own tools access your Muquirana data
           title: Create Your API Key
-          what_you_can_do: "What you can do with API keys:"
+          what_you_can_do: "What you can do with the API key:"
+          not_open_finance: "This is not a bank connection (Open Finance): the key
+            gives OUTBOUND access to YOUR own data, for YOUR tools. To pull bank/crypto
+            data INTO the app, use Accounts > Add."
         title: API Key
         usage_instructions: "Include your API key in the X-Api-Key header when making
           requests:"
         usage_instructions_title: How to use your API key
+        view_docs: View the API docs
         your_api_key_description: Copy and store this key securely. You'll need it
           to authenticate your API requests.
         your_api_key_title: Your API Key
