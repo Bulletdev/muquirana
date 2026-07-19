@@ -40,7 +40,10 @@ class PropertiesController < ApplicationController
     balance = balance_params[:balance].to_d
 
     if balance <= 0
-      @error_message = t(".value_required")
+      # Chave absoluta: o lazy `t(".value_required")` resolvia para
+      # properties.update_balances.value_required (nome da ACTION), mas a chave
+      # vive em properties.balances.value_required (a view renderizada).
+      @error_message = t("properties.balances.value_required")
       return render :balances, status: :unprocessable_entity
     end
 

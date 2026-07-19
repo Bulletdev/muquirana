@@ -38,28 +38,31 @@ class Import::UploadsController < ApplicationController
     # AccountStatement (deduplicado por hash) e dispara o processamento por IA em
     # background. As linhas so ficam prontas quando o ProcessPdfJob termina.
     def handle_pdf_upload
+      # Chaves absolutas de proposito: este metodo roda na action `update`, entao
+      # o lazy `t(".pdf_*")` resolveria para import.uploads.update.* (inexistente).
+      # As mensagens vivem em import.uploads.show.* (a view renderizada).
       file = upload_params[:pdf_file] || upload_params[:csv_file]
       unless file.present?
-        flash.now[:alert] = t(".pdf_file_required")
+        flash.now[:alert] = t("import.uploads.show.pdf_file_required")
         render :show, status: :unprocessable_entity and return
       end
 
       account = Current.family.accounts.find_by(id: params.dig(:import, :account_id))
       unless account.present?
-        flash.now[:alert] = t(".pdf_account_required")
+        flash.now[:alert] = t("import.uploads.show.pdf_account_required")
         render :show, status: :unprocessable_entity and return
       end
 
       statement = build_statement_for(file)
       unless statement
-        flash.now[:alert] = t(".pdf_invalid_file")
+        flash.now[:alert] = t("import.uploads.show.pdf_invalid_file")
         render :show, status: :unprocessable_entity and return
       end
 
       @import.update!(account: account, account_statement: statement, status: :pending)
       @import.process_with_ai_later
 
-      redirect_to import_path(@import), notice: t(".pdf_processing_started")
+      redirect_to import_path(@import), notice: t("import.uploads.show.pdf_processing_started")
     end
 
     def build_statement_for(file)

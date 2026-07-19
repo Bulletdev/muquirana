@@ -109,11 +109,14 @@ class CoinstatsItemsController < ApplicationController
     # foram puladas por nao ter saldo (transparencia -- o usuario marcou e nada
     # apareceu).
     def link_wallet_notice(result)
-      notice = t(".success", count: result.linked.size)
+      # Chaves absolutas: rodamos dentro da action `link_wallet` (que renderiza
+      # link_wallet), entao o lazy `t(".x")` ja resolveria certo -- mas o
+      # explicito evita o falso-positivo do i18n-tasks (que usa o nome do metodo).
+      notice = t("coinstats_items.link_wallet.success", count: result.linked.size)
 
       if result.empty.any?
         skipped = result.empty.map(&:capitalize).to_sentence
-        notice = "#{notice} #{t(".skipped_empty", chains: skipped)}"
+        notice = "#{notice} #{t("coinstats_items.link_wallet.skipped_empty", chains: skipped)}"
       end
 
       notice
