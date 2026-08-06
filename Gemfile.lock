@@ -333,7 +333,6 @@ GEM
     marcel (1.2.1)
     matrix (0.4.2)
     memory_profiler (1.1.0)
-    method_source (1.1.0)
     mini_histogram (0.3.1)
     mini_magick (5.2.0)
       benchmark
@@ -610,10 +609,10 @@ GEM
     vcr (6.3.1)
       base64
     vernier (1.8.0)
-    view_component (3.25.0)
-      activesupport (>= 5.2.0, < 8.2)
+    view_component (4.12.0)
+      actionview (>= 7.1.0)
+      activesupport (>= 7.1.0)
       concurrent-ruby (~> 1)
-      method_source (~> 1.0)
     web-console (4.2.1)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -718,7 +717,7 @@ DEPENDENCIES
   tzinfo-data
   vcr
   vernier
-  view_component (~> 3.25)
+  view_component (~> 4.12)
   web-console
   webmock
 
