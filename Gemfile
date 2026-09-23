@@ -7,7 +7,7 @@ gem "rails", "~> 7.2.3", ">= 7.2.3.1"
 
 # Drivers
 gem "pg", "~> 1.5"
-gem "redis", "~> 5.4"
+gem "redis", "~> 6.0"
 
 # Deployment
 gem "puma", "~> 7.2", ">= 7.2.1"
