@@ -473,9 +473,9 @@ GEM
       erb
       psych (>= 4.0.0)
     redcarpet (3.6.1)
-    redis (5.4.0)
-      redis-client (>= 0.22.0)
-    redis-client (0.25.0)
+    redis (6.0.0)
+      redis-client (= 0.30.1)
+    redis-client (0.30.1)
       connection_pool
     regexp_parser (2.10.0)
     reline (0.6.1)
@@ -691,7 +691,7 @@ DEPENDENCIES
   rails-settings-cached
   rchardet
   redcarpet
-  redis (~> 5.4)
+  redis (~> 6.0)
   rotp (~> 6.3)
   rqrcode (~> 3.0)
   rubocop-rails-omakase
