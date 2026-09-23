@@ -80,7 +80,7 @@ gem "after_commit_everywhere", "~> 1.0"
 
 # AI
 gem "ruby-openai"
-gem "anthropic", "~> 1.0"
+gem "anthropic", "~> 1.72"
 
 # Leitura de texto de PDF (importacao de extratos/faturas via IA)
 gem "pdf-reader"
