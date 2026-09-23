@@ -10,7 +10,7 @@ gem "pg", "~> 1.5"
 gem "redis", "~> 5.4"
 
 # Deployment
-gem "puma", "~> 7.2", ">= 7.2.1"
+gem "puma", "~> 8.0"
 gem "bootsnap", require: false
 
 # Assets
