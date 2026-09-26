@@ -114,6 +114,52 @@ Resposta `200`:
 
 ---
 
+## Categorias
+
+### `GET /api/v1/categories`
+
+Lista as categorias da família (raízes e subcategorias). Escopo: `read`. Paginado.
+Pensado para clientes mobile: o formulário de transação precisa da lista completa
+(cor, ícone, pai) antes de o usuário escolher uma categoria.
+
+Filtro opcional: `?classification=income` ou `?classification=expense`. Valores
+inválidos são ignorados (retorna tudo).
+
+```bash
+curl -H "X-Api-Key: SUA_CHAVE" "https://SEU-HOST/api/v1/categories?classification=expense"
+```
+
+Resposta `200`:
+
+```json
+{
+  "categories": [
+    {
+      "id": "c9a1...",
+      "name": "Alimentação",
+      "color": "#eb5429",
+      "icon": "utensils",
+      "classification": "expense",
+      "parent_id": null
+    },
+    {
+      "id": "d3f0...",
+      "name": "Restaurantes",
+      "color": "#eb5429",
+      "icon": "utensils",
+      "classification": "expense",
+      "parent_id": "c9a1..."
+    }
+  ],
+  "pagination": { "page": 1, "per_page": 25, "total_count": 15, "total_pages": 1 }
+}
+```
+
+`parent_id` preenchido indica subcategoria (no máximo 2 níveis); a cor é herdada
+da categoria-mãe.
+
+---
+
 ## Transações
 
 ### `GET /api/v1/transactions`
