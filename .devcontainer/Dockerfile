@@ -1,5 +1,5 @@
 ARG RUBY_VERSION=3.4.8
-FROM ruby:${RUBY_VERSION}-slim-bullseye
+FROM ruby:${RUBY_VERSION}-slim
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
   && apt-get -y install --no-install-recommends \
